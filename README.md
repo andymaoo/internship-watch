@@ -4,7 +4,7 @@ US internship and research-program discovery with persistent records, conservati
 
 The default configuration reflects the requested preferences: United States (including remote roles with US eligibility), all seasons, co-ops, current undergraduate junior, no sponsorship required, and relevant research programs. Freshman/sophomore-only, permanent/new-graduate, and hardware-focused roles are excluded. Unclear eligibility stays available for review. Software/AI internships at hardware companies remain eligible.
 
-**Deployment status:** the Azure worker is active with five-minute polling, persistent SQLite, Discord delivery, independent Healthchecks email and tested automatic reboot startup. Automatic off-host backups still await the storage-account connection. The source repair enables HRT, repairs Google detail verification, and accurately records remaining Google/Meta restrictions. See [source repair and validation](docs/SOURCE_REPAIR.md); dated earlier measurements remain in the historical reports.
+**Deployment status:** the Azure worker is active with five-minute polling, persistent SQLite, Discord delivery, independent Healthchecks email and tested automatic reboot startup. The expanded configuration enables 123 sources and tracks 105 company entries: 99 through direct or parent-company boards, with six incomplete public-feed-only routes. See [current coverage, validation and limitations](docs/EXPANSION_100.md). Automatic off-host backups still await the storage-account connection; dated earlier measurements remain in the historical reports.
 
 ## Run locally
 
@@ -27,7 +27,7 @@ Run continuously with `python -m internship_watch --config config.json --env-fil
 
 ## Design
 
-1. Public Greenhouse, Lever, Ashby, repaired Apple and the existing Simplify community feed collect structured records. Each source has independent health and bootstrap state.
+1. Public Greenhouse, Lever, Ashby, Workday, SmartRecruiters and other reviewed employer integrations plus the existing Simplify community feed collect records. Each source has independent health and bootstrap state.
 2. An evidence-based classifier identifies role family, internship/program evidence, location, season and eligibility. Ambiguous listings remain explicit.
 3. SQLite records source observations, job identities, historical checks, run health and a separate delivery outbox. Only changed observations add history; `last_seen` advances each successful observation.
 4. Employer posting validity and application access are stored separately. Each verified destination must identify the expected position; HTTP 200 alone does not mean open. Robots restrictions, timeouts, missing descriptions and access failures remain unverified.
@@ -39,6 +39,7 @@ Deduplication uses job-specific URL/requisition identities, not title similarity
 
 ## Configuration and reports
 
+- [Current company expansion and coverage limits](docs/EXPANSION_100.md)
 - [Audit and implementation decisions](docs/AUDIT.md)
 - [Current delivery, measurements and remaining access](docs/CONTINUATION.md)
 - [Unresolved link triage and representative live checks](docs/LINK_TRIAGE.md)
@@ -54,4 +55,4 @@ Deduplication uses job-specific URL/requisition identities, not title similarity
 - [Secrets, inspection, backup and recovery](docs/OPERATIONS.md)
 - [Example configuration](config.example.json)
 
-Coverage is measured per configured source, not claimed to cover the entire market. Direct Google, Meta and Hudson River Trading are explicitly disabled with reasons; the unrestricted community feed may provide some of their listings. The public Simplify repository is a subset of Simplify's website and has separate curation/export delays. Refresh the canonical seasonal feed configuration when the upstream repository changes.
+Coverage is measured per configured source, not claimed to cover the entire market. Complete direct discovery remains unavailable for Google, Meta, Uber, IBM, Intuit and Tesla; the unrestricted community feed may provide some of their listings. Google individual-posting verification and HRT's public Greenhouse board work. The public Simplify repository is a subset of Simplify's website and has separate curation/export delays. Refresh the canonical seasonal feed configuration when the upstream repository changes.
