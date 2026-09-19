@@ -371,6 +371,21 @@ class Store:
             identity_changed = True
         legacy = self.db.execute("SELECT 1 FROM legacy_seen WHERE source_id=?", (sid,)).fetchone()
         payload = dict(job)
+        # Both reviewed supplier hosts expose the same group index. Retain the
+        # readable parent posting when the TikTok mirror has exactly matching
+        # content and requisition identity. A changed description is not stale-
+        # copied: it must still affect filtering. Keep both raw observations.
+        if old and not identity_changed and evidence.get('provider') == 'tiktok':
+            parent = json.loads(old['payload'])
+            parent_evidence = parent.get('evidence') or {}
+            if (parent_evidence.get('provider') == 'bytedance'
+                    and evidence.get('provider_job_id') == parent_evidence.get('provider_job_id')
+                    and description_key and description_key.startswith('bytedance:')
+                    and description_key == url_identity(parent.get('description_url'))
+                    and application_key == url_identity(parent.get('application_url'))
+                    and all(job.get(field) == parent.get(field) for field in
+                            ('title', 'description', 'employment_type', 'locations', 'posting_date'))):
+                payload = dict(parent)
         # A community URL alias must not alternate the stored destination with
         # its direct employer record every poll. Preserve the direct payload
         # only for unchanged role identity and already-known exact aliases.

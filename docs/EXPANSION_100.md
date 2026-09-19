@@ -36,6 +36,8 @@ The private `coverage.html` / `coverage.json` report gives each company's source
 
 Deduplication uses stable source IDs and exact reviewed ATS URL aliases, never employer/title alone. Workday identities include tenant, site and posting instance; distinct `R123` and `R123-1` postings remain separate. Reviewed AMD/GitHub iCIMS, Atlassian portal, Oracle locale/site aliases and ByteDance/TikTok aliases converge on their existing records. Legacy aliases are added in a non-destructive migration; conflicting already-existing records are not silently merged.
 
+For an exact ByteDance/TikTok mirror with identical job content, the readable ByteDance posting remains the canonical destination. A live comparison verified the parent posting while the TikTok mirror lacked readable description content. A changed mirror description still affects eligibility; both untouched source records remain in history. This preference is restricted to reviewed shared IDs and matching content.
+
 Workday detail validation verifies the exact requisition, posting instance, tenant/site, title, employer and meaningful description. Employer `posted=false` is closed; unavailable or mismatched evidence is unverified. `canApply=true` is not proof an application form is accessible. Employer `startDate` is retained as evidence and is not misrepresented as a posting date.
 
 Atlassian's public feed contains repeated identical records. Only exact repeats of the same requisition are collapsed; conflicting content fails collection. Workday's later pages report `total=0` even while returning jobs: the initial count governs pagination, with repeated pages, truncation and conflicting totals rejected.

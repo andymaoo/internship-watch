@@ -142,6 +142,30 @@ class PlatformSourceTests(unittest.TestCase):
         self.assertEqual(rows[0]['evidence']['employer_scope'],'parent_group; subsidiary_not_verified')
         self.assertEqual(rows[0]['description_url'],'https://lifeattiktok.com/search/123')
 
+    def test_shared_supplier_keeps_readable_parent_but_accepts_changed_qualifications(self):
+        with tempfile.TemporaryDirectory() as folder,closing(Store(Path(folder)/'jobs.db')) as store:
+            parent=job('byte-123');parent.update(employer='ByteDance',description_url='https://joinbytedance.com/search/123',
+                application_url='https://joinbytedance.com/search/123',evidence={'provider':'bytedance','provider_job_id':'123'})
+            mirror=dict(parent,source_id='tik-123',description_url='https://lifeattiktok.com/search/123',
+                application_url='https://lifeattiktok.com/search/123',evidence={'provider':'tiktok','provider_job_id':'123'})
+            with store.transaction():
+                identity=store.upsert_job('byte',parent,{'decision':'include'},None)[0]
+                store.record_check(identity,dict(status='unverified',posting_status='open',application_status='unverified',
+                    checked_at='2026-09-19T00:00:00+00:00',final_description_url=parent['description_url']),
+                    '2026-09-20T00:00:00+00:00')
+                for _ in range(2):
+                    store.upsert_job('tik',mirror,{'decision':'include'},None)
+                    row=store.rows('SELECT * FROM jobs')[0]
+                    self.assertEqual(row['original_url'],parent['description_url'])
+                    self.assertEqual(row['posting_status'],'open')
+                    self.assertEqual(row['next_check'],'2026-09-20T00:00:00+00:00')
+                self.assertEqual(len(store.rows('SELECT * FROM source_records')),2)
+                changed=dict(mirror,description='This internship requires a PhD. Build software and machine learning models.')
+                store.upsert_job('tik',changed,{'decision':'include'},None,filters={'countries':['US'],'degrees':['bachelor'],'allow_unstated_eligibility':True})
+                row=store.rows('SELECT * FROM jobs')[0]
+                self.assertEqual(row['description'],changed['description'])
+                self.assertEqual(row['classification'],'exclude')
+
 
 class ClassificationCacheTests(unittest.TestCase):
     def test_oracle_veteran_program_audience_requires_review(self):
