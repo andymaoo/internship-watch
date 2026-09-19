@@ -17,7 +17,7 @@ INTERN = re.compile(r"\bintern(?:ship)?s?\b", re.I)
 COOP = re.compile(r"\bco[ -]?op(?:erative education)?\b", re.I)
 FULLTIME = re.compile(r"\b(?:full[ -]?time|permanent|regular employee)\b", re.I)
 NEWGRAD = re.compile(r"\b(?:new[ -]?grad(?:uate)?s?|graduate (?:program|programme|scheme)|entry[ -]?level)\b", re.I)
-HARDWARE = re.compile(r"\b(?:hardware|electrical|electronics|mechanical|firmware|ASIC|RTL|FPGA|VLSI|silicon|physical design|chip design|circuit|PCB|RF engineer|RFIC|mixed[ -]signal|mechatronics?|component engineering)\b", re.I)
+HARDWARE = re.compile(r"\b(?:hardware|electrical|electronics|mechanical|firmware|ASIC|RTL|FPGA|VLSI|silicon|physical design|chip design|circuit|PCB|RF engineer|RFIC|mixed[ -]signal|mechatronics?|component engineering|warheads?|munitions?|ordnance|propulsion|EWIS|wiring harness|harness engineer)\b", re.I)
 HARDWARE_DUTIES = re.compile(r"\b(?:design|develop|test|verify|verification of|layout of|validate|validation of)\w*(?:\s+\w+){0,6}\s+(?:analog circuits?|digital circuits?|printed circuit boards?|PCB(?: layouts?)?|ASICs?|RTL|FPGAs?|silicon|mechanical components?|electrical systems?)\b", re.I)
 PHYSICAL_DUTIES = re.compile(r"\b(?:(?:develop(?:ing)?|improv(?:e|ing))(?:\s+\w+){0,5}\s+semiconductor fabrication|(?:support|perform|conduct)(?:\s+\w+){0,5}\s+hardware (?:testing|debugging)|(?:assemble|modify)(?:\s+\w+){0,4}\s+electronic controls|(?:perform|conduct)(?:\s+\w+){0,4}\s+component (?:evaluations?|qualifications?|failure analysis)|(?:analog|mixed[ -]signal)(?:\s+\w+){0,2}\s+circuit (?:analysis|design|simulation|verification))\b", re.I)
 SOFTWARE_DUTIES = re.compile(r"\b(?:develop|build|train|implement|write|optimize)(?:\s+\w+){0,5}\s+(?:software|machine learning models?|AI models?|neural networks?|backend services?|Python (?:software|code)|computer code)\b", re.I)
@@ -44,7 +44,7 @@ COUNTRIES = {
 }
 DEGREES = {
     "bachelor": r"\b(?:bachelor(?:'s)?|undergraduate|B\.?S\.?|BSc|B\.?A\.?)\b",
-    "master": r"\b(?:master(?:'s)?|M\.?S\.?|MSc|M\.?A\.?)\b",
+    "master": r"\b(?:master(?:'s)?|M\.?S\.?|MSc|MBA|M\.?A\.?)\b",
     "phd": r"\b(?:Ph\.?D\.?s?|doctorates?|doctoral|postdoctoral)\b",
     "associate": r"\bassociate(?:'s)? degree\b",
 }
@@ -112,7 +112,7 @@ def degree_evidence(job, title, description, source_evidence):
             suffix = re.split(r"\bbut\b",suffix,1,flags=re.I)[0]
             prior_headings = [heading for index,heading in headings if index < match.start()]
             optional_heading = bool(prior_headings and prior_headings[-1] in {"preferred qualifications","nice to have","desired qualifications"})
-            negated = bool(re.search(r"\b(?:no|without|(?:do|does) not (?:need|require)|don['’]t (?:need|require)|need not have|not required to have)(?: to have)?(?: an?| any| prior)?\s*$",prefix,re.I)
+            negated = bool(re.search(r"\b(?:no|without|(?:do|does) not (?:need|require)|don['â€™]t (?:need|require)|need not have|not required to have)(?: to have)?(?: an?| any| prior)?\s*$",prefix,re.I)
                            or re.search(r"^\s*(?:degree\s+)?(?:(?:is|are)\s+)?(?:not (?:required|necessary|a requirement)|isn't required)\b",suffix,re.I))
             optional = bool(optional_heading or re.search(r"\b(?:preferred|preferable|desired|optional|a plus|nice.to.have)\b",suffix[:90],re.I)
                             or re.search(r"\b(?:prefer|preferred|desired)(?:\s+\w+){0,5}\s*$",prefix,re.I))
@@ -170,6 +170,9 @@ def classify(job: dict, filters: dict | None = None) -> dict:
             excludes.append("Explicitly not an internship")
     if NEWGRAD.search(title) and not title_intern and not coop:
         excludes.append("New-graduate/entry-level career position")
+    if (re.search(r"\bgraduate\b", title, re.I) and employment.casefold() == 'regular'
+            and not title_intern and not structured_intern and not coop and not program):
+        excludes.append("Graduate career position with structured regular employment")
     if not internship and not program and re.search(r"\b(?:senior|staff|principal|director|head of|vice president|lead)\b", title, re.I):
         excludes.append("Senior career position with no internship/program evidence")
     if not internship and not program:
@@ -189,7 +192,18 @@ def classify(job: dict, filters: dict | None = None) -> dict:
     if employer_key in {plain(v).casefold() for v in filters.get("exclude_companies", [])}:
         excludes.append("Employer excluded by configuration")
 
+    # Role headings separate duties from employer boilerplate. In particular,
+    # a defense company's AI platform does not make a physical test co-op AI.
+    role_description = re.split(r"\b(?:about (?:the|this) (?:job|role)|what you['â€™]ll do|your responsibilities|key (?:job )?responsibilities|responsibilities(?=\s*:))\b",
+                                description, maxsplit=1, flags=re.I)[-1]
+    role_description = re.split(r"\b(?:required qualifications|preferred qualifications|our benefits|protecting yourself from recruitment scams)\b",
+                                role_description, maxsplit=1, flags=re.I)[0]
+    # Prefer actual duties over an earlier "About the role" introduction.
+    role_description = re.split(r"\b(?:what you['’]ll do|key (?:job )?responsibilities|your responsibilities)\b",
+                                role_description, maxsplit=1, flags=re.I)[-1]
     category = next((name for name, pattern in CATEGORY_PATTERNS if pattern.search(title)), None)
+    if re.search(r"\b(?:program|project) manag(?:er|ement)\b", title, re.I) and category != 'product_management':
+        excludes.append("Program/project management is outside the requested product-management family")
     trading_title = bool(re.search(r"\btrad(?:er|ing)\b", title, re.I))
     if category is None and trading_title:
         quantitative_duties = next((sentence for sentence in re.split(r"[.!?;]", description)
@@ -202,9 +216,14 @@ def classify(job: dict, filters: dict | None = None) -> dict:
     # Use descriptions for generic research/engineering titles, not incidental
     # mentions of colleagues in unrelated roles such as sales/HR internships.
     if category is None and not unrelated_research and re.search(r"\b(?:research|scientist|engineer|developer|technical|student|fellow|resident)\w*\b", title, re.I):
-        category = next((name for name, pattern in CATEGORY_PATTERNS if pattern.search(description)), None)
+        category = next((name for name, pattern in CATEGORY_PATTERNS if pattern.search(role_description)), None)
+        if category == 'product_management':
+            # Mentions of collaborating with PMs do not make an engineer a PM.
+            category = None
+        if category == 'software_engineering' and not SOFTWARE_DUTIES.search(role_description):
+            unknown.append("Generic role mentions software without clear software-development duties")
         if category:
-            record("description", description[:350], "role_category")
+            record("description", role_description[:350], "role_category")
     elif category:
         record("title", title, "role_category")
     if unrelated_research and category is None:
@@ -215,7 +234,7 @@ def classify(job: dict, filters: dict | None = None) -> dict:
     if hardware_duties is None:
         hardware_duties = next((m for m in PHYSICAL_DUTIES.finditer(description)
                                if not re.search(r"\b(?:software|code|tools?|models?|python)\b",m.group(0),re.I)),None)
-    explicit_software_duties = SOFTWARE_DUTIES.search(description)
+    explicit_software_duties = SOFTWARE_DUTIES.search(role_description)
     if hardware_title and not SOFTWARE.search(title) and not ML.search(title):
         if explicit_software_duties:
             unknown.append("Hardware-focused title with substantive software/AI duties needs review")
@@ -263,7 +282,7 @@ def classify(job: dict, filters: dict | None = None) -> dict:
     graduation_years = set()
     for clause in grad_clauses:
         years = [int(y) for y in re.findall(r"\b20\d{2}\b", clause)]
-        if len(years) == 2 and re.search(r"between|through|\bto\b|20\d{2}\s*[-–]\s*20\d{2}", clause, re.I) and years[1] - years[0] in range(0, 8):
+        if len(years) == 2 and re.search(r"between|through|\bto\b|20\d{2}\s*[-â€“]\s*20\d{2}", clause, re.I) and years[1] - years[0] in range(0, 8):
             graduation_years.update(range(years[0], years[1] + 1))
         else:
             graduation_years.update(years)
@@ -346,6 +365,9 @@ def classify(job: dict, filters: dict | None = None) -> dict:
 
     match_filter("geography", countries, [country_code(c) for c in filters.get("countries", [])])
     allow_unstated = filters.get("allow_unstated_eligibility", False)
+    title_degrees = [degree for degree, pattern in DEGREES.items() if re.search(pattern,title,re.I)]
+    if title_degrees:
+        match_filter("explicit title degree eligibility", title_degrees, [str(d).lower() for d in filters.get("degrees", [])])
     match_filter("degree eligibility", degrees, [str(d).lower() for d in filters.get("degrees", [])], allow_unstated)
     match_filter("graduation year", graduation_years, [int(y) for y in filters.get("graduation_years", [])], allow_unstated)
     match_filter("student year", student_years, [str(y).lower() for y in filters.get("student_years", [])], allow_unstated)

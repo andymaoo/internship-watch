@@ -490,6 +490,215 @@
       "employer": "DRW",
       "enabled": true,
       "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-airtable",
+      "type": "greenhouse",
+      "employer": "Airtable",
+      "slug": "airtable",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-affirm",
+      "type": "greenhouse",
+      "employer": "Affirm",
+      "slug": "affirm",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-dropbox",
+      "type": "greenhouse",
+      "employer": "Dropbox",
+      "slug": "dropbox",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-brex",
+      "type": "greenhouse",
+      "employer": "Brex",
+      "slug": "brex",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-waymo",
+      "type": "greenhouse",
+      "employer": "Waymo",
+      "slug": "waymo",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-asana",
+      "type": "greenhouse",
+      "employer": "Asana",
+      "slug": "asana",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-chime",
+      "type": "greenhouse",
+      "employer": "Chime",
+      "slug": "chime",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-andurilindustries",
+      "type": "greenhouse",
+      "employer": "Anduril Industries",
+      "slug": "andurilindustries",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-doordashusa",
+      "type": "greenhouse",
+      "employer": "DoorDash",
+      "slug": "doordashusa",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-datadog",
+      "type": "greenhouse",
+      "employer": "Datadog",
+      "slug": "datadog",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-cerebras",
+      "type": "ashby",
+      "slug": "cerebras",
+      "employer": "Cerebras Systems",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "smartrecruiters-linkedin",
+      "type": "smartrecruiters",
+      "slug": "LinkedIn3",
+      "employer": "LinkedIn",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "eightfold-nvidia",
+      "type": "eightfold",
+      "domain": "nvidia.com",
+      "employer": "NVIDIA",
+      "searches": [
+        {
+          "filter_job_type": "intern (fixed term)"
+        },
+        {
+          "query": "intern"
+        }
+      ],
+      "max_pages": 50,
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "eightfold-microsoft",
+      "type": "eightfold",
+      "domain": "microsoft.com",
+      "employer": "Microsoft",
+      "searches": [
+        {
+          "filter_employment_type": "internship"
+        }
+      ],
+      "max_pages": 50,
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "eightfold-netflix",
+      "type": "eightfold",
+      "domain": "netflix.com",
+      "employer": "Netflix",
+      "searches": [
+        {
+          "query": "intern"
+        },
+        {
+          "query": "fellow"
+        },
+        {
+          "query": "residency"
+        }
+      ],
+      "max_pages": 50,
+      "enabled": true,
+      "expect_nonempty": false,
+      "api_variant": "apply"
+    },
+    {
+      "id": "snap-direct",
+      "type": "snap",
+      "employer": "Snap",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "uber-direct",
+      "type": "uber",
+      "employer": "Uber",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-confluent",
+      "type": "ashby",
+      "slug": "confluent",
+      "employer": "Confluent",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "amazon-direct",
+      "type": "amazon",
+      "employer": "Amazon",
+      "enabled": true,
+      "expect_nonempty": true,
+      "queries": [
+        "intern",
+        "co-op",
+        "fellowship",
+        "residency",
+        "student"
+      ]
+    },
+    {
+      "id": "rippling-direct",
+      "type": "rippling",
+      "employer": "Rippling",
+      "enabled": true,
+      "expect_nonempty": true,
+      "app_id": "6FNAX3TBEF",
+      "public_search_key": "416caa4690f002ff6fe4a2097623640b",
+      "index": "careers_en-US_production"
+    },
+    {
+      "id": "bloomberg-direct",
+      "type": "bloomberg",
+      "employer": "Bloomberg",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "bytedance-direct",
+      "type": "bytedance",
+      "employer": "ByteDance",
+      "query": "intern",
+      "enabled": true,
+      "expect_nonempty": true
     }
   ],
   "poll_seconds": 300,
@@ -501,7 +710,716 @@
   "closed_recheck_seconds": 604800,
   "delivery_budget": 50,
   "validation_seconds": 60,
-  "awaiting_digest_seconds": 900,
+  "awaiting_digest_seconds": 300,
   "export_directory": "data/export",
-  "blocked_recheck_seconds": 43200
+  "blocked_recheck_seconds": 43200,
+  "collection_workers": 3,
+  "source_seconds": 180,
+  "company_watchlist": [
+    {
+      "company": "Cursor",
+      "aliases": [
+        "Cursor",
+        "Anysphere"
+      ],
+      "direct_sources": [
+        "ashby-cursor"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Anthropic",
+      "aliases": [
+        "Anthropic"
+      ],
+      "direct_sources": [
+        "greenhouse-anthropic"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "OpenAI",
+      "aliases": [
+        "OpenAI"
+      ],
+      "direct_sources": [
+        "ashby-openai"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "xAI",
+      "aliases": [
+        "xAI"
+      ],
+      "direct_sources": [
+        "greenhouse-xai"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Snap",
+      "aliases": [
+        "Snap"
+      ],
+      "direct_sources": [
+        "snap-direct"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Airbnb",
+      "aliases": [
+        "Airbnb"
+      ],
+      "direct_sources": [
+        "greenhouse-airbnb"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Databricks",
+      "aliases": [
+        "Databricks"
+      ],
+      "direct_sources": [
+        "greenhouse-databricks"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Meta",
+      "aliases": [
+        "Meta",
+        "Meta Platforms",
+        "Facebook"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "Incomplete: public Simplify feed only. Direct automated collection requires written permission."
+    },
+    {
+      "company": "Reddit",
+      "aliases": [
+        "Reddit"
+      ],
+      "direct_sources": [
+        "greenhouse-reddit"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Netflix",
+      "aliases": [
+        "Netflix"
+      ],
+      "direct_sources": [
+        "eightfold-netflix"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Direct discovery uses configured internship/student/research keyword searches; differently named programs may be missed."
+    },
+    {
+      "company": "Block",
+      "aliases": [
+        "Block",
+        "Block, Inc."
+      ],
+      "direct_sources": [
+        "greenhouse-block"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Roblox",
+      "aliases": [
+        "Roblox"
+      ],
+      "direct_sources": [
+        "greenhouse-roblox"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Figma",
+      "aliases": [
+        "Figma"
+      ],
+      "direct_sources": [
+        "greenhouse-figma"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Airtable",
+      "aliases": [
+        "Airtable"
+      ],
+      "direct_sources": [
+        "greenhouse-airtable"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Affirm",
+      "aliases": [
+        "Affirm"
+      ],
+      "direct_sources": [
+        "greenhouse-affirm"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Snowflake",
+      "aliases": [
+        "Snowflake"
+      ],
+      "direct_sources": [
+        "ashby-snowflake"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Dropbox",
+      "aliases": [
+        "Dropbox"
+      ],
+      "direct_sources": [
+        "greenhouse-dropbox"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Brex",
+      "aliases": [
+        "Brex"
+      ],
+      "direct_sources": [
+        "greenhouse-brex"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "LinkedIn",
+      "aliases": [
+        "LinkedIn"
+      ],
+      "direct_sources": [
+        "smartrecruiters-linkedin"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Harvey",
+      "aliases": [
+        "Harvey"
+      ],
+      "direct_sources": [
+        "ashby-harvey"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Coinbase",
+      "aliases": [
+        "Coinbase"
+      ],
+      "direct_sources": [
+        "greenhouse-coinbase"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Instacart",
+      "aliases": [
+        "Instacart"
+      ],
+      "direct_sources": [
+        "greenhouse-instacart"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Scale AI",
+      "aliases": [
+        "Scale AI",
+        "scaleai",
+        "scale"
+      ],
+      "direct_sources": [
+        "greenhouse-scale"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Cerebras Systems",
+      "aliases": [
+        "Cerebras Systems",
+        "Cerebras"
+      ],
+      "direct_sources": [
+        "ashby-cerebras"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Notion",
+      "aliases": [
+        "Notion"
+      ],
+      "direct_sources": [
+        "ashby-notion"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Confluent",
+      "aliases": [
+        "Confluent"
+      ],
+      "direct_sources": [
+        "ashby-confluent"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Ramp",
+      "aliases": [
+        "Ramp"
+      ],
+      "direct_sources": [
+        "ashby-ramp"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Glean",
+      "aliases": [
+        "Glean"
+      ],
+      "direct_sources": [
+        "greenhouse-glean"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Waymo",
+      "aliases": [
+        "Waymo"
+      ],
+      "direct_sources": [
+        "greenhouse-waymo"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Plaid",
+      "aliases": [
+        "Plaid"
+      ],
+      "direct_sources": [
+        "ashby-plaid"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Rubrik",
+      "aliases": [
+        "Rubrik"
+      ],
+      "direct_sources": [
+        "greenhouse-rubrik"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Nvidia",
+      "aliases": [
+        "Nvidia",
+        "NVIDIA"
+      ],
+      "direct_sources": [
+        "eightfold-nvidia"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Direct discovery combines structured internships with the intern keyword search."
+    },
+    {
+      "company": "Stripe",
+      "aliases": [
+        "Stripe"
+      ],
+      "direct_sources": [
+        "greenhouse-stripe"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Apple",
+      "aliases": [
+        "Apple"
+      ],
+      "direct_sources": [
+        "apple-apple"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Asana",
+      "aliases": [
+        "Asana"
+      ],
+      "direct_sources": [
+        "greenhouse-asana"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Robinhood",
+      "aliases": [
+        "Robinhood"
+      ],
+      "direct_sources": [
+        "greenhouse-robinhood"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Uber",
+      "aliases": [
+        "Uber"
+      ],
+      "direct_sources": [
+        "uber-direct"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Google",
+      "aliases": [
+        "Google"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "Incomplete: public Simplify feed discovery; known Google postings can be verified. Direct search pagination is restricted."
+    },
+    {
+      "company": "Pinterest",
+      "aliases": [
+        "Pinterest"
+      ],
+      "direct_sources": [
+        "greenhouse-pinterest"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Rippling",
+      "aliases": [
+        "Rippling"
+      ],
+      "direct_sources": [
+        "rippling-direct"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Palantir",
+      "aliases": [
+        "Palantir"
+      ],
+      "direct_sources": [
+        "lever-palantir"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "ByteDance",
+      "aliases": [
+        "ByteDance"
+      ],
+      "direct_sources": [
+        "bytedance-direct"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Direct discovery uses configured internship/student/research keyword searches; differently named programs may be missed."
+    },
+    {
+      "company": "Lyft",
+      "aliases": [
+        "Lyft"
+      ],
+      "direct_sources": [
+        "greenhouse-lyft"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Amazon",
+      "aliases": [
+        "Amazon"
+      ],
+      "direct_sources": [
+        "amazon-direct"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Direct discovery uses configured internship/student/research keyword searches; differently named programs may be missed."
+    },
+    {
+      "company": "Chime",
+      "aliases": [
+        "Chime"
+      ],
+      "direct_sources": [
+        "greenhouse-chime"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Anduril Industries",
+      "aliases": [
+        "Anduril Industries",
+        "Anduril"
+      ],
+      "direct_sources": [
+        "greenhouse-andurilindustries"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "DoorDash",
+      "aliases": [
+        "DoorDash"
+      ],
+      "direct_sources": [
+        "greenhouse-doordashusa"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Microsoft",
+      "aliases": [
+        "Microsoft"
+      ],
+      "direct_sources": [
+        "eightfold-microsoft"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Direct discovery uses the employer structured internship employment filter."
+    },
+    {
+      "company": "Bloomberg",
+      "aliases": [
+        "Bloomberg"
+      ],
+      "direct_sources": [
+        "bloomberg-direct"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "All advertised search pages are read. Repeated exact requisition rows are deduplicated; the employer search index may change between pages."
+    },
+    {
+      "company": "Datadog",
+      "aliases": [
+        "Datadog"
+      ],
+      "direct_sources": [
+        "greenhouse-datadog"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    }
+  ]
 }

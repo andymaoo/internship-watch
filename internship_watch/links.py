@@ -15,7 +15,7 @@ import requests
 from .classify import plain
 from .google_source import GoogleDetailError, google_job_id, google_title_matches, parse_google_detail
 
-VALIDATOR_VERSION = 6
+VALIDATOR_VERSION = 7
 
 
 class Page(HTMLParser):
@@ -398,6 +398,10 @@ def provider_spec(url, job=None):
     """Recognize documented public ATS namespaces; never guess an employer slug."""
     if not valid_url(url):
         return None
+    from .employer_validation import spec_for
+    employer_spec = spec_for(url)
+    if employer_spec:
+        return employer_spec
     parsed=urlsplit(url); host=parsed.hostname.lower(); parts=parsed.path.strip('/').split('/')
     if host in {'jobs.lever.co','jobs.eu.lever.co','jobs.ashbyhq.com'} and len(parts)>=2:
         board,identity=parts[:2]
@@ -425,6 +429,9 @@ def provider_spec(url, job=None):
 
 def _api_posting(job, spec, client):
     """Fresh documented ATS data can prove a posting, never application access."""
+    if spec['provider'] in {'smartrecruiters', 'eightfold', 'snap'}:
+        from .employer_validation import check_posting
+        return check_posting(job, spec, client)
     check={'kind':'posting_api','requested_url':spec['api'],'final_url':None,'status':'unverified','evidence':[]}
     try:
         cached=getattr(client,'_posting_api_cache',None)

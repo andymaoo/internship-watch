@@ -3,6 +3,7 @@ import json
 import logging
 import time
 from datetime import datetime, timedelta, timezone
+from concurrent.futures import ThreadPoolExecutor, wait, FIRST_COMPLETED
 
 from .classify import classify
 from .delivery import configured_sender, deliver_pending, heartbeat, job_message
@@ -12,6 +13,45 @@ from .locking import run_lock
 from .storage import Store, dump, now, split_statuses, url_identity
 
 log = logging.getLogger(__name__)
+
+
+def collections(config, collector, client):
+    """Bound pending boards and memory; SQLite stays on the calling thread."""
+    workers = config.get('collection_workers', 1)
+    if not isinstance(workers, int) or not 1 <= workers <= 4:
+        raise ValueError('collection_workers must be between 1 and 4')
+    sources = iter(s for s in config.get('sources', []) if s.get('enabled', True))
+
+    def fetch(source):
+        started = time.monotonic()
+        worker = client.fork() if workers > 1 else client
+        previous_deadline = worker.deadline if hasattr(worker, 'deadline') else None
+        try:
+            if config.get('source_seconds'):
+                worker.deadline = time.monotonic() + config['source_seconds']
+            return source, collector(source, worker), None, round(time.monotonic()-started, 3)
+        except Exception as exc:
+            return source, None, exc, round(time.monotonic()-started, 3)
+        finally:
+            worker.deadline = previous_deadline
+            if workers > 1:
+                worker.close()
+
+    if workers == 1:
+        for source in sources:
+            yield fetch(source)
+        return
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        pending = {executor.submit(fetch, source) for source in [next(sources, None) for _ in range(workers)] if source}
+        while pending:
+            done, pending = wait(pending, return_when=FIRST_COMPLETED)
+            while done:
+                future = done.pop()
+                yield future.result()
+                del future
+                source = next(sources, None)
+                if source:
+                    pending.add(executor.submit(fetch, source))
 
 
 def later(seconds):
@@ -200,14 +240,13 @@ def _run(config, db_path, collector, client, validator, sender):
         if initial not in ("silent", "digest"):
             raise ValueError("initial_run must be silent or digest")
         collection_started = time.monotonic()
-        for source in config.get("sources", []):
-            if not source.get("enabled", True):
-                continue
+        for source, jobs, collection_error, collection_seconds in collections(config, collector, client):
             key = source["id"]
             source_started = time.monotonic()
             previous = store.source_state(key)
             try:
-                jobs = collector(source, client)
+                if collection_error:
+                    raise collection_error
                 if not isinstance(jobs, list):
                     raise ValueError("Source returned a non-list result")
                 with store.transaction():
@@ -232,7 +271,8 @@ def _run(config, db_path, collector, client, validator, sender):
                                                                or source.get("expect_nonempty", False))
                     store.incident("empty:" + key, bool(suspicious_empty and state["empty_runs"] >= threshold),
                                    f"{key}: {state['empty_runs']} consecutive empty collections; verify source access/schema")
-                summary["sources"][key] = {"count": len(jobs), "status": "ok", "seconds": round(time.monotonic()-source_started, 3)}
+                summary["sources"][key] = {"count": len(jobs), "status": "ok", "seconds": collection_seconds,
+                                           "storage_seconds": round(time.monotonic()-source_started, 3)}
                 log.info("source=%s status=ok count=%s", key, len(jobs))
             except Exception as exc:
                 # HTTP source exceptions may carry public job URLs; secrets never enter adapters.
@@ -241,7 +281,7 @@ def _run(config, db_path, collector, client, validator, sender):
                     state = store.record_source(key, error=detail)
                     store.incident("source:" + key, state["failures"] >= threshold,
                                    f"{key}: failed {state['failures']} consecutive runs. {detail}")
-                summary["sources"][key] = {"status": "failed", "error": detail, "seconds": round(time.monotonic()-source_started, 3)}
+                summary["sources"][key] = {"status": "failed", "error": detail, "seconds": collection_seconds}
                 log.warning("source=%s status=failed error=%s", key, detail)
         # Previously discovered jobs are rechecked even if collection is temporarily down.
         summary["timings_seconds"] = {"collection": round(time.monotonic()-collection_started, 3)}

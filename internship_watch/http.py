@@ -92,6 +92,17 @@ class HttpClient:
     def close(self):
         self.session.close()
 
+    def fork(self):
+        """Independent HTTP session with shared pacing, policy and cooldown state."""
+        child = HttpClient(timeout=self.timeout[1], connect_timeout=self.timeout[0], retries=self.retries,
+            min_interval=self.min_interval, backoff=self.backoff, max_retry_after=self.max_retry_after,
+            max_redirects=self.max_redirects, user_agent=self.user_agent, resolve_dns=self.resolve_dns,
+            forbidden_threshold=self.forbidden_threshold, forbidden_cooldown=self.forbidden_cooldown,
+            blocked_hosts=self.blocked_hosts)
+        for name in ('_lock', '_last_request', '_host_intervals', '_robots', 'host_cooldowns', 'host_failure_counts'):
+            setattr(child, name, getattr(self, name))
+        return child
+
     @staticmethod
     def _host(url):
         return (urlsplit(url).hostname or "").rstrip(".").lower()

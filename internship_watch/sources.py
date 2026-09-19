@@ -228,8 +228,10 @@ def _apple_job(source, item):
 
 ADAPTERS = {"greenhouse": greenhouse, "lever": lever, "ashby": ashby, "simplify": simplify, "apple": apple}
 
-
 def collect(source: dict, client) -> list[dict]:
+    from . import employer_sources
+    for name in ('smartrecruiters', 'eightfold', 'snap', 'uber', 'amazon', 'rippling', 'bloomberg', 'bytedance'):
+        ADAPTERS[name] = getattr(employer_sources, name)
     if source.get("type") not in ADAPTERS:
         raise SourceError(f"Unsupported or quarantined adapter: {source.get('type')}")
     jobs = ADAPTERS[source["type"]](source, client)

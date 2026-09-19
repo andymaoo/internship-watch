@@ -63,6 +63,28 @@ def url_identity(url):
             return None
         host, path = u.hostname.lower(), re.sub(r"/+", "/", u.path).rstrip("/")
         query = dict(parse_qsl(u.query))
+        if host == 'jobs.smartrecruiters.com':
+            match = re.fullmatch(r'/([^/]+)/(\d+)(?:-[^/]*)?', path)
+            if match:
+                return f'smartrecruiters:{match[1].lower()}:{match[2]}'
+        if host in {'amazon.jobs', 'www.amazon.jobs'}:
+            match = re.match(r'/[a-z-]+/jobs/(\d+)(?:/|$)', path)
+            if match:
+                return 'amazon:' + match[1]
+        if host in {'joinbytedance.com', 'www.joinbytedance.com', 'jobs.bytedance.com'}:
+            match = re.fullmatch(r'/(?:search/|(?:en/)?position/)(\d+)(?:/detail)?', path)
+            if match:
+                return 'bytedance:' + match[1]
+        if host == 'nvidia.wd5.myworkdayjobs.com' and '/NVIDIAExternalCareerSite/job/' in path:
+            match = re.search(r'_(JR\d+)(?:-\d+)?(?:/apply)?$', path)
+            if match:
+                return 'workday:nvidia:' + match[1]
+        if host == 'wd1.myworkdaysite.com' and path.startswith('/recruiting/snapchat/snap/job/'):
+            match = re.search(r'_([A-Z]\d+[A-Z0-9]*)(?:-\d+)?(?:/apply)?$', path)
+            if match:
+                return 'snap:' + match[1]
+        if host == 'careers.snap.com' and path == '/job' and re.fullmatch(r'[A-Z]\d+[A-Z0-9]*', query.get('id','')):
+            return 'snap:' + query['id']
         job_query = any(value for key, value in query.items() if key.casefold() in
                         {"gh_jid", "jobid", "job_id", "job", "jid", "requisitionid", "requisition_id"})
         if host in ("boards.greenhouse.io", "job-boards.greenhouse.io"):
@@ -176,6 +198,15 @@ class Store:
             # Old data has no recorded first qualification/decision timestamp.
             # Do not manufacture latency measurements from first_seen.
         self.db.execute("PRAGMA user_version=2")
+        if not self.db.execute("SELECT 1 FROM meta WHERE key='company_url_aliases_v1'").fetchone():
+            # Add aliases to historical rows before new sources arrive. Never
+            # merge existing rows or overwrite a conflicting identity/receipt.
+            rows = self.db.execute('SELECT id,original_url FROM jobs').fetchall() if 'original_url' in columns else []
+            for row in rows:
+                identity = url_identity(row['original_url'])
+                if identity and identity.startswith(('smartrecruiters:', 'amazon:', 'bytedance:', 'workday:nvidia:', 'snap:')):
+                    self.db.execute('INSERT OR IGNORE INTO identities(identity,job_id) VALUES(?,?)', ('url:'+identity,row['id']))
+            self.db.execute("INSERT INTO meta VALUES('company_url_aliases_v1',?)", (now(),))
         self.db.commit()
 
     def close(self):
@@ -227,7 +258,13 @@ class Store:
         application_key = url_identity(job.get("application_url"))
         if description_key:
             keys.append("url:" + description_key)
-        known_ats = lambda key: bool(key and key.startswith(("gh:", "lever:", "ashby:")))
+        evidence = job.get('evidence') or {}
+        if (evidence.get('provider') == 'eightfold' and evidence.get('domain') == 'nvidia.com' and
+                job.get('employer', '').casefold() == 'nvidia' and
+                re.fullmatch(r'JR\d+', str(evidence.get('ats_job_id', ''))) and
+                job.get('description_url') == 'https://jobs.nvidia.com/careers/job/' + str(evidence.get('provider_job_id'))):
+            keys.append('url:workday:nvidia:' + evidence['ats_job_id'])
+        known_ats = lambda key: bool(key and key.startswith(("gh:", "lever:", "ashby:", "smartrecruiters:", "workday:nvidia:", "snap:")))
         # Application destinations often share a login/form. Only known ATS
         # requisitions can add an alias; conflicting requisitions cannot merge.
         if application_key and application_key != description_key and known_ats(application_key):
