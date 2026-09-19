@@ -10,6 +10,8 @@ Three listings passed the configured filters: Algorithm Development (Quant Resea
 
 An actual source-to-storage rehearsal exposed list-valued Greenhouse employment metadata that SQLite could not bind. The source adapter now normalizes string arrays to a scalar employment value while retaining the exact metadata in evidence. Unexpected nested schemas fail as source errors. Regression tests cover collection through classification and SQLite, multiple/empty selections and malformed values. A replay against a private database copy merged the three HRT records into the existing three feed identities, preserving their original discovery timestamps and baseline membership without increasing the job count or sending notifications.
 
+The actual-host merge rehearsal then caught a second defect: a later community-feed refresh replaced the direct board identifier and official title in the canonical record, leaving HRT custom URLs without enough provenance for API validation. Canonical records now preserve directly observed Greenhouse identity, title, qualifications and employment metadata for the exact employer/requisition, while raw source records remain unchanged. Regressions cover both source orders, restart, changed employer/identity/destination, different boards sharing a numeric ID, and direct PhD/full-time updates. A staged live merge must validate all three HRT records before activation.
+
 ## Google: permitted detail verification repaired; discovery incomplete
 
 Python 3.12's `urllib.robotparser` converted Google's actual `Disallow: /?` into `/`, falsely treating it as a blanket prohibition. A second defect evaluated policy before Requests appended `params=`, which could miss query-specific restrictions. The HTTP client now uses pinned [Protego](https://github.com/scrapy/protego) and checks the actual prepared URL with [RFC 9309](https://www.rfc-editor.org/rfc/rfc9309.html) matching. Wildcards, end anchors, longest-match rules, user-agent groups, percent encoding and pacing have dedicated regressions. The client identity is unchanged.
@@ -30,7 +32,7 @@ Further Meta progress requires written collection permission or an authorized fe
 
 ## Operation and evidence
 
-The combined local suite passed **198 application tests and six backup tests**, plus compilation. The release must also pass staged tests and consecutive 53-source cycles on Azure before being described as deployed. The operating checkpoint and dated host evidence are delivered under `outputs/continuation`; these versioned implementation notes do not substitute for that evidence. The update preserves `/etc/internship-watch*` and `/var/lib/internship-watch`, with a consistent recovery snapshot copied off-host before activation and the prior code release retained for rollback.
+The combined local suite passed **203 application tests and six backup tests**, plus compilation. The release must also pass staged tests and consecutive 53-source cycles on Azure before being described as deployed. The operating checkpoint and dated host evidence are delivered under `outputs/continuation`; these versioned implementation notes do not substitute for that evidence. The update preserves `/etc/internship-watch*` and `/var/lib/internship-watch`, with a consistent recovery snapshot copied off-host before activation and the prior code release retained for rollback.
 
 Reproducible regression commands:
 

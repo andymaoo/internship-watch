@@ -20,6 +20,26 @@ def dump(value):
     return json.dumps(value, ensure_ascii=False, sort_keys=True)
 
 
+def custom_greenhouse_identity(job):
+    """Recognize an observed custom employer URL, never guess an ATS board."""
+    evidence = job.get("evidence") or {}
+    if evidence.get("provider") != "greenhouse":
+        return None
+    match = re.fullmatch(r"gh-([A-Za-z0-9_.-]+)-(\d+)", str(job.get("source_id", "")))
+    if not match or match.group(1) in {".", ".."} or str(evidence.get("provider_job_id")) != match.group(2):
+        return None
+    try:
+        parsed = urlsplit(job.get("description_url") or "")
+        ids = [value for key, value in parse_qsl(parsed.query) if key == "gh_jid"]
+        if (parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password
+                or parsed.hostname in {"boards.greenhouse.io", "job-boards.greenhouse.io"}
+                or ids != [match.group(2)]):
+            return None
+    except (TypeError, ValueError):
+        return None
+    return match.groups()
+
+
 def split_statuses(result, historical=False):
     """Keep posting evidence independent of application failures during migration."""
     valid = {"open", "closed", "unverified"}
@@ -220,6 +240,17 @@ class Store:
             keys = keys[:1]
         jid = next(iter(found), hashlib.sha256(keys[0].encode()).hexdigest()[:24])
         old = self.db.execute("SELECT * FROM jobs WHERE id=?", (jid,)).fetchone()
+        incoming_ats = custom_greenhouse_identity(job)
+        prior_ats = custom_greenhouse_identity(json.loads(old["payload"])) if old else None
+        if incoming_ats and prior_ats and incoming_ats != prior_ats and not self.db.execute(
+                "SELECT 1 FROM identities WHERE identity=?", (keys[0],)).fetchone():
+            # A coincident custom URL cannot merge distinct observed ATS boards.
+            # Keep the ambiguous URL alias with its first record; the new source
+            # identity safely addresses the separate record on subsequent polls.
+            keys = keys[:1]
+            jid = hashlib.sha256(keys[0].encode()).hexdigest()[:24]
+            old = self.db.execute("SELECT * FROM jobs WHERE id=?", (jid,)).fetchone()
+            prior_ats = custom_greenhouse_identity(json.loads(old["payload"])) if old else None
         prior_source = self.db.execute("SELECT payload FROM source_records WHERE source=? AND source_id=?",
                                        (source, sid)).fetchone()
         identity_changed = False
@@ -228,6 +259,10 @@ class Store:
             normalized = lambda value: re.sub(r"\W+", " ", str(value or "").casefold()).strip()
             identity_changed = any(normalized(prior_job.get(key)) != normalized(job.get(key))
                                    for key in ("title", "employer"))
+        if incoming_ats and prior_ats and incoming_ats != prior_ats:
+            identity_changed = True
+        if old and str(old["employer"]).casefold() != str(job.get("employer", "")).casefold():
+            identity_changed = True
         legacy = self.db.execute("SELECT 1 FROM legacy_seen WHERE source_id=?", (sid,)).fetchone()
         payload = dict(job)
         def same_destination(before, after):
@@ -238,8 +273,16 @@ class Store:
 
         # Keep a richer directly obtained description when a feed omits it.
         # A changed role identity needs fresh evidence, even at the same URL.
-        if old and not identity_changed:
+        if old and not identity_changed and same_destination(old["original_url"], job.get("description_url")):
             old_payload = json.loads(old["payload"])
+            if (prior_ats and (job.get("evidence") or {}).get("provider") == "simplify"
+                    and old_payload.get("employer", "").casefold() == job.get("employer", "").casefold()
+                    and same_destination(old["application_url"], job.get("application_url"))):
+                # Exact employer/requisition provenance from the direct board
+                # includes the authoritative title, qualifications, employment
+                # type and board slug. A community alias/summary cannot erase
+                # it. Its untouched raw record is still saved below.
+                payload = dict(old_payload)
             for key in ("description", "employment_type", "posting_date"):
                 if not payload.get(key) and old_payload.get(key):
                     payload[key] = old_payload[key]
@@ -261,9 +304,9 @@ class Store:
             # and yesterday's inclusion cannot override a newly ambiguous role.
             classification = classify(payload, filters)
         decision = classification.get("decision", "ambiguous")
-        values = (job["employer"], job["title"], classification.get("category"), job.get("location", ""),
+        values = (payload["employer"], payload["title"], classification.get("category"), payload.get("location", ""),
                   payload.get("description", ""), payload.get("employment_type", ""), payload.get("posting_date"),
-                  job.get("description_url", ""), job.get("application_url", ""), decision,
+                  payload.get("description_url", ""), payload.get("application_url", ""), decision,
                   dump(classification), dump(payload), stamp)
         if not old:
             self.db.execute("INSERT INTO jobs(employer,title,category,location,description,employment_type,posting_date,"
