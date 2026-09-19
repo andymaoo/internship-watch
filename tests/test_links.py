@@ -3,7 +3,7 @@ import unittest
 
 import requests
 
-from internship_watch.links import VALIDATOR_VERSION, validate_job
+from internship_watch.links import VALIDATOR_VERSION, provider_spec, validate_job
 
 
 DESCRIPTION = "Responsibilities: As a Software Engineer Intern, you will develop backend software services, write and maintain automated tests, review code with the engineering team, and document your implementation. Qualifications: currently enrolled in a bachelor's degree in computer science."
@@ -39,6 +39,11 @@ class Client:
 
 
 class LinkTests(unittest.TestCase):
+    def test_documented_board_namespace_allows_dots_without_path_traversal(self):
+        suffix='/8f06f221-8777-4a4d-b035-40882db5f4a0'
+        self.assertEqual(provider_spec('https://jobs.ashbyhq.com/mistral.ai'+suffix)['board'],'mistral.ai')
+        self.assertIsNone(provider_spec('https://jobs.ashbyhq.com/..'+suffix))
+
     def client(self, description=None, application=None):
         return Client({JOB["description_url"]:description if description is not None else response(page()), JOB["application_url"]:application if application is not None else response(page()+FORM)})
 
@@ -46,6 +51,8 @@ class LinkTests(unittest.TestCase):
         client = self.client()
         result = validate_job(JOB, client)
         self.assertEqual(result["status"], "open")
+        self.assertEqual(result["posting_status"],"open")
+        self.assertEqual(result["application_status"],"open")
         self.assertEqual(len(client.calls), 2)
         self.assertTrue(all(c[1]["respect_robots"] for c in client.calls))
 
@@ -135,6 +142,8 @@ class LinkTests(unittest.TestCase):
         client = self.client()
         result = validate_job(dict(JOB,application_url=JOB["description_url"]),client)
         self.assertEqual(result["status"],"unverified")
+        self.assertEqual(result["posting_status"],"open")
+        self.assertEqual(result["application_status"],"unverified")
         self.assertIn("application_destination_not_verified",result["checks"][-1]["evidence"])
         self.assertEqual(validate_job(JOB,self.client(application=response(page())))["status"],"unverified")
         search_form = '<form>Search jobs<input name="query"></form><p>Apply for this job with a resume.</p>'
@@ -168,6 +177,129 @@ class LinkTests(unittest.TestCase):
         client = self.client(description=response(body))
         result = validate_job(dict(JOB,application_url=JOB["description_url"]),client)
         self.assertEqual(result["status"],"unverified")
+        self.assertEqual(result["posting_status"],"unverified")
+        self.assertEqual(result["application_status"],"open")
         self.assertEqual(result["checks"][0]["status"],"unverified")
         self.assertEqual(result["checks"][-1]["status"],"open")
         self.assertNotIn("description",result)
+
+    def test_same_identifier_allows_minor_title_words_but_not_other_role(self):
+        for title in ['Software Engineering Internship', 'Software Backend Engineer Intern - Summer 2027']:
+            result=validate_job(JOB,self.client(description=response(page(DESCRIPTION.replace(JOB['title'],title),title=title))))
+            self.assertEqual(result['posting_status'],'open')
+        other=page(DESCRIPTION.replace(JOB['title'],'Hardware Engineer Intern'),title='Hardware Engineer Intern')
+        self.assertEqual(validate_job(JOB,self.client(description=response(other)))['posting_status'],'unverified')
+
+    def test_workday_legal_entity_requires_matching_brand_and_tenant(self):
+        url='https://nxp.wd3.myworkdayjobs.com/careers/job/Data-Intern_R-10065538'
+        job=dict(JOB,employer='NXP Semiconductors',description_url=url,application_url=url)
+        schema={'@type':'JobPosting','title':JOB['title'],'hiringOrganization':{'name':'US63 NXP USA Inc.'},'description':DESCRIPTION}
+        body='<script type="application/ld+json">'+json.dumps(schema)+'</script>'
+        self.assertEqual(validate_job(job,Client({url:response(body)}))['posting_status'],'open')
+        foreign='https://foreign.wd3.myworkdayjobs.com/careers/job/Data-Intern_R-10065538'
+        self.assertEqual(validate_job(dict(job,description_url=foreign,application_url=foreign),Client({foreign:response(body)}))['posting_status'],'unverified')
+
+    def test_meaningful_role_details_without_legacy_keyword(self):
+        description='Role Details: Interns will contribute to real data innovation projects involving data analysis and machine learning pipelines, AI evaluation frameworks, enterprise integration, applied research, and automation for large organizational datasets.'
+        self.assertEqual(validate_job(JOB,self.client(description=response(page(description))))['posting_status'],'open')
+
+    def test_lever_apply_is_not_used_as_description(self):
+        canonical='https://jobs.lever.co/example/8f06f221-8777-4a4d-b035-40882db5f4a0'
+        apply=canonical+'/apply'
+        job=dict(JOB,description_url=apply,application_url=apply)
+        client=Client({canonical:response(page()),apply:response(page('')+FORM)})
+        result=validate_job(job,client)
+        self.assertEqual(result['status'],'open')
+        self.assertEqual(result['description_url'],apply)
+        self.assertEqual(result['final_description_url'],canonical)
+
+    def test_fresh_greenhouse_api_can_verify_posting_not_application_access(self):
+        url='https://job-boards.greenhouse.io/example/jobs/123456'
+        api='https://boards-api.greenhouse.io/v1/boards/example/jobs/123456'
+        item={'id':123456,'title':JOB['title'],'company_name':'Example','absolute_url':url,'content':DESCRIPTION}
+        client=Client({url:response('Access denied',403),api:response(json.dumps(item))})
+        result=validate_job(dict(JOB,description_url=url,application_url=url),client)
+        self.assertEqual(result['posting_status'],'open')
+        self.assertEqual(result['application_status'],'unverified')
+        self.assertEqual(result['status'],'unverified')
+        self.assertTrue(any(c['kind']=='posting_api' and c['status']=='open' for c in result['checks']))
+
+    def test_api_does_not_accept_mismatched_identifier_title_or_tiny_content(self):
+        url='https://job-boards.greenhouse.io/example/jobs/123456'
+        api='https://boards-api.greenhouse.io/v1/boards/example/jobs/123456'
+        valid={'id':123456,'title':JOB['title'],'company_name':'Example','absolute_url':url,'content':DESCRIPTION}
+        for change in [{'id':999999},{'title':'Accountant Intern'},{'content':'Apply now'}, {'company_name':'Foreign'}, {'absolute_url':'https://job-boards.greenhouse.io/foreign/jobs/123456'}]:
+            with self.subTest(change=change):
+                client=Client({url:response('JavaScript required'),api:response(json.dumps(dict(valid,**change)))})
+                self.assertEqual(validate_job(dict(JOB,description_url=url,application_url=url),client)['posting_status'],'unverified')
+
+    def test_api_failure_does_not_close_and_feed_description_does_not_verify(self):
+        url='https://job-boards.greenhouse.io/example/jobs/123456'
+        api='https://boards-api.greenhouse.io/v1/boards/example/jobs/123456'
+        for response_value in [response('{}',404),response('Rate limited',429),requests.Timeout('temporary')]:
+            client=Client({url:response('JavaScript required'),api:response_value})
+            result=validate_job(dict(JOB,description_url=url,application_url=url,description=DESCRIPTION),client)
+            self.assertEqual(result['posting_status'],'unverified')
+
+    def test_login_url_gets_explicit_evidence(self):
+        url=JOB['application_url']+'/login'
+        client=self.client(application=response('<h1>Login</h1><form>Email<input name="email"></form>',url=url))
+        result=validate_job(JOB,client)
+        self.assertEqual(result['application_status'],'unverified')
+        self.assertIn('login_required',result['checks'][-1]['evidence'])
+
+    def test_fresh_ashby_board_api_binds_exact_url_and_caches_five_minutes(self):
+        url='https://jobs.ashbyhq.com/example/8f06f221-8777-4a4d-b035-40882db5f4a0'
+        api='https://api.ashbyhq.com/posting-api/job-board/example'
+        item={'title':JOB['title'],'jobUrl':url,'applyUrl':url+'/application','descriptionPlain':DESCRIPTION}
+        client=Client({url:response('<script>render()</script>'),url+'/application':response('<script>render()</script>'),api:response(json.dumps({'jobs':[item]}))})
+        job=dict(JOB,description_url=url,application_url=url+'/application')
+        for _ in range(2):
+            result=validate_job(job,client)
+            self.assertEqual(result['posting_status'],'open')
+            self.assertEqual(result['application_status'],'unverified')
+        self.assertEqual(sum(c[0]==api for c in client.calls),1)
+        self.assertFalse(next(c[1] for c in client.calls if c[0]==api)['respect_robots'])
+        timestamp,body,fetched_at=client._posting_api_cache[api]
+        client._posting_api_cache[api]=(timestamp-301,body,fetched_at)
+        validate_job(job,client)
+        self.assertEqual(sum(c[0]==api for c in client.calls),2)
+
+    def test_fresh_lever_api_binds_exact_posting(self):
+        url='https://jobs.lever.co/example/8f06f221-8777-4a4d-b035-40882db5f4a0'
+        api='https://api.lever.co/v0/postings/example/8f06f221-8777-4a4d-b035-40882db5f4a0'
+        item={'id':url.rsplit('/',1)[-1],'text':JOB['title'],'hostedUrl':url,'applyUrl':url+'/apply','descriptionPlain':DESCRIPTION}
+        client=Client({url:response('Access denied',403),url+'/apply':response('Access denied',403),api:response(json.dumps(item))})
+        result=validate_job(dict(JOB,description_url=url,application_url=url+'/apply'),client)
+        self.assertEqual(result['posting_status'],'open')
+        self.assertEqual(result['application_status'],'unverified')
+
+    def test_closed_web_posting_is_not_overridden_by_api(self):
+        url='https://job-boards.greenhouse.io/example/jobs/123456'
+        client=Client({url:response('This position has been closed.')})
+        result=validate_job(dict(JOB,description_url=url,application_url=url),client)
+        self.assertEqual(result['posting_status'],'closed')
+        self.assertEqual(len(client.calls),1)
+
+    def test_ashby_other_board_with_same_id_is_not_accepted(self):
+        url='https://jobs.ashbyhq.com/example/8f06f221-8777-4a4d-b035-40882db5f4a0'
+        api='https://api.ashbyhq.com/posting-api/job-board/example'
+        item={'title':JOB['title'],'jobUrl':url.replace('/example/','/foreign/'),'descriptionPlain':DESCRIPTION}
+        client=Client({url:response('<script>render()</script>'),api:response(json.dumps({'jobs':[item]}))})
+        self.assertEqual(validate_job(dict(JOB,description_url=url,application_url=url),client)['posting_status'],'unverified')
+
+    def test_incomplete_embed_url_does_not_guess_employer_api_board(self):
+        url='https://boards.greenhouse.io/embed/job_app?token=123456'
+        client=Client({url:response('Access denied',403)})
+        self.assertEqual(validate_job(dict(JOB,description_url=url,application_url=url),client)['posting_status'],'unverified')
+        self.assertEqual(len(client.calls),1)
+
+    def test_api_title_may_omit_intern_only_with_fresh_structured_internship(self):
+        url='https://job-boards.greenhouse.io/example/jobs/123456'
+        api='https://boards-api.greenhouse.io/v1/boards/example/jobs/123456'
+        item={'id':123456,'title':'Software Engineer','company_name':'Example','absolute_url':url,'content':DESCRIPTION}
+        for employment,expected in [('Summer Internship','open'),('Full Time','unverified')]:
+            value=dict(item,metadata=[{'name':'Employment Type','value':employment}])
+            client=Client({url:response('JavaScript required'),api:response(json.dumps(value))})
+            result=validate_job(dict(JOB,description_url=url,application_url=url),client)
+            self.assertEqual(result['posting_status'],expected)

@@ -2,6 +2,8 @@
 
 This repository contains deployment configuration, not proof of a running deployment. No paid service was purchased, production host provisioned, secret supplied, or production notification delivered by creating these files. Complete the acceptance procedure below on the chosen host before calling the system deployed.
 
+Use [HOSTING.md](HOSTING.md) for the current price comparison and measurement-based sizing, and [CONNECTIONS.md](CONNECTIONS.md) for private monitor/bucket setup, encrypted off-host backup scheduling, and the Windows Task Scheduler option. Those prepared files do not create accounts or authorize spending.
+
 ## Choose one runtime
 
 Prefer the supplied Linux systemd daemon on an already-owned, always-on host. It polls according to `poll_seconds` (the requested production setting is `300`), uses one writer and a kernel-owned lock, and keeps SQLite outside the release directory. The Docker alternative runs the same daemon as UID/GID 10001 with a persistent named volume. Do not enable both runtimes against the same deployment.

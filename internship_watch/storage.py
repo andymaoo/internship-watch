@@ -19,6 +19,21 @@ def dump(value):
     return json.dumps(value, ensure_ascii=False, sort_keys=True)
 
 
+def split_statuses(result, historical=False):
+    """Keep posting evidence independent of application failures during migration."""
+    valid = {"open", "closed", "unverified"}
+    checks = result.get("checks", [])
+    if historical and result.get("validator_version", 0) < 4:
+        return "unverified", "unverified"
+    def status(field, kind):
+        value = result.get(field)
+        if value not in valid:
+            matching = [c.get("status") for c in checks if c.get("kind") == kind]
+            value = matching[-1] if matching else (result.get("status") if not any(c.get("kind") for c in checks) else "unverified")
+        return value if value in valid else "unverified"
+    return status("posting_status", "description"), status("application_status", "application")
+
+
 def url_identity(url):
     """Only exact job URLs/ATS requisitions; never merge by title or company."""
     try:
@@ -72,7 +87,9 @@ CREATE TABLE IF NOT EXISTS jobs(id TEXT PRIMARY KEY,employer TEXT NOT NULL,title
  original_url TEXT,application_url TEXT,final_url TEXT,final_application_url TEXT,
  status TEXT NOT NULL DEFAULT 'unverified',classification TEXT NOT NULL,
  evidence TEXT NOT NULL,payload TEXT NOT NULL,first_seen TEXT NOT NULL,last_seen TEXT NOT NULL,
- last_checked TEXT,next_check TEXT,baseline INTEGER NOT NULL DEFAULT 0);
+ last_checked TEXT,next_check TEXT,baseline INTEGER NOT NULL DEFAULT 0,
+ posting_status TEXT NOT NULL DEFAULT 'unverified',application_status TEXT NOT NULL DEFAULT 'unverified',
+ first_qualifying_at TEXT,notification_decided_at TEXT);
 CREATE TABLE IF NOT EXISTS identities(identity TEXT PRIMARY KEY,job_id TEXT NOT NULL REFERENCES jobs(id));
 CREATE TABLE IF NOT EXISTS source_records(source TEXT NOT NULL,source_id TEXT NOT NULL,
  job_id TEXT NOT NULL REFERENCES jobs(id),first_seen TEXT NOT NULL,last_seen TEXT NOT NULL,
@@ -87,7 +104,9 @@ CREATE TABLE IF NOT EXISTS source_state(source TEXT PRIMARY KEY,initialized INTE
 CREATE TABLE IF NOT EXISTS outbox(id INTEGER PRIMARY KEY,dedupe_key TEXT UNIQUE NOT NULL,
  kind TEXT NOT NULL,payload TEXT NOT NULL,created_at TEXT NOT NULL,
  status TEXT NOT NULL DEFAULT 'pending',attempts INTEGER NOT NULL DEFAULT 0,
- next_attempt TEXT NOT NULL,last_error TEXT,delivered_at TEXT);
+ next_attempt TEXT NOT NULL,last_error TEXT,delivered_at TEXT,receipt_id TEXT);
+CREATE TABLE IF NOT EXISTS digest_jobs(outbox_id INTEGER NOT NULL REFERENCES outbox(id),
+ job_id TEXT NOT NULL REFERENCES jobs(id),PRIMARY KEY(outbox_id,job_id),UNIQUE(job_id));
 CREATE TABLE IF NOT EXISTS incidents(key TEXT PRIMARY KEY,generation INTEGER NOT NULL DEFAULT 1,
  active INTEGER NOT NULL DEFAULT 1,opened_at TEXT NOT NULL,resolved_at TEXT,detail TEXT);
 CREATE TABLE IF NOT EXISTS legacy_seen(source_id TEXT PRIMARY KEY,imported_at TEXT NOT NULL);
@@ -95,6 +114,7 @@ CREATE INDEX IF NOT EXISTS outbox_due ON outbox(status,next_attempt);
 CREATE INDEX IF NOT EXISTS jobs_due ON jobs(next_check);
 CREATE INDEX IF NOT EXISTS observations_job ON observations(job_id,observed_at);
 CREATE INDEX IF NOT EXISTS observations_source ON observations(job_id,source,id);
+CREATE INDEX IF NOT EXISTS link_checks_job ON link_checks(job_id,id);
 """
 
 
@@ -108,10 +128,31 @@ class Store:
         self.db.execute("PRAGMA synchronous=FULL")
         self.db.execute("PRAGMA foreign_keys=ON")
         version = self.db.execute("PRAGMA user_version").fetchone()[0]
-        if version not in (0, 1):
+        if version not in (0, 1, 2):
             raise RuntimeError(f"Unsupported database schema {version}")
         self.db.executescript(SCHEMA)
-        self.db.execute("PRAGMA user_version=1")
+        columns = {r[1] for r in self.db.execute("PRAGMA table_info(jobs)")}
+        for name, declaration in {
+            "posting_status": "TEXT NOT NULL DEFAULT 'unverified'",
+            "application_status": "TEXT NOT NULL DEFAULT 'unverified'",
+            "first_qualifying_at": "TEXT", "notification_decided_at": "TEXT",
+        }.items():
+            if name not in columns:
+                self.db.execute(f"ALTER TABLE jobs ADD COLUMN {name} {declaration}")
+        if "receipt_id" not in {r[1] for r in self.db.execute("PRAGMA table_info(outbox)")}:
+            self.db.execute("ALTER TABLE outbox ADD COLUMN receipt_id TEXT")
+        if version < 2:
+            for row in self.db.execute("SELECT j.id,c.result FROM jobs j JOIN link_checks c ON "
+                                       "c.id=(SELECT MAX(id) FROM link_checks WHERE job_id=j.id) "
+                                       "WHERE j.last_checked=c.checked_at").fetchall():
+                posting, application = split_statuses(json.loads(row["result"]), historical=True)
+                self.db.execute("UPDATE jobs SET posting_status=?,application_status=? WHERE id=?",
+                                (posting, application, row["id"]))
+                if json.loads(row["result"]).get("validator_version", 0) < 4:
+                    self.db.execute("UPDATE jobs SET next_check=NULL WHERE id=?", (row["id"],))
+            # Old data has no recorded first qualification/decision timestamp.
+            # Do not manufacture latency measurements from first_seen.
+        self.db.execute("PRAGMA user_version=2")
         self.db.commit()
 
     def close(self):
@@ -237,8 +278,10 @@ class Store:
                     same_destination(old["application_url"], job.get("application_url"))):
                 # Previous validation belongs to the previous destinations.
                 # Preserve its historical evidence, but require a new check.
-                self.db.execute("UPDATE jobs SET status='unverified',final_url=NULL,final_application_url=NULL,"
+                self.db.execute("UPDATE jobs SET status='unverified',posting_status='unverified',application_status='unverified',final_url=NULL,final_application_url=NULL,"
                                 "last_checked=NULL,next_check=NULL WHERE id=?", (jid,))
+        if decision == "include":
+            self.db.execute("UPDATE jobs SET first_qualifying_at=COALESCE(first_qualifying_at,?) WHERE id=?", (stamp, jid))
         for key in keys:
             self.db.execute("INSERT OR IGNORE INTO identities VALUES(?,?)", (key, jid))
         self.db.execute("INSERT INTO source_records VALUES(?,?,?,?,?,?) ON CONFLICT(source,source_id) DO UPDATE SET "
@@ -258,9 +301,11 @@ class Store:
     def record_check(self, jid, result, next_check):
         checked_at = result.get("checked_at") or now()
         self.db.execute("INSERT INTO link_checks(job_id,checked_at,result) VALUES(?,?,?)", (jid, checked_at, dump(result)))
-        self.db.execute("UPDATE jobs SET status=?,last_checked=?,next_check=?,final_url=?,final_application_url=? WHERE id=?",
+        posting, application = split_statuses(result)
+        self.db.execute("UPDATE jobs SET status=?,last_checked=?,next_check=?,final_url=?,final_application_url=?,"
+                        "posting_status=?,application_status=? WHERE id=?",
                         (result["status"], checked_at, next_check, result.get("final_description_url"),
-                         result.get("final_application_url"), jid))
+                         result.get("final_application_url"), posting, application, jid))
 
     def queue(self, key, kind, payload):
         self.db.execute("INSERT INTO outbox(dedupe_key,kind,payload,created_at,next_attempt) VALUES(?,?,?,?,?) "
@@ -272,6 +317,11 @@ class Store:
         previous = self.db.execute("SELECT * FROM incidents WHERE key=?", (key,)).fetchone()
         if not active:
             if previous:
+                delivered = self.db.execute("SELECT 1 FROM outbox WHERE dedupe_key=? AND status='delivered'",
+                    (f"incident:{key}:{previous['generation']}",)).fetchone()
+                if previous["active"] and delivered:
+                    self.queue(f"recovery:{key}:{previous['generation']}", "incident",
+                               {"title": "Internship watcher recovered", "body": f"Resolved incident: {key}. The latest check passed."})
                 self.db.execute("UPDATE outbox SET status='cancelled',last_error='Incident recovered before delivery' "
                                 "WHERE status='pending' AND dedupe_key=?", (f"incident:{key}:{previous['generation']}",))
             self.db.execute("UPDATE incidents SET active=0,resolved_at=? WHERE key=? AND active=1", (now(), key))
@@ -280,6 +330,9 @@ class Store:
         if previous and previous["active"]:
             self.db.execute("UPDATE incidents SET detail=? WHERE key=?", (detail, key))
             return
+        if previous:
+            self.db.execute("UPDATE outbox SET status='cancelled',last_error='Incident recurred before recovery delivery' "
+                            "WHERE status='pending' AND dedupe_key=?", (f"recovery:{key}:{previous['generation']}",))
         self.db.execute("INSERT INTO incidents VALUES(?,?,1,?,NULL,?) ON CONFLICT(key) DO UPDATE SET "
                         "generation=excluded.generation,active=1,opened_at=excluded.opened_at,resolved_at=NULL,detail=excluded.detail",
                         (key, generation, now(), detail))

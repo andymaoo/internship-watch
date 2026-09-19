@@ -117,7 +117,7 @@ class PipelineTests(unittest.TestCase):
         self.run_jobs([job(), job("222222"), job("333333")])
         store = Store(self.path)
         with store.transaction():
-            store.db.execute("UPDATE jobs SET status='unverified' WHERE title IS NOT NULL AND original_url LIKE '%222222'")
+            store.db.execute("UPDATE jobs SET status='unverified',posting_status='unverified' WHERE title IS NOT NULL AND original_url LIKE '%222222'")
             store.db.execute("UPDATE outbox SET next_attempt='2000-01-01'")
         self.sender.reset_mock(); self.sender.send.side_effect = None
         delivered = deliver_pending(store, self.sender, limit=1)
@@ -152,7 +152,8 @@ class PipelineTests(unittest.TestCase):
         self.run_jobs([job()])
         for _ in range(2):
             run_once(self.config, collector=fail, client=Mock(), sender=self.sender)
-        self.assertEqual(len(self.rows("SELECT * FROM outbox WHERE kind='incident'")), 2)
+        self.assertEqual(len(self.rows("SELECT * FROM outbox WHERE kind='incident' AND dedupe_key LIKE 'incident:source:%'")), 2)
+        self.assertEqual(len(self.rows("SELECT * FROM outbox WHERE kind='incident' AND dedupe_key LIKE 'recovery:%'")), 1)
 
     def test_incident_recovery_cancels_unsent_alarm(self):
         store = Store(self.path)
@@ -168,6 +169,28 @@ class PipelineTests(unittest.TestCase):
         store.close()
         self.sender.send.assert_not_called()
         self.assertEqual(self.rows("SELECT status FROM outbox")[0]["status"], "cancelled")
+
+    def test_reopened_incident_cancels_failed_recovery_before_delivery(self):
+        store = Store(self.path)
+        with store.transaction():
+            store.incident("source:one", True, "one failed")
+        deliver_pending(store, self.sender)
+        with store.transaction():
+            store.incident("source:one", False, "Old failure wording should not be reused")
+        self.sender.send.side_effect = RuntimeError("recovery transport failed")
+        deliver_pending(store, self.sender)
+        recovery = store.rows("SELECT * FROM outbox WHERE dedupe_key='recovery:source:one:1'")[0]
+        self.assertIn("source:one", json.loads(recovery["payload"])["body"])
+        self.assertNotIn("Old failure wording", json.loads(recovery["payload"])["body"])
+        with store.transaction():
+            store.incident("source:one", True, "one failed again")
+            store.db.execute("UPDATE outbox SET next_attempt='2000-01-01'")
+        self.sender.reset_mock(); self.sender.send.side_effect = None
+        deliver_pending(store, self.sender)
+        self.sender.send.assert_called_once()
+        self.assertEqual(self.sender.send.call_args.args[0]["body"], "one failed again")
+        self.assertEqual(store.rows("SELECT status FROM outbox WHERE dedupe_key='recovery:source:one:1'")[0]["status"], "cancelled")
+        store.close()
 
     def test_source_first_success_after_initial_failure_is_silent(self):
         self.config["sources"].append({"id": "two"})
@@ -202,7 +225,7 @@ class PipelineTests(unittest.TestCase):
         self.run_jobs([job(), job("222222")])
         store = Store(self.path)
         with store.transaction():
-            store.db.execute("UPDATE jobs SET status='closed' WHERE baseline=0")
+            store.db.execute("UPDATE jobs SET status='closed',posting_status='closed' WHERE baseline=0")
             store.db.execute("UPDATE outbox SET next_attempt='2000-01-01'")
         self.sender.reset_mock(); self.sender.send.side_effect = None
         deliver_pending(store, self.sender)

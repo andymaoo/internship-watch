@@ -2,17 +2,19 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from html import unescape
 from html.parser import HTMLParser
 import ipaddress
 import json
 import re
-from urllib.parse import parse_qs, unquote, urljoin, urlsplit
+import time
+from urllib.parse import parse_qs, quote, unquote, urljoin, urlsplit
 
 import requests
 
 from .classify import plain
 
-VALIDATOR_VERSION = 4
+VALIDATOR_VERSION = 5
 
 
 class Page(HTMLParser):
@@ -123,6 +125,36 @@ def normalized(value):
     return re.sub(r"[^a-z0-9]+", " ", plain(value).lower()).strip()
 
 
+def title_compatible(expected, actual, *, same_identifier=False):
+    """Allow word variants/additions only after independently binding the job ID."""
+    expected, actual = normalized(expected), normalized(actual)
+    if expected and expected in actual:
+        return True
+    if not same_identifier:
+        return False
+    aliases = {'engineering':'engineer', 'internship':'intern', 'internships':'intern', 'interns':'intern'}
+    wanted = [aliases.get(word,word) for word in expected.split()]
+    observed = [aliases.get(word,word) for word in actual.split()]
+    if len(wanted) < 3:
+        return False
+    # Ordered token subsequence is deliberately narrower than fuzzy matching.
+    iterator = iter(observed)
+    return all(any(word == candidate for candidate in iterator) for word in wanted)
+
+
+def employer_compatible(expected, actual, url):
+    expected, actual = normalized(expected), normalized(actual)
+    if not actual or not expected or expected in actual or actual in expected:
+        return True
+    host = urlsplit(url).hostname or ''
+    brand = expected.split()[0]
+    # Workday uses legal subsidiaries in schema. Require the distinctive employer
+    # brand in both the legal name AND the independently bound tenant hostname.
+    return bool(len(brand) >= 3 and brand not in {'the','bank','united','general','global'}
+                and host.endswith('.myworkdayjobs.com') and host.split('.')[0] == brand
+                and brand in actual.split())
+
+
 def valid_url(url):
     if not isinstance(url, str) or re.search(r"[\x00-\x20\x7f]", url):
         return False
@@ -173,7 +205,7 @@ def generic_url(url):
 def meaningful_description(text):
     text = plain(text)
     return len(text) >= 120 and len(text.split()) >= 18 and bool(re.search(
-        r"\b(?:responsibilit|qualification|requirements?|you will|you'll|your (?:role|work|duties)|about (?:the )?(?:role|job)|(?:the|this) (?:role|position|internship)|as an? (?:\w+\s+){0,5}intern|duties)\w*\b", text, re.I))
+        r"\b(?:responsibilit|qualification|requirements?|you will|you'll|your (?:role|work|duties)|about (?:the )?(?:role|job)|(?:the|this) (?:role|position|internship)|role details|interns will (?:work|contribute|develop)|as an? (?:\w+\s+){0,5}intern|duties)\w*\b", text, re.I))
 
 
 EXPIRED = re.compile(r"\b(?:this (?:job|position|role|posting|vacancy) (?:is |has been |was )?(?:no longer available|no longer accepting|closed|filled|removed|expired)|(?:job|position|posting) (?:has )?expired|no longer accepting applications|the job you (?:are looking for|requested) (?:is no longer|could not be)|job not found|position not found)\b", re.I)
@@ -200,6 +232,16 @@ def _check(job, url, kind, client, cache):
         response = getattr(exc, "response", None)
         if response is None:
             check["evidence"].append("access_failure:" + type(exc).__name__)
+            if isinstance(exc, ValueError):
+                check['failure_detail'] = str(exc)[:200]
+            if type(exc).__name__ == 'AccessRestricted':
+                if 'cooling down' in str(exc):
+                    check['evidence'].append('host_cooldown_active')
+                else:
+                    parsed=urlsplit(url)
+                    policy=getattr(client,'_robots',{}).get(parsed.scheme+'://'+parsed.netloc)
+                    if policy:
+                        check['evidence'].append('robots_policy_unavailable_or_denied_http' if policy[1] is False else 'robots_disallowed')
             return check
     check["http_status"] = response.status_code
     check["final_url"] = response.url or url
@@ -234,7 +276,7 @@ def _check(job, url, kind, client, cache):
     if BLOCKED.search(text):
         check["evidence"].append("access_challenge")
         return check
-    if LOGIN.search(text):
+    if LOGIN.search(text) or (kind == 'application' and re.search(r'/(?:login|sign-in|signin)(?:/|$)',urlsplit(check['final_url']).path,re.I)):
         check["evidence"].append("login_required")
         return check
     expired = EXPIRED.search(text)
@@ -244,20 +286,20 @@ def _check(job, url, kind, client, cache):
     postings = list(page.postings())
     expected = normalized(job.get("title"))
     employer = normalized(job.get("employer") or job.get("company"))
-    title_match = bool(expected and expected in normalized(" ".join(page.headings)))
-    body_title_match = bool(expected and expected in normalized(text))
-    employer_match = bool(employer and employer in normalized(text))
     expected_ids = url_ids(url)
     destination_ids = url_ids(check["final_url"])
     same_id = bool(expected_ids.intersection(destination_ids))
+    title_match = any(title_compatible(expected,heading,same_identifier=same_id) for heading in page.headings)
+    body_title_match = bool(expected and expected in normalized(text))
+    employer_match = bool(employer and employer in normalized(text))
     description = ""
     structured_match = None
     for posting in postings:
         candidate_title = normalized(posting.get("title"))
-        if expected and (candidate_title == expected or expected in candidate_title):
+        if title_compatible(expected,candidate_title,same_identifier=same_id):
             organization = posting.get("hiringOrganization", {})
             org_name = normalized(organization.get("name")) if isinstance(organization, dict) else normalized(organization)
-            if org_name and employer and employer not in org_name and org_name not in employer:
+            if not employer_compatible(employer,org_name,check['final_url']):
                 continue
             structured_match = posting
             description = plain(posting.get("description"))
@@ -289,6 +331,8 @@ def _check(job, url, kind, client, cache):
     identity = bool(structured_match or (title_match and (same_id or employer_match)) or (body_title_match and same_id and employer_match))
     if not identity:
         check["evidence"].append("expected_job_identity_not_verified")
+        if not plain(' '.join(page.content)) and '<script' in response.text.lower():
+            check['evidence'].append('javascript_shell_or_client_rendered_content')
         return check
     check["evidence"].append("expected_job_identity_verified")
     if not description:
@@ -306,6 +350,109 @@ def _check(job, url, kind, client, cache):
         check["evidence"].append("meaningful_description_present")
     else:
         check["evidence"].append("missing_meaningful_description_or_application")
+        if len(description)<120 and '<script' in response.text.lower():
+            check['evidence'].append('javascript_shell_or_client_rendered_content')
+    return check
+
+
+def provider_spec(url, job=None):
+    """Recognize documented public ATS namespaces; never guess an employer slug."""
+    if not valid_url(url):
+        return None
+    parsed=urlsplit(url); host=parsed.hostname.lower(); parts=parsed.path.strip('/').split('/')
+    if host in {'jobs.lever.co','jobs.eu.lever.co','jobs.ashbyhq.com'} and len(parts)>=2:
+        board,identity=parts[:2]
+        if board not in {'.','..'} and re.fullmatch(r'[A-Za-z0-9_.-]+',board) and re.fullmatch(r'[0-9a-fA-F]{8}-(?:[0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}',identity):
+            provider='ashby' if host=='jobs.ashbyhq.com' else 'lever'
+            api=(f'https://api.ashbyhq.com/posting-api/job-board/{quote(board,safe="")}' if provider=='ashby'
+                 else f'https://{"api.eu.lever.co" if host=="jobs.eu.lever.co" else "api.lever.co"}/v0/postings/{quote(board,safe="")}/{identity}')
+            return {'provider':provider,'board':board,'id':identity,'canonical':f'https://{host}/{board}/{identity}','api':api}
+    board=identity=None
+    if host in {'job-boards.greenhouse.io','boards.greenhouse.io'}:
+        if len(parts)>=3 and parts[1]=='jobs' and parts[2].isdigit():
+            board,identity=parts[0],parts[2]
+        elif parts==['embed','job_app']:
+            query=parse_qs(parsed.query);board=(query.get('for') or [None])[0];identity=(query.get('token') or [None])[0]
+    elif job and job.get('evidence',{}).get('provider')=='greenhouse':
+        match=re.fullmatch(r'gh-(.+)-(\d+)',str(job.get('source_id','')))
+        if match and match.group(2) in url_ids(url):
+            board,identity=match.groups()
+    if board and identity and board not in {'.','..'} and re.fullmatch(r'[A-Za-z0-9_.-]+',board) and identity.isdigit():
+        return {'provider':'greenhouse','board':board,'id':identity,
+                'canonical':f'https://job-boards.greenhouse.io/{board}/jobs/{identity}',
+                'api':f'https://boards-api.greenhouse.io/v1/boards/{quote(board,safe="")}/jobs/{identity}'}
+    return None
+
+
+def _api_posting(job, spec, client):
+    """Fresh documented ATS data can prove a posting, never application access."""
+    check={'kind':'posting_api','requested_url':spec['api'],'final_url':None,'status':'unverified','evidence':[]}
+    try:
+        cached=getattr(client,'_posting_api_cache',None)
+        if cached is None:
+            cached={};setattr(client,'_posting_api_cache',cached)
+        entry=cached.get(spec['api'])
+        if not entry or time.monotonic()-entry[0]>=300:
+            response=client.get(spec['api'],allow_redirects=True,respect_robots=False,raise_for_status=False)
+            entry=(time.monotonic(),response,datetime.now(timezone.utc).isoformat())
+            cached[spec['api']]=entry
+        _,response,fetched_at=entry
+        check.update(http_status=response.status_code,final_url=response.url,fetched_at=fetched_at)
+        if response.status_code!=200:
+            check['evidence'].append('public_api_unavailable:'+str(response.status_code));return check
+        if urlsplit(response.url or spec['api']).netloc != urlsplit(spec['api']).netloc:
+            check['evidence'].append('public_api_unexpected_redirect');return check
+        data=response.json()
+    except (requests.RequestException,OSError,ValueError,TimeoutError) as exc:
+        check['evidence'].append('public_api_failure:'+type(exc).__name__);return check
+    if not isinstance(data,dict):
+        check['evidence'].append('public_api_invalid_schema');return check
+    if spec['provider']=='ashby':
+        items=data.get('jobs')
+        if not isinstance(items,list) or any(data.get(k) for k in ('next','nextPage','hasMore','nextCursor')) or data.get('apiVersion','1')!='1':
+            check['evidence'].append('public_api_invalid_or_incomplete_schema');return check
+        items=[item for item in items if isinstance(item,dict) and provider_spec(item.get('jobUrl')) and
+               provider_spec(item['jobUrl'])['board']==spec['board'] and provider_spec(item['jobUrl'])['id']==spec['id']]
+        if len(items)!=1:
+            check['evidence'].append('exact_job_absent_from_public_api');return check
+        item=items[0];title=item.get('title');posting_url=item.get('jobUrl');application=item.get('applyUrl')
+        description=plain(item.get('descriptionHtml') or item.get('descriptionPlain'))
+    elif spec['provider']=='lever':
+        item=data;title=item.get('text');posting_url=item.get('hostedUrl');application=item.get('applyUrl')
+        description=plain((item.get('descriptionPlain') or item.get('description') or '')+' '+
+                          ' '.join(str(part.get('text',''))+' '+str(part.get('content','')) for part in item.get('lists',[]) if isinstance(part,dict))+' '+
+                          (item.get('additionalPlain') or item.get('additional') or ''))
+    else:
+        item=data;title=item.get('title');posting_url=item.get('absolute_url');application=posting_url
+        description=plain(unescape(str(item.get('content') or '')))
+        if not employer_compatible(job.get('employer'),item.get('company_name'),posting_url or spec['canonical']):
+            check['evidence'].append('public_api_employer_mismatch');return check
+    if spec['provider']!='ashby' and str(item.get('id'))!=spec['id']:
+        check['evidence'].append('public_api_identifier_mismatch');return check
+    returned=provider_spec(posting_url)
+    if not valid_url(posting_url) or not url_ids(posting_url).intersection({normalized(spec['id'])}) or (returned and (returned['provider'],returned['board'],returned['id'])!=(spec['provider'],spec['board'],spec['id'])):
+        check['evidence'].append('public_api_canonical_url_mismatch');return check
+    if spec['provider']!='greenhouse' and not returned:
+        check['evidence'].append('public_api_canonical_url_mismatch');return check
+    employment=[item.get('employmentType'),(item.get('categories') or {}).get('commitment')]
+    employment += [field.get('value') for field in item.get('metadata') or [] if isinstance(field,dict) and
+                   re.search(r'employment|commitment|job.?type',str(field.get('name','')),re.I)]
+    api_internship=bool(re.search(r'\b(?:intern(?:ship)?|co[ -]?op)\b',plain(employment),re.I))
+    wanted_role=re.sub(r'\bintern(?:ship)?s?\b','',normalized(job.get('title'))).strip()
+    title_verified=title_compatible(job.get('title'),title,same_identifier=True)
+    if not title_verified and api_internship and len(wanted_role.split())>=2:
+        title_verified=title_compatible(wanted_role,title,same_identifier=True)
+    if not title_verified:
+        check['evidence'].append('public_api_title_mismatch');return check
+    if not meaningful_description(description):
+        check['evidence'].append('public_api_description_insufficient');return check
+    check.update(status='open',posting_url=posting_url,description=description[:50_000],title=title,
+                 evidence=['fresh_documented_public_posting_api','exact_board_job_identifier_and_title_verified','meaningful_description_present'])
+    if api_internship:
+        check['evidence'].append('fresh_api_structured_internship_employment')
+        check['employment_type_evidence']=employment
+    if valid_url(application) and url_ids(application).intersection({normalized(spec['id'])}):
+        check['application_url']=application
     return check
 
 
@@ -318,13 +465,28 @@ def validate_job(job: dict, client) -> dict:
     description_url = job.get("description_url") or job.get("url")
     application_url = job.get("application_url") or description_url
     cache = {}
-    checks = [_check(job, description_url, "description", client, cache)]
+    spec=provider_spec(description_url,job)
+    posting_url=description_url
+    if spec and (urlsplit(description_url).path.rstrip('/').endswith(('/apply','/application','/embed/job_app'))):
+        posting_url=spec['canonical']
+    posting_check=_check(job,posting_url,'description',client,cache)
+    if posting_url!=description_url:
+        posting_check['evidence'].append('recognized_ats_application_url_replaced_for_description')
+    checks=[posting_check]
+    api_check=None
+    if posting_check['status']=='unverified' and spec:
+        api_check=_api_posting(job,spec,client)
+        checks.append(api_check)
+        if api_check['status']=='open':
+            posting_check=api_check
     visited = set()
-    current = application_url
+    current = (api_check.get('application_url') if api_check and api_check['status']=='open' else None) or application_url
     for _ in range(4):
         visited.add(current)
         application_check = _check(job, current, "application", client, cache)
         checks.append(application_check)
+        if current!=application_url and api_check and current==api_check.get('application_url'):
+            application_check['evidence'].append('application_destination_from_public_posting_api')
         if application_check["status"] in {"open", "closed"}:
             break
         if "expected_job_identity_verified" not in application_check["evidence"]:
@@ -339,13 +501,14 @@ def validate_job(job: dict, client) -> dict:
             break
         application_check["evidence"].append("followed_job_page_apply_link")
         current = target
-    statuses = [checks[0]["status"], checks[-1]["status"]]
+    statuses = [posting_check['status'], checks[-1]["status"]]
     status = "closed" if "closed" in statuses else "open" if all(s == "open" for s in statuses) else "unverified"
-    result = {"status": status, "description_url": description_url,
+    result = {"status": status, "posting_status":statuses[0],"application_status":statuses[1],
+              "description_url": description_url,
               "application_url": application_url,
-              "final_description_url": checks[0]["final_url"],
+              "final_description_url": posting_check.get('posting_url') or posting_check["final_url"],
               "final_application_url": checks[-1]["final_url"],
               "checked_at": datetime.now(timezone.utc).isoformat(), "validator_version": VALIDATOR_VERSION, "checks": checks}
-    if checks[0].get("description") and checks[0]["status"] == "open":
-        result["description"] = checks[0]["description"]
+    if posting_check.get("description") and posting_check["status"] == "open":
+        result["description"] = posting_check["description"]
     return result

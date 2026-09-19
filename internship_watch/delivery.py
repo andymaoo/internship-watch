@@ -3,6 +3,7 @@ import json
 import os
 import hashlib
 import time
+from collections import Counter
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 from urllib.parse import urlsplit
@@ -123,6 +124,76 @@ class Ntfy:
             raise RuntimeError(f"Notification transport failed ({type(exc).__name__})") from None
 
 
+
+def job_message(row):
+    """Posting evidence is independent from application access."""
+    row = dict(row)
+    application = row.get("application_status", "unverified")
+    url = row.get("final_application_url") or row.get("application_url") or row["original_url"]
+    label = ("Posting verified; application verified." if application == "open" else
+             "Posting verified; application access UNVERIFIED. Check the application destination manually.")
+    return {"title": "New internship", "body": f"{row['employer']} — {row['title']}\n{row['location']}\n{label}\n{url}", "url": url}
+
+
+def digest_message(store, row):
+    """Refresh queued digests so a delayed delivery never recommends excluded jobs."""
+    payload = json.loads(row["payload"])
+    kind = payload.get("digest_type")
+    if kind not in ("initial", "awaiting"):
+        return payload  # Operational/testing digests retain their original body.
+    if kind == "initial":
+        jobs = store.rows("SELECT * FROM jobs WHERE baseline=1 AND classification='include' ORDER BY employer,title")
+        posting_open = sum(j["posting_status"] == "open" for j in jobs)
+        closed = sum(j["posting_status"] == "closed" for j in jobs)
+        app_unverified = sum(j["posting_status"] == "open" and j["application_status"] == "unverified" for j in jobs)
+        lines = [f"Initial backlog: {len(jobs)} matching records. {posting_open} postings verified open; "
+                 f"{closed} postings closed; {len(jobs)-posting_open-closed} postings unverified. "
+                 f"{app_unverified} open postings have unverified application access."]
+        category_labels = {"software_engineering": "Software engineering", "data_analysis": "Data analysis",
+                           "data_engineering": "Data engineering", "data_science": "Data science",
+                           "ml_ai": "ML/AI", "quantitative": "Quant", "product_management": "Product management"}
+        categories = Counter(j["category"] or "other" for j in jobs)
+        if categories:
+            lines.append("Categories: " + "; ".join(f"{category_labels.get(category, category)} {count}"
+                         for category, count in sorted(categories.items())))
+        shown = sorted((j for j in jobs if j["posting_status"] != "closed"),
+                       key=lambda j: (j["posting_status"] != "open", j["application_status"] != "open",
+                                      j["application_status"] == "closed", j["employer"], j["title"]))
+        title = "Initial internship backlog — one grouped report"
+    else:
+        jobs = store.rows("SELECT j.* FROM digest_jobs d JOIN jobs j ON j.id=d.job_id WHERE d.outbox_id=? "
+                          "AND j.baseline=0 AND j.classification='include' AND j.posting_status!='closed' "
+                          "AND (j.posting_status!='open' OR j.application_status='closed') "
+                          "AND NOT EXISTS (SELECT 1 FROM outbox o WHERE o.dedupe_key='new:'||j.id AND o.status='delivered') "
+                          "ORDER BY j.first_seen,j.employer,j.title", (row["id"],))
+        keep = {j["id"] for j in jobs}
+        with store.transaction():
+            for member in store.rows("SELECT job_id FROM digest_jobs WHERE outbox_id=?", (row["id"],)):
+                if member["job_id"] not in keep:
+                    store.db.execute("DELETE FROM digest_jobs WHERE outbox_id=? AND job_id=?", (row["id"], member["job_id"]))
+        if not jobs:
+            return None
+        lines = [f"{len(jobs)} newly discovered matches await verification. These are NOT confirmed available internships. "
+                 "Posting access may be blocked, a check may be pending, or the application destination may be closed."]
+        shown = jobs
+        title = "Unverified internship digest — needs review"
+    # One grouped message, with the complete membership preserved in SQLite.
+    # Bound text before delivery rather than relying on provider truncation.
+    listed = 0
+    for job in shown:
+        link = job["final_url"] or job["original_url"] or job["application_url"]
+        line = (f"{job['employer']}: {job['title']}\n"
+                f"Posting: {job['posting_status']}; application: {job['application_status']}\n{link}")
+        if len("\n\n".join(lines)) + len(line) > 1550:
+            break
+        lines.append(line)
+        listed += 1
+    if len(shown) > listed:
+        lines.append(f"{len(shown)-listed} more matches are included in this grouped report.")
+    lines.append("Browse the private jobs export for the full list and link evidence. A later verified new posting can still send its own alert.")
+    return dict(payload, title=title, body="\n\n".join(lines))
+
+
 def deliver_pending(store, sender, limit=100, retry_base_seconds=60):
     result = {"delivered": 0, "failed": 0, "unconfigured": 0}
     cooldown = store.db.execute("SELECT value FROM meta WHERE key='delivery_cooldown'").fetchone()
@@ -130,30 +201,35 @@ def deliver_pending(store, sender, limit=100, retry_base_seconds=60):
         result["cooldown_until"] = cooldown["value"]
         return result
     with store.transaction():
-        store.db.execute("UPDATE outbox SET status='cancelled',last_error='Job closed or no longer eligible' "
+        store.db.execute("UPDATE outbox SET status='cancelled',last_error='Posting closed or no longer eligible' "
                          "WHERE status='pending' AND kind='job' AND dedupe_key LIKE 'new:%' AND EXISTS "
-                         "(SELECT 1 FROM jobs j WHERE j.id=substr(outbox.dedupe_key,5) AND (j.classification='exclude' OR j.status='closed'))")
+                         "(SELECT 1 FROM jobs j WHERE j.id=substr(outbox.dedupe_key,5) "
+                         "AND (j.classification='exclude' OR j.posting_status='closed'))")
     due = store.rows("SELECT o.* FROM outbox o LEFT JOIN jobs j ON j.id=substr(o.dedupe_key,5) "
                      "WHERE o.status='pending' AND o.next_attempt<=? AND (o.kind!='job' OR "
-                     "(j.classification='include' AND j.status='open')) ORDER BY "
+                     "(j.classification='include' AND j.posting_status='open' AND j.application_status!='closed')) ORDER BY "
                      "CASE WHEN o.kind='incident' THEN 0 ELSE 1 END,o.id LIMIT ?", (now(), limit))
     for row in due:
         if row["kind"] == "job" and row["dedupe_key"].startswith("new:"):
-            job_id = row["dedupe_key"][4:]
-            job = store.db.execute("SELECT * FROM jobs WHERE id=?", (job_id,)).fetchone()
-            if not job or job["classification"] == "exclude" or job["status"] == "closed":
+            job = store.db.execute("SELECT * FROM jobs WHERE id=?", (row["dedupe_key"][4:],)).fetchone()
+            if not job or job["classification"] == "exclude" or job["posting_status"] == "closed":
                 with store.transaction():
-                    store.db.execute("UPDATE outbox SET status='cancelled',last_error='Job closed or no longer eligible' WHERE id=?", (row["id"],))
+                    store.db.execute("UPDATE outbox SET status='cancelled',last_error='Posting closed or no longer eligible' WHERE id=?", (row["id"],))
                 continue
-            if job["classification"] != "include" or job["status"] != "open":
-                continue  # Hold until its destination and eligibility are verified again.
+            if job["classification"] != "include" or job["posting_status"] != "open" or job["application_status"] == "closed":
+                continue
         try:
             payload = json.loads(row["payload"])
             if row["kind"] == "job" and row["dedupe_key"].startswith("new:"):
-                payload["url"] = job["final_application_url"] or job["application_url"]
-                payload["body"] = f"{job['employer']} — {job['title']}\n{job['location']}\n{payload['url']}"
+                payload = dict(payload, **job_message(job))
+            elif row["kind"] == "digest":
+                payload = digest_message(store, row)
+                if payload is None:
+                    with store.transaction():
+                        store.db.execute("UPDATE outbox SET status='cancelled',last_error='No remaining unverified eligible members' WHERE id=?", (row["id"],))
+                    continue
             payload["_delivery_key"] = row["dedupe_key"]
-            sender.send(payload, operational=row["kind"] == "incident")
+            receipt = sender.send(payload, operational=row["kind"] == "incident")
         except Exception as exc:
             attempts = row["attempts"] + 1
             delay = min(86400, retry_base_seconds * (2 ** min(attempts - 1, 10)))
@@ -167,11 +243,11 @@ def deliver_pending(store, sender, limit=100, retry_base_seconds=60):
                     store.db.execute("INSERT OR REPLACE INTO meta(key,value) VALUES('delivery_cooldown',?)", (due_at,))
             result["unconfigured" if isinstance(exc, NotConfigured) else "failed"] += 1
             if isinstance(exc, RetryLater):
-                break  # Respect a provider-wide cooldown, not only this message.
+                break
         else:
             with store.transaction():
-                store.db.execute("UPDATE outbox SET status='delivered',attempts=attempts+1,delivered_at=?,last_error=NULL WHERE id=?",
-                                 (now(), row["id"]))
+                store.db.execute("UPDATE outbox SET status='delivered',attempts=attempts+1,delivered_at=?,last_error=NULL,payload=?,receipt_id=? WHERE id=?",
+                                 (now(), json.dumps(payload, ensure_ascii=False), str(receipt) if receipt is not None else None, row["id"]))
             result["delivered"] += 1
     return result
 

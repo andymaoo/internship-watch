@@ -489,12 +489,15 @@
     }
   ],
   "poll_seconds": 300,
-  "initial_run": "silent",
+  "initial_run": "digest",
   "failure_threshold": 3,
   "validation_budget": 100,
   "link_recheck_seconds": 86400,
   "unverified_recheck_seconds": 3600,
   "closed_recheck_seconds": 604800,
   "delivery_budget": 50,
-  "validation_seconds": 60
+  "validation_seconds": 60,
+  "awaiting_digest_seconds": 900,
+  "export_directory": "data/export",
+  "blocked_recheck_seconds": 21600
 }

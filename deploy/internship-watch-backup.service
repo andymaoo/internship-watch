@@ -1,0 +1,23 @@
+[Unit]
+Description=Encrypted off-host internship database backup and restore verification
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=internship-watch
+Group=internship-watch
+WorkingDirectory=/opt/internship-watch
+EnvironmentFile=/etc/internship-watch-backup.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=GOMAXPROCS=2
+ExecStart=/opt/internship-watch/.venv/bin/python /opt/internship-watch/deploy/backup.py --config /etc/internship-watch.json --state-dir /var/lib/internship-watch/backups
+TimeoutStartSec=45min
+UMask=0077
+StateDirectory=internship-watch
+ReadWritePaths=/var/lib/internship-watch
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+
