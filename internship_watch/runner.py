@@ -268,13 +268,13 @@ def _run(config, db_path, collector, client, validator, sender):
             with store.transaction():
                 store.record_check(row["id"], result, later(delay))
                 store.db.execute("INSERT OR REPLACE INTO meta VALUES('validation_rotation',?)", (str((row["_validation_group"]+1)%3),))
-                if result.get("description") and (not job.get("description") or
+                fresh_google_detail = (bool(result.get("description")) and result.get("posting_status") == "open"
+                                       and apply_google_eligibility(job, result.get("google_eligibility")))
+                if result.get("description") and (fresh_google_detail or not job.get("description") or
                         (job.get("evidence") or {}).get("description_kind") in {"employer_search_summary", "validated_destination"}):
                     job["description"] = result["description"]
                     job["evidence"] = dict(job.get("evidence") or {})
                     job["evidence"]["description_kind"] = "validated_destination"
-                    if result.get("posting_status") == "open":
-                        apply_google_eligibility(job, result.get("google_eligibility"))
                     decision = classify(job, config.get("filters", {}))
                     store.db.execute("UPDATE jobs SET description=?,payload=?,classification=?,category=?,evidence=? WHERE id=?",
                                      (job["description"], dump(job), decision["decision"], decision.get("category"), dump(decision), row["id"]))

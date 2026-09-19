@@ -18,7 +18,7 @@ Google's [published policy](https://www.google.com/robots.txt) permits the inspe
 
 Individual permitted Google job pages contain public embedded detail records alongside unrelated search suggestions. The new parser requires the exact URL job ID, Google employer, matching actual title/heading, valid description/qualification/location fields and a consistent employer application link. Suggestions never substitute for the requested job. Schema drift or title ambiguity remains unverified. Only narrow evidenced title variants are accepted. Google's sign-in application destination remains unverified independently of a verified employer posting.
 
-A live seven-record Google cohort now has seven verified employer postings, each with unverified sign-in application access. Reclassification produces two included matches, four degree-incompatible exclusions and one ambiguous apprenticeship. Fresh official minimum qualifications override conflicting community degree hints. In the live cohort, an MS-only internship otherwise inherited an incorrect Bachelor's/Master's hint from Simplify. The repair preserves the raw feed evidence and ensures subsequent sparse feed polls cannot resurrect that listing as eligible for the configured bachelor's-level user. Description enrichment is reclassified before notifications.
+A live seven-record Google cohort now has seven verified employer postings, each with unverified sign-in application access. Reclassification produces two included matches, four degree-incompatible exclusions and one ambiguous apprenticeship. Fresh official minimum qualifications override conflicting community degree hints. In the live cohort, an MS-only internship otherwise inherited an incorrect Bachelor's/Master's hint from Simplify. The repair preserves the raw feed evidence and ensures subsequent feed polls, including nonempty community summaries, cannot resurrect that listing as eligible for the configured bachelor's-level user. Description enrichment is reclassified before notifications.
 
 ## Meta: written permission required, no active indirect records
 
@@ -30,7 +30,7 @@ Further Meta progress requires written collection permission or an authorized fe
 
 ## Operation and evidence
 
-The combined local suite passed **196 application tests and six backup tests**, plus compilation. The release must also pass staged tests and consecutive 53-source cycles on Azure before being described as deployed. The operating checkpoint and dated host evidence are delivered under `outputs/continuation`; these versioned implementation notes do not substitute for that evidence. The update preserves `/etc/internship-watch*` and `/var/lib/internship-watch`, with a consistent recovery snapshot copied off-host before activation and the prior code release retained for rollback.
+The combined local suite passed **198 application tests and six backup tests**, plus compilation. The release must also pass staged tests and consecutive 53-source cycles on Azure before being described as deployed. The operating checkpoint and dated host evidence are delivered under `outputs/continuation`; these versioned implementation notes do not substitute for that evidence. The update preserves `/etc/internship-watch*` and `/var/lib/internship-watch`, with a consistent recovery snapshot copied off-host before activation and the prior code release retained for rollback.
 
 Reproducible regression commands:
 

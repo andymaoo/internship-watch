@@ -185,6 +185,60 @@ class GoogleDetailTests(unittest.TestCase):
             self.assertFalse(apply_google_eligibility(modified, proof))
             self.assertNotIn("validated_google_eligibility", modified["evidence"])
 
+    def test_nonempty_community_descriptions_cannot_erase_employer_requirement(self):
+        summary = "Join our software engineering internship and build useful products."
+        filters = {"degrees":["bachelor"], "allow_unstated_eligibility":True}
+        row = record(title="Software Engineering Intern, MS, Summer 2027", degree="Master's")
+        feed = dict(JOB, source_id="google-ms", evidence={"provider":"simplify",
+                    "degrees":["Bachelor's", "Master's"], "feed_internship_context":True})
+        official = validate_job(feed, Client(response(markup(row, title=row[1])), response("Sign in to continue")))
+        for initial, later in [("", summary), (summary, summary), (summary, "")]:
+            with self.subTest(initial=bool(initial), later=bool(later)), tempfile.TemporaryDirectory() as directory:
+                path = Path(directory) / "jobs.sqlite3"
+                config = {"database":str(path), "sources":[{"id":"feed"}], "filters":filters, "initial_run":"silent"}
+                sender, validator = Mock(), Mock(return_value=official)
+                with patch("internship_watch.runner.heartbeat"):
+                    for jobs in ([], [dict(feed, description=initial)], [dict(feed, description=later)], [dict(feed, description=later)]):
+                        run_once(config, collector=lambda s,c,jobs=jobs:jobs, client=Mock(), validator=validator, sender=sender)
+                        if not jobs:
+                            continue
+                        # Each cycle reopens SQLite: preservation cannot rely on process memory.
+                        store = Store(path)
+                        try:
+                            saved = store.rows("SELECT * FROM jobs")[0]
+                            payload = json.loads(saved["payload"])
+                            self.assertEqual(saved["classification"], "exclude")
+                            self.assertIn("Master's degree", saved["description"])
+                            self.assertEqual(payload["evidence"]["degrees"], ["master"])
+                            self.assertEqual(store.rows("SELECT COUNT(*) n FROM outbox")[0]["n"], 0)
+                        finally:
+                            store.close()
+                validator.assert_called_once()
+                sender.send.assert_not_called()
+
+    def test_persisted_proof_not_reused_after_feed_changes_id_or_title(self):
+        filters = {"degrees":["bachelor"], "allow_unstated_eligibility":True}
+        feed = dict(JOB, source_id="google-ms", description="", evidence={"provider":"simplify",
+                    "degrees":["Bachelor's", "Master's"], "feed_internship_context":True})
+        row = record(title="Software Engineering Intern, MS, Summer 2027", degree="Master's")
+        official = validate_job(feed, Client(response(markup(row, title=row[1])), response("Sign in to continue")))
+        for changed in [{"title":"Accountant Intern"}, {"description_url":URL.replace(IDENTITY,"99999999999999999"),
+                                                       "application_url":URL.replace(IDENTITY,"99999999999999999")}]:
+            with self.subTest(changed=changed), tempfile.TemporaryDirectory() as directory:
+                path = Path(directory) / "jobs.sqlite3"
+                config = {"database":str(path), "sources":[{"id":"feed"}], "filters":filters, "initial_run":"silent"}
+                with patch("internship_watch.runner.heartbeat"):
+                    run_once(config, collector=lambda s,c:[feed], client=Mock(), validator=lambda j,c:official, sender=Mock())
+                store = Store(path)
+                try:
+                    with store.transaction():
+                        store.upsert_job("feed", dict(feed, description="A different job summary.", **changed), {}, 2, filters=filters)
+                    saved = store.rows("SELECT * FROM jobs")[0]
+                    self.assertNotIn("validated_google_eligibility", json.loads(saved["payload"])["evidence"])
+                    self.assertEqual(saved["posting_status"], "unverified")
+                finally:
+                    store.close()
+
 
 if __name__ == "__main__":
     unittest.main()

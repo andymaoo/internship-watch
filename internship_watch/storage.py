@@ -245,15 +245,16 @@ class Store:
                     payload[key] = old_payload[key]
             old_kind = (old_payload.get("evidence") or {}).get("description_kind")
             new_kind = (payload.get("evidence") or {}).get("description_kind")
-            if (old_kind == "validated_destination" and old_payload.get("description") and
-                    (not job.get("description") or new_kind == "employer_search_summary") and
-                    same_destination(old["original_url"], job.get("description_url"))):
+            same_validated_posting = (old_kind == "validated_destination" and bool(old_payload.get("description")) and
+                                      same_destination(old["original_url"], job.get("description_url")))
+            retained_google_detail = (same_validated_posting and apply_google_eligibility(
+                payload, (old_payload.get("evidence") or {}).get("validated_google_eligibility")))
+            if same_validated_posting and (retained_google_detail or not job.get("description") or new_kind == "employer_search_summary"):
                 # Employer search summaries omit qualifications. Preserve the
                 # richer validated destination across subsequent summary polls.
                 payload["description"] = old_payload["description"]
                 payload["evidence"] = dict(payload.get("evidence") or {})
                 payload["evidence"]["description_kind"] = "validated_destination"
-                apply_google_eligibility(payload, (old_payload.get("evidence") or {}).get("validated_google_eligibility"))
         if filters is not None:
             # Classification must use retained enrichment and today's policy.
             # A sparse source refresh cannot erase a known PhD-only restriction,

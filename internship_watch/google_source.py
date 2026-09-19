@@ -128,12 +128,16 @@ def apply_google_eligibility(job, proof):
             or not google_title_matches(job.get("title"), proof.get("title", ""))
             or not isinstance(proof.get("minimum_qualifications"), str)
             or not proof["minimum_qualifications"].strip()
-            or not proof.get("degrees")
+            or not isinstance(proof.get("degrees"), list)
+            or any(degree not in {"associate", "bachelor", "master", "phd"} for degree in proof["degrees"])
             or (job.get("evidence") or {}).get("provider") != "simplify"):
         return False
     job["evidence"] = dict(job.get("evidence") or {})
     job["evidence"]["validated_google_eligibility"] = dict(proof)
-    job["evidence"]["degrees"] = list(proof["degrees"])
-    if "degrees" in job:
-        job["degrees"] = list(proof["degrees"])
+    if proof["degrees"]:
+        # Absence of an explicit degree in the employer detail is not proof
+        # that otherwise recorded eligibility restrictions have disappeared.
+        job["evidence"]["degrees"] = list(proof["degrees"])
+        if "degrees" in job:
+            job["degrees"] = list(proof["degrees"])
     return True
