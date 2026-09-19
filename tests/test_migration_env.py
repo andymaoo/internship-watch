@@ -67,10 +67,10 @@ class MigrationTests(unittest.TestCase):
             db.commit(); db.close()
             store = Store(path)
             try:
-                rows = store.rows("SELECT posting_status,application_status,next_check FROM jobs ORDER BY id")
+                rows = store.rows("SELECT status,posting_status,application_status,next_check FROM jobs ORDER BY id")
                 for row in rows[:2]:
-                    self.assertEqual(row, {"posting_status": "unverified", "application_status": "unverified", "next_check": None})
-                self.assertEqual(rows[2], {"posting_status": "closed", "application_status": "closed", "next_check": "2099-01-01"})
+                    self.assertEqual(row, {"status": "unverified", "posting_status": "unverified", "application_status": "unverified", "next_check": None})
+                self.assertEqual(rows[2], {"status": "closed", "posting_status": "closed", "application_status": "closed", "next_check": "2099-01-01"})
                 self.assertEqual(len(store.rows("SELECT * FROM link_checks")), 3)
             finally:
                 store.close()

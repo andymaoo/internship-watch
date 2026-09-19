@@ -1,5 +1,7 @@
 # Validation and acceptance evidence
 
+**Historical baseline:** this page records the work delivered at `3fdc9de`. The later validator, notification, full-source scheduling, resource measurements and real Discord tests are documented in [CONTINUATION.md](CONTINUATION.md). Statements below about absent credentials and 128 tests describe that earlier checkpoint, not the current implementation.
+
 As of **2026-09-19 UTC** (September 18 Pacific), this implementation is **locally tested and prepared for deployment; it is not a production deployment**. The original repository reviewed was commit `2a776814a993fd74e92cc91aa15e90fb0f99424a`. The audit describes verified original defects separately from live-source limitations in [AUDIT.md](AUDIT.md) and [SOURCE_AUDIT.md](SOURCE_AUDIT.md).
 
 ## What has been demonstrated

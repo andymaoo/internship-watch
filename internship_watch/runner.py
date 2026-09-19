@@ -130,7 +130,7 @@ def recheck_policy(result, config, previous=None):
     short = config.get("unverified_recheck_seconds", 3600)
     signature = stable_unverified_signature(result)
     if signature and previous and signature == stable_unverified_signature(previous):
-        return max(short, config.get("blocked_recheck_seconds", 21600)), "persistent_access_or_content_problem"
+        return max(short, config.get("blocked_recheck_seconds", 43200)), "persistent_access_or_content_problem"
     return short, "first_or_transient_unverified"
 
 

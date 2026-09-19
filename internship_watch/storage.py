@@ -142,12 +142,14 @@ class Store:
         if "receipt_id" not in {r[1] for r in self.db.execute("PRAGMA table_info(outbox)")}:
             self.db.execute("ALTER TABLE outbox ADD COLUMN receipt_id TEXT")
         if version < 2:
+            self.db.execute("UPDATE jobs SET status='unverified'")
             for row in self.db.execute("SELECT j.id,c.result FROM jobs j JOIN link_checks c ON "
                                        "c.id=(SELECT MAX(id) FROM link_checks WHERE job_id=j.id) "
                                        "WHERE j.last_checked=c.checked_at").fetchall():
                 posting, application = split_statuses(json.loads(row["result"]), historical=True)
-                self.db.execute("UPDATE jobs SET posting_status=?,application_status=? WHERE id=?",
-                                (posting, application, row["id"]))
+                combined = "closed" if "closed" in (posting, application) else "open" if posting == application == "open" else "unverified"
+                self.db.execute("UPDATE jobs SET posting_status=?,application_status=?,status=? WHERE id=?",
+                                (posting, application, combined, row["id"]))
                 if json.loads(row["result"]).get("validator_version", 0) < 4:
                     self.db.execute("UPDATE jobs SET next_check=NULL WHERE id=?", (row["id"],))
             # Old data has no recorded first qualification/decision timestamp.

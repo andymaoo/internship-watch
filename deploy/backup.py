@@ -133,6 +133,9 @@ def main(argv=None):
 
 
 def perform(args, state):
+    # Keep the Go backup process bounded on small hosts and Windows launchers.
+    # An explicit operator setting may raise/lower this after measuring the host.
+    os.environ.setdefault("GOMAXPROCS", "2")
     if not args.local_only:
         for variable in ("RESTIC_REPOSITORY", "RESTIC_PASSWORD_FILE", "BACKUP_HEALTHCHECKS_PING_URL"):
             if not os.environ.get(variable):

@@ -21,35 +21,38 @@ $taskParts = @($taskLauncher, '--config', $taskConfig, '--env-file', $taskEnviro
                '--mode', $taskMode, '--state-dir', $taskState)
 foreach ($part in $taskParts) { if ($part.Contains('"')) { throw 'A task argument contains an unsupported quote.' } }
 $taskArguments = ($taskParts | ForEach-Object { '"' + $_ + '"' }) -join ' '
+if ($Preview) {
+    # A reviewable preview must not require access to the Task Scheduler CIM API.
+    [pscustomobject]@{ Name = $taskName; Mode = $taskMode; AtStartup = [bool]$AtStartup;
+        Principal = $(if ($AtStartup) { 'Local Service (machine-wide Python required)' } else { 'Current user, while logged on' });
+        Trigger = $(if ($Backup) { 'Daily at 03:15' } elseif ($AtStartup) { 'At machine startup' } else { 'At user logon' });
+        Execute = $taskPython; Arguments = $taskArguments; StartsAutomaticallyNow = $false }
+    return
+}
 $taskUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
 if ($AtStartup) {
     $taskVenvConfig = Get-Content -LiteralPath (Join-Path $taskRepository '.venv\pyvenv.cfg')
     if ($taskVenvConfig | Where-Object { $_ -match '^home\s*=' -and $_ -like ('*' + $env:USERPROFILE + '*') }) {
         throw 'Startup mode requires a machine-wide Python installation and a venv rebuilt from it; the current Python is in a user profile.'
     }
-    $taskPrincipal = New-ScheduledTaskPrincipal -UserId 'NT AUTHORITY\LOCAL SERVICE' -LogonType ServiceAccount -RunLevel Limited
+    $taskPrincipal = New-ScheduledTaskPrincipal -UserId 'NT AUTHORITY\LOCAL SERVICE' -LogonType ServiceAccount -RunLevel Limited -ErrorAction Stop
 } else {
-    $taskPrincipal = New-ScheduledTaskPrincipal -UserId $taskUser -LogonType Interactive -RunLevel Limited
+    $taskPrincipal = New-ScheduledTaskPrincipal -UserId $taskUser -LogonType Interactive -RunLevel Limited -ErrorAction Stop
 }
 if ($Backup) {
-    $taskTrigger = New-ScheduledTaskTrigger -Daily -At '03:15'
+    $taskTrigger = New-ScheduledTaskTrigger -Daily -At '03:15' -ErrorAction Stop
 } elseif ($AtStartup) {
-    $taskTrigger = New-ScheduledTaskTrigger -AtStartup
+    $taskTrigger = New-ScheduledTaskTrigger -AtStartup -ErrorAction Stop
 } else {
-    $taskTrigger = New-ScheduledTaskTrigger -AtLogOn -User $taskUser
+    $taskTrigger = New-ScheduledTaskTrigger -AtLogOn -User $taskUser -ErrorAction Stop
 }
-$taskAction = New-ScheduledTaskAction -Execute $taskPython -Argument $taskArguments -WorkingDirectory $taskRepository
+$taskAction = New-ScheduledTaskAction -Execute $taskPython -Argument $taskArguments -WorkingDirectory $taskRepository -ErrorAction Stop
 $taskSettings = New-ScheduledTaskSettingsSet -Hidden -MultipleInstances IgnoreNew -StartWhenAvailable `
     -RestartCount 3 -RestartInterval (New-TimeSpan -Minutes 1) -ExecutionTimeLimit ([TimeSpan]::Zero) `
-    -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries
-if ($Preview) {
-    [pscustomobject]@{ Name = $taskName; Mode = $taskMode; AtStartup = [bool]$AtStartup;
-        Execute = $taskPython; Arguments = $taskArguments; StartsAutomaticallyNow = $false }
-    return
-}
+    -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -ErrorAction Stop
 if (Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue) {
     throw 'A task with this name already exists. Inspect and update it deliberately; this script does not overwrite it.'
 }
 Register-ScheduledTask -TaskName $taskName -Action $taskAction -Trigger $taskTrigger `
-    -Principal $taskPrincipal -Settings $taskSettings -Description 'Persistent internship collection or verified encrypted backup.' | Out-Null
+    -Principal $taskPrincipal -Settings $taskSettings -Description 'Persistent internship collection or verified encrypted backup.' -ErrorAction Stop | Out-Null
 Write-Output ('Registered ' + $taskName + '. Start it explicitly after configuration and monitor setup are complete.')

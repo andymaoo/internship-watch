@@ -499,5 +499,5 @@
   "validation_seconds": 60,
   "awaiting_digest_seconds": 900,
   "export_directory": "data/export",
-  "blocked_recheck_seconds": 21600
+  "blocked_recheck_seconds": 43200
 }

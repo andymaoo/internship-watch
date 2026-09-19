@@ -91,7 +91,7 @@ class ValidationScheduleTests(unittest.TestCase):
     def test_persistent_content_problem_and_recovery_are_scheduled_separately(self):
         job = listing(123)
         result = unresolved(job, ["missing_meaningful_description_or_application"])
-        self.assertEqual(recheck_policy(result, {}, result), (21600, "persistent_access_or_content_problem"))
+        self.assertEqual(recheck_policy(result, {}, result), (43200, "persistent_access_or_content_problem"))
         self.assertEqual(recheck_policy(checked(job), {}, result), (86400, "verified_open"))
         self.assertEqual(recheck_policy(checked(job, "closed", "unverified"), {}, result), (604800, "posting_closed"))
 
@@ -101,7 +101,7 @@ class ValidationScheduleTests(unittest.TestCase):
         result["posting_status"] = "open"
         result["checks"][0] = {"kind": "description", "status": "unverified", "evidence": ["access_failure:Timeout"]}
         result["checks"].insert(1, {"kind": "posting_api", "status": "open", "evidence": ["fresh_documented_public_posting_api"]})
-        self.assertEqual(recheck_policy(result, {}, result), (21600, "persistent_access_or_content_problem"))
+        self.assertEqual(recheck_policy(result, {}, result), (43200, "persistent_access_or_content_problem"))
 
 
 if __name__ == "__main__":

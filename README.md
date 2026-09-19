@@ -4,7 +4,7 @@ US internship and research-program discovery with persistent records, conservati
 
 The default configuration reflects the requested preferences: United States (including remote roles with US eligibility), all seasons, co-ops, current undergraduate junior, no sponsorship required, and relevant research programs. Freshman/sophomore-only, permanent/new-graduate, and hardware-focused roles are excluded. Unclear eligibility stays available for review. Software/AI internships at hardware companies remain eligible.
 
-**Deployment status:** prepared and locally tested. All 128 regression tests pass; live checks succeeded for 52 enabled sources. A full manual pipeline cycle completed in 156.3 seconds before the final classifier and link-validator refinements. A local one-source daemon completed two five-minute scheduled runs and preserved its database after restart and backup. Production host, private notification/heartbeat secrets, and target-host acceptance tests are required before this is a deployed service. No real notification or independent heartbeat alert has been delivered to your account. See [validation evidence](docs/VALIDATION.md).
+**Deployment status:** implemented and locally tested; permanent deployment is pending the host and monitoring/backup accounts. The suite has 163 application tests and 6 backup tests. Three local five-minute acceptance cycles each collected all 52 enabled sources, retained SQLite state across process restarts, and finished in 145–160 seconds. Real Discord delivery, failed-delivery retry, source-failure/recovery alerts, and encrypted local backup/restore were exercised. Reboot startup, off-host backup and the independent Healthchecks/email alert still require target-host testing. See the [current delivery and evidence](docs/CONTINUATION.md); the [earlier validation report](docs/VALIDATION.md) is historical.
 
 ## Run locally
 
@@ -16,22 +16,22 @@ python -m venv .venv
 python -m pip install -r requirements.txt
 cp config.example.json config.json
 python -m unittest discover -s tests -v
-python -m internship_watch --config config.json run
+python -m internship_watch --config config.json --env-file .env run
 python -m internship_watch --config config.json status
 python -m internship_watch --config config.json export --output data/export
 ```
 
-On PowerShell, use `.venv\Scripts\Activate.ps1` and `Copy-Item config.example.json config.json`. Open `data/export/jobs.html` for a searchable snapshot; CSV, JSON, source status and link evidence are beside it. The default first run silently imports records. `initial_run: "digest"` requests an initial import summary. Notification credentials belong in environment variables, never configuration committed to Git.
+On PowerShell, use `.venv\Scripts\Activate.ps1` and `Copy-Item config.example.json config.json`. For a **new** checkout, copy `.env.example` to `.env` and privately fill its fields before the command above; do not overwrite an existing configuration, secret file or database. Alternatively omit `--env-file` when the service manager supplies the environment. Open `data/export/jobs.html` for a searchable snapshot; CSV, JSON, source status and link evidence are beside it. The default `initial_run: "digest"` sends one grouped initial report; use `"silent"` to import quietly. Notification credentials belong in private environment configuration, never committed to Git.
 
-Run continuously with `python -m internship_watch --config config.json daemon`. The target polling interval is five minutes; slow sources, retries and queued link verification can delay discovery/notification. A five-minute interval is not a promise of finding employer postings five minutes after publication.
+Run continuously with `python -m internship_watch --config config.json --env-file .env daemon`. The target polling interval is five minutes; slow sources, retries and queued link verification can delay discovery/notification. A five-minute interval is not a promise of finding employer postings five minutes after publication.
 
 ## Design
 
 1. Public Greenhouse, Lever, Ashby, repaired Apple and the existing Simplify community feed collect structured records. Each source has independent health and bootstrap state.
 2. An evidence-based classifier identifies role family, internship/program evidence, location, season and eligibility. Ambiguous listings remain explicit.
 3. SQLite records source observations, job identities, historical checks, run health and a separate delivery outbox. Only changed observations add history; `last_seen` advances each successful observation.
-4. Both description and application destinations must identify the expected position. HTTP 200 alone does not mean open. Robots restrictions, timeouts, missing descriptions and access failures remain unverified.
-5. Only eligible jobs with verified destinations generate new-job deliveries. Failed deliveries stay queued. Source/empty-result incidents are deduplicated until recovery. Once configured, a separately hosted Healthchecks monitor detects missing runs and persistent notification/storage failures.
+4. Employer posting validity and application access are stored separately. Each verified destination must identify the expected position; HTTP 200 alone does not mean open. Robots restrictions, timeouts, missing descriptions and access failures remain unverified.
+5. Included jobs with a verified posting generate immediate alerts unless the application is known closed. An inaccessible application is clearly labeled. Newly discovered included jobs awaiting verification get a separate, duplicate-suppressed digest. Failed deliveries stay queued. Source/empty-result incidents are deduplicated until recovery. Once configured, a separately hosted Healthchecks monitor detects missing runs and persistent notification/storage failures.
 
 Deduplication uses job-specific URL/requisition identities, not title similarity. This avoids merging separate positions with identical titles but leaves uncertain cross-source aliases separate. Delivery is at least once across the rare crash-after-provider-acceptance window; the worker does not promise impossible exactly-once delivery.
 
@@ -40,6 +40,12 @@ Deduplication uses job-specific URL/requisition identities, not title similarity
 ## Configuration and reports
 
 - [Audit and implementation decisions](docs/AUDIT.md)
+- [Current delivery, measurements and remaining access](docs/CONTINUATION.md)
+- [Unresolved link triage and representative live checks](docs/LINK_TRIAGE.md)
+- [Notification and recheck policy](docs/NOTIFICATIONS.md)
+- [Measured hosting comparison](docs/HOSTING.md)
+- [Proposed Azure student setup](docs/AZURE_STUDENT.md)
+- [Private account and secret setup](docs/CONNECTIONS.md)
 - [Sources and verified migrations](docs/SOURCE_AUDIT.md)
 - [Simplify comparison and hosting research](docs/RESEARCH.md)
 - [Classification and link policy](docs/CLASSIFICATION.md)
