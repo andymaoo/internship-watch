@@ -13,8 +13,9 @@ from urllib.parse import parse_qs, quote, unquote, urljoin, urlsplit
 import requests
 
 from .classify import plain
+from .google_source import GoogleDetailError, google_job_id, google_title_matches, parse_google_detail
 
-VALIDATOR_VERSION = 5
+VALIDATOR_VERSION = 6
 
 
 class Page(HTMLParser):
@@ -235,7 +236,10 @@ def _check(job, url, kind, client, cache):
             if isinstance(exc, ValueError):
                 check['failure_detail'] = str(exc)[:200]
             if type(exc).__name__ == 'AccessRestricted':
-                if 'cooling down' in str(exc):
+                if getattr(exc, 'source_policy_reason', None):
+                    check['evidence'].append('configured_source_policy_restriction')
+                    check['failure_detail'] = f"{exc.restricted_host}: {exc.source_policy_reason}"[:200]
+                elif 'cooling down' in str(exc):
                     check['evidence'].append('host_cooldown_active')
                 else:
                     parsed=urlsplit(url)
@@ -282,6 +286,41 @@ def _check(job, url, kind, client, cache):
     expired = EXPIRED.search(text)
     if expired:
         check.update(status="closed", evidence=["explicit_expiry:" + expired.group(0)])
+        return check
+    if google_job_id(url):
+        # The page also renders unrelated search results. Do not let their
+        # headings or descriptions validate a missing/changed detail record.
+        if google_job_id(check["final_url"]) != google_job_id(url):
+            check["evidence"].append("google_detail_redirect_identity_mismatch")
+            return check
+        try:
+            detail = parse_google_detail(response.text, check["final_url"])
+        except GoogleDetailError as exc:
+            check["evidence"].append("google_public_detail:" + str(exc))
+            return check
+        if normalized(job.get("employer") or job.get("company")) != "google":
+            check["evidence"].append("google_public_detail:expected_employer_mismatch")
+            return check
+        if (not google_title_matches(job.get("title"), detail["title"])
+                or not any(normalized(detail["title"]) in normalized(heading) for heading in page.headings)):
+            check["evidence"].append("google_public_detail:title_mismatch")
+            return check
+        if not meaningful_description(detail["description"]):
+            check["evidence"].append("google_public_detail:description_insufficient")
+            return check
+        check.update(title=detail["title"], posting_url=detail["posting_url"],
+                     application_url=detail["application_url"],
+                     application_links=[{"url":detail["application_url"],"text":"Apply"}],
+                     evidence=["fresh_employer_public_detail", "exact_google_job_identifier_employer_and_title_verified",
+                               "expected_job_identity_verified", "meaningful_description_present"])
+        if kind == "description":
+            check.update(status="open", description=detail["description"][:50_000])
+            check["google_eligibility"] = {"kind":"google_public_detail", "job_id":detail["id"],
+                                          "title":detail["title"], "degrees":detail["degrees"],
+                                          "minimum_qualifications":detail["minimum_qualifications"],
+                                          "posting_url":detail["posting_url"]}
+        else:
+            check["evidence"].append("application_destination_not_verified")
         return check
     postings = list(page.postings())
     expected = normalized(job.get("title"))
@@ -480,13 +519,15 @@ def validate_job(job: dict, client) -> dict:
         if api_check['status']=='open':
             posting_check=api_check
     visited = set()
-    current = (api_check.get('application_url') if api_check and api_check['status']=='open' else None) or application_url
+    current = (posting_check.get('application_url') if posting_check['status']=='open' else None) or application_url
     for _ in range(4):
         visited.add(current)
         application_check = _check(job, current, "application", client, cache)
         checks.append(application_check)
         if current!=application_url and api_check and current==api_check.get('application_url'):
             application_check['evidence'].append('application_destination_from_public_posting_api')
+        elif current!=application_url and current==posting_check.get('application_url'):
+            application_check['evidence'].append('application_destination_from_employer_public_page')
         if application_check["status"] in {"open", "closed"}:
             break
         if "expected_job_identity_verified" not in application_check["evidence"]:
@@ -511,4 +552,6 @@ def validate_job(job: dict, client) -> dict:
               "checked_at": datetime.now(timezone.utc).isoformat(), "validator_version": VALIDATOR_VERSION, "checks": checks}
     if posting_check.get("description") and posting_check["status"] == "open":
         result["description"] = posting_check["description"]
+        if posting_check.get("google_eligibility"):
+            result["google_eligibility"] = dict(posting_check["google_eligibility"], checked_at=result["checked_at"])
     return result

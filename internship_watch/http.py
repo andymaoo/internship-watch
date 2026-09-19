@@ -13,9 +13,9 @@ import time
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 from urllib.parse import urljoin, urlsplit
-from urllib.robotparser import RobotFileParser
 
 import requests
+from protego import Protego
 
 
 class AccessRestricted(requests.RequestException):
@@ -54,13 +54,23 @@ class HttpClient:
                  backoff: float = 1.0, max_retry_after: float = 60,
                  max_redirects: int = 8, user_agent: str = "InternshipWatch/1.0 (+personal internship discovery)",
                  resolve_dns: bool = True, session=None, deadline: float | None = None,
-                 forbidden_threshold: int = 3, forbidden_cooldown: float = 300, **kwargs):
+                 forbidden_threshold: int = 3, forbidden_cooldown: float = 300,
+                 blocked_hosts: dict[str, str] | None = None, **kwargs):
         if kwargs:
             raise ValueError(f"Unknown HTTP settings: {', '.join(sorted(kwargs))}")
         if timeout <= 0 or connect_timeout <= 0 or not 0 <= retries <= 5 or min_interval < 0 or max_redirects < 0:
             raise ValueError("Invalid bounded HTTP configuration")
         if forbidden_threshold < 0 or forbidden_cooldown < 0:
             raise ValueError("Invalid HTTP access-failure circuit configuration")
+        if blocked_hosts is not None and not isinstance(blocked_hosts, dict):
+            raise ValueError("blocked_hosts must map exact hostnames to policy reasons")
+        self.blocked_hosts = {}
+        for host, reason in (blocked_hosts or {}).items():
+            if (not isinstance(host, str) or not host or
+                    any(character not in "abcdefghijklmnopqrstuvwxyz0123456789.-" for character in host.lower()) or
+                    not host.rstrip(".") or not isinstance(reason, str) or not reason.strip()):
+                raise ValueError("blocked_hosts must map exact hostnames to policy reasons")
+            self.blocked_hosts[host.rstrip(".").lower()] = reason.strip()
         self.timeout = (connect_timeout, timeout)
         self.retries, self.min_interval = retries, min_interval
         self.backoff, self.max_retry_after = backoff, max_retry_after
@@ -118,6 +128,15 @@ class HttpClient:
     def _check_cooldown(self, url):
         with self._lock:
             self._check_cooldown_locked(self._host(url))
+
+    def _check_source_policy(self, url):
+        host = self._host(url)
+        reason = self.blocked_hosts.get(host)
+        if reason:
+            error = AccessRestricted(f"Automated access to {host} is disabled by source policy: {reason}")
+            error.source_policy_reason = reason
+            error.restricted_host = host
+            raise error
 
     @staticmethod
     def _retry_after_seconds(response, default):
@@ -193,6 +212,7 @@ class HttpClient:
             self._last_request[host] = time.monotonic()
 
     def robots_allowed(self, url: str) -> bool:
+        self._check_source_policy(url)
         self._check_cooldown(url)
         parsed = urlsplit(allow_url(url, resolve_dns=self.resolve_dns))
         origin = f"{parsed.scheme}://{parsed.netloc}"
@@ -205,9 +225,10 @@ class HttpClient:
                 if response.status_code in {404, 410}:
                     policy = True
                 elif response.status_code == 200 and "<html" not in response.text[:500].lower():
-                    policy = RobotFileParser()
-                    policy.set_url(origin + "/robots.txt")
-                    policy.parse(response.text.splitlines())
+                    # RFC 9309 path/query matching, wildcards, longest match and
+                    # merged agent groups. Python 3.12's RobotFileParser turns
+                    # a literal '/?' rule into '/', falsely denying every URL.
+                    policy = Protego.parse(response.text)
                     delay = policy.crawl_delay(self.user_agent) or policy.crawl_delay("*") or 0
                     rate = policy.request_rate(self.user_agent) or policy.request_rate("*")
                     if rate and rate.requests:
@@ -218,7 +239,7 @@ class HttpClient:
             except (requests.RequestException, ValueError):
                 policy = False
             self._robots[origin] = (time.monotonic(), policy)
-        return policy if isinstance(policy, bool) else policy.can_fetch(self.user_agent, url)
+        return policy if isinstance(policy, bool) else policy.can_fetch(url, self.user_agent)
 
     def _retry_delay(self, response, attempt):
         value = response.headers.get("Retry-After") if response is not None else None
@@ -244,10 +265,16 @@ class HttpClient:
         history = []
         for redirect in range(self.max_redirects + 1):
             self._remaining()
+            self._check_source_policy(url)
             self._check_cooldown(url)
             allow_url(url, resolve_dns=self.resolve_dns)
-            if respect_robots and not self.robots_allowed(url):
-                raise AccessRestricted("Robots policy disallows access or could not be verified", request=None)
+            if respect_robots:
+                # Requests appends params after this point. Evaluate the actual
+                # query now so a ?page= restriction cannot be skipped by using
+                # params={"page": 2} instead of an already assembled URL.
+                policy_url = requests.Request(method, url, params=kwargs.get("params")).prepare().url
+                if not self.robots_allowed(policy_url):
+                    raise AccessRestricted("Robots policy disallows access or could not be verified", request=None)
             response = None
             for attempt in range(retries + 1):
                 self._remaining()

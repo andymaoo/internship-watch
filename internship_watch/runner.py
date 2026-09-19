@@ -6,6 +6,7 @@ from datetime import datetime, timedelta, timezone
 
 from .classify import classify
 from .delivery import configured_sender, deliver_pending, heartbeat, job_message
+from .google_source import apply_google_eligibility
 from .links import validate_job
 from .locking import run_lock
 from .storage import Store, dump, now, split_statuses, url_identity
@@ -272,6 +273,8 @@ def _run(config, db_path, collector, client, validator, sender):
                     job["description"] = result["description"]
                     job["evidence"] = dict(job.get("evidence") or {})
                     job["evidence"]["description_kind"] = "validated_destination"
+                    if result.get("posting_status") == "open":
+                        apply_google_eligibility(job, result.get("google_eligibility"))
                     decision = classify(job, config.get("filters", {}))
                     store.db.execute("UPDATE jobs SET description=?,payload=?,classification=?,category=?,evidence=? WHERE id=?",
                                      (job["description"], dump(job), decision["decision"], decision.get("category"), dump(decision), row["id"]))

@@ -4,7 +4,7 @@ US internship and research-program discovery with persistent records, conservati
 
 The default configuration reflects the requested preferences: United States (including remote roles with US eligibility), all seasons, co-ops, current undergraduate junior, no sponsorship required, and relevant research programs. Freshman/sophomore-only, permanent/new-graduate, and hardware-focused roles are excluded. Unclear eligibility stays available for review. Software/AI internships at hardware companies remain eligible.
 
-**Deployment status:** implemented and locally tested; permanent deployment is pending the host and monitoring/backup accounts. The suite has 163 application tests and 6 backup tests. Three local five-minute acceptance cycles each collected all 52 enabled sources, retained SQLite state across process restarts, and finished in 145–160 seconds. Real Discord delivery, failed-delivery retry, source-failure/recovery alerts, and encrypted local backup/restore were exercised. Reboot startup, off-host backup and the independent Healthchecks/email alert still require target-host testing. See the [current delivery and evidence](docs/CONTINUATION.md); the [earlier validation report](docs/VALIDATION.md) is historical.
+**Deployment status:** the Azure worker is active with five-minute polling, persistent SQLite, Discord delivery, independent Healthchecks email and tested automatic reboot startup. Automatic off-host backups still await the storage-account connection. The source repair enables HRT, repairs Google detail verification, and accurately records remaining Google/Meta restrictions. See [source repair and validation](docs/SOURCE_REPAIR.md); dated earlier measurements remain in the historical reports.
 
 ## Run locally
 

@@ -53,6 +53,14 @@ def _jobs_list(payload, key=None):
 
 def _base(source, prefix, identity, title, description_url, *, description="", application_url=None,
           locations=None, employment_type=None, posting_date=None, evidence=None, season=None):
+    # Greenhouse multi-select metadata (including HRT's Job Type) is an array.
+    # Keep the original metadata in evidence, but persist a scalar in SQLite.
+    if isinstance(employment_type, list):
+        if not all(isinstance(value, str) for value in employment_type):
+            raise SourceError("Employment type array must contain strings")
+        employment_type = "; ".join(dict.fromkeys(value.strip() for value in employment_type if value.strip())) or None
+    elif employment_type is not None and not isinstance(employment_type, str):
+        raise SourceError("Employment type must be a string or string array")
     locations = list(dict.fromkeys(_text(item) for item in (locations or []) if _text(item)))
     evidence = evidence or {}
     address = evidence.get("address") or {}

@@ -7,7 +7,11 @@
     "min_interval": 1.0,
     "backoff": 1,
     "max_retry_after": 60,
-    "max_redirects": 8
+    "max_redirects": 8,
+    "blocked_hosts": {
+      "metacareers.com": "Meta Careers requires express written permission for automated collection; none is configured.",
+      "www.metacareers.com": "Meta Careers requires express written permission for automated collection; none is configured."
+    }
   },
   "filters": {
     "countries": [
@@ -419,14 +423,14 @@
       "type": "meta",
       "employer": "meta",
       "enabled": false,
-      "disabled_reason": "Live transparent GraphQL call returned one record; undocumented all_jobs completeness cannot be proved and doc_id is fragile. Meta remains covered by public internship feed."
+      "disabled_reason": "Meta Careers requires express written permission for automated collection. No authorized complete feed verified; configured Simplify feed had zero active Meta records at 2026-09-19 recheck."
     },
     {
       "id": "google-google",
       "type": "google",
       "employer": "google",
       "enabled": false,
-      "disabled_reason": "Live transparent request stopped by robots policy; no access workaround. Google remains covered by public internship feed."
+      "disabled_reason": "Direct US internship search has 31 results but only 20 on the first page; official robots disallows pagination query parameters. No complete permitted feed verified. Public internship feed remains partial discovery; permitted job detail pages can be validated."
     },
     {
       "id": "apple-apple",
@@ -451,9 +455,9 @@
       "id": "greenhouse-hudsonrivertrading",
       "type": "greenhouse",
       "employer": "Hudson River Trading",
-      "slug": "hudsonrivertrading",
-      "enabled": false,
-      "disabled_reason": "Direct Greenhouse endpoint returns HTTP404; employer now serves a custom WordPress jobs plugin. HRT remains covered by the public internship feed. Re-enable only with verified structured source."
+      "slug": "wehrtyou",
+      "enabled": true,
+      "expect_nonempty": true
     },
     {
       "id": "simplify-public-internships",

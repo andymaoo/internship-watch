@@ -9,6 +9,7 @@ from pathlib import Path
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 from .classify import classify
+from .google_source import apply_google_eligibility
 
 
 def now():
@@ -252,6 +253,7 @@ class Store:
                 payload["description"] = old_payload["description"]
                 payload["evidence"] = dict(payload.get("evidence") or {})
                 payload["evidence"]["description_kind"] = "validated_destination"
+                apply_google_eligibility(payload, (old_payload.get("evidence") or {}).get("validated_google_eligibility"))
         if filters is not None:
             # Classification must use retained enrichment and today's policy.
             # A sparse source refresh cannot erase a known PhD-only restriction,
