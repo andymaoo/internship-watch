@@ -371,6 +371,14 @@ def classify(job: dict, filters: dict | None = None) -> dict:
     match_filter("degree eligibility", degrees, [str(d).lower() for d in filters.get("degrees", [])], allow_unstated)
     match_filter("graduation year", graduation_years, [int(y) for y in filters.get("graduation_years", [])], allow_unstated)
     match_filter("student year", student_years, [str(y).lower() for y in filters.get("student_years", [])], allow_unstated)
+    # OVIP advertises a specific military-transition audience, even when one
+    # sentence calls that background preferred. Do not assume user eligibility
+    # from a general undergraduate profile or from equal-opportunity boilerplate.
+    if re.search(r'\bOVIP\b',title,re.I) and re.search(r'Oracle Veteran Internship Program',description,re.I):
+        record('eligibility','Oracle Veteran Internship Program','program_specific_audience')
+        eligibility['program_audience']='military veterans, transitioning service members, or military spouses'
+        if 'oracle_ovip' not in filters.get('confirmed_program_eligibility',[]):
+            unknown.append('Oracle veteran internship program eligibility requires confirmation')
     if filters.get("requires_sponsorship") is True and eligibility["sponsorship"] == "not_available":
         excludes.append("Employer does not offer required sponsorship")
     wanted_seasons = [_season_key(s) for s in filters.get("seasons", [])]

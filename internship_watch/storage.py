@@ -24,7 +24,7 @@ def employer_identity(value):
     """Reviewed display-name aliases; never used to merge job identities."""
     name = re.sub(r'[^a-z0-9]', '', str(value or '').casefold())
     return {'andurilindustries':'anduril', 'togetherai':'together',
-            'scaleai':'scale'}.get(name, name)
+            'scaleai':'scale', 'tiktok':'bytedance'}.get(name, name)
 
 
 def custom_greenhouse_identity(job):
@@ -70,6 +70,34 @@ def url_identity(url):
             return None
         host, path = u.hostname.lower(), re.sub(r"/+", "/", u.path).rstrip("/")
         query = dict(parse_qsl(u.query))
+        jibe_boards = {
+            'careers.amd.com':'amd','campus-amd.icims.com':'amd','campuscanada-amd.icims.com':'amd',
+            'careers-amd.icims.com':'amd','globalcampus-amd.icims.com':'amd',
+            'global-external-amd.icims.com':'amd','canadacareers-amd.icims.com':'amd',
+            'www.github.careers':'github','careers-githubinc.icims.com':'github'}
+        if host in jibe_boards:
+            match=re.match(r'/(?:careers-home/)?jobs/(\d+)(?:/|$)',path)
+            if match:
+                return 'jibe:'+jibe_boards[host]+':'+match[1]
+        from .platform_sources import ATLASSIAN_PORTALS
+        if host in ATLASSIAN_PORTALS:
+            match = re.match(r'/jobs/(\d+)(?:/|$)',path)
+            if match:
+                return 'atlassian:'+match[1]
+        if host=='www.atlassian.com':
+            match=re.fullmatch(r'/company/careers/details/(\d+)',path)
+            if match:
+                return 'atlassian:'+match[1]
+        if host=='eeho.fa.us2.oraclecloud.com':
+            match=re.fullmatch(r'/hcmUI/CandidateExperience/[a-z-]+/sites/(?:CX_45001|jobsearch)/job/(\d+)',path,re.I)
+            if match:
+                return 'oracle:CX_45001:'+match[1]
+        if host in {'lifeattiktok.com','careers.tiktok.com'}:
+            match=re.fullmatch(r'/(?:search/|(?:[a-z-]+/)?position/)(\d+)(?:/detail)?',path)
+            if match:
+                # These public supplier hosts returned identical content for
+                # all 885 shared global posting IDs in the live expansion audit.
+                return 'bytedance:'+match[1]
         if host == 'jobs.smartrecruiters.com':
             match = re.fullmatch(r'/([^/]+)/(\d+)(?:-[^/]*)?', path)
             if match:
@@ -86,6 +114,12 @@ def url_identity(url):
             match = re.search(r'_(JR\d+)(?:-\d+)?(?:/apply)?$', path)
             if match:
                 return 'workday:nvidia:' + match[1]
+        if re.fullmatch(r'[a-z0-9-]+\.wd\d+\.myworkdayjobs\.com', host):
+            # Strip only the known locale/apply wrappers. Preserve posting
+            # instance suffixes and tenant/site so distinct roles never collapse.
+            match = re.fullmatch(r'/(?:[a-z]{2}-[A-Z]{2}/)?([^/]+)/job/(?:[^/]+/)*[^/]+_([^/]+?)(?:/apply)?', path)
+            if match:
+                return 'workday:' + host + ':' + match[1] + ':' + match[2]
         if host == 'wd1.myworkdaysite.com' and path.startswith('/recruiting/snapchat/snap/job/'):
             match = re.search(r'_([A-Z]\d+[A-Z0-9]*)(?:-\d+)?(?:/apply)?$', path)
             if match:
@@ -160,6 +194,8 @@ CREATE TABLE IF NOT EXISTS digest_jobs(outbox_id INTEGER NOT NULL REFERENCES out
 CREATE TABLE IF NOT EXISTS incidents(key TEXT PRIMARY KEY,generation INTEGER NOT NULL DEFAULT 1,
  active INTEGER NOT NULL DEFAULT 1,opened_at TEXT NOT NULL,resolved_at TEXT,detail TEXT);
 CREATE TABLE IF NOT EXISTS legacy_seen(source_id TEXT PRIMARY KEY,imported_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS classification_cache(source TEXT NOT NULL,source_id TEXT NOT NULL,
+ fingerprint TEXT NOT NULL,result TEXT NOT NULL,last_seen TEXT NOT NULL,PRIMARY KEY(source,source_id));
 CREATE INDEX IF NOT EXISTS outbox_due ON outbox(status,next_attempt);
 CREATE INDEX IF NOT EXISTS jobs_due ON jobs(next_check);
 CREATE INDEX IF NOT EXISTS observations_job ON observations(job_id,observed_at);
@@ -170,6 +206,7 @@ CREATE INDEX IF NOT EXISTS link_checks_job ON link_checks(job_id,id);
 
 class Store:
     def __init__(self, path):
+        self.classifier_revision = hashlib.sha256(Path(__file__).with_name('classify.py').read_bytes()).hexdigest()
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self.db = sqlite3.connect(self.path, timeout=10)
@@ -214,6 +251,16 @@ class Store:
                 if identity and identity.startswith(('smartrecruiters:', 'amazon:', 'bytedance:', 'workday:nvidia:', 'snap:')):
                     self.db.execute('INSERT OR IGNORE INTO identities(identity,job_id) VALUES(?,?)', ('url:'+identity,row['id']))
             self.db.execute("INSERT INTO meta VALUES('company_url_aliases_v1',?)", (now(),))
+        if {'original_url','application_url'} <= columns and not self.db.execute("SELECT 1 FROM meta WHERE key='platform_url_aliases_v1'").fetchone():
+            for row in self.db.execute('SELECT id,original_url,application_url FROM jobs').fetchall():
+                original = url_identity(row['original_url'])
+                for field in ('original_url','application_url'):
+                    identity = url_identity(row[field])
+                    if field=='application_url' and original and not original.startswith('https:') and original!=identity:
+                        continue
+                    if identity and identity.startswith(('workday:','atlassian:','oracle:','bytedance:','jibe:')):
+                        self.db.execute('INSERT OR IGNORE INTO identities(identity,job_id) VALUES(?,?)',('url:'+identity,row['id']))
+            self.db.execute("INSERT INTO meta VALUES('platform_url_aliases_v1',?)",(now(),))
         self.db.commit()
 
     def close(self):
@@ -245,6 +292,21 @@ class Store:
         return dict(row) if row else {"source": source, "initialized": 0, "failures": 0,
                                     "empty_runs": 0, "last_count": None}
 
+    def classify_cached(self, source, job, filters, classifier=classify):
+        """Reuse an unchanged decision; invalidate on any job/filter/code change."""
+        fingerprint = hashlib.sha256(dump([self.classifier_revision, filters, job]).encode()).hexdigest()
+        sid = str(job['source_id'])
+        row = self.db.execute('SELECT fingerprint,result FROM classification_cache WHERE source=? AND source_id=?',
+                              (source,sid)).fetchone()
+        if row and row['fingerprint']==fingerprint:
+            result=json.loads(row['result'])
+            self.db.execute('UPDATE classification_cache SET last_seen=? WHERE source=? AND source_id=?',(now(),source,sid))
+            return result
+        result=classifier(job,filters)
+        self.db.execute('INSERT OR REPLACE INTO classification_cache VALUES(?,?,?,?,?)',
+                        (source,sid,fingerprint,dump(result),now()))
+        return result
+
     def record_source(self, source, count=None, error=None):
         prior = self.source_state(source)
         stamp = now()
@@ -271,7 +333,7 @@ class Store:
                 re.fullmatch(r'JR\d+', str(evidence.get('ats_job_id', ''))) and
                 job.get('description_url') == 'https://jobs.nvidia.com/careers/job/' + str(evidence.get('provider_job_id'))):
             keys.append('url:workday:nvidia:' + evidence['ats_job_id'])
-        known_ats = lambda key: bool(key and key.startswith(("gh:", "lever:", "ashby:", "smartrecruiters:", "workday:nvidia:", "snap:")))
+        known_ats = lambda key: bool(key and key.startswith(("gh:", "lever:", "ashby:", "smartrecruiters:", "workday:", "snap:", "atlassian:", "oracle:", "bytedance:", "jibe:")))
         # Application destinations often share a login/form. Only known ATS
         # requisitions can add an alias; conflicting requisitions cannot merge.
         if application_key and application_key != description_key and known_ats(application_key):
@@ -317,7 +379,8 @@ class Store:
             direct_payload = json.loads(old['payload'])
             direct_provider = (direct_payload.get('evidence') or {}).get('provider')
             direct_providers = {'greenhouse','lever','ashby','apple','google','eightfold',
-                                'smartrecruiters','snap','amazon','rippling','bloomberg','bytedance'}
+                                'smartrecruiters','snap','amazon','rippling','bloomberg','bytedance',
+                                'workday','jibe','atlassian','jobvite','oracle','tiktok'}
             incoming_destinations = [url_identity(job.get(field)) for field in ('description_url','application_url') if job.get(field)]
             known_aliases = bool(incoming_destinations) and all(key and self.db.execute(
                 'SELECT 1 FROM identities WHERE identity=? AND job_id=?', ('url:'+key,jid)).fetchone()

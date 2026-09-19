@@ -15,6 +15,7 @@ EIGHTFOLD_HOSTS = {
     'nvidia.com': 'https://jobs.nvidia.com',
     'microsoft.com': 'https://apply.careers.microsoft.com',
     'netflix.com': 'https://explore.jobs.netflix.net',
+    'paypal.com': 'https://paypal.eightfold.ai',
 }
 
 
@@ -317,11 +318,20 @@ def bloomberg(source, client):
 
 
 def bytedance(source, client):
+    return _byte_supplier(source, client, 'bytedance')
+
+
+def tiktok(source, client):
+    return _byte_supplier(source, client, 'tiktok')
+
+
+def _byte_supplier(source, client, brand):
+    base, career = ('https://api.lifeattiktok.com', 'https://lifeattiktok.com') if brand=='tiktok' else ('https://jobs.bytedance.com','https://joinbytedance.com')
     jobs, seen, offset, expected = [], set(), 0, None
     for _ in range(_bounds(source)):
-        response = client.post('https://jobs.bytedance.com/api/v1/public/supplier/search/job/posts',
+        response = client.post(base+'/api/v1/public/supplier/search/job/posts',
             json={'keyword': source.get('query', 'intern'), 'limit': 1000, 'offset': offset},
-            headers={'accept-language': 'en-US', 'website-path': 'en', 'Origin': 'https://joinbytedance.com'},
+            headers={'accept-language': 'en-US', 'website-path': 'en', 'Origin': career},
             respect_robots=True, retry_post=True)
         response.raise_for_status()
         payload = response.json()
@@ -346,10 +356,10 @@ def bytedance(source, client):
                 if loc.get('en_name'):
                     parts.append(loc['en_name'])
                 loc = loc.get('parent')
-            jobs.append(_base(source, 'bytedance', identity, item['title'], 'https://joinbytedance.com/search/' + identity,
+            jobs.append(_base(source, brand, identity, item['title'], career+'/search/' + identity,
                 description='\n'.join(str(item.get(k) or '') for k in ('description', 'requirement')),
                 locations=[', '.join(dict.fromkeys(parts))], employment_type=(item.get('recruit_type') or {}).get('en_name'),
-                evidence={'provider': 'bytedance', 'provider_job_id': identity, 'requisition_id': item.get('code'),
+                evidence={'provider': brand, 'provider_job_id': identity, 'requisition_id': item.get('code'),
                           'search_scope': source.get('query', 'intern')}))
         offset += len(items)
         if offset == total:

@@ -15,7 +15,7 @@ import requests
 from .classify import plain
 from .google_source import GoogleDetailError, google_job_id, google_title_matches, parse_google_detail
 
-VALIDATOR_VERSION = 8
+VALIDATOR_VERSION = 9
 
 
 class Page(HTMLParser):
@@ -429,7 +429,7 @@ def provider_spec(url, job=None):
 
 def _api_posting(job, spec, client):
     """Fresh documented ATS data can prove a posting, never application access."""
-    if spec['provider'] in {'smartrecruiters', 'eightfold', 'snap'}:
+    if spec['provider'] in {'smartrecruiters', 'eightfold', 'snap', 'workday'}:
         from .employer_validation import check_posting
         return check_posting(job, spec, client)
     check={'kind':'posting_api','requested_url':spec['api'],'final_url':None,'status':'unverified','evidence':[]}
@@ -523,7 +523,7 @@ def validate_job(job: dict, client) -> dict:
     if posting_check['status']=='unverified' and spec:
         api_check=_api_posting(job,spec,client)
         checks.append(api_check)
-        if api_check['status']=='open':
+        if api_check['status'] in {'open', 'closed'}:
             posting_check=api_check
     visited = set()
     current = (posting_check.get('application_url') if posting_check['status']=='open' else None) or application_url

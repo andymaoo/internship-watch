@@ -251,7 +251,7 @@ def _run(config, db_path, collector, client, validator, sender):
                     raise ValueError("Source returned a non-list result")
                 with store.transaction():
                     for job in jobs:
-                        classification = classify(job, config.get("filters", {}))
+                        classification = store.classify_cached(key, job, config.get("filters", {}), classifier=classify)
                         candidate = classification["decision"] == "include" or (
                             classification["decision"] == "ambiguous" and classification.get("positive_opportunity_evidence"))
                         if not candidate:
@@ -285,6 +285,9 @@ def _run(config, db_path, collector, client, validator, sender):
                 log.warning("source=%s status=failed error=%s", key, detail)
         # Previously discovered jobs are rechecked even if collection is temporarily down.
         summary["timings_seconds"] = {"collection": round(time.monotonic()-collection_started, 3)}
+        with store.transaction():
+            store.db.execute("DELETE FROM classification_cache WHERE last_seen < ?",
+                ((datetime.now(timezone.utc)-timedelta(days=30)).isoformat(timespec='seconds'),))
         validation_started = time.monotonic()
         pending = validation_candidates(store, max(0, config.get("validation_budget", 100)))
         validation_deadline = time.monotonic() + config.get("validation_seconds", 60)

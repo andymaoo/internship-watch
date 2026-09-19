@@ -7,6 +7,10 @@ from .employer_sources import EIGHTFOLD_HOSTS
 
 
 def spec_for(url):
+    from .platform_sources import workday_spec
+    workday = workday_spec(url)
+    if workday and 'id' in workday:
+        return dict(workday, api=workday['api']+workday['path'], respect_robots=True)
     parsed = urlsplit(url)
     host, parts = parsed.hostname, parsed.path.strip('/').split('/')
     if host == 'jobs.smartrecruiters.com' and len(parts) == 2:
@@ -36,6 +40,25 @@ def check_posting(job, spec, client):
     from .links import plain, meaningful_description, title_compatible, employer_compatible, valid_url
     check = dict(kind='posting_api', requested_url=spec['api'], final_url=None, status='unverified', evidence=[])
     try:
+        if spec['provider'] == 'workday':
+            from .platform_sources import workday_spec, workday_detail
+            data = workday_detail(workday_spec(spec['canonical']), client)
+            item = data['jobPostingInfo']
+            description = plain(item['jobDescription'])
+            if not employer_compatible(job.get('employer'), (data.get('hiringOrganization') or {}).get('name'), spec['canonical']):
+                raise ValueError('Workday employer mismatch')
+            if not title_compatible(job.get('title'),item['title'],same_identifier=True):
+                raise ValueError('Workday title mismatch')
+            if not meaningful_description(description):
+                raise ValueError('Missing meaningful Workday description')
+            if not isinstance(item.get('posted'),bool):
+                raise ValueError('Missing Workday publication state')
+            check.update(status='open' if item['posted'] else 'closed', http_status=200,
+                         final_url=spec['api'],posting_url=item['externalUrl'],title=item['title'],
+                         fetched_at=datetime.now(timezone.utc).isoformat(),description=description[:50_000],
+                         evidence=['fresh_public_workday_detail','exact_employer_site_posting_and_title_verified',
+                                   'employer_posted_true' if item['posted'] else 'employer_posted_false'])
+            return check
         response = client.get(spec['api'], respect_robots=spec.get('respect_robots', False), raise_for_status=False)
         check.update(http_status=response.status_code, final_url=response.url, fetched_at=datetime.now(timezone.utc).isoformat())
         if response.status_code != 200:

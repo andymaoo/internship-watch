@@ -173,22 +173,22 @@ class EmployerValidationTests(unittest.TestCase):
     @patch('internship_watch.runner.heartbeat')
     def test_every_requested_company_can_queue_a_new_qualifying_record_once(self,_):
         config=json.loads((Path(__file__).resolve().parents[1]/'config.example.json').read_text())
-        self.assertEqual(len(config['company_watchlist']),50)
-        self.assertEqual(sum(bool(c['direct_sources']) for c in config['company_watchlist']),47)
+        self.assertEqual(len(config['company_watchlist']),105)
+        self.assertEqual(sum(bool(c['direct_sources']) for c in config['company_watchlist']),99)
         configured={s['id'] for s in config['sources'] if s.get('enabled',True)}
         for company in config['company_watchlist']:
             self.assertTrue(set(company['direct_sources']+company['feed_sources']) <= configured)
         with tempfile.TemporaryDirectory() as directory:
-            cfg=dict(database=str(Path(directory)/'jobs.db'),sources=[{'id':'contract'}],filters=config['filters'])
+            cfg=dict(database=str(Path(directory)/'jobs.db'),sources=[{'id':'contract'}],filters=config['filters'],validation_budget=200,delivery_budget=200)
             sender=Mock();client=Mock()
             run_once(cfg,collector=lambda *_:[],client=client,validator=verified,sender=sender)
             fixtures=[]
             for index,company in enumerate(config['company_watchlist']):
                 row=job(str(100000+index));row['employer']=company['company'];fixtures.append(row)
             run_once(cfg,collector=lambda *_:fixtures,client=client,validator=verified,sender=sender)
-            self.assertEqual(sender.send.call_count,50)
+            self.assertEqual(sender.send.call_count,105)
             run_once(cfg,collector=lambda *_:fixtures,client=client,validator=verified,sender=sender)
-            self.assertEqual(sender.send.call_count,50)
+            self.assertEqual(sender.send.call_count,105)
 
     def test_fresh_eightfold_detail_proves_posting_only(self):
         url='https://jobs.nvidia.com/careers/job/123'

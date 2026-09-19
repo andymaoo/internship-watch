@@ -230,7 +230,10 @@ ADAPTERS = {"greenhouse": greenhouse, "lever": lever, "ashby": ashby, "simplify"
 
 def collect(source: dict, client) -> list[dict]:
     from . import employer_sources
-    for name in ('smartrecruiters', 'eightfold', 'snap', 'uber', 'amazon', 'rippling', 'bloomberg', 'bytedance'):
+    from . import platform_sources
+    for name in ('workday', 'jibe', 'atlassian', 'jobvite', 'oracle'):
+        ADAPTERS[name] = getattr(platform_sources, name)
+    for name in ('smartrecruiters', 'eightfold', 'snap', 'uber', 'amazon', 'rippling', 'bloomberg', 'bytedance', 'tiktok'):
         ADAPTERS[name] = getattr(employer_sources, name)
     if source.get("type") not in ADAPTERS:
         raise SourceError(f"Unsupported or quarantined adapter: {source.get('type')}")

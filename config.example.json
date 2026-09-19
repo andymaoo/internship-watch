@@ -700,6 +700,492 @@
       "query": "intern",
       "enabled": true,
       "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-stubhubinc",
+      "type": "greenhouse",
+      "slug": "stubhubinc",
+      "employer": "StubHub",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-nuro",
+      "type": "greenhouse",
+      "slug": "nuro",
+      "employer": "Nuro",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-zscaler",
+      "type": "greenhouse",
+      "slug": "zscaler",
+      "employer": "Zscaler",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-purestorage",
+      "type": "greenhouse",
+      "slug": "purestorage",
+      "employer": "Pure Storage",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-duolingounirecruitment",
+      "type": "greenhouse",
+      "slug": "duolingounirecruitment",
+      "employer": "Duolingo",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-boxinc",
+      "type": "greenhouse",
+      "slug": "boxinc",
+      "employer": "Box",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-spacex",
+      "type": "greenhouse",
+      "slug": "spacex",
+      "employer": "SpaceX",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-flexport",
+      "type": "greenhouse",
+      "slug": "flexport",
+      "employer": "Flexport",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-verkada",
+      "type": "greenhouse",
+      "slug": "verkada",
+      "employer": "Verkada",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-roku",
+      "type": "greenhouse",
+      "slug": "roku",
+      "employer": "Roku",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-c3iot",
+      "type": "greenhouse",
+      "slug": "c3iot",
+      "employer": "C3.ai",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-sofi",
+      "type": "greenhouse",
+      "slug": "sofi",
+      "employer": "SoFi",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-nextdoor",
+      "type": "greenhouse",
+      "slug": "nextdoor",
+      "employer": "Nextdoor",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-okta",
+      "type": "greenhouse",
+      "slug": "okta",
+      "employer": "Okta",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-coursera",
+      "type": "greenhouse",
+      "slug": "coursera",
+      "employer": "Coursera",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-riotgames",
+      "type": "greenhouse",
+      "slug": "riotgames",
+      "employer": "Riot Games",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-samsungresearchamericainternship",
+      "type": "greenhouse",
+      "slug": "samsungresearchamericainternship",
+      "employer": "Samsung Research America",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-twilio",
+      "type": "greenhouse",
+      "slug": "twilio",
+      "employer": "Twilio",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-mercury",
+      "type": "greenhouse",
+      "slug": "mercury",
+      "employer": "Mercury",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-skydio",
+      "type": "ashby",
+      "slug": "skydio",
+      "employer": "Skydio",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-benchling",
+      "type": "ashby",
+      "slug": "benchling",
+      "employer": "Benchling",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-quora",
+      "type": "ashby",
+      "slug": "quora",
+      "employer": "Quora",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "lever-zoox",
+      "type": "lever",
+      "slug": "zoox",
+      "employer": "Zoox",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "lever-veeva",
+      "type": "lever",
+      "slug": "veeva",
+      "employer": "Veeva Systems",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "lever-spotify",
+      "type": "lever",
+      "slug": "spotify",
+      "employer": "Spotify",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "smartrecruiters-aristanetworks",
+      "type": "smartrecruiters",
+      "slug": "AristaNetworks",
+      "employer": "Arista Networks",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "smartrecruiters-servicenow",
+      "type": "smartrecruiters",
+      "slug": "ServiceNow",
+      "employer": "ServiceNow",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-applied",
+      "type": "ashby",
+      "slug": "applied",
+      "employer": "Applied Intuition",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-aurora-operations-inc",
+      "type": "ashby",
+      "slug": "aurora-operations-inc",
+      "employer": "Aurora",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-hubspotjobs",
+      "type": "greenhouse",
+      "slug": "hubspotjobs",
+      "employer": "HubSpot",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-servicetitan",
+      "type": "workday",
+      "url": "https://servicetitan.wd1.myworkdayjobs.com/ServiceTitan",
+      "employer": "ServiceTitan",
+      "max_pages": 100,
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "workday-salesforce",
+      "type": "workday",
+      "url": "https://salesforce.wd12.myworkdayjobs.com/External_Career_Site",
+      "employer": "Salesforce",
+      "max_pages": 100,
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "workday-palo-alto-networks",
+      "type": "workday",
+      "url": "https://paloaltonetworks.wd5.myworkdayjobs.com/panwexternalcareers",
+      "employer": "Palo Alto Networks",
+      "max_pages": 100,
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "workday-adobe",
+      "type": "workday",
+      "url": "https://adobe.wd5.myworkdayjobs.com/external_experienced",
+      "employer": "Adobe",
+      "max_pages": 100,
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "workday-zoom",
+      "type": "workday",
+      "url": "https://zoom.wd5.myworkdayjobs.com/zoom",
+      "employer": "Zoom",
+      "max_pages": 100,
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "workday-broadcom",
+      "type": "workday",
+      "url": "https://broadcom.wd1.myworkdayjobs.com/External_Career",
+      "employer": "Broadcom",
+      "max_pages": 100,
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "workday-capital-one",
+      "type": "workday",
+      "url": "https://capitalone.wd12.myworkdayjobs.com/Capital_One",
+      "employer": "Capital One",
+      "max_pages": 100,
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "workday-crowdstrike",
+      "type": "workday",
+      "url": "https://crowdstrike.wd5.myworkdayjobs.com/crowdstrikecareers",
+      "employer": "CrowdStrike",
+      "max_pages": 100,
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "workday-ebay",
+      "type": "workday",
+      "url": "https://ebay.wd5.myworkdayjobs.com/apply",
+      "employer": "eBay",
+      "max_pages": 100,
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "workday-samsung",
+      "type": "workday",
+      "url": "https://sec.wd3.myworkdayjobs.com/Samsung_Careers",
+      "employer": "Samsung",
+      "max_pages": 100,
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "workday-unity",
+      "type": "workday",
+      "url": "https://unitytech.wd1.myworkdayjobs.com/Unity",
+      "employer": "Unity",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "jibe-amd",
+      "type": "jibe",
+      "url": "https://careers.amd.com",
+      "employer": "AMD",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "jibe-github",
+      "type": "jibe",
+      "url": "https://www.github.careers",
+      "employer": "GitHub",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "atlassian-direct",
+      "type": "atlassian",
+      "employer": "Atlassian",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "jobvite-nutanix",
+      "type": "jobvite",
+      "slug": "nutanix",
+      "employer": "Nutanix",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-cisco",
+      "type": "workday",
+      "employer": "Cisco",
+      "url": "https://cisco.wd5.myworkdayjobs.com/Cisco_Careers",
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "opportunity_facets": true,
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "oracle-direct",
+      "type": "oracle",
+      "employer": "Oracle",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "eightfold-paypal",
+      "type": "eightfold",
+      "employer": "PayPal",
+      "domain": "paypal.com",
+      "searches": [
+        {
+          "query": "intern"
+        },
+        {
+          "query": "co-op"
+        },
+        {
+          "query": "fellowship"
+        },
+        {
+          "query": "residency"
+        }
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "tiktok-direct",
+      "type": "tiktok",
+      "employer": "TikTok",
+      "query": "intern",
+      "enabled": true,
+      "expect_nonempty": false
     }
   ],
   "poll_seconds": 300,
@@ -714,7 +1200,7 @@
   "awaiting_digest_seconds": 300,
   "export_directory": "data/export",
   "blocked_recheck_seconds": 43200,
-  "collection_workers": 3,
+  "collection_workers": 4,
   "source_seconds": 180,
   "company_watchlist": [
     {
@@ -862,7 +1348,8 @@
       "company": "Block",
       "aliases": [
         "Block",
-        "Block, Inc."
+        "Block, Inc.",
+        "Square"
       ],
       "direct_sources": [
         "greenhouse-block"
@@ -871,7 +1358,7 @@
         "simplify-public-internships"
       ],
       "coverage": "direct_and_public_feed",
-      "note": ""
+      "note": "Block parent-company Greenhouse board includes Square roles; subsidiary coverage may vary."
     },
     {
       "company": "Roblox",
@@ -1236,7 +1723,7 @@
       "feed_sources": [
         "simplify-public-internships"
       ],
-      "coverage": "direct_and_public_feed",
+      "coverage": "public_feed_incomplete",
       "note": "Azure live check returned HTTP 403 with a Cloudflare challenge. Direct collection is disabled; use public-feed discovery and official employer email alerts. No challenge bypass is attempted."
     },
     {
@@ -1294,18 +1781,20 @@
       "note": ""
     },
     {
-      "company": "ByteDance",
+      "company": "ByteDance / TikTok",
       "aliases": [
-        "ByteDance"
+        "ByteDance",
+        "TikTok"
       ],
       "direct_sources": [
-        "bytedance-direct"
+        "bytedance-direct",
+        "tiktok-direct"
       ],
       "feed_sources": [
         "simplify-public-internships"
       ],
       "coverage": "direct_and_public_feed",
-      "note": "Direct discovery uses configured internship/student/research keyword searches; differently named programs may be missed."
+      "note": "Both public supplier hosts currently expose the same shared recruitment index. Identical global posting IDs are deduplicated across ByteDance/TikTok URLs. The index includes group roles; brand-specific website search scopes may differ."
     },
     {
       "company": "Lyft",
@@ -1419,6 +1908,771 @@
       ],
       "coverage": "direct_and_public_feed",
       "note": ""
+    },
+    {
+      "company": "StubHub",
+      "aliases": [
+        "StubHub"
+      ],
+      "direct_sources": [
+        "greenhouse-stubhubinc"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Skydio",
+      "aliases": [
+        "Skydio"
+      ],
+      "direct_sources": [
+        "ashby-skydio"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Nuro",
+      "aliases": [
+        "Nuro"
+      ],
+      "direct_sources": [
+        "greenhouse-nuro"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "ServiceTitan",
+      "aliases": [
+        "ServiceTitan"
+      ],
+      "direct_sources": [
+        "workday-servicetitan"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday uses current structured Intern/Student/Co-op worker types when available, plus fellowship/residency keywords; otherwise intern keyword search. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Zscaler",
+      "aliases": [
+        "Zscaler"
+      ],
+      "direct_sources": [
+        "greenhouse-zscaler"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Pure Storage",
+      "aliases": [
+        "Pure Storage"
+      ],
+      "direct_sources": [
+        "greenhouse-purestorage"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Samsara",
+      "aliases": [
+        "Samsara"
+      ],
+      "direct_sources": [
+        "greenhouse-samsara"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Applied Intuition",
+      "aliases": [
+        "Applied Intuition"
+      ],
+      "direct_sources": [
+        "ashby-applied"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Benchling",
+      "aliases": [
+        "Benchling"
+      ],
+      "direct_sources": [
+        "ashby-benchling"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Duolingo",
+      "aliases": [
+        "Duolingo"
+      ],
+      "direct_sources": [
+        "greenhouse-duolingounirecruitment"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Direct coverage uses the official university recruiting board."
+    },
+    {
+      "company": "Box",
+      "aliases": [
+        "Box"
+      ],
+      "direct_sources": [
+        "greenhouse-boxinc"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "SpaceX",
+      "aliases": [
+        "SpaceX"
+      ],
+      "direct_sources": [
+        "greenhouse-spacex"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Flexport",
+      "aliases": [
+        "Flexport"
+      ],
+      "direct_sources": [
+        "greenhouse-flexport"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Verkada",
+      "aliases": [
+        "Verkada"
+      ],
+      "direct_sources": [
+        "greenhouse-verkada"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Roku",
+      "aliases": [
+        "Roku"
+      ],
+      "direct_sources": [
+        "greenhouse-roku"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "C3.ai",
+      "aliases": [
+        "C3.ai"
+      ],
+      "direct_sources": [
+        "greenhouse-c3iot"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Aurora",
+      "aliases": [
+        "Aurora"
+      ],
+      "direct_sources": [
+        "ashby-aurora-operations-inc"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "PayPal",
+      "aliases": [
+        "PayPal"
+      ],
+      "direct_sources": [
+        "eightfold-paypal"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "SoFi",
+      "aliases": [
+        "SoFi"
+      ],
+      "direct_sources": [
+        "greenhouse-sofi"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Nextdoor",
+      "aliases": [
+        "Nextdoor"
+      ],
+      "direct_sources": [
+        "greenhouse-nextdoor"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Quora",
+      "aliases": [
+        "Quora"
+      ],
+      "direct_sources": [
+        "ashby-quora"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Slack",
+      "aliases": [
+        "Slack"
+      ],
+      "direct_sources": [
+        "workday-salesforce"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Parent-company coverage: Salesforce public recruiting board includes Slack roles; Salesforce records are not relabeled as Slack. Workday uses current structured Intern/Student/Co-op worker types when available, plus fellowship/residency keywords; otherwise intern keyword search. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Salesforce",
+      "aliases": [
+        "Salesforce"
+      ],
+      "direct_sources": [
+        "workday-salesforce"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday uses current structured Intern/Student/Co-op worker types when available, plus fellowship/residency keywords; otherwise intern keyword search. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Okta",
+      "aliases": [
+        "Okta"
+      ],
+      "direct_sources": [
+        "greenhouse-okta"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "HubSpot",
+      "aliases": [
+        "HubSpot"
+      ],
+      "direct_sources": [
+        "greenhouse-hubspotjobs"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Atlassian",
+      "aliases": [
+        "Atlassian"
+      ],
+      "direct_sources": [
+        "atlassian-direct"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Palo Alto Networks",
+      "aliases": [
+        "Palo Alto Networks"
+      ],
+      "direct_sources": [
+        "workday-palo-alto-networks"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday uses current structured Intern/Student/Co-op worker types when available, plus fellowship/residency keywords; otherwise intern keyword search. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Coursera",
+      "aliases": [
+        "Coursera"
+      ],
+      "direct_sources": [
+        "greenhouse-coursera"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Adobe",
+      "aliases": [
+        "Adobe"
+      ],
+      "direct_sources": [
+        "workday-adobe"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday uses current structured Intern/Student/Co-op worker types when available, plus fellowship/residency keywords; otherwise intern keyword search. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Zoox",
+      "aliases": [
+        "Zoox"
+      ],
+      "direct_sources": [
+        "lever-zoox"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "MongoDB",
+      "aliases": [
+        "MongoDB"
+      ],
+      "direct_sources": [
+        "greenhouse-mongodb"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Oracle",
+      "aliases": [
+        "Oracle"
+      ],
+      "direct_sources": [
+        "oracle-direct"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Direct coverage uses the public Oracle Cloud Candidate Experience Student/Intern worker-type scope. Other research programs depend on public-feed discovery."
+    },
+    {
+      "company": "Splunk",
+      "aliases": [
+        "Splunk"
+      ],
+      "direct_sources": [
+        "workday-cisco"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Parent-company coverage: Splunk official careers links to Cisco Workday. Cisco records are not relabeled as Splunk. Workday uses current structured Intern/Student/Co-op worker types when available, plus fellowship/residency keywords; otherwise intern keyword search. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Nutanix",
+      "aliases": [
+        "Nutanix"
+      ],
+      "direct_sources": [
+        "jobvite-nutanix"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Riot Games",
+      "aliases": [
+        "Riot Games"
+      ],
+      "direct_sources": [
+        "greenhouse-riotgames"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "AMD",
+      "aliases": [
+        "AMD"
+      ],
+      "direct_sources": [
+        "jibe-amd"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Intuit",
+      "aliases": [
+        "Intuit"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "The career site pagination endpoint is excluded by robots policy. A first page is not complete discovery; use the public Simplify feed and employer job alerts."
+    },
+    {
+      "company": "Discord",
+      "aliases": [
+        "Discord"
+      ],
+      "direct_sources": [
+        "greenhouse-discord"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Unity",
+      "aliases": [
+        "Unity"
+      ],
+      "direct_sources": [
+        "workday-unity"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday uses current structured Intern/Student/Co-op worker types when available, plus fellowship/residency keywords; otherwise intern keyword search. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "ServiceNow",
+      "aliases": [
+        "ServiceNow"
+      ],
+      "direct_sources": [
+        "smartrecruiters-servicenow"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Samsung",
+      "aliases": [
+        "Samsung",
+        "Samsung Research America"
+      ],
+      "direct_sources": [
+        "workday-samsung"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Samsung Electronics public Workday board and Samsung Research America internship board. Other Samsung affiliates are not guaranteed. Workday uses current structured Intern/Student/Co-op worker types when available, plus fellowship/residency keywords; otherwise intern keyword search. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Zoom",
+      "aliases": [
+        "Zoom"
+      ],
+      "direct_sources": [
+        "workday-zoom"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday uses current structured Intern/Student/Co-op worker types when available, plus fellowship/residency keywords; otherwise intern keyword search. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Broadcom",
+      "aliases": [
+        "Broadcom"
+      ],
+      "direct_sources": [
+        "workday-broadcom"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday uses current structured Intern/Student/Co-op worker types when available, plus fellowship/residency keywords; otherwise intern keyword search. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Twilio",
+      "aliases": [
+        "Twilio"
+      ],
+      "direct_sources": [
+        "greenhouse-twilio"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Capital One",
+      "aliases": [
+        "Capital One"
+      ],
+      "direct_sources": [
+        "workday-capital-one"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday uses current structured Intern/Student/Co-op worker types when available, plus fellowship/residency keywords; otherwise intern keyword search. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Arista Networks",
+      "aliases": [
+        "Arista Networks"
+      ],
+      "direct_sources": [
+        "smartrecruiters-aristanetworks"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "CrowdStrike",
+      "aliases": [
+        "CrowdStrike"
+      ],
+      "direct_sources": [
+        "workday-crowdstrike"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday uses current structured Intern/Student/Co-op worker types when available, plus fellowship/residency keywords; otherwise intern keyword search. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Cloudflare",
+      "aliases": [
+        "Cloudflare"
+      ],
+      "direct_sources": [
+        "greenhouse-cloudflare"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Veeva Systems",
+      "aliases": [
+        "Veeva Systems"
+      ],
+      "direct_sources": [
+        "lever-veeva"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Mercury",
+      "aliases": [
+        "Mercury"
+      ],
+      "direct_sources": [
+        "greenhouse-mercury"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "IBM",
+      "aliases": [
+        "IBM"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "The public career-search API robots policy prevents automated collection. Use the public Simplify feed and employer job alerts; direct coverage is incomplete."
+    },
+    {
+      "company": "GitHub",
+      "aliases": [
+        "GitHub"
+      ],
+      "direct_sources": [
+        "jibe-github"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Spotify",
+      "aliases": [
+        "Spotify"
+      ],
+      "direct_sources": [
+        "lever-spotify"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "eBay",
+      "aliases": [
+        "eBay"
+      ],
+      "direct_sources": [
+        "workday-ebay"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday uses current structured Intern/Student/Co-op worker types when available, plus fellowship/residency keywords; otherwise intern keyword search. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Tesla",
+      "aliases": [
+        "Tesla"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "The public careers search returned HTTP 403. No challenge bypass is attempted. Use the public Simplify feed and employer alerts; coverage is incomplete."
     }
   ]
 }
