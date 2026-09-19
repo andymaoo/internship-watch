@@ -322,7 +322,13 @@ def bytedance(source, client):
 
 
 def tiktok(source, client):
-    return _byte_supplier(source, client, 'tiktok')
+    # This public supplier endpoint currently returns the shared ByteDance
+    # group index, including explicitly ByteDance-branded roles. Its hostname
+    # is provenance, not evidence that every record's employer is TikTok.
+    jobs = _byte_supplier(dict(source, employer='ByteDance'), client, 'tiktok')
+    for job in jobs:
+        job['evidence']['employer_scope'] = 'parent_group; subsidiary_not_verified'
+    return jobs
 
 
 def _byte_supplier(source, client, brand):

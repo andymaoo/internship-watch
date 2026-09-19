@@ -132,6 +132,16 @@ class PlatformSourceTests(unittest.TestCase):
                 self.assertEqual(store.upsert_job('tik',two,{'decision':'include'},None)[0],first)
             self.assertEqual(len(store.rows('SELECT * FROM jobs')),1)
 
+    def test_tiktok_supplier_host_does_not_relabel_parent_group_jobs(self):
+        item=dict(id='123',title='Software Intern (ByteDance)',description='Build software.',
+            recruit_type={'en_name':'Intern'},city_info={'en_name':'Seattle, WA'})
+        client=BothClient(dict(code=0,data={'count':1,'job_post_list':[item]}))
+        rows=collect(dict(id='tiktok',type='tiktok',employer='TikTok'),client)
+        self.assertEqual(rows[0]['employer'],'ByteDance')
+        self.assertEqual(rows[0]['evidence']['provider'],'tiktok')
+        self.assertEqual(rows[0]['evidence']['employer_scope'],'parent_group; subsidiary_not_verified')
+        self.assertEqual(rows[0]['description_url'],'https://lifeattiktok.com/search/123')
+
 
 class ClassificationCacheTests(unittest.TestCase):
     def test_oracle_veteran_program_audience_requires_review(self):
