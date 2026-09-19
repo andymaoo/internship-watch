@@ -302,6 +302,21 @@ class Store:
             identity_changed = True
         legacy = self.db.execute("SELECT 1 FROM legacy_seen WHERE source_id=?", (sid,)).fetchone()
         payload = dict(job)
+        # A community URL alias must not alternate the stored destination with
+        # its direct employer record every poll. Preserve the direct payload
+        # only for unchanged role identity and already-known exact aliases.
+        # Raw community observations are still recorded independently below.
+        if old and not identity_changed and evidence.get('provider') == 'simplify':
+            direct_payload = json.loads(old['payload'])
+            direct_provider = (direct_payload.get('evidence') or {}).get('provider')
+            direct_providers = {'greenhouse','lever','ashby','apple','google','eightfold',
+                                'smartrecruiters','snap','amazon','rippling','bloomberg','bytedance'}
+            incoming_destinations = [url_identity(job.get(field)) for field in ('description_url','application_url') if job.get(field)]
+            known_aliases = bool(incoming_destinations) and all(key and self.db.execute(
+                'SELECT 1 FROM identities WHERE identity=? AND job_id=?', ('url:'+key,jid)).fetchone()
+                for key in incoming_destinations)
+            if direct_provider in direct_providers and known_aliases:
+                payload = dict(direct_payload)
         def same_destination(before, after):
             if (before or "") == (after or ""):
                 return True
@@ -359,8 +374,8 @@ class Store:
                 self.db.execute("UPDATE jobs SET baseline=1 WHERE id=?", (jid,))
                 self.db.execute("UPDATE outbox SET status='cancelled',last_error='Suppressed by imported legacy seen ID' "
                                 "WHERE dedupe_key=? AND status='pending'", ("new:" + jid,))
-            if identity_changed or not (same_destination(old["original_url"], job.get("description_url")) and
-                    same_destination(old["application_url"], job.get("application_url"))):
+            if identity_changed or not (same_destination(old["original_url"], payload.get("description_url")) and
+                    same_destination(old["application_url"], payload.get("application_url"))):
                 # Previous validation belongs to the previous destinations.
                 # Preserve its historical evidence, but require a new check.
                 self.db.execute("UPDATE jobs SET status='unverified',posting_status='unverified',application_status='unverified',final_url=NULL,final_application_url=NULL,"

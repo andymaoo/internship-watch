@@ -89,6 +89,11 @@ restriction, including 21 newly enabled integrations.
   observed ATS requisition can match its original Workday URL. A one-time alias
   migration preserves existing job IDs, first-seen times, baseline flags and
   delivery receipts; conflicting existing records are not destructively merged.
+* Repeated Simplify/employer URL aliases no longer alternate the saved destination
+  and erase completed checks each poll. Direct employer evidence remains preferred
+  for known exact aliases; raw feed history is retained, and changed role identities
+  or unknown destinations still invalidate validation. A regression test reproduces
+  the NVIDIA Workday/Eightfold case across repeated source polls.
 * Three bounded collection workers use separate HTTP sessions with shared host
   pacing/cooldowns. At most three boards wait in memory, and SQLite writes remain
   on one thread. Source calls have a 180-second deadline. The existing run lock

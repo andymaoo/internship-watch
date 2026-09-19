@@ -1,4 +1,5 @@
 import copy
+from contextlib import closing
 import json
 import tempfile
 import threading
@@ -119,6 +120,30 @@ class EmployerSourceTests(unittest.TestCase):
 
 
 class EmployerValidationTests(unittest.TestCase):
+    def test_feed_alias_does_not_reset_fresh_direct_validation_each_poll(self):
+        with tempfile.TemporaryDirectory() as directory:
+            with closing(Store(Path(directory)/'jobs.db')) as store:
+                feed=job('feed-1');feed.update(employer='NVIDIA',description_url='https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US/Intern_JR123',evidence={'provider':'simplify'})
+                feed['application_url']=feed['description_url']
+                direct=copy.deepcopy(feed);direct.update(source_id='ef-123',description_url='https://jobs.nvidia.com/careers/job/456',description='This internship requires a PhD. Develop software and AI models.',evidence={'provider':'eightfold','domain':'nvidia.com','provider_job_id':'456','ats_job_id':'JR123'})
+                direct['application_url']=direct['description_url']
+                with store.transaction():
+                    jid,_=store.upsert_job('feed',feed,{'decision':'include'},None,baseline=True)
+                    other,_=store.upsert_job('direct',direct,{'decision':'include'},None)
+                    self.assertEqual(other,jid)
+                    store.record_check(jid,dict(status='unverified',posting_status='open',application_status='unverified',checked_at='2026-09-19T00:00:00+00:00',final_description_url=direct['description_url']),'2099-01-01T00:00:00+00:00')
+                before=store.rows('SELECT original_url,last_checked,next_check,posting_status,description,baseline FROM jobs')[0]
+                for _ in range(2):
+                    with store.transaction():
+                        store.upsert_job('feed',feed,{'decision':'include'},None)
+                        self.assertEqual(store.rows('SELECT original_url,last_checked,next_check,posting_status,description,baseline FROM jobs')[0],before)
+                        store.upsert_job('direct',direct,{'decision':'include'},None)
+                        self.assertEqual(store.rows('SELECT original_url,last_checked,next_check,posting_status,description,baseline FROM jobs')[0],before)
+                self.assertEqual(json.loads(store.rows("SELECT payload FROM source_records WHERE source='feed'")[0]['payload'])['description_url'],feed['description_url'])
+                changed=copy.deepcopy(feed);changed['title']='Unrelated Accountant'
+                with store.transaction():store.upsert_job('feed',changed,{'decision':'exclude'},None)
+                self.assertIsNone(store.rows('SELECT last_checked FROM jobs')[0]['last_checked'])
+
     def test_snap_typographic_duties_heading_is_meaningful(self):
         from internship_watch.links import meaningful_description
         description = ('Snap builds tools for people to communicate. What you’ll do: '
