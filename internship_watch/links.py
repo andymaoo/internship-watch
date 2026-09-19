@@ -15,7 +15,7 @@ import requests
 from .classify import plain
 from .google_source import GoogleDetailError, google_job_id, google_title_matches, parse_google_detail
 
-VALIDATOR_VERSION = 7
+VALIDATOR_VERSION = 8
 
 
 class Page(HTMLParser):
@@ -204,7 +204,7 @@ def generic_url(url):
 
 
 def meaningful_description(text):
-    text = plain(text)
+    text = plain(text).replace("\u2019", "'")
     return len(text) >= 120 and len(text.split()) >= 18 and bool(re.search(
         r"\b(?:responsibilit|qualification|requirements?|you will|you'll|your (?:role|work|duties)|about (?:the )?(?:role|job)|(?:the|this) (?:role|position|internship)|role details|interns will (?:work|contribute|develop)|as an? (?:\w+\s+){0,5}intern|duties)\w*\b", text, re.I))
 

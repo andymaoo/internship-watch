@@ -77,6 +77,9 @@ restriction, including 21 newly enabled integrations.
   a regular ByteDance graduate role with copied internship text, and explicit
   PhD/MBA titles containing a mention of a prior bachelor's degree. These no
   longer pass the configured filters; uncertain mixed-duty roles need review.
+* A live Snap detail check exposed typographic apostrophes in duty headings
+  being rejected as missing descriptions. Apostrophe normalization fixes this
+  while retaining exact job identity and substantive-description requirements.
 * Employer posting validity is independent of application access. Exact public
   SmartRecruiters, NVIDIA/Microsoft Eightfold and Snap details can verify a
   posting only after checking employer namespace, job ID, title, canonical URL

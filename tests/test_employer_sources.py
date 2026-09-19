@@ -119,6 +119,14 @@ class EmployerSourceTests(unittest.TestCase):
 
 
 class EmployerValidationTests(unittest.TestCase):
+    def test_snap_typographic_duties_heading_is_meaningful(self):
+        from internship_watch.links import meaningful_description
+        description = ('Snap builds tools for people to communicate. What you’ll do: '
+                       'Build and optimize backend services, investigate performance problems, '
+                       'write automated tests, collaborate with other engineers, review designs, '
+                       'and document your findings for the team.')
+        self.assertTrue(meaningful_description(description))
+
     @patch('internship_watch.runner.heartbeat')
     def test_every_requested_company_can_queue_a_new_qualifying_record_once(self,_):
         config=json.loads((Path(__file__).resolve().parents[1]/'config.example.json').read_text())
