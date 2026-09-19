@@ -13,9 +13,10 @@ from urllib.parse import parse_qs, quote, unquote, urljoin, urlsplit
 import requests
 
 from .classify import plain
+from .http import WorkBudgetExhausted
 from .google_source import GoogleDetailError, google_job_id, google_title_matches, parse_google_detail
 
-VALIDATOR_VERSION = 9
+VALIDATOR_VERSION = 10
 
 
 class Page(HTMLParser):
@@ -230,6 +231,9 @@ def _check(job, url, kind, client, cache):
         if isinstance(response, Exception):
             raise response
     except (requests.RequestException, OSError, ValueError, TimeoutError) as exc:
+        if isinstance(exc, WorkBudgetExhausted):
+            check['evidence'].append('work_budget_exhausted')
+            return check
         response = getattr(exc, "response", None)
         if response is None:
             check["evidence"].append("access_failure:" + type(exc).__name__)
@@ -450,7 +454,8 @@ def _api_posting(job, spec, client):
             check['evidence'].append('public_api_unexpected_redirect');return check
         data=response.json()
     except (requests.RequestException,OSError,ValueError,TimeoutError) as exc:
-        check['evidence'].append('public_api_failure:'+type(exc).__name__);return check
+        check['evidence'].append('work_budget_exhausted' if isinstance(exc, WorkBudgetExhausted)
+                                 else 'public_api_failure:'+type(exc).__name__);return check
     if not isinstance(data,dict):
         check['evidence'].append('public_api_invalid_schema');return check
     if spec['provider']=='ashby':

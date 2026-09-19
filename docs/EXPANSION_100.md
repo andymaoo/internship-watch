@@ -44,6 +44,8 @@ Atlassian's public feed contains repeated identical records. Only exact repeats 
 
 The persistent classification cache uses the complete job payload, filters and classifier-code fingerprint. Job edits, filter edits or classifier changes invalidate it. Old cache entries expire after 30 days without observation. Discovery records, validation history and notification receipts remain separate.
 
+The final host audit found a validation-budget defect: when there was too little time left for rate-limit pacing, unrequested jobs could be recorded as timeouts and deferred for an hour. Local budget exhaustion is now separate from a remote network failure. An entirely deferred check retains its previous state and due time; useful partial posting evidence is kept, can notify immediately, and gets another application check next poll. The loop stops at that boundary instead of churning through the remaining due jobs. A deferred robots fetch cannot cache a denied policy. Regression tests cover these paths, real network timeouts and restart preservation.
+
 New source backlogs are baselined to prevent hundreds of individual alerts. Future newly discovered verified qualifying jobs use the existing Discord queue; qualifying unverified jobs use the separately labeled digest. Existing retry and incident suppression policies remain in place.
 
 ## Acceptance and operations

@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from urllib.parse import urlsplit, parse_qs, urlencode, quote
 
 from .employer_sources import EIGHTFOLD_HOSTS
+from .http import WorkBudgetExhausted
 
 
 def spec_for(url):
@@ -109,6 +110,9 @@ def check_posting(job, spec, client):
                      evidence=['fresh_public_employer_detail','exact_employer_job_identifier_and_title_verified','meaningful_description_present'])
         if application and valid_url(application) and spec['id'].lower() in application.lower():
             check['application_url'] = application
+    except WorkBudgetExhausted:
+        check['evidence'] = ['work_budget_exhausted']
+        return check
     except Exception as exc:
         check['evidence'] = ['public_employer_detail_unverified:'+type(exc).__name__+':'+str(exc)[:160]]
     return check

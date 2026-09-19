@@ -22,6 +22,10 @@ class AccessRestricted(requests.RequestException):
     """A source restriction or unavailable robots policy prevents checking."""
 
 
+class WorkBudgetExhausted(requests.Timeout):
+    """Local scheduling budget exhausted, rather than a remote access failure."""
+
+
 def allow_url(url: str, *, resolve_dns: bool = True) -> str:
     """Reject credentials, local/private destinations and unsupported schemes."""
     if not isinstance(url, str) or any(ord(c) <= 32 or ord(c) == 127 for c in url) or "\\" in url:
@@ -190,13 +194,13 @@ class HttpClient:
             return None
         remaining = self.deadline - time.monotonic()
         if remaining <= 0:
-            raise requests.Timeout("HTTP work deadline exhausted")
+            raise WorkBudgetExhausted("HTTP work deadline exhausted")
         return remaining
 
     def _sleep(self, delay):
         remaining = self._remaining()
         if remaining is not None and delay >= remaining:
-            raise requests.Timeout("HTTP work deadline cannot accommodate pacing or retry delay")
+            raise WorkBudgetExhausted("HTTP work deadline cannot accommodate pacing or retry delay")
         if delay > 0:
             time.sleep(delay)
         self._remaining()
@@ -247,6 +251,8 @@ class HttpClient:
                     self._host_intervals[self._host(url)] = delay
                 else:
                     policy = False
+            except WorkBudgetExhausted:
+                raise  # A deferred robots fetch must not cache a denied policy.
             except (requests.RequestException, ValueError):
                 policy = False
             self._robots[origin] = (time.monotonic(), policy)
@@ -296,11 +302,17 @@ class HttpClient:
                     call_kwargs = dict(kwargs, timeout=self._bounded_timeout(kwargs["timeout"]))
                     response = self.session.request(method, url, allow_redirects=False, **call_kwargs)
                     self._record_response(url, response)
-                    self._remaining()
-                except (requests.Timeout, requests.ConnectionError):
+                except WorkBudgetExhausted:
+                    raise
+                except (requests.Timeout, requests.ConnectionError) as exc:
                     if attempt >= retries:
                         raise
-                    self._sleep(self._retry_delay(None, attempt))
+                    try:
+                        self._sleep(self._retry_delay(None, attempt))
+                    except WorkBudgetExhausted:
+                        # This request really failed. Preserve the network
+                        # evidence when there is no budget for another attempt.
+                        raise exc
                     continue
                 if response.status_code == 429 or response.status_code not in {408, 500, 502, 503, 504} or attempt >= retries:
                     break
