@@ -650,8 +650,9 @@
       "id": "uber-direct",
       "type": "uber",
       "employer": "Uber",
-      "enabled": true,
-      "expect_nonempty": true
+      "enabled": false,
+      "expect_nonempty": true,
+      "disabled_reason": "Azure live check returned HTTP 403 with a Cloudflare challenge. Direct collection is disabled; use public-feed discovery and official employer email alerts. No challenge bypass is attempted."
     },
     {
       "id": "ashby-confluent",
@@ -1231,14 +1232,12 @@
       "aliases": [
         "Uber"
       ],
-      "direct_sources": [
-        "uber-direct"
-      ],
+      "direct_sources": [],
       "feed_sources": [
         "simplify-public-internships"
       ],
       "coverage": "direct_and_public_feed",
-      "note": ""
+      "note": "Azure live check returned HTTP 403 with a Cloudflare challenge. Direct collection is disabled; use public-feed discovery and official employer email alerts. No challenge bypass is attempted."
     },
     {
       "company": "Google",

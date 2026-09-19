@@ -1,8 +1,8 @@
 # Requested company expansion â€” 2026-09-19
 
 The requested list contains 50 companies. Configuration now explicitly tracks all
-50, with 48 direct discovery integrations plus the unrestricted Simplify public
-internship feed. Google and Meta remain **incomplete public-feed discovery**;
+50, with 47 enabled direct discovery integrations plus the unrestricted Simplify public
+internship feed. Google, Meta and Uber remain **incomplete public-feed discovery**;
 these are not represented as successful complete direct integrations.
 
 ## Simplify timing and notifications
@@ -34,7 +34,7 @@ browsable in the report. Subsequent new identifiers use the normal alerts.
 | Microsoft | Public Eightfold career-site search | Structured `employment_type=internship`; all pages. The broad keyword search produced overlapping pages and is not enabled |
 | Netflix | Public Eightfold legacy search | `intern`, `fellow`, `residency`; all pages, deduplicated across queries |
 | Snap | Public careers JSON | Complete response used by its job-list UI, including structured employment type |
-| Uber | Public careers search | All returned employer listings; 100-record pages verified against totals |
+| Uber | Public careers search (disabled on Azure) | 531 jobs collected locally with complete pagination; Azure returns a Cloudflare access challenge. Simplify public-feed discovery remains incomplete |
 | Amazon | Public job search JSON | `intern`, `co-op`, `fellowship`, `residency`, `student`; all pages and qualifications |
 | Rippling | Public careers Algolia index | All search objects; exact job IDs merge only location variants |
 | Bloomberg | Public Avature search pages | Follow every advertised next-page link; check raw row total; deduplicate repeated exact requisition IDs |
@@ -57,6 +57,15 @@ adapter records both raw rows and unique jobs, rejects conflicting identities,
 repeated entire pages and incomplete raw totals. The changing search index is
 not an atomic snapshot; repeated five-minute scans reduce, but cannot eliminate,
 transient omissions caused by upstream reordering.
+
+The actual-host staging gate caught Uber's HTTP 403 response with
+`Cf-Mitigated: challenge`; a locally successful adapter is not treated as a
+working deployment. Its adapter is retained but disabled. No alternate IP,
+proxy, challenge solving or hidden endpoint bypass is used. Uber's
+[official careers search](https://jobs.uber.com/en/jobs/?team=all) offers email
+job alerts as a permitted supplement. That separate subscription is not yet
+configured. There are **74 enabled integrations** after this host-specific
+restriction, including 21 newly enabled integrations.
 
 ## Correctness changes
 
