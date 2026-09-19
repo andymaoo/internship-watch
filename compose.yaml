@@ -1,0 +1,29 @@
+services:
+  watcher:
+    build: .
+    image: internship-watch:local
+    restart: unless-stopped
+    init: true
+    env_file:
+      - .env
+    volumes:
+      - ./config.json:/app/config.json:ro
+      - internship_data:/app/data
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    stop_grace_period: 45s
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+volumes:
+  internship_data:
+    # A fixed name preserves state if the checkout directory/project name changes.
+    name: internship-watch-data

@@ -1,0 +1,500 @@
+{
+  "database": "data/jobs.sqlite3",
+  "http": {
+    "timeout": 20,
+    "connect_timeout": 10,
+    "retries": 2,
+    "min_interval": 1.0,
+    "backoff": 1,
+    "max_retry_after": 60,
+    "max_redirects": 8
+  },
+  "filters": {
+    "countries": [
+      "US"
+    ],
+    "seasons": [],
+    "include_coop": true,
+    "degrees": [
+      "bachelor"
+    ],
+    "graduation_years": [],
+    "categories": [
+      "software",
+      "data_analysis",
+      "data_engineering",
+      "data_science",
+      "ml_ai",
+      "quant",
+      "product"
+    ],
+    "companies": [],
+    "remote_policy": "any",
+    "remote_eligible_countries": [
+      "US"
+    ],
+    "student_years": [
+      "junior"
+    ],
+    "allow_unstated_eligibility": true,
+    "include_research_programs": true,
+    "requires_sponsorship": false,
+    "citizenships": [],
+    "has_security_clearance": null
+  },
+  "notifications": {
+    "channel": "discord"
+  },
+  "sources": [
+    {
+      "id": "greenhouse-databricks",
+      "type": "greenhouse",
+      "employer": "databricks",
+      "enabled": true,
+      "slug": "databricks",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-stripe",
+      "type": "greenhouse",
+      "employer": "stripe",
+      "enabled": true,
+      "slug": "stripe",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-airbnb",
+      "type": "greenhouse",
+      "employer": "airbnb",
+      "enabled": true,
+      "slug": "airbnb",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-figma",
+      "type": "greenhouse",
+      "employer": "figma",
+      "enabled": true,
+      "slug": "figma",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-anthropic",
+      "type": "greenhouse",
+      "employer": "anthropic",
+      "enabled": true,
+      "slug": "anthropic",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-discord",
+      "type": "greenhouse",
+      "employer": "discord",
+      "enabled": true,
+      "slug": "discord",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-robinhood",
+      "type": "greenhouse",
+      "employer": "robinhood",
+      "enabled": true,
+      "slug": "robinhood",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-coinbase",
+      "type": "greenhouse",
+      "employer": "coinbase",
+      "enabled": true,
+      "slug": "coinbase",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-reddit",
+      "type": "greenhouse",
+      "employer": "reddit",
+      "enabled": true,
+      "slug": "reddit",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-pinterest",
+      "type": "greenhouse",
+      "employer": "pinterest",
+      "enabled": true,
+      "slug": "pinterest",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-cloudflare",
+      "type": "greenhouse",
+      "employer": "cloudflare",
+      "enabled": true,
+      "slug": "cloudflare",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-instacart",
+      "type": "greenhouse",
+      "employer": "instacart",
+      "enabled": true,
+      "slug": "instacart",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-scale",
+      "type": "greenhouse",
+      "employer": "scale",
+      "enabled": true,
+      "slug": "scaleai",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-twitch",
+      "type": "greenhouse",
+      "employer": "twitch",
+      "enabled": true,
+      "slug": "twitch",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-roblox",
+      "type": "greenhouse",
+      "employer": "roblox",
+      "enabled": true,
+      "slug": "roblox",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-block",
+      "type": "greenhouse",
+      "employer": "block",
+      "enabled": true,
+      "slug": "block",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-samsara",
+      "type": "greenhouse",
+      "employer": "samsara",
+      "enabled": true,
+      "slug": "samsara",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-rubrik",
+      "type": "greenhouse",
+      "employer": "rubrik",
+      "enabled": true,
+      "slug": "rubrik",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-mongodb",
+      "type": "greenhouse",
+      "employer": "mongodb",
+      "enabled": true,
+      "slug": "mongodb",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-lyft",
+      "type": "greenhouse",
+      "employer": "lyft",
+      "enabled": true,
+      "slug": "lyft",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-xai",
+      "type": "greenhouse",
+      "employer": "xai",
+      "enabled": true,
+      "slug": "xai",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-together",
+      "type": "greenhouse",
+      "employer": "together",
+      "enabled": true,
+      "slug": "togetherai",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-neuralink",
+      "type": "greenhouse",
+      "employer": "neuralink",
+      "enabled": true,
+      "slug": "neuralink",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-glean",
+      "type": "greenhouse",
+      "employer": "glean",
+      "enabled": true,
+      "slug": "gleanwork",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-linear",
+      "type": "ashby",
+      "employer": "linear",
+      "enabled": true,
+      "slug": "linear",
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-vercel",
+      "type": "greenhouse",
+      "employer": "Vercel",
+      "enabled": true,
+      "slug": "vercel",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-perplexity",
+      "type": "ashby",
+      "employer": "perplexity",
+      "enabled": true,
+      "slug": "perplexity",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-cursor",
+      "type": "ashby",
+      "employer": "cursor",
+      "enabled": true,
+      "slug": "cursor",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-openai",
+      "type": "ashby",
+      "employer": "openai",
+      "enabled": true,
+      "slug": "openai",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-ramp",
+      "type": "ashby",
+      "employer": "ramp",
+      "enabled": true,
+      "slug": "ramp",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-plaid",
+      "type": "ashby",
+      "employer": "plaid",
+      "enabled": true,
+      "slug": "plaid",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-snowflake",
+      "type": "ashby",
+      "employer": "snowflake",
+      "enabled": true,
+      "slug": "snowflake",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-notion",
+      "type": "ashby",
+      "employer": "notion",
+      "enabled": true,
+      "slug": "notion",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-harvey",
+      "type": "ashby",
+      "employer": "harvey",
+      "enabled": true,
+      "slug": "harvey",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-sierra",
+      "type": "ashby",
+      "employer": "sierra",
+      "enabled": true,
+      "slug": "sierra",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-cohere",
+      "type": "ashby",
+      "employer": "cohere",
+      "enabled": true,
+      "slug": "cohere",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-characterai",
+      "type": "ashby",
+      "employer": "characterai",
+      "enabled": true,
+      "slug": "character",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-elevenlabs",
+      "type": "ashby",
+      "employer": "elevenlabs",
+      "enabled": true,
+      "slug": "elevenlabs",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-replit",
+      "type": "ashby",
+      "employer": "replit",
+      "enabled": true,
+      "slug": "replit",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-runway",
+      "type": "ashby",
+      "employer": "runway",
+      "enabled": true,
+      "slug": "runway",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-polymarket",
+      "type": "ashby",
+      "employer": "polymarket",
+      "enabled": true,
+      "slug": "polymarket",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-kalshi",
+      "type": "ashby",
+      "employer": "kalshi",
+      "enabled": true,
+      "slug": "kalshi",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-modal",
+      "type": "ashby",
+      "employer": "modal",
+      "enabled": true,
+      "slug": "modal",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-decagon",
+      "type": "ashby",
+      "employer": "decagon",
+      "enabled": true,
+      "slug": "decagon",
+      "expect_nonempty": true
+    },
+    {
+      "id": "lever-palantir",
+      "type": "lever",
+      "employer": "palantir",
+      "enabled": true,
+      "slug": "palantir",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-mistral.ai",
+      "type": "ashby",
+      "employer": "Mistral AI",
+      "enabled": true,
+      "slug": "mistral.ai",
+      "expect_nonempty": true
+    },
+    {
+      "id": "meta-meta",
+      "type": "meta",
+      "employer": "meta",
+      "enabled": false,
+      "disabled_reason": "Live transparent GraphQL call returned one record; undocumented all_jobs completeness cannot be proved and doc_id is fragile. Meta remains covered by public internship feed."
+    },
+    {
+      "id": "google-google",
+      "type": "google",
+      "employer": "google",
+      "enabled": false,
+      "disabled_reason": "Live transparent request stopped by robots policy; no access workaround. Google remains covered by public internship feed."
+    },
+    {
+      "id": "apple-apple",
+      "type": "apple",
+      "employer": "Apple",
+      "enabled": true,
+      "location_filters": [
+        "postLocation-USA"
+      ],
+      "max_pages": 100,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-janestreet",
+      "type": "greenhouse",
+      "employer": "Jane Street",
+      "slug": "janestreet",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-hudsonrivertrading",
+      "type": "greenhouse",
+      "employer": "Hudson River Trading",
+      "slug": "hudsonrivertrading",
+      "enabled": false,
+      "disabled_reason": "Direct Greenhouse endpoint returns HTTP404; employer now serves a custom WordPress jobs plugin. HRT remains covered by the public internship feed. Re-enable only with verified structured source."
+    },
+    {
+      "id": "simplify-public-internships",
+      "type": "simplify",
+      "employer": "Simplify community feed",
+      "url": "https://raw.githubusercontent.com/SimplifyJobs/Summer2027-Internships/dev/.github/scripts/listings.json",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-dvtrading",
+      "type": "greenhouse",
+      "slug": "dvtrading",
+      "employer": "DV Trading",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-virtu",
+      "type": "greenhouse",
+      "slug": "virtu",
+      "employer": "Virtu Financial",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "greenhouse-drweng",
+      "type": "greenhouse",
+      "slug": "drweng",
+      "employer": "DRW",
+      "enabled": true,
+      "expect_nonempty": true
+    }
+  ],
+  "poll_seconds": 300,
+  "initial_run": "silent",
+  "failure_threshold": 3,
+  "validation_budget": 100,
+  "link_recheck_seconds": 86400,
+  "unverified_recheck_seconds": 3600,
+  "closed_recheck_seconds": 604800,
+  "delivery_budget": 50,
+  "validation_seconds": 60
+}

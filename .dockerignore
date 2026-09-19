@@ -1,0 +1,17 @@
+.git
+.github
+.env
+.env.*
+config.json
+data
+work
+dist
+outputs
+.venv
+__pycache__
+**/__pycache__
+*.pyc
+*.sqlite*
+*.lock
+tests
+docs

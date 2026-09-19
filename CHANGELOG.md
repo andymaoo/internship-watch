@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-09-18 — Persistent internship discovery
+
+- Replaced the title-only notification loop with configurable internship/program eligibility, persistent SQLite job/source/check history, and a separate acknowledged-delivery outbox.
+- Added Discord webhooks, retained ntfy support, bounded retries, persistent host/provider cooldowns, incident suppression, process locking and independent heartbeat integration.
+- Preserved structured ATS sources and repaired Apple; corrected Vercel and Mistral migrations, restored Coinbase, expanded quant coverage, and removed the old Simplify company-tier restriction.
+- Added job-specific description/application validation, conservative deduplication, explicit legacy seen.json migration, HTML/CSV/JSON exports, regression tests, and Docker/systemd preparation.
+- Reviewed baseline: `2a776814a993fd74e92cc91aa15e90fb0f99424a`. See `docs/AUDIT.md` and `docs/VALIDATION.md`. Deployment and external notification delivery require target-host acceptance evidence.
+
 ## 2026-04-23
 
 ### Task 1 — Reset seen.json

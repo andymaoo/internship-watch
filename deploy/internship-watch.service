@@ -1,0 +1,33 @@
+[Unit]
+Description=Persistent internship discovery and notification worker
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=internship-watch
+Group=internship-watch
+WorkingDirectory=/opt/internship-watch
+EnvironmentFile=/etc/internship-watch.env
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/opt/internship-watch/.venv/bin/python -m internship_watch --config /etc/internship-watch.json daemon
+Restart=on-failure
+RestartSec=30
+TimeoutStopSec=45
+UMask=0077
+StateDirectory=internship-watch
+StateDirectoryMode=0750
+ReadWritePaths=/var/lib/internship-watch
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+
+[Install]
+WantedBy=multi-user.target

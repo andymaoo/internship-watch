@@ -32,7 +32,7 @@ def _prime_session(session: requests.Session) -> None:
     """Hit the careers HTML page so the session picks up `jobs` and `cs-id`
     cookies. Apple's CSRFToken endpoint will mint a fresh token without these,
     but the search endpoint sometimes 403s if the session looks bare."""
-    session.get(
+    response = session.get(
         CAREERS_NAV_URL,
         headers={
             "user-agent": USER_AGENT,
@@ -46,6 +46,7 @@ def _prime_session(session: requests.Session) -> None:
         },
         timeout=15,
     )
+    response.raise_for_status()
 
 
 def _get_csrf_token(session: requests.Session) -> str:
@@ -73,11 +74,12 @@ def _get_csrf_token(session: requests.Session) -> str:
 
 
 def _search_page(
-    session: requests.Session, csrf_token: str, page: int, query: str = "internship"
+    session: requests.Session, csrf_token: str, page: int, query: str = "internship",
+    locations: list[str] | None = None,
 ) -> dict:
     body = {
         "query": query,
-        "filters": {"locations": ["postLocation-USA"]},
+        "filters": {"locations": ["postLocation-USA"] if locations is None else locations},
         "page": page,
         "locale": "en-us",
         "sort": "relevance",
@@ -103,7 +105,10 @@ def _search_page(
         timeout=15,
     )
     resp.raise_for_status()
-    return resp.json().get("res", {})
+    data = resp.json()
+    if not isinstance(data, dict) or not isinstance(data.get("res"), dict) or not isinstance(data["res"].get("searchResults"), list):
+        raise RuntimeError("Unexpected Apple search response; cannot establish an empty result")
+    return data["res"]
 
 
 def _format_url(position_id: str, transformed_title: str) -> str:
@@ -111,30 +116,36 @@ def _format_url(position_id: str, transformed_title: str) -> str:
     return f"https://jobs.apple.com/en-us/details/{position_id}/{transformed_title}"
 
 
-def fetch_apple_internships() -> list[dict]:
+def fetch_apple_internships(max_pages: int = 100, locations: list[str] | None = None, session=None) -> list[dict]:
     """Convenience used by scrape.py: pull every active US Apple intern posting."""
-    session = requests.Session()
+    session = session or requests.Session()
     _prime_session(session)
     csrf = _get_csrf_token(session)
 
     jobs: list[dict] = []
-    for page in range(1, 11):  # safety cap; ~44 results = ~3 pages typically
-        page_data = _search_page(session, csrf, page=page)
-        results = page_data.get("searchResults", []) or []
+    seen = set()
+    for page in range(1, max_pages + 1):
+        page_data = _search_page(session, csrf, page=page, locations=locations)
+        results = page_data["searchResults"]
         if not results:
-            break
+            return jobs
         for r in results:
+            identity = r.get("id") or r.get("positionId")
+            if not identity or not r.get("postingTitle") or not r.get("positionId"):
+                raise RuntimeError("Apple job is missing id, title or positionId")
+            if identity in seen:
+                raise RuntimeError("Apple pagination repeated job IDs")
+            seen.add(identity)
             jobs.append({
-                "id": r.get("id") or r.get("positionId"),
+                "id": identity,
                 "title": r.get("postingTitle", ""),
                 "url": _format_url(
                     r.get("positionId", ""),
                     r.get("transformedPostingTitle", ""),
                 ),
+                "source_record": r,
             })
-        if len(results) < PAGE_SIZE:
-            break
-    return jobs
+    raise RuntimeError(f"Apple pagination reached safety limit ({max_pages} pages)")
 
 
 if __name__ == "__main__":

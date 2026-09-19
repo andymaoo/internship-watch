@@ -216,15 +216,17 @@ def extract_jobs(payload) -> list[dict]:
     [2]=apply_url, [3]=[null, description_html], [4]=[null, quals_html],
     [9]=list of [city_name, [addrs], city_short, postal, state, country].
     """
-    if not payload or not isinstance(payload, list):
-        return []
+    if not isinstance(payload, list) or not payload:
+        raise RuntimeError("Unexpected Google RPC payload; cannot establish an empty result")
 
     job_list = payload[0] if payload else []
     if not isinstance(job_list, list):
-        return []
+        raise RuntimeError("Google RPC jobs field is not an array")
 
     jobs = []
     for entry in job_list:
+        if not all(isinstance(_safe_get(entry, [index]), str) and _safe_get(entry, [index]) for index in (0, 1, 2)):
+            raise RuntimeError("Google job is missing its id, title or URL")
         loc_entries = _safe_get(entry, [9]) or []
         # Each loc is [city_name, [addrs], city_short, postal, state, country]
         locations = [
@@ -236,27 +238,32 @@ def extract_jobs(payload) -> list[dict]:
             "title": _safe_get(entry, [1]),
             "url": _safe_get(entry, [2]),
             "locations": locations,
+            "description": "\n".join(str(value) for value in (_safe_get(entry, [3, 1]), _safe_get(entry, [4, 1])) if value),
+            "employment_type": "Intern",
         })
 
     return jobs
 
 
-def fetch_google_internships() -> list[dict]:
+def fetch_google_internships(max_pages: int = 100) -> list[dict]:
     """Convenience used by scrape.py: pull current Google intern postings.
 
-    Returns up to ~50 results per page; we paginate until a page is empty
-    or returns < page_size results.
+    Undocumented RPC: paginate to an empty page and reject repeated pages or
+    an exhausted safety bound instead of returning an incomplete collection.
     """
     all_jobs = []
-    for page in range(1, 11):  # safety cap at 10 pages
+    seen = set()
+    for page in range(1, max_pages + 1):
         payload = search_jobs(employment_types=[EMPLOYMENT_INTERN], page=page)
         page_jobs = extract_jobs(payload)
         if not page_jobs:
-            break
+            return all_jobs
+        identities = {job["id"] for job in page_jobs}
+        if len(identities) != len(page_jobs) or identities & seen:
+            raise RuntimeError("Google pagination repeated job IDs")
+        seen.update(identities)
         all_jobs.extend(page_jobs)
-        if len(page_jobs) < 20:
-            break
-    return all_jobs
+    raise RuntimeError(f"Google pagination reached safety limit ({max_pages} pages)")
 
 
 if __name__ == "__main__":
