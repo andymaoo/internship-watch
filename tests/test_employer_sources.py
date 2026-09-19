@@ -120,6 +120,24 @@ class EmployerSourceTests(unittest.TestCase):
 
 
 class EmployerValidationTests(unittest.TestCase):
+    def test_verified_employer_name_aliases_do_not_invalidate_each_other(self):
+        for name,alias in [('Anduril Industries','Anduril'),('together','Together AI'),('scale','Scale AI')]:
+            with self.subTest(name=name),tempfile.TemporaryDirectory() as directory,closing(Store(Path(directory)/'jobs.db')) as store:
+                feed=job('feed');feed.update(employer=alias,description_url='https://job-boards.greenhouse.io/test/jobs/123',evidence={'provider':'simplify'})
+                feed['application_url']=feed['description_url']
+                direct=copy.deepcopy(feed);direct.update(source_id='gh-test-123',employer=name,evidence={'provider':'greenhouse','provider_job_id':'123'})
+                with store.transaction():
+                    jid,_=store.upsert_job('feed',feed,{'decision':'include'},None,baseline=True)
+                    self.assertEqual(store.upsert_job('direct',direct,{'decision':'include'},None)[0],jid)
+                    store.record_check(jid,dict(status='open',posting_status='open',application_status='open',checked_at='2026-09-19T00:00:00+00:00'),'2099-01-01T00:00:00+00:00')
+                for _ in range(2):
+                    for source,row in [('feed',feed),('direct',direct)]:
+                        with store.transaction():store.upsert_job(source,row,{'decision':'include'},None)
+                        self.assertEqual(store.rows('SELECT last_checked FROM jobs')[0]['last_checked'],'2026-09-19T00:00:00+00:00')
+                direct['employer']='Unrelated Employer'
+                with store.transaction():store.upsert_job('direct',direct,{'decision':'include'},None)
+                self.assertIsNone(store.rows('SELECT last_checked FROM jobs')[0]['last_checked'])
+
     def test_feed_alias_does_not_reset_fresh_direct_validation_each_poll(self):
         with tempfile.TemporaryDirectory() as directory:
             with closing(Store(Path(directory)/'jobs.db')) as store:

@@ -20,6 +20,13 @@ def dump(value):
     return json.dumps(value, ensure_ascii=False, sort_keys=True)
 
 
+def employer_identity(value):
+    """Reviewed display-name aliases; never used to merge job identities."""
+    name = re.sub(r'[^a-z0-9]', '', str(value or '').casefold())
+    return {'andurilindustries':'anduril', 'togetherai':'together',
+            'scaleai':'scale'}.get(name, name)
+
+
 def custom_greenhouse_identity(job):
     """Recognize an observed custom employer URL, never guess an ATS board."""
     evidence = job.get("evidence") or {}
@@ -298,7 +305,7 @@ class Store:
                                    for key in ("title", "employer"))
         if incoming_ats and prior_ats and incoming_ats != prior_ats:
             identity_changed = True
-        if old and str(old["employer"]).casefold() != str(job.get("employer", "")).casefold():
+        if old and employer_identity(old["employer"]) != employer_identity(job.get("employer")):
             identity_changed = True
         legacy = self.db.execute("SELECT 1 FROM legacy_seen WHERE source_id=?", (sid,)).fetchone()
         payload = dict(job)
