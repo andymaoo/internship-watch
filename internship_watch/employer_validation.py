@@ -8,6 +8,11 @@ from .http import WorkBudgetExhausted
 
 
 def spec_for(url):
+    from .ubs_source import identity as ubs_identity, canonical as ubs_canonical, API
+    ubs = ubs_identity(url)
+    if ubs:
+        return dict(provider='ubs', board=ubs[0], id=ubs[1], canonical=ubs_canonical(*ubs),
+                    api=API+'JobDetails', respect_robots=True)
     from .platform_sources import workday_spec
     workday = workday_spec(url)
     if workday and 'id' in workday:
@@ -41,6 +46,20 @@ def check_posting(job, spec, client):
     from .links import plain, meaningful_description, title_compatible, employer_compatible, valid_url
     check = dict(kind='posting_api', requested_url=spec['api'], final_url=None, status='unverified', evidence=[])
     try:
+        if spec['provider'] == 'ubs':
+            from .ubs_source import PublicSearch, description as ubs_description
+            item, fields = PublicSearch(client).detail(spec['board'], spec['id'])
+            description = plain(ubs_description(fields))
+            if (not employer_compatible(job.get('employer'), 'UBS', spec['canonical'])
+                    or not title_compatible(job.get('title'), item['Title'], same_identifier=True)
+                    or not meaningful_description(description)):
+                raise ValueError('UBS employer, title or description mismatch')
+            check.update(status='open' if item['isActive'] else 'closed', http_status=200,
+                final_url=spec['api'], posting_url=spec['canonical'], title=item['Title'],
+                fetched_at=datetime.now(timezone.utc).isoformat(), description=description[:50_000],
+                evidence=['fresh_public_ubs_detail', 'exact_employer_board_job_and_title_verified',
+                          'employer_active_true' if item['isActive'] else 'employer_active_false'])
+            return check
         if spec['provider'] == 'workday':
             from .platform_sources import workday_spec, workday_detail
             data = workday_detail(workday_spec(spec['canonical']), client)

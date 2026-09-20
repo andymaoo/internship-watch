@@ -1,14 +1,14 @@
 # Finance and quant expansion
 
-Reviewed from deployment `690b0209075ac35cafa2067bcf18329eb56bf467`. This request adds 108 named finance/quant employers to the coverage audit. Six already had working direct sources and are retained; DRW also gets its separate university board. The resulting configuration has **210 enabled sources and 212 company labels**, including **87 of these 108 employers with a live-tested direct route** and **21 with incomplete public-feed-only discovery**. Company labels are not source counts. A live directory response does not imply there is a qualifying opening today or guarantee every future opening.
+Reviewed from deployment `690b0209075ac35cafa2067bcf18329eb56bf467`. This request adds 108 named finance/quant employers to the coverage audit. Six already had working direct sources and are retained; DRW also gets its separate university board. The resulting configuration has **211 enabled sources and 212 company labels**, including **88 of these 108 employers with a live-tested direct route** and **20 with incomplete public-feed-only discovery**. Company labels are not source counts. A live directory response does not imply there is a qualifying opening today or guarantee every future opening.
 
-At preparation time, the existing Azure deployment remains active. Local implementation and individual live probes are complete; scheduled production acceptance for this expansion is recorded separately after cutover. No extra server, paid service, account or subscription is created.
+The 210-source release was activated on Azure with its original records and receipts preserved. The additional UBS route is locally tested; final 211-source scheduled production acceptance is recorded separately below after cutover. No extra server, paid service, account or subscription is created.
 
 ## What is collected
 
 Greenhouse, Lever and Ashby public APIs remain the preferred routes. New Workday boards use observed tenant/site names, complete declared-result pagination, current internship/student/co-op facets when available, and US country facets when available. Supplementary keyword searches are explicitly configured; unusually categorized programs may be missed. BMO's worker-type facet is named `company`, CCI declares the tenant `osv_cci` on the host `osv-cci`, and Workday site-name capitalization matters.
 
-Direct custom sources cover D. E. Shaw's public job arrays, Bank of America's US campus Tal.net board, Trexquant's public job API, Group One's employer-linked ApplicantPro listings, GTS/MSCI public iCIMS directories, PanAgora's public listings, Two Sigma's complete current Avature directory, Macquarie's campus directory, Moody's Students & Early Careers category and Renaissance's public directory. Internal, confidential, targeted/private and invitation-only boards are excluded. New full-time rows never become internships merely because they occur on a campus page.
+Direct custom sources cover D. E. Shaw's public job arrays, Bank of America's US campus Tal.net board, Trexquant's public job API, Group One's employer-linked ApplicantPro listings, GTS/MSCI public iCIMS directories, PanAgora's public listings, Two Sigma's complete current Avature directory, Macquarie's campus directory, Moody's Students & Early Careers category Renaissance's public directory, and UBS's complete public student/graduate BrassRing directory (US-filtered after pagination). Internal, confidential, targeted/private and invitation-only boards are excluded. New full-time rows never become internships merely because they occur on a campus page.
 
 Optiver's current public application embeds identify `optiverus`; that board returned 161 global postings. The old `optiver` board was empty and is not enabled. IMC and Man Group use European Greenhouse posting hosts served by the global public Greenhouse API. Point72 includes Cubist. DV's existing board includes DV Equities and DV Commodities. Walleye's official student board and campus FAQ include Quantic. These parent/affiliate scopes do not guarantee every subsidiary vacancy.
 
@@ -23,6 +23,8 @@ The existing public Simplify source remains unrestricted by company: `SimplifyJo
 - `internship_watch/storage.py`: exact finance/Tal.net/Workable/Avature/ApplicantPro identifiers and European Greenhouse aliases migrate conservatively. Random Tal.net navigation tokens and repeated identical AQR `gh_jid` parameters do not create new jobs. Different board IDs, posting instances and CTC campus requisitions remain distinct, even with identical titles.
 - `internship_watch/finance_sources.py`: Moody's live posting `100482312640` declared requisition **14701**, but its Apply link pointed at **14737**. The observed destination is retained with conflict evidence, cannot become an identity alias, and remains application-unverified. Employer posting validity remains independent. Moody's schema posting date and displayed date can also differ; both pieces of evidence are retained rather than inventing recency.
 - `internship_watch/employer_sources.py`: NVIDIA relevance-ranked pages repeated an ID at a page boundary. Explicit `timestamp` ordering returned all 113 distinct declared results, with descending posted timestamps. The adapter verifies that the server honored the configured sort and still fails on duplicate/truncated pages; it never silently accepts 112 of 113.
+
+UBS uses the public search interface with an anonymous session and CSRF token kept only in memory. It checks every declared page with explicit ordering, detects repeated/missing results, excludes restricted postings, and verifies fresh public details using the exact partner/board/job identity. Employer active status and application accessibility stay separate. Its last-updated timestamp is not represented as an employer posting date. The live snapshot had 151 directory entries and 19 US records; one qualifying posting verified open while its application access remained unverified. The mixed-placement Technology internship is reviewable rather than excluded or guaranteed to be a data-engineering assignment.
 
 Source-level deadlines, bounded retries, rate limiting, SQLite locking, notification retry/deduplication, source incident suppression, Healthchecks and report exports remain enabled. Existing source baselines and notification receipts are retained. The first collection of each added board is a baseline import, so it does not generate one alert per historical job. Newly arriving verified matches produce immediate notifications after the run's collection/validation decision; qualifying unverified discoveries appear in a separate digest.
 
@@ -50,7 +52,6 @@ These entries remain visible in the company-coverage report. Full access to the 
 | Société Générale | Official careers pages are accessible, but complete job-search pagination and a current public feed have not been integrated. |
 | Susquehanna International Group | The reviewed SIG iCIMS directory could not be collected under its robots policy. |
 | TGS Management | The official site could not be collected under its robots/access policy; no current direct ATS route verified. |
-| UBS | Official career information is accessible; a complete current public requisition feed has not been verified. |
 | Wells Fargo | Official HTML is accessible, but observed keyword/worker-type query parameters returned unfiltered results; completeness for a bounded internship poll has not been established. The reviewed Workday route could not be collected under its robots policy. |
 | Wolverine Trading | Official open-positions page uses a separate JavaScript widget whose asset robots policy could not be verified. Old Lever route returned 404; no current public feed verified. |
 
@@ -156,7 +157,7 @@ Counts below are public source rows from individual live probes, before the user
 | Trexquant Investment | `trexquant-direct` (34) |  |
 | Tudor Investment Corporation | `greenhouse-tudorgroup` (4) |  |
 | Two Sigma | `twosigma-direct` (55) |  |
-| UBS | **Incomplete: public feed only** | See limitation above. |
+| UBS | `ubs-students` (19) | Official student/graduate BrassRing directory, all declared results paginated before the US filter. Candidate internship details are enriched by exact board/job ID. Last-updated dates are retained as updates, not posting dates; experienced-hire boards are outside scope. |
 | Valkyrie Trading | `lever-valkyrietrading` (6) |  |
 | Vanguard | `workday-vanguard-vanguard_external` (215) | Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed. |
 | Vatic Investments | `greenhouse-vaticlabs` (8) |  |

@@ -310,6 +310,16 @@
       "expect_nonempty": false
     },
     {
+      "id": "ubs-students",
+      "type": "ubs",
+      "employer": "UBS",
+      "country_scope": [
+        "US"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
       "id": "greenhouse-stripe",
       "type": "greenhouse",
       "employer": "stripe",
@@ -5003,12 +5013,14 @@
       "aliases": [
         "UBS"
       ],
-      "direct_sources": [],
+      "direct_sources": [
+        "ubs-students"
+      ],
       "feed_sources": [
         "simplify-public-internships"
       ],
-      "coverage": "public_feed_incomplete",
-      "note": "Official career information is accessible; a complete current public requisition feed has not been verified. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+      "coverage": "direct_and_public_feed",
+      "note": "Official student/graduate BrassRing directory, all declared results paginated before the US filter. Candidate internship details are enriched by exact board/job ID. Last-updated dates are retained as updates, not posting dates; experienced-hire boards are outside scope."
     },
     {
       "company": "Valkyrie Trading",

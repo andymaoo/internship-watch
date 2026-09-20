@@ -204,6 +204,13 @@ def classify(job: dict, filters: dict | None = None) -> dict:
     role_description = re.split(r"\b(?:what you['’]ll do|key (?:job )?responsibilities|your responsibilities)\b",
                                 role_description, maxsplit=1, flags=re.I)[-1]
     category = next((name for name, pattern in CATEGORY_PATTERNS if pattern.search(title)), None)
+    if category is None and internship and re.search(r'\btechnology\b', title, re.I):
+        placement = re.search(r'\b(?:could|may) be placed as\b[^.!?]{0,500}', role_description, re.I)
+        if placement:
+            category = next((name for name, pattern in CATEGORY_PATTERNS if pattern.search(placement[0])), None)
+            if category:
+                record('description', placement[0], 'possible_in_scope_internship_placement')
+                unknown.append('Program includes qualifying placements, but the assigned role is not guaranteed')
     if re.search(r"\b(?:program|project) manag(?:er|ement)\b", title, re.I) and category != 'product_management':
         excludes.append("Program/project management is outside the requested product-management family")
     trading_title = bool(re.search(r"\btrad(?:er|ing)\b", title, re.I))

@@ -529,14 +529,20 @@
       "count": 113,
       "included": 7,
       "seconds": 22.38
+    },
+    "ubs-students": {
+      "status": "ok",
+      "count": 19,
+      "included": 1,
+      "seconds": 16.94
     }
   },
   "summary": {
     "requested": 108,
-    "new_sources": 87,
-    "enabled_sources": 210,
+    "new_sources": 88,
+    "enabled_sources": 211,
     "watchlist": 212,
-    "requested_direct": 87,
+    "requested_direct": 88,
     "gaps": {
       "Balyasny Asset Management": "Public Salesforce guest careers page is a JavaScript shell; a complete guest feed has not been verified.",
       "BNP Paribas": "The official job-search route could not be collected under its robots policy. No access bypass is used.",
@@ -556,7 +562,6 @@
       "Société Générale": "Official careers pages are accessible, but complete job-search pagination and a current public feed have not been integrated.",
       "Susquehanna International Group": "The reviewed SIG iCIMS directory could not be collected under its robots policy.",
       "TGS Management": "The official site could not be collected under its robots/access policy; no current direct ATS route verified.",
-      "UBS": "Official career information is accessible; a complete current public requisition feed has not been verified.",
       "Wells Fargo": "Official HTML is accessible, but observed keyword/worker-type query parameters returned unfiltered results; completeness for a bounded internship poll has not been established. The reviewed Workday route could not be collected under its robots policy.",
       "Wolverine Trading": "Official open-positions page uses a separate JavaScript widget whose asset robots policy could not be verified. Old Lever route returned 404; no current public feed verified."
     }

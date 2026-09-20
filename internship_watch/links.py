@@ -446,7 +446,7 @@ def _prune_posting_cache(cache, maximum=64):
 
 def _api_posting(job, spec, client):
     """Fresh documented ATS data can prove a posting, never application access."""
-    if spec['provider'] in {'smartrecruiters', 'eightfold', 'snap', 'workday'}:
+    if spec['provider'] in {'smartrecruiters', 'eightfold', 'snap', 'workday', 'ubs'}:
         from .employer_validation import check_posting
         return check_posting(job, spec, client)
     check={'kind':'posting_api','requested_url':spec['api'],'final_url':None,'status':'unverified','evidence':[]}

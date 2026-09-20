@@ -70,6 +70,11 @@ def url_identity(url):
             return None
         host, path = u.hostname.lower(), re.sub(r"/+", "/", u.path).rstrip("/")
         query = dict(parse_qsl(u.query))
+        if host == 'jobs.ubs.com':
+            from .ubs_source import identity as ubs_identity
+            identity = ubs_identity(url)
+            if identity:
+                return 'ubs:25008:'+':'.join(identity)
         jibe_boards = {
             'careers.amd.com':'amd','campus-amd.icims.com':'amd','campuscanada-amd.icims.com':'amd',
             'careers-amd.icims.com':'amd','globalcampus-amd.icims.com':'amd',
@@ -292,6 +297,12 @@ class Store:
                     if identity and identity.startswith(('gh:','tal:','deshaw:','workable:','applicantpro:','avature:','successfactors:')):
                         self.db.execute('INSERT OR IGNORE INTO identities(identity,job_id) VALUES(?,?)',('url:'+identity,row['id']))
             self.db.execute("INSERT INTO meta VALUES('finance_url_aliases_v1',?)",(now(),))
+        if 'original_url' in columns and not self.db.execute("SELECT 1 FROM meta WHERE key='ubs_url_aliases_v1'").fetchone():
+            for row in self.db.execute('SELECT id,original_url FROM jobs').fetchall():
+                identity = url_identity(row['original_url'])
+                if identity and identity.startswith('ubs:'):
+                    self.db.execute('INSERT OR IGNORE INTO identities(identity,job_id) VALUES(?,?)', ('url:'+identity,row['id']))
+            self.db.execute("INSERT INTO meta VALUES('ubs_url_aliases_v1',?)", (now(),))
         self.db.commit()
 
     def close(self):
@@ -428,7 +439,7 @@ class Store:
                                 'smartrecruiters','snap','amazon','rippling','bloomberg','bytedance',
                                 'workday','jibe','atlassian','jobvite','oracle','tiktok',
                                 'deshaw','trexquant','groupone','bankofamerica','icims_board',
-                                'panagora','finance_avature','moodys','renaissance'}
+                                'panagora','finance_avature','moodys','renaissance','ubs'}
             incoming_destinations = [url_identity(job.get(field)) for field in ('description_url','application_url') if job.get(field)]
             known_aliases = bool(incoming_destinations) and all(key and self.db.execute(
                 'SELECT 1 FROM identities WHERE identity=? AND job_id=?', ('url:'+key,jid)).fetchone()
