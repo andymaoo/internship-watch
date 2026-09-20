@@ -1,5 +1,6 @@
 """Regression tests for information loss, schema drift and silent truncation."""
 import unittest
+import threading
 from unittest.mock import patch
 from unittest.mock import Mock
 import requests
@@ -135,6 +136,33 @@ class SourceTests(unittest.TestCase):
 
 
 class HttpTests(unittest.TestCase):
+    def test_host_pacing_does_not_block_unrelated_hosts(self):
+        client = HttpClient(min_interval=1)
+        client._last_request['slow.example'] = time.monotonic()
+        sleeping, release = threading.Event(), threading.Event()
+        errors = []
+        def blocked_sleep(delay):
+            sleeping.set()
+            if not release.wait(3):
+                errors.append('test worker was not released')
+        worker = client.fork()
+        worker._sleep = blocked_sleep
+        thread = threading.Thread(target=worker._pace,args=('https://slow.example/jobs',))
+        thread.start()
+        other_done = threading.Event()
+        other = threading.Thread(target=lambda: (client._pace('https://other.example/jobs'),other_done.set()))
+        try:
+            self.assertTrue(sleeping.wait(1))
+            other.start()
+            self.assertTrue(other_done.wait(1), 'Unrelated host waited for another host pacing lock')
+            self.assertIs(client._pacing_locks,worker._pacing_locks)
+        finally:
+            release.set(); thread.join(3)
+            if other.ident: other.join(3)
+            client.close(); worker.close()
+        self.assertFalse(errors)
+
+
     def response(self, status, text="", **headers):
         response = requests.Response()
         response.status_code = status

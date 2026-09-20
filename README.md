@@ -39,6 +39,7 @@ Deduplication uses job-specific URL/requisition identities, not title similarity
 
 ## Configuration and reports
 
+- [Finance/quant expansion, all 108 requested employers and explicit gaps](docs/FINANCE_EXPANSION.md)
 - [Current company expansion and coverage limits](docs/EXPANSION_100.md)
 - [Audit and implementation decisions](docs/AUDIT.md)
 - [Current delivery, measurements and remaining access](docs/CONTINUATION.md)

@@ -59,190 +59,6 @@
       "expect_nonempty": true
     },
     {
-      "id": "greenhouse-stripe",
-      "type": "greenhouse",
-      "employer": "stripe",
-      "enabled": true,
-      "slug": "stripe",
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-airbnb",
-      "type": "greenhouse",
-      "employer": "airbnb",
-      "enabled": true,
-      "slug": "airbnb",
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-figma",
-      "type": "greenhouse",
-      "employer": "figma",
-      "enabled": true,
-      "slug": "figma",
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-anthropic",
-      "type": "greenhouse",
-      "employer": "anthropic",
-      "enabled": true,
-      "slug": "anthropic",
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-discord",
-      "type": "greenhouse",
-      "employer": "discord",
-      "enabled": true,
-      "slug": "discord",
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-robinhood",
-      "type": "greenhouse",
-      "employer": "robinhood",
-      "enabled": true,
-      "slug": "robinhood",
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-coinbase",
-      "type": "greenhouse",
-      "employer": "coinbase",
-      "enabled": true,
-      "slug": "coinbase",
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-reddit",
-      "type": "greenhouse",
-      "employer": "reddit",
-      "enabled": true,
-      "slug": "reddit",
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-pinterest",
-      "type": "greenhouse",
-      "employer": "pinterest",
-      "enabled": true,
-      "slug": "pinterest",
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-cloudflare",
-      "type": "greenhouse",
-      "employer": "cloudflare",
-      "enabled": true,
-      "slug": "cloudflare",
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-instacart",
-      "type": "greenhouse",
-      "employer": "instacart",
-      "enabled": true,
-      "slug": "instacart",
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-scale",
-      "type": "greenhouse",
-      "employer": "scale",
-      "enabled": true,
-      "slug": "scaleai",
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-twitch",
-      "type": "greenhouse",
-      "employer": "twitch",
-      "enabled": true,
-      "slug": "twitch",
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-roblox",
-      "type": "greenhouse",
-      "employer": "roblox",
-      "enabled": true,
-      "slug": "roblox",
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-block",
-      "type": "greenhouse",
-      "employer": "block",
-      "enabled": true,
-      "slug": "block",
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-samsara",
-      "type": "greenhouse",
-      "employer": "samsara",
-      "enabled": true,
-      "slug": "samsara",
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-rubrik",
-      "type": "greenhouse",
-      "employer": "rubrik",
-      "enabled": true,
-      "slug": "rubrik",
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-mongodb",
-      "type": "greenhouse",
-      "employer": "mongodb",
-      "enabled": true,
-      "slug": "mongodb",
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-lyft",
-      "type": "greenhouse",
-      "employer": "lyft",
-      "enabled": true,
-      "slug": "lyft",
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-xai",
-      "type": "greenhouse",
-      "employer": "xai",
-      "enabled": true,
-      "slug": "xai",
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-together",
-      "type": "greenhouse",
-      "employer": "together",
-      "enabled": true,
-      "slug": "togetherai",
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-neuralink",
-      "type": "greenhouse",
-      "employer": "neuralink",
-      "enabled": true,
-      "slug": "neuralink",
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-glean",
-      "type": "greenhouse",
-      "employer": "glean",
-      "enabled": true,
-      "slug": "gleanwork",
-      "expect_nonempty": true
-    },
-    {
       "id": "ashby-linear",
       "type": "ashby",
       "employer": "linear",
@@ -251,171 +67,11 @@
       "expect_nonempty": true
     },
     {
-      "id": "greenhouse-vercel",
-      "type": "greenhouse",
-      "employer": "Vercel",
-      "enabled": true,
-      "slug": "vercel",
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-perplexity",
-      "type": "ashby",
-      "employer": "perplexity",
-      "enabled": true,
-      "slug": "perplexity",
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-cursor",
-      "type": "ashby",
-      "employer": "cursor",
-      "enabled": true,
-      "slug": "cursor",
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-openai",
-      "type": "ashby",
-      "employer": "openai",
-      "enabled": true,
-      "slug": "openai",
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-ramp",
-      "type": "ashby",
-      "employer": "ramp",
-      "enabled": true,
-      "slug": "ramp",
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-plaid",
-      "type": "ashby",
-      "employer": "plaid",
-      "enabled": true,
-      "slug": "plaid",
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-snowflake",
-      "type": "ashby",
-      "employer": "snowflake",
-      "enabled": true,
-      "slug": "snowflake",
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-notion",
-      "type": "ashby",
-      "employer": "notion",
-      "enabled": true,
-      "slug": "notion",
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-harvey",
-      "type": "ashby",
-      "employer": "harvey",
-      "enabled": true,
-      "slug": "harvey",
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-sierra",
-      "type": "ashby",
-      "employer": "sierra",
-      "enabled": true,
-      "slug": "sierra",
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-cohere",
-      "type": "ashby",
-      "employer": "cohere",
-      "enabled": true,
-      "slug": "cohere",
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-characterai",
-      "type": "ashby",
-      "employer": "characterai",
-      "enabled": true,
-      "slug": "character",
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-elevenlabs",
-      "type": "ashby",
-      "employer": "elevenlabs",
-      "enabled": true,
-      "slug": "elevenlabs",
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-replit",
-      "type": "ashby",
-      "employer": "replit",
-      "enabled": true,
-      "slug": "replit",
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-runway",
-      "type": "ashby",
-      "employer": "runway",
-      "enabled": true,
-      "slug": "runway",
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-polymarket",
-      "type": "ashby",
-      "employer": "polymarket",
-      "enabled": true,
-      "slug": "polymarket",
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-kalshi",
-      "type": "ashby",
-      "employer": "kalshi",
-      "enabled": true,
-      "slug": "kalshi",
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-modal",
-      "type": "ashby",
-      "employer": "modal",
-      "enabled": true,
-      "slug": "modal",
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-decagon",
-      "type": "ashby",
-      "employer": "decagon",
-      "enabled": true,
-      "slug": "decagon",
-      "expect_nonempty": true
-    },
-    {
       "id": "lever-palantir",
       "type": "lever",
       "employer": "palantir",
       "enabled": true,
       "slug": "palantir",
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-mistral.ai",
-      "type": "ashby",
-      "employer": "Mistral AI",
-      "enabled": true,
-      "slug": "mistral.ai",
       "expect_nonempty": true
     },
     {
@@ -444,138 +100,10 @@
       "expect_nonempty": true
     },
     {
-      "id": "greenhouse-janestreet",
-      "type": "greenhouse",
-      "employer": "Jane Street",
-      "slug": "janestreet",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-hudsonrivertrading",
-      "type": "greenhouse",
-      "employer": "Hudson River Trading",
-      "slug": "wehrtyou",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
       "id": "simplify-public-internships",
       "type": "simplify",
       "employer": "Simplify community feed",
       "url": "https://raw.githubusercontent.com/SimplifyJobs/Summer2027-Internships/dev/.github/scripts/listings.json",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-dvtrading",
-      "type": "greenhouse",
-      "slug": "dvtrading",
-      "employer": "DV Trading",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-virtu",
-      "type": "greenhouse",
-      "slug": "virtu",
-      "employer": "Virtu Financial",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-drweng",
-      "type": "greenhouse",
-      "slug": "drweng",
-      "employer": "DRW",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-airtable",
-      "type": "greenhouse",
-      "employer": "Airtable",
-      "slug": "airtable",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-affirm",
-      "type": "greenhouse",
-      "employer": "Affirm",
-      "slug": "affirm",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-dropbox",
-      "type": "greenhouse",
-      "employer": "Dropbox",
-      "slug": "dropbox",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-brex",
-      "type": "greenhouse",
-      "employer": "Brex",
-      "slug": "brex",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-waymo",
-      "type": "greenhouse",
-      "employer": "Waymo",
-      "slug": "waymo",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-asana",
-      "type": "greenhouse",
-      "employer": "Asana",
-      "slug": "asana",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-chime",
-      "type": "greenhouse",
-      "employer": "Chime",
-      "slug": "chime",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-andurilindustries",
-      "type": "greenhouse",
-      "employer": "Anduril Industries",
-      "slug": "andurilindustries",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-doordashusa",
-      "type": "greenhouse",
-      "employer": "DoorDash",
-      "slug": "doordashusa",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "greenhouse-datadog",
-      "type": "greenhouse",
-      "employer": "Datadog",
-      "slug": "datadog",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-cerebras",
-      "type": "ashby",
-      "slug": "cerebras",
-      "employer": "Cerebras Systems",
       "enabled": true,
       "expect_nonempty": true
     },
@@ -602,42 +130,8 @@
       ],
       "max_pages": 50,
       "enabled": true,
-      "expect_nonempty": false
-    },
-    {
-      "id": "eightfold-microsoft",
-      "type": "eightfold",
-      "domain": "microsoft.com",
-      "employer": "Microsoft",
-      "searches": [
-        {
-          "filter_employment_type": "internship"
-        }
-      ],
-      "max_pages": 50,
-      "enabled": true,
-      "expect_nonempty": false
-    },
-    {
-      "id": "eightfold-netflix",
-      "type": "eightfold",
-      "domain": "netflix.com",
-      "employer": "Netflix",
-      "searches": [
-        {
-          "query": "intern"
-        },
-        {
-          "query": "fellow"
-        },
-        {
-          "query": "residency"
-        }
-      ],
-      "max_pages": 50,
-      "enabled": true,
       "expect_nonempty": false,
-      "api_variant": "apply"
+      "sort_by": "timestamp"
     },
     {
       "id": "snap-direct",
@@ -653,14 +147,6 @@
       "enabled": false,
       "expect_nonempty": true,
       "disabled_reason": "Azure live check returned HTTP 403 with a Cloudflare challenge. Direct collection is disabled; use public-feed discovery and official employer email alerts. No challenge bypass is attempted."
-    },
-    {
-      "id": "ashby-confluent",
-      "type": "ashby",
-      "slug": "confluent",
-      "employer": "Confluent",
-      "enabled": true,
-      "expect_nonempty": true
     },
     {
       "id": "amazon-direct",
@@ -702,12 +188,1492 @@
       "expect_nonempty": true
     },
     {
+      "id": "workday-servicetitan",
+      "type": "workday",
+      "url": "https://servicetitan.wd1.myworkdayjobs.com/ServiceTitan",
+      "employer": "ServiceTitan",
+      "max_pages": 100,
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "jibe-amd",
+      "type": "jibe",
+      "url": "https://careers.amd.com",
+      "employer": "AMD",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "atlassian-direct",
+      "type": "atlassian",
+      "employer": "Atlassian",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "jobvite-nutanix",
+      "type": "jobvite",
+      "slug": "nutanix",
+      "employer": "Nutanix",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "oracle-direct",
+      "type": "oracle",
+      "employer": "Oracle",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "tiktok-direct",
+      "type": "tiktok",
+      "employer": "TikTok",
+      "query": "intern",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "deshaw-direct",
+      "type": "deshaw",
+      "employer": "D. E. Shaw",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "trexquant-direct",
+      "type": "trexquant",
+      "employer": "Trexquant Investment",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "groupone-direct",
+      "type": "groupone",
+      "employer": "Group One Trading",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "icims-gts",
+      "type": "icims_board",
+      "host": "careers-gtsx.icims.com",
+      "employer": "GTS",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "panagora-direct",
+      "type": "panagora",
+      "employer": "PanAgora Asset Management",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "bankofamerica-campus",
+      "type": "bankofamerica",
+      "employer": "Bank of America",
+      "max_pages": 100,
+      "country_scope": [
+        "US"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "twosigma-direct",
+      "type": "finance_avature",
+      "board": "twosigma",
+      "employer": "Two Sigma",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "moodys-campus",
+      "type": "moodys",
+      "employer": "Moody's",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "renaissance-direct",
+      "type": "renaissance",
+      "employer": "Renaissance Technologies",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-stripe",
+      "type": "greenhouse",
+      "employer": "stripe",
+      "enabled": true,
+      "slug": "stripe",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-perplexity",
+      "type": "ashby",
+      "employer": "perplexity",
+      "enabled": true,
+      "slug": "perplexity",
+      "expect_nonempty": true
+    },
+    {
+      "id": "lever-zoox",
+      "type": "lever",
+      "slug": "zoox",
+      "employer": "Zoox",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "smartrecruiters-aristanetworks",
+      "type": "smartrecruiters",
+      "slug": "AristaNetworks",
+      "employer": "Arista Networks",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "eightfold-microsoft",
+      "type": "eightfold",
+      "domain": "microsoft.com",
+      "employer": "Microsoft",
+      "searches": [
+        {
+          "filter_employment_type": "internship"
+        }
+      ],
+      "max_pages": 50,
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "workday-salesforce",
+      "type": "workday",
+      "url": "https://salesforce.wd12.myworkdayjobs.com/External_Career_Site",
+      "employer": "Salesforce",
+      "max_pages": 100,
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "jibe-github",
+      "type": "jibe",
+      "url": "https://www.github.careers",
+      "employer": "GitHub",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "icims-msci-us",
+      "type": "icims_board",
+      "host": "uscareers-msci.icims.com",
+      "employer": "MSCI",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "macquarie-campus",
+      "type": "finance_avature",
+      "board": "macquarie",
+      "employer": "Macquarie Group",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-airbnb",
+      "type": "greenhouse",
+      "employer": "airbnb",
+      "enabled": true,
+      "slug": "airbnb",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-cursor",
+      "type": "ashby",
+      "employer": "cursor",
+      "enabled": true,
+      "slug": "cursor",
+      "expect_nonempty": true
+    },
+    {
+      "id": "lever-veeva",
+      "type": "lever",
+      "slug": "veeva",
+      "employer": "Veeva Systems",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "smartrecruiters-servicenow",
+      "type": "smartrecruiters",
+      "slug": "ServiceNow",
+      "employer": "ServiceNow",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "eightfold-netflix",
+      "type": "eightfold",
+      "domain": "netflix.com",
+      "employer": "Netflix",
+      "searches": [
+        {
+          "query": "intern"
+        },
+        {
+          "query": "fellow"
+        },
+        {
+          "query": "residency"
+        }
+      ],
+      "max_pages": 50,
+      "enabled": true,
+      "expect_nonempty": false,
+      "api_variant": "apply"
+    },
+    {
+      "id": "workday-palo-alto-networks",
+      "type": "workday",
+      "url": "https://paloaltonetworks.wd5.myworkdayjobs.com/panwexternalcareers",
+      "employer": "Palo Alto Networks",
+      "max_pages": 100,
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-figma",
+      "type": "greenhouse",
+      "employer": "figma",
+      "enabled": true,
+      "slug": "figma",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-openai",
+      "type": "ashby",
+      "employer": "openai",
+      "enabled": true,
+      "slug": "openai",
+      "expect_nonempty": true
+    },
+    {
+      "id": "lever-spotify",
+      "type": "lever",
+      "slug": "spotify",
+      "employer": "Spotify",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "eightfold-paypal",
+      "type": "eightfold",
+      "employer": "PayPal",
+      "domain": "paypal.com",
+      "searches": [
+        {
+          "query": "intern"
+        },
+        {
+          "query": "co-op"
+        },
+        {
+          "query": "fellowship"
+        },
+        {
+          "query": "residency"
+        }
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "workday-adobe",
+      "type": "workday",
+      "url": "https://adobe.wd5.myworkdayjobs.com/external_experienced",
+      "employer": "Adobe",
+      "max_pages": 100,
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-anthropic",
+      "type": "greenhouse",
+      "employer": "anthropic",
+      "enabled": true,
+      "slug": "anthropic",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-ramp",
+      "type": "ashby",
+      "employer": "ramp",
+      "enabled": true,
+      "slug": "ramp",
+      "expect_nonempty": true
+    },
+    {
+      "id": "lever-belvederetrading",
+      "type": "lever",
+      "slug": "belvederetrading",
+      "employer": "Belvedere Trading",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "workday-zoom",
+      "type": "workday",
+      "url": "https://zoom.wd5.myworkdayjobs.com/zoom",
+      "employer": "Zoom",
+      "max_pages": 100,
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-discord",
+      "type": "greenhouse",
+      "employer": "discord",
+      "enabled": true,
+      "slug": "discord",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-plaid",
+      "type": "ashby",
+      "employer": "plaid",
+      "enabled": true,
+      "slug": "plaid",
+      "expect_nonempty": true
+    },
+    {
+      "id": "lever-valkyrietrading",
+      "type": "lever",
+      "slug": "valkyrietrading",
+      "employer": "Valkyrie Trading",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "workday-broadcom",
+      "type": "workday",
+      "url": "https://broadcom.wd1.myworkdayjobs.com/External_Career",
+      "employer": "Broadcom",
+      "max_pages": 100,
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-robinhood",
+      "type": "greenhouse",
+      "employer": "robinhood",
+      "enabled": true,
+      "slug": "robinhood",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-snowflake",
+      "type": "ashby",
+      "employer": "snowflake",
+      "enabled": true,
+      "slug": "snowflake",
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-capital-one",
+      "type": "workday",
+      "url": "https://capitalone.wd12.myworkdayjobs.com/Capital_One",
+      "employer": "Capital One",
+      "max_pages": 100,
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-coinbase",
+      "type": "greenhouse",
+      "employer": "coinbase",
+      "enabled": true,
+      "slug": "coinbase",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-notion",
+      "type": "ashby",
+      "employer": "notion",
+      "enabled": true,
+      "slug": "notion",
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-crowdstrike",
+      "type": "workday",
+      "url": "https://crowdstrike.wd5.myworkdayjobs.com/crowdstrikecareers",
+      "employer": "CrowdStrike",
+      "max_pages": 100,
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-reddit",
+      "type": "greenhouse",
+      "employer": "reddit",
+      "enabled": true,
+      "slug": "reddit",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-harvey",
+      "type": "ashby",
+      "employer": "harvey",
+      "enabled": true,
+      "slug": "harvey",
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-ebay",
+      "type": "workday",
+      "url": "https://ebay.wd5.myworkdayjobs.com/apply",
+      "employer": "eBay",
+      "max_pages": 100,
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-pinterest",
+      "type": "greenhouse",
+      "employer": "pinterest",
+      "enabled": true,
+      "slug": "pinterest",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-sierra",
+      "type": "ashby",
+      "employer": "sierra",
+      "enabled": true,
+      "slug": "sierra",
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-samsung",
+      "type": "workday",
+      "url": "https://sec.wd3.myworkdayjobs.com/Samsung_Careers",
+      "employer": "Samsung",
+      "max_pages": 100,
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-cloudflare",
+      "type": "greenhouse",
+      "employer": "cloudflare",
+      "enabled": true,
+      "slug": "cloudflare",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-cohere",
+      "type": "ashby",
+      "employer": "cohere",
+      "enabled": true,
+      "slug": "cohere",
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-unity",
+      "type": "workday",
+      "url": "https://unitytech.wd1.myworkdayjobs.com/Unity",
+      "employer": "Unity",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-instacart",
+      "type": "greenhouse",
+      "employer": "instacart",
+      "enabled": true,
+      "slug": "instacart",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-characterai",
+      "type": "ashby",
+      "employer": "characterai",
+      "enabled": true,
+      "slug": "character",
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-cisco",
+      "type": "workday",
+      "employer": "Cisco",
+      "url": "https://cisco.wd5.myworkdayjobs.com/Cisco_Careers",
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "opportunity_facets": true,
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-scale",
+      "type": "greenhouse",
+      "employer": "scale",
+      "enabled": true,
+      "slug": "scaleai",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-elevenlabs",
+      "type": "ashby",
+      "employer": "elevenlabs",
+      "enabled": true,
+      "slug": "elevenlabs",
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-arrowstreet-capital-campus_careers",
+      "type": "workday",
+      "url": "https://arrowstreetcapital.wd5.myworkdayjobs.com/Campus_Careers",
+      "employer": "Arrowstreet Capital",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false,
+      "country_scope": [
+        "US"
+      ]
+    },
+    {
+      "id": "greenhouse-twitch",
+      "type": "greenhouse",
+      "employer": "twitch",
+      "enabled": true,
+      "slug": "twitch",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-replit",
+      "type": "ashby",
+      "employer": "replit",
+      "enabled": true,
+      "slug": "replit",
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-blackrock-blackrock_early_careers_program",
+      "type": "workday",
+      "url": "https://blackrock.wd1.myworkdayjobs.com/BlackRock_Early_Careers_Program",
+      "employer": "BlackRock",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false,
+      "country_scope": [
+        "US"
+      ]
+    },
+    {
+      "id": "greenhouse-roblox",
+      "type": "greenhouse",
+      "employer": "roblox",
+      "enabled": true,
+      "slug": "roblox",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-runway",
+      "type": "ashby",
+      "employer": "runway",
+      "enabled": true,
+      "slug": "runway",
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-alliancebernstein-abcampuscareers",
+      "type": "workday",
+      "url": "https://abglobal.wd1.myworkdayjobs.com/abcampuscareers",
+      "employer": "AllianceBernstein",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false,
+      "country_scope": [
+        "US"
+      ]
+    },
+    {
+      "id": "greenhouse-block",
+      "type": "greenhouse",
+      "employer": "block",
+      "enabled": true,
+      "slug": "block",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-polymarket",
+      "type": "ashby",
+      "employer": "polymarket",
+      "enabled": true,
+      "slug": "polymarket",
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-blackstone-blackstone_campus_careers",
+      "type": "workday",
+      "url": "https://blackstone.wd1.myworkdayjobs.com/Blackstone_Campus_Careers",
+      "employer": "Blackstone",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false,
+      "country_scope": [
+        "US"
+      ]
+    },
+    {
+      "id": "greenhouse-samsara",
+      "type": "greenhouse",
+      "employer": "samsara",
+      "enabled": true,
+      "slug": "samsara",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-kalshi",
+      "type": "ashby",
+      "employer": "kalshi",
+      "enabled": true,
+      "slug": "kalshi",
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-capital-group-capitalgroupcareers",
+      "type": "workday",
+      "url": "https://capgroup.wd1.myworkdayjobs.com/capitalgroupcareers",
+      "employer": "Capital Group",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false,
+      "country_scope": [
+        "US"
+      ]
+    },
+    {
+      "id": "greenhouse-rubrik",
+      "type": "greenhouse",
+      "employer": "rubrik",
+      "enabled": true,
+      "slug": "rubrik",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-modal",
+      "type": "ashby",
+      "employer": "modal",
+      "enabled": true,
+      "slug": "modal",
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-blackrock-blackrock_professional",
+      "type": "workday",
+      "url": "https://blackrock.wd1.myworkdayjobs.com/BlackRock_Professional",
+      "employer": "BlackRock",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false,
+      "country_scope": [
+        "US"
+      ]
+    },
+    {
+      "id": "greenhouse-mongodb",
+      "type": "greenhouse",
+      "employer": "mongodb",
+      "enabled": true,
+      "slug": "mongodb",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-decagon",
+      "type": "ashby",
+      "employer": "decagon",
+      "enabled": true,
+      "slug": "decagon",
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-citi-2",
+      "type": "workday",
+      "url": "https://citi.wd5.myworkdayjobs.com/2",
+      "employer": "Citi",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false,
+      "country_scope": [
+        "US"
+      ]
+    },
+    {
+      "id": "greenhouse-lyft",
+      "type": "greenhouse",
+      "employer": "lyft",
+      "enabled": true,
+      "slug": "lyft",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-mistral.ai",
+      "type": "ashby",
+      "employer": "Mistral AI",
+      "enabled": true,
+      "slug": "mistral.ai",
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-cme-group-cme_careers",
+      "type": "workday",
+      "url": "https://cmegroup.wd1.myworkdayjobs.com/cme_careers",
+      "employer": "CME Group",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false,
+      "country_scope": [
+        "US"
+      ]
+    },
+    {
+      "id": "greenhouse-xai",
+      "type": "greenhouse",
+      "employer": "xai",
+      "enabled": true,
+      "slug": "xai",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-cerebras",
+      "type": "ashby",
+      "slug": "cerebras",
+      "employer": "Cerebras Systems",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-franklin-templeton-primary-external-1",
+      "type": "workday",
+      "url": "https://franklintempleton.wd5.myworkdayjobs.com/Primary-External-1",
+      "employer": "Franklin Templeton",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false,
+      "country_scope": [
+        "US"
+      ]
+    },
+    {
+      "id": "greenhouse-together",
+      "type": "greenhouse",
+      "employer": "together",
+      "enabled": true,
+      "slug": "togetherai",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-confluent",
+      "type": "ashby",
+      "slug": "confluent",
+      "employer": "Confluent",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-g-research-g-research",
+      "type": "workday",
+      "url": "https://gresearch.wd103.myworkdayjobs.com/G-Research",
+      "employer": "G-Research",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false,
+      "country_scope": [
+        "US"
+      ]
+    },
+    {
+      "id": "greenhouse-neuralink",
+      "type": "greenhouse",
+      "employer": "neuralink",
+      "enabled": true,
+      "slug": "neuralink",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-skydio",
+      "type": "ashby",
+      "slug": "skydio",
+      "employer": "Skydio",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-fidelity-investments-fidelitycareers",
+      "type": "workday",
+      "url": "https://fmr.wd1.myworkdayjobs.com/fidelitycareers",
+      "employer": "Fidelity Investments",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false,
+      "country_scope": [
+        "US"
+      ]
+    },
+    {
+      "id": "greenhouse-glean",
+      "type": "greenhouse",
+      "employer": "glean",
+      "enabled": true,
+      "slug": "gleanwork",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-benchling",
+      "type": "ashby",
+      "slug": "benchling",
+      "employer": "Benchling",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-invesco-ivzearlycareers",
+      "type": "workday",
+      "url": "https://invesco.wd1.myworkdayjobs.com/IVZearlycareers",
+      "employer": "Invesco",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false,
+      "country_scope": [
+        "US"
+      ]
+    },
+    {
+      "id": "greenhouse-vercel",
+      "type": "greenhouse",
+      "employer": "Vercel",
+      "enabled": true,
+      "slug": "vercel",
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-quora",
+      "type": "ashby",
+      "slug": "quora",
+      "employer": "Quora",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-nasdaq-global_external_site",
+      "type": "workday",
+      "url": "https://nasdaq.wd1.myworkdayjobs.com/Global_External_Site",
+      "employer": "Nasdaq",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false,
+      "country_scope": [
+        "US"
+      ]
+    },
+    {
+      "id": "greenhouse-janestreet",
+      "type": "greenhouse",
+      "employer": "Jane Street",
+      "slug": "janestreet",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-applied",
+      "type": "ashby",
+      "slug": "applied",
+      "employer": "Applied Intuition",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-peak6-capital-management-capman",
+      "type": "workday",
+      "url": "https://peak6group.wd1.myworkdayjobs.com/CapMan",
+      "employer": "PEAK6 Capital Management",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false,
+      "country_scope": [
+        "US"
+      ]
+    },
+    {
+      "id": "greenhouse-hudsonrivertrading",
+      "type": "greenhouse",
+      "employer": "Hudson River Trading",
+      "slug": "wehrtyou",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-aurora-operations-inc",
+      "type": "ashby",
+      "slug": "aurora-operations-inc",
+      "employer": "Aurora",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-invesco-ivz",
+      "type": "workday",
+      "url": "https://invesco.wd1.myworkdayjobs.com/IVZ",
+      "employer": "Invesco",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false,
+      "country_scope": [
+        "US"
+      ]
+    },
+    {
+      "id": "greenhouse-dvtrading",
+      "type": "greenhouse",
+      "slug": "dvtrading",
+      "employer": "DV Trading",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "ashby-voleon",
+      "type": "ashby",
+      "slug": "voleon",
+      "employer": "Voleon Group",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "workday-neuberger-berman-nbcareers",
+      "type": "workday",
+      "url": "https://nb.wd1.myworkdayjobs.com/NBCareers",
+      "employer": "Neuberger Berman",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false,
+      "country_scope": [
+        "US"
+      ]
+    },
+    {
+      "id": "greenhouse-virtu",
+      "type": "greenhouse",
+      "slug": "virtu",
+      "employer": "Virtu Financial",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-s-p-global-spgi_careers",
+      "type": "workday",
+      "url": "https://spgi.wd5.myworkdayjobs.com/SPGI_Careers",
+      "employer": "S&P Global",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false,
+      "country_scope": [
+        "US"
+      ]
+    },
+    {
+      "id": "greenhouse-drweng",
+      "type": "greenhouse",
+      "slug": "drweng",
+      "employer": "DRW",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-barclays-external_career_site_barclays",
+      "type": "workday",
+      "url": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays",
+      "employer": "Barclays",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false,
+      "country_scope": [
+        "US"
+      ]
+    },
+    {
+      "id": "greenhouse-airtable",
+      "type": "greenhouse",
+      "employer": "Airtable",
+      "slug": "airtable",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-t-rowe-price-troweprice",
+      "type": "workday",
+      "url": "https://troweprice.wd5.myworkdayjobs.com/TRowePrice",
+      "employer": "T. Rowe Price",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false,
+      "country_scope": [
+        "US"
+      ]
+    },
+    {
+      "id": "greenhouse-affirm",
+      "type": "greenhouse",
+      "employer": "Affirm",
+      "slug": "affirm",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-state-street-global",
+      "type": "workday",
+      "url": "https://statestreet.wd1.myworkdayjobs.com/Global",
+      "employer": "State Street",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false,
+      "country_scope": [
+        "US"
+      ]
+    },
+    {
+      "id": "greenhouse-dropbox",
+      "type": "greenhouse",
+      "employer": "Dropbox",
+      "slug": "dropbox",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-vanguard-vanguard_external",
+      "type": "workday",
+      "url": "https://vanguard.wd5.myworkdayjobs.com/vanguard_external",
+      "employer": "Vanguard",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false,
+      "country_scope": [
+        "US"
+      ]
+    },
+    {
+      "id": "greenhouse-brex",
+      "type": "greenhouse",
+      "employer": "Brex",
+      "slug": "brex",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-wellington-management-campus",
+      "type": "workday",
+      "url": "https://wellington.wd5.myworkdayjobs.com/Campus",
+      "employer": "Wellington Management",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false,
+      "country_scope": [
+        "US"
+      ]
+    },
+    {
+      "id": "greenhouse-waymo",
+      "type": "greenhouse",
+      "employer": "Waymo",
+      "slug": "waymo",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-blackstone-bx_external_site",
+      "type": "workday",
+      "url": "https://blackstone.wd1.myworkdayjobs.com/BX_External_Site",
+      "employer": "Blackstone",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "summer",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "country_scope": [
+        "US"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-asana",
+      "type": "greenhouse",
+      "employer": "Asana",
+      "slug": "asana",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-pgim-pgim_careers",
+      "type": "workday",
+      "url": "https://pru.wd5.myworkdayjobs.com/PGIM_Careers",
+      "employer": "PGIM",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "summer",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "country_scope": [
+        "US"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-chime",
+      "type": "greenhouse",
+      "employer": "Chime",
+      "slug": "chime",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-wellington-management-external",
+      "type": "workday",
+      "url": "https://wellington.wd5.myworkdayjobs.com/External",
+      "employer": "Wellington Management",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "summer",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "country_scope": [
+        "US"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-andurilindustries",
+      "type": "greenhouse",
+      "employer": "Anduril Industries",
+      "slug": "andurilindustries",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-morgan-stanley",
+      "type": "workday",
+      "url": "https://ms.wd5.myworkdayjobs.com/External",
+      "employer": "Morgan Stanley",
+      "queries": [
+        "intern",
+        "summer",
+        "fellowship",
+        "residency"
+      ],
+      "opportunity_facets": true,
+      "country_scope": [
+        "US"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-doordashusa",
+      "type": "greenhouse",
+      "employer": "DoorDash",
+      "slug": "doordashusa",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-pnc",
+      "type": "workday",
+      "url": "https://pnc.wd5.myworkdayjobs.com/External",
+      "employer": "PNC",
+      "queries": [
+        "intern",
+        "summer",
+        "fellowship",
+        "residency"
+      ],
+      "opportunity_facets": true,
+      "country_scope": [
+        "US"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-datadog",
+      "type": "greenhouse",
+      "employer": "Datadog",
+      "slug": "datadog",
+      "enabled": true,
+      "expect_nonempty": true
+    },
+    {
+      "id": "workday-bmo-capital-markets",
+      "type": "workday",
+      "url": "https://bmo.wd3.myworkdayjobs.com/External",
+      "employer": "BMO Capital Markets",
+      "queries": [
+        "intern",
+        "summer",
+        "fellowship",
+        "residency"
+      ],
+      "opportunity_facets": true,
+      "country_scope": [
+        "US"
+      ],
+      "max_pages": 100,
+      "worker_type_facet": "company",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
       "id": "greenhouse-stubhubinc",
       "type": "greenhouse",
       "slug": "stubhubinc",
       "employer": "StubHub",
       "enabled": true,
       "expect_nonempty": true
+    },
+    {
+      "id": "workday-pimco-pimco-careers",
+      "type": "workday",
+      "url": "https://pimco.wd1.myworkdayjobs.com/pimco-careers",
+      "employer": "PIMCO",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "summer",
+        "fellowship",
+        "residency"
+      ],
+      "max_pages": 100,
+      "country_scope": [
+        "US"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
     },
     {
       "id": "greenhouse-nuro",
@@ -718,6 +1684,25 @@
       "expect_nonempty": true
     },
     {
+      "id": "workday-rbc-capital-markets",
+      "type": "workday",
+      "url": "https://rbc.wd3.myworkdayjobs.com/RBCEARLYTALENT1",
+      "employer": "RBC Capital Markets",
+      "queries": [
+        "intern",
+        "summer",
+        "fellowship",
+        "residency"
+      ],
+      "opportunity_facets": true,
+      "country_scope": [
+        "US"
+      ],
+      "max_pages": 100,
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
       "id": "greenhouse-zscaler",
       "type": "greenhouse",
       "slug": "zscaler",
@@ -726,12 +1711,47 @@
       "expect_nonempty": true
     },
     {
+      "id": "workday-cci",
+      "type": "workday",
+      "url": "https://osv-cci.wd1.myworkdayjobs.com/CCICareers",
+      "employer": "Castleton Commodities International",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "summer",
+        "fellowship",
+        "residency"
+      ],
+      "country_scope": [
+        "US"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
       "id": "greenhouse-purestorage",
       "type": "greenhouse",
       "slug": "purestorage",
       "employer": "Pure Storage",
       "enabled": true,
       "expect_nonempty": true
+    },
+    {
+      "id": "workday-cboe",
+      "type": "workday",
+      "url": "https://cboe.wd1.myworkdayjobs.com/External_Career_CBOE",
+      "employer": "Cboe Global Markets",
+      "opportunity_facets": true,
+      "queries": [
+        "intern",
+        "fellowship",
+        "residency"
+      ],
+      "country_scope": [
+        "US"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
     },
     {
       "id": "greenhouse-duolingounirecruitment",
@@ -854,86 +1874,6 @@
       "expect_nonempty": true
     },
     {
-      "id": "ashby-skydio",
-      "type": "ashby",
-      "slug": "skydio",
-      "employer": "Skydio",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-benchling",
-      "type": "ashby",
-      "slug": "benchling",
-      "employer": "Benchling",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-quora",
-      "type": "ashby",
-      "slug": "quora",
-      "employer": "Quora",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "lever-zoox",
-      "type": "lever",
-      "slug": "zoox",
-      "employer": "Zoox",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "lever-veeva",
-      "type": "lever",
-      "slug": "veeva",
-      "employer": "Veeva Systems",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "lever-spotify",
-      "type": "lever",
-      "slug": "spotify",
-      "employer": "Spotify",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "smartrecruiters-aristanetworks",
-      "type": "smartrecruiters",
-      "slug": "AristaNetworks",
-      "employer": "Arista Networks",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "smartrecruiters-servicenow",
-      "type": "smartrecruiters",
-      "slug": "ServiceNow",
-      "employer": "ServiceNow",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-applied",
-      "type": "ashby",
-      "slug": "applied",
-      "employer": "Applied Intuition",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "ashby-aurora-operations-inc",
-      "type": "ashby",
-      "slug": "aurora-operations-inc",
-      "employer": "Aurora",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
       "id": "greenhouse-hubspotjobs",
       "type": "greenhouse",
       "slug": "hubspotjobs",
@@ -942,248 +1882,330 @@
       "expect_nonempty": true
     },
     {
-      "id": "workday-servicetitan",
-      "type": "workday",
-      "url": "https://servicetitan.wd1.myworkdayjobs.com/ServiceTitan",
-      "employer": "ServiceTitan",
-      "max_pages": 100,
-      "opportunity_facets": true,
-      "queries": [
-        "intern",
-        "fellowship",
-        "residency"
-      ],
+      "id": "greenhouse-aquaticcapitalmanagement",
+      "type": "greenhouse",
+      "slug": "aquaticcapitalmanagement",
+      "employer": "Aquatic Capital Management",
       "enabled": true,
       "expect_nonempty": false
     },
     {
-      "id": "workday-salesforce",
-      "type": "workday",
-      "url": "https://salesforce.wd12.myworkdayjobs.com/External_Career_Site",
-      "employer": "Salesforce",
-      "max_pages": 100,
-      "opportunity_facets": true,
-      "queries": [
-        "intern",
-        "fellowship",
-        "residency"
-      ],
+      "id": "greenhouse-akunacapital",
+      "type": "greenhouse",
+      "slug": "akunacapital",
+      "employer": "Akuna Capital",
       "enabled": true,
       "expect_nonempty": false
     },
     {
-      "id": "workday-palo-alto-networks",
-      "type": "workday",
-      "url": "https://paloaltonetworks.wd5.myworkdayjobs.com/panwexternalcareers",
-      "employer": "Palo Alto Networks",
-      "max_pages": 100,
-      "opportunity_facets": true,
-      "queries": [
-        "intern",
-        "fellowship",
-        "residency"
-      ],
+      "id": "greenhouse-aqr",
+      "type": "greenhouse",
+      "slug": "aqr",
+      "employer": "AQR Capital Management",
       "enabled": true,
       "expect_nonempty": false
     },
     {
-      "id": "workday-adobe",
-      "type": "workday",
-      "url": "https://adobe.wd5.myworkdayjobs.com/external_experienced",
-      "employer": "Adobe",
-      "max_pages": 100,
-      "opportunity_facets": true,
-      "queries": [
-        "intern",
-        "fellowship",
-        "residency"
-      ],
+      "id": "greenhouse-blackedgecapital",
+      "type": "greenhouse",
+      "slug": "blackedgecapital",
+      "employer": "BlackEdge Capital",
       "enabled": true,
       "expect_nonempty": false
     },
     {
-      "id": "workday-zoom",
-      "type": "workday",
-      "url": "https://zoom.wd5.myworkdayjobs.com/zoom",
-      "employer": "Zoom",
-      "max_pages": 100,
-      "opportunity_facets": true,
-      "queries": [
-        "intern",
-        "fellowship",
-        "residency"
-      ],
+      "id": "greenhouse-capstoneinvestmentadvisors",
+      "type": "greenhouse",
+      "slug": "capstoneinvestmentadvisors",
+      "employer": "Capstone Investment Advisors",
       "enabled": true,
       "expect_nonempty": false
     },
     {
-      "id": "workday-broadcom",
-      "type": "workday",
-      "url": "https://broadcom.wd1.myworkdayjobs.com/External_Career",
-      "employer": "Broadcom",
-      "max_pages": 100,
-      "opportunity_facets": true,
-      "queries": [
-        "intern",
-        "fellowship",
-        "residency"
-      ],
+      "id": "greenhouse-flowtraders",
+      "type": "greenhouse",
+      "slug": "flowtraders",
+      "employer": "Flow Traders",
       "enabled": true,
       "expect_nonempty": false
     },
     {
-      "id": "workday-capital-one",
-      "type": "workday",
-      "url": "https://capitalone.wd12.myworkdayjobs.com/Capital_One",
-      "employer": "Capital One",
-      "max_pages": 100,
-      "opportunity_facets": true,
-      "queries": [
-        "intern",
-        "fellowship",
-        "residency"
-      ],
+      "id": "greenhouse-gelbergroup",
+      "type": "greenhouse",
+      "slug": "gelbergroup",
+      "employer": "Gelber Group",
       "enabled": true,
       "expect_nonempty": false
     },
     {
-      "id": "workday-crowdstrike",
-      "type": "workday",
-      "url": "https://crowdstrike.wd5.myworkdayjobs.com/crowdstrikecareers",
-      "employer": "CrowdStrike",
-      "max_pages": 100,
-      "opportunity_facets": true,
-      "queries": [
-        "intern",
-        "fellowship",
-        "residency"
-      ],
+      "id": "greenhouse-genevatrading",
+      "type": "greenhouse",
+      "slug": "genevatrading",
+      "employer": "Geneva Trading",
       "enabled": true,
       "expect_nonempty": false
     },
     {
-      "id": "workday-ebay",
-      "type": "workday",
-      "url": "https://ebay.wd5.myworkdayjobs.com/apply",
-      "employer": "eBay",
-      "max_pages": 100,
-      "opportunity_facets": true,
-      "queries": [
-        "intern",
-        "fellowship",
-        "residency"
-      ],
+      "id": "greenhouse-gsacapital",
+      "type": "greenhouse",
+      "slug": "gsacapital",
+      "employer": "GSA Capital",
       "enabled": true,
       "expect_nonempty": false
     },
     {
-      "id": "workday-samsung",
-      "type": "workday",
-      "url": "https://sec.wd3.myworkdayjobs.com/Samsung_Careers",
-      "employer": "Samsung",
-      "max_pages": 100,
-      "opportunity_facets": true,
-      "queries": [
-        "intern",
-        "fellowship",
-        "residency"
-      ],
+      "id": "greenhouse-mako",
+      "type": "greenhouse",
+      "slug": "mako",
+      "employer": "Mako",
       "enabled": true,
       "expect_nonempty": false
     },
     {
-      "id": "workday-unity",
-      "type": "workday",
-      "url": "https://unitytech.wd1.myworkdayjobs.com/Unity",
-      "employer": "Unity",
-      "opportunity_facets": true,
-      "queries": [
-        "intern",
-        "fellowship",
-        "residency"
-      ],
+      "id": "greenhouse-jumptrading",
+      "type": "greenhouse",
+      "slug": "jumptrading",
+      "employer": "Jump Trading",
       "enabled": true,
       "expect_nonempty": false
     },
     {
-      "id": "jibe-amd",
-      "type": "jibe",
-      "url": "https://careers.amd.com",
-      "employer": "AMD",
+      "id": "greenhouse-magnetar",
+      "type": "greenhouse",
+      "slug": "magnetar",
+      "employer": "Magnetar",
       "enabled": true,
       "expect_nonempty": false
     },
     {
-      "id": "jibe-github",
-      "type": "jibe",
-      "url": "https://www.github.careers",
-      "employer": "GitHub",
+      "id": "greenhouse-imc",
+      "type": "greenhouse",
+      "slug": "imc",
+      "employer": "IMC Trading",
       "enabled": true,
       "expect_nonempty": false
     },
     {
-      "id": "atlassian-direct",
-      "type": "atlassian",
-      "employer": "Atlassian",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "jobvite-nutanix",
-      "type": "jobvite",
-      "slug": "nutanix",
-      "employer": "Nutanix",
-      "enabled": true,
-      "expect_nonempty": true
-    },
-    {
-      "id": "workday-cisco",
-      "type": "workday",
-      "employer": "Cisco",
-      "url": "https://cisco.wd5.myworkdayjobs.com/Cisco_Careers",
-      "queries": [
-        "intern",
-        "fellowship",
-        "residency"
-      ],
-      "opportunity_facets": true,
+      "id": "greenhouse-oldmissioncapital",
+      "type": "greenhouse",
+      "slug": "oldmissioncapital",
+      "employer": "Old Mission",
       "enabled": true,
       "expect_nonempty": false
     },
     {
-      "id": "oracle-direct",
-      "type": "oracle",
-      "employer": "Oracle",
+      "id": "greenhouse-pdtpartners",
+      "type": "greenhouse",
+      "slug": "pdtpartners",
+      "employer": "PDT Partners",
       "enabled": true,
       "expect_nonempty": false
     },
     {
-      "id": "eightfold-paypal",
-      "type": "eightfold",
-      "employer": "PayPal",
-      "domain": "paypal.com",
-      "searches": [
-        {
-          "query": "intern"
-        },
-        {
-          "query": "co-op"
-        },
-        {
-          "query": "fellowship"
-        },
-        {
-          "query": "residency"
-        }
-      ],
+      "id": "greenhouse-point72",
+      "type": "greenhouse",
+      "slug": "point72",
+      "employer": "Point72",
       "enabled": true,
       "expect_nonempty": false
     },
     {
-      "id": "tiktok-direct",
-      "type": "tiktok",
-      "employer": "TikTok",
-      "query": "intern",
+      "id": "greenhouse-quberesearchandtechnologies",
+      "type": "greenhouse",
+      "slug": "quberesearchandtechnologies",
+      "employer": "Qube Research & Technologies",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-schonfeld",
+      "type": "greenhouse",
+      "slug": "schonfeld",
+      "employer": "Schonfeld Strategic Advisors",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-squarepointcapital",
+      "type": "greenhouse",
+      "slug": "squarepointcapital",
+      "employer": "Squarepoint Capital",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-towerresearchcapital",
+      "type": "greenhouse",
+      "slug": "towerresearchcapital",
+      "employer": "Tower Research Capital",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-transmarketgroup",
+      "type": "greenhouse",
+      "slug": "transmarketgroup",
+      "employer": "TransMarket Group",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-worldquant",
+      "type": "greenhouse",
+      "slug": "worldquant",
+      "employer": "WorldQuant",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-ctccampusboard",
+      "type": "greenhouse",
+      "slug": "ctccampusboard",
+      "employer": "Chicago Trading Company",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-chicagotradingcampus",
+      "type": "greenhouse",
+      "slug": "chicagotradingcampus",
+      "employer": "Chicago Trading Company",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-drwuniversityjobs",
+      "type": "greenhouse",
+      "slug": "drwuniversityjobs",
+      "employer": "DRW",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-mwinternshipprogram",
+      "type": "greenhouse",
+      "slug": "mwinternshipprogram",
+      "employer": "Marshall Wace",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-mavensecuritiesholdingltd",
+      "type": "greenhouse",
+      "slug": "mavensecuritiesholdingltd",
+      "employer": "Maven Securities",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-radixuniversity",
+      "type": "greenhouse",
+      "slug": "radixuniversity",
+      "employer": "Radix Trading",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-sevenresearch",
+      "type": "greenhouse",
+      "slug": "sevenresearch",
+      "employer": "Seven Research",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-walleyecapital-external-students",
+      "type": "greenhouse",
+      "slug": "walleyecapital-external-students",
+      "employer": "Walleye Capital",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-xtxmarketstechnologies",
+      "type": "greenhouse",
+      "slug": "xtxmarketstechnologies",
+      "employer": "XTX Markets",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-acadianassetmanagementllc",
+      "type": "greenhouse",
+      "slug": "acadianassetmanagementllc",
+      "employer": "Acadian Asset Management",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-fiveringsllc",
+      "type": "greenhouse",
+      "slug": "fiveringsllc",
+      "employer": "Five Rings",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-headlandstechnologiesllc",
+      "type": "greenhouse",
+      "slug": "headlandstechnologiesllc",
+      "employer": "Headlands Technologies",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-tudorgroup",
+      "type": "greenhouse",
+      "slug": "tudorgroup",
+      "employer": "Tudor Investment Corporation",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-vaticlabs",
+      "type": "greenhouse",
+      "slug": "vaticlabs",
+      "employer": "Vatic Investments",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-mangroup",
+      "type": "greenhouse",
+      "slug": "mangroup",
+      "employer": "Man Group",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-veritiongroupllc",
+      "type": "greenhouse",
+      "slug": "veritiongroupllc",
+      "employer": "Verition Fund Management",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-bridgewater89",
+      "type": "greenhouse",
+      "slug": "bridgewater89",
+      "employer": "Bridgewater Associates",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-voloridgeinvestmentmanagement",
+      "type": "greenhouse",
+      "slug": "voloridgeinvestmentmanagement",
+      "employer": "Voloridge Investment Management",
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
+      "id": "greenhouse-optiverus",
+      "type": "greenhouse",
+      "slug": "optiverus",
+      "employer": "Optiver",
       "enabled": true,
       "expect_nonempty": false
     }
@@ -1200,7 +2222,7 @@
   "awaiting_digest_seconds": 300,
   "export_directory": "data/export",
   "blocked_recheck_seconds": 43200,
-  "collection_workers": 4,
+  "collection_workers": 8,
   "source_seconds": 180,
   "company_watchlist": [
     {
@@ -2536,7 +3558,7 @@
         "simplify-public-internships"
       ],
       "coverage": "direct_and_public_feed",
-      "note": "Workday uses current structured Intern/Student/Co-op worker types when available, plus fellowship/residency keywords; otherwise intern keyword search. Unusually categorized programs may be missed."
+      "note": ""
     },
     {
       "company": "Arista Networks",
@@ -2673,6 +3695,1505 @@
       ],
       "coverage": "public_feed_incomplete",
       "note": "The public careers search returned HTTP 403. No challenge bypass is attempted. Use the public Simplify feed and employer alerts; coverage is incomplete."
+    },
+    {
+      "company": "Acadian Asset Management",
+      "aliases": [
+        "Acadian Asset Management",
+        "Acadian"
+      ],
+      "direct_sources": [
+        "greenhouse-acadianassetmanagementllc"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Akuna Capital",
+      "aliases": [
+        "Akuna Capital"
+      ],
+      "direct_sources": [
+        "greenhouse-akunacapital"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "AllianceBernstein",
+      "aliases": [
+        "AllianceBernstein"
+      ],
+      "direct_sources": [
+        "workday-alliancebernstein-abcampuscareers"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "AQR Capital Management",
+      "aliases": [
+        "AQR Capital Management"
+      ],
+      "direct_sources": [
+        "greenhouse-aqr"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Aquatic Capital Management",
+      "aliases": [
+        "Aquatic Capital Management"
+      ],
+      "direct_sources": [
+        "greenhouse-aquaticcapitalmanagement"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Arrowstreet Capital",
+      "aliases": [
+        "Arrowstreet Capital"
+      ],
+      "direct_sources": [
+        "workday-arrowstreet-capital-campus_careers"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Balyasny Asset Management",
+      "aliases": [
+        "Balyasny Asset Management",
+        "BAM",
+        "Balyasny"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "Public Salesforce guest careers page is a JavaScript shell; a complete guest feed has not been verified. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+    },
+    {
+      "company": "Bank of America",
+      "aliases": [
+        "Bank of America"
+      ],
+      "direct_sources": [
+        "bankofamerica-campus"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Official campus board, restricted using its current US country facet; technical/research/trading program descriptions are enriched. This is not the full lateral-careers board."
+    },
+    {
+      "company": "Barclays",
+      "aliases": [
+        "Barclays"
+      ],
+      "direct_sources": [
+        "workday-barclays-external_career_site_barclays"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Belvedere Trading",
+      "aliases": [
+        "Belvedere Trading"
+      ],
+      "direct_sources": [
+        "lever-belvederetrading"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "BlackEdge Capital",
+      "aliases": [
+        "BlackEdge Capital"
+      ],
+      "direct_sources": [
+        "greenhouse-blackedgecapital"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "BlackRock",
+      "aliases": [
+        "BlackRock"
+      ],
+      "direct_sources": [
+        "workday-blackrock-blackrock_early_careers_program",
+        "workday-blackrock-blackrock_professional"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Blackstone",
+      "aliases": [
+        "Blackstone"
+      ],
+      "direct_sources": [
+        "workday-blackstone-blackstone_campus_careers",
+        "workday-blackstone-bx_external_site"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "BMO Capital Markets",
+      "aliases": [
+        "BMO Capital Markets",
+        "BMO",
+        "Bank of Montreal"
+      ],
+      "direct_sources": [
+        "workday-bmo-capital-markets"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "BNP Paribas",
+      "aliases": [
+        "BNP Paribas"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "The official job-search route could not be collected under its robots policy. No access bypass is used. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+    },
+    {
+      "company": "Bridgewater Associates",
+      "aliases": [
+        "Bridgewater Associates"
+      ],
+      "direct_sources": [
+        "greenhouse-bridgewater89"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Campbell & Company",
+      "aliases": [
+        "Campbell & Company"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "Official careers link opens an ADP JavaScript recruitment portal; its complete public collection interface has not been verified. This is the investment firm, not Campbell Soup. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+    },
+    {
+      "company": "Capital Group",
+      "aliases": [
+        "Capital Group"
+      ],
+      "direct_sources": [
+        "workday-capital-group-capitalgroupcareers"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Capstone Investment Advisors",
+      "aliases": [
+        "Capstone Investment Advisors"
+      ],
+      "direct_sources": [
+        "greenhouse-capstoneinvestmentadvisors"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Castleton Commodities International",
+      "aliases": [
+        "Castleton Commodities International",
+        "CCI"
+      ],
+      "direct_sources": [
+        "workday-cci"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Cboe Global Markets",
+      "aliases": [
+        "Cboe Global Markets"
+      ],
+      "direct_sources": [
+        "workday-cboe"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Chicago Trading Company",
+      "aliases": [
+        "Chicago Trading Company",
+        "CTC"
+      ],
+      "direct_sources": [
+        "greenhouse-ctccampusboard",
+        "greenhouse-chicagotradingcampus"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Two public campus boards are checked. Similar titles with different posting IDs remain separate; no title-only merging."
+    },
+    {
+      "company": "Citadel",
+      "aliases": [
+        "Citadel"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "Official open-opportunities request returned HTTP 403. No challenge bypass is used. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+    },
+    {
+      "company": "Citadel Securities",
+      "aliases": [
+        "Citadel Securities"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "The official opportunities route could not be collected under its robots policy. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+    },
+    {
+      "company": "Citi",
+      "aliases": [
+        "Citi"
+      ],
+      "direct_sources": [
+        "workday-citi-2"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "CME Group",
+      "aliases": [
+        "CME Group"
+      ],
+      "direct_sources": [
+        "workday-cme-group-cme_careers"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "D. E. Shaw",
+      "aliases": [
+        "D. E. Shaw",
+        "D.E. Shaw",
+        "DE Shaw",
+        "The D. E. Shaw Group"
+      ],
+      "direct_sources": [
+        "deshaw-direct"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Deutsche Bank",
+      "aliases": [
+        "Deutsche Bank"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "Official student information is accessible, but a complete current campus requisition feed has not been verified. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+    },
+    {
+      "company": "DRW",
+      "aliases": [
+        "DRW"
+      ],
+      "direct_sources": [
+        "greenhouse-drweng",
+        "greenhouse-drwuniversityjobs"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "DV Trading",
+      "aliases": [
+        "DV Trading",
+        "DV Equities",
+        "DV Commodities",
+        "DV Group"
+      ],
+      "direct_sources": [
+        "greenhouse-dvtrading"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Existing DV Trading board includes DV Equities and DV Commodities. Subsidiary coverage depends on their posting on this board."
+    },
+    {
+      "company": "Fidelity Investments",
+      "aliases": [
+        "Fidelity Investments"
+      ],
+      "direct_sources": [
+        "workday-fidelity-investments-fidelitycareers"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Five Rings",
+      "aliases": [
+        "Five Rings"
+      ],
+      "direct_sources": [
+        "greenhouse-fiveringsllc"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Flow Traders",
+      "aliases": [
+        "Flow Traders"
+      ],
+      "direct_sources": [
+        "greenhouse-flowtraders"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Franklin Templeton",
+      "aliases": [
+        "Franklin Templeton"
+      ],
+      "direct_sources": [
+        "workday-franklin-templeton-primary-external-1"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "G-Research",
+      "aliases": [
+        "G-Research"
+      ],
+      "direct_sources": [
+        "workday-g-research-g-research"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Gelber Group",
+      "aliases": [
+        "Gelber Group"
+      ],
+      "direct_sources": [
+        "greenhouse-gelbergroup"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Geneva Trading",
+      "aliases": [
+        "Geneva Trading"
+      ],
+      "direct_sources": [
+        "greenhouse-genevatrading"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Goldman Sachs",
+      "aliases": [
+        "Goldman Sachs"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "The higher.gs.com role directory could not be collected under its robots policy. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+    },
+    {
+      "company": "Group One Trading",
+      "aliases": [
+        "Group One Trading"
+      ],
+      "direct_sources": [
+        "groupone-direct"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "GSA Capital",
+      "aliases": [
+        "GSA Capital"
+      ],
+      "direct_sources": [
+        "greenhouse-gsacapital"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "GTS",
+      "aliases": [
+        "GTS"
+      ],
+      "direct_sources": [
+        "icims-gts"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "HAP Capital",
+      "aliases": [
+        "HAP Capital"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "The published hap-capital.com home and careers routes returned 404; no current direct job board was verified. This is not evidence that the firm is closed. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+    },
+    {
+      "company": "Headlands Technologies",
+      "aliases": [
+        "Headlands Technologies"
+      ],
+      "direct_sources": [
+        "greenhouse-headlandstechnologiesllc"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "HSBC",
+      "aliases": [
+        "HSBC"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "The public careers search API returned HTTP 403; the separate emerging-talent board has not been integrated. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+    },
+    {
+      "company": "Hudson River Trading",
+      "aliases": [
+        "Hudson River Trading",
+        "HRT"
+      ],
+      "direct_sources": [
+        "greenhouse-hudsonrivertrading"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "IMC Trading",
+      "aliases": [
+        "IMC Trading"
+      ],
+      "direct_sources": [
+        "greenhouse-imc"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Intercontinental Exchange",
+      "aliases": [
+        "Intercontinental Exchange",
+        "ICE"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "The reviewed ICE iCIMS directory could not be collected under its robots policy. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+    },
+    {
+      "company": "Invesco",
+      "aliases": [
+        "Invesco"
+      ],
+      "direct_sources": [
+        "workday-invesco-ivzearlycareers",
+        "workday-invesco-ivz"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Jane Street",
+      "aliases": [
+        "Jane Street"
+      ],
+      "direct_sources": [
+        "greenhouse-janestreet"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "JPMorgan Chase",
+      "aliases": [
+        "JPMorgan Chase",
+        "JPMorganChase",
+        "JPMorgan Chase & Co.",
+        "J.P. Morgan"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "The reviewed Oracle candidate-search API could not be collected under its robots policy. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+    },
+    {
+      "company": "Jump Trading",
+      "aliases": [
+        "Jump Trading"
+      ],
+      "direct_sources": [
+        "greenhouse-jumptrading"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Macquarie Group",
+      "aliases": [
+        "Macquarie Group"
+      ],
+      "direct_sources": [
+        "macquarie-campus"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Official campus recruitment records, with complete pagination; unusually categorized programs outside the campus directory can be missed."
+    },
+    {
+      "company": "Magnetar",
+      "aliases": [
+        "Magnetar"
+      ],
+      "direct_sources": [
+        "greenhouse-magnetar"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Mako",
+      "aliases": [
+        "Mako"
+      ],
+      "direct_sources": [
+        "greenhouse-mako"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Man Group",
+      "aliases": [
+        "Man Group"
+      ],
+      "direct_sources": [
+        "greenhouse-mangroup"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Marshall Wace",
+      "aliases": [
+        "Marshall Wace"
+      ],
+      "direct_sources": [
+        "greenhouse-mwinternshipprogram"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Maven Securities",
+      "aliases": [
+        "Maven Securities"
+      ],
+      "direct_sources": [
+        "greenhouse-mavensecuritiesholdingltd"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Millennium Management",
+      "aliases": [
+        "Millennium Management"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "Official careers links to Eightfold; its public search endpoint returned HTTP 403. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+    },
+    {
+      "company": "Moody's",
+      "aliases": [
+        "Moody's",
+        "Moody’s",
+        "Moodys"
+      ],
+      "direct_sources": [
+        "moodys-campus"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Official Students & Early Careers category, with complete pagination. Structured posting date and displayed date are recorded separately when they differ; mismatched application requisitions remain unverified."
+    },
+    {
+      "company": "Morgan Stanley",
+      "aliases": [
+        "Morgan Stanley"
+      ],
+      "direct_sources": [
+        "workday-morgan-stanley"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "MSCI",
+      "aliases": [
+        "MSCI"
+      ],
+      "direct_sources": [
+        "icims-msci-us"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Direct source is the US iCIMS board. Other regional boards are outside this direct scope."
+    },
+    {
+      "company": "Nasdaq",
+      "aliases": [
+        "Nasdaq"
+      ],
+      "direct_sources": [
+        "workday-nasdaq-global_external_site"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Neuberger Berman",
+      "aliases": [
+        "Neuberger Berman"
+      ],
+      "direct_sources": [
+        "workday-neuberger-berman-nbcareers"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Nomura",
+      "aliases": [
+        "Nomura"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "The official campus Tal.net directory returned a human-verification challenge. It is not bypassed. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+    },
+    {
+      "company": "Old Mission",
+      "aliases": [
+        "Old Mission"
+      ],
+      "direct_sources": [
+        "greenhouse-oldmissioncapital"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Optiver",
+      "aliases": [
+        "Optiver"
+      ],
+      "direct_sources": [
+        "greenhouse-optiverus"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Current optiverus public board contains global postings. The old optiver board was empty and is not added."
+    },
+    {
+      "company": "PanAgora Asset Management",
+      "aliases": [
+        "PanAgora Asset Management"
+      ],
+      "direct_sources": [
+        "panagora-direct"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "PDT Partners",
+      "aliases": [
+        "PDT Partners"
+      ],
+      "direct_sources": [
+        "greenhouse-pdtpartners"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "PEAK6 Capital Management",
+      "aliases": [
+        "PEAK6 Capital Management",
+        "PEAK6"
+      ],
+      "direct_sources": [
+        "workday-peak6-capital-management-capman"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "PGIM",
+      "aliases": [
+        "PGIM"
+      ],
+      "direct_sources": [
+        "workday-pgim-pgim_careers"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "PIMCO",
+      "aliases": [
+        "PIMCO"
+      ],
+      "direct_sources": [
+        "workday-pimco-pimco-careers"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "PNC",
+      "aliases": [
+        "PNC"
+      ],
+      "direct_sources": [
+        "workday-pnc"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Point72",
+      "aliases": [
+        "Point72",
+        "Cubist Systematic Strategies",
+        "Cubist"
+      ],
+      "direct_sources": [
+        "greenhouse-point72"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Point72 board includes Cubist roles; exact requisition IDs remain distinct."
+    },
+    {
+      "company": "Quantlab",
+      "aliases": [
+        "Quantlab"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "Official careers routes could not be collected under their robots/access policy; no current public ATS feed verified. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+    },
+    {
+      "company": "Qube Research & Technologies",
+      "aliases": [
+        "Qube Research & Technologies",
+        "QRT",
+        "Qube Research and Technologies"
+      ],
+      "direct_sources": [
+        "greenhouse-quberesearchandtechnologies"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Radix Trading",
+      "aliases": [
+        "Radix Trading"
+      ],
+      "direct_sources": [
+        "greenhouse-radixuniversity"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "RBC Capital Markets",
+      "aliases": [
+        "RBC Capital Markets",
+        "RBC",
+        "Royal Bank of Canada"
+      ],
+      "direct_sources": [
+        "workday-rbc-capital-markets"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Renaissance Technologies",
+      "aliases": [
+        "Renaissance Technologies"
+      ],
+      "direct_sources": [
+        "renaissance-direct"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Current public job directory is checked; the live snapshot contained no proven internships. New titles/descriptions must independently prove internship eligibility."
+    },
+    {
+      "company": "S&P Global",
+      "aliases": [
+        "S&P Global"
+      ],
+      "direct_sources": [
+        "workday-s-p-global-spgi_careers"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Schonfeld Strategic Advisors",
+      "aliases": [
+        "Schonfeld Strategic Advisors"
+      ],
+      "direct_sources": [
+        "greenhouse-schonfeld"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Seven Eight Capital",
+      "aliases": [
+        "Seven Eight Capital"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "The published home and careers routes returned tiny pages with no verifiable job directory; the guessed ATS board did not exist. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+    },
+    {
+      "company": "Seven Research",
+      "aliases": [
+        "Seven Research"
+      ],
+      "direct_sources": [
+        "greenhouse-sevenresearch"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Société Générale",
+      "aliases": [
+        "Société Générale",
+        "Societe Generale"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "Official careers pages are accessible, but complete job-search pagination and a current public feed have not been integrated. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+    },
+    {
+      "company": "Squarepoint Capital",
+      "aliases": [
+        "Squarepoint Capital"
+      ],
+      "direct_sources": [
+        "greenhouse-squarepointcapital"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "State Street",
+      "aliases": [
+        "State Street"
+      ],
+      "direct_sources": [
+        "workday-state-street-global"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Susquehanna International Group",
+      "aliases": [
+        "Susquehanna International Group",
+        "SIG",
+        "Susquehanna"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "The reviewed SIG iCIMS directory could not be collected under its robots policy. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+    },
+    {
+      "company": "T. Rowe Price",
+      "aliases": [
+        "T. Rowe Price"
+      ],
+      "direct_sources": [
+        "workday-t-rowe-price-troweprice"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "TGS Management",
+      "aliases": [
+        "TGS Management"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "The official site could not be collected under its robots/access policy; no current direct ATS route verified. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+    },
+    {
+      "company": "Tower Research Capital",
+      "aliases": [
+        "Tower Research Capital"
+      ],
+      "direct_sources": [
+        "greenhouse-towerresearchcapital"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "TransMarket Group",
+      "aliases": [
+        "TransMarket Group",
+        "TMG"
+      ],
+      "direct_sources": [
+        "greenhouse-transmarketgroup"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Trexquant Investment",
+      "aliases": [
+        "Trexquant Investment"
+      ],
+      "direct_sources": [
+        "trexquant-direct"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Tudor Investment Corporation",
+      "aliases": [
+        "Tudor Investment Corporation"
+      ],
+      "direct_sources": [
+        "greenhouse-tudorgroup"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Two Sigma",
+      "aliases": [
+        "Two Sigma"
+      ],
+      "direct_sources": [
+        "twosigma-direct"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "UBS",
+      "aliases": [
+        "UBS"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "Official career information is accessible; a complete current public requisition feed has not been verified. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+    },
+    {
+      "company": "Valkyrie Trading",
+      "aliases": [
+        "Valkyrie Trading"
+      ],
+      "direct_sources": [
+        "lever-valkyrietrading"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Vanguard",
+      "aliases": [
+        "Vanguard"
+      ],
+      "direct_sources": [
+        "workday-vanguard-vanguard_external"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Vatic Investments",
+      "aliases": [
+        "Vatic Investments",
+        "Vatic Labs"
+      ],
+      "direct_sources": [
+        "greenhouse-vaticlabs"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Verition Fund Management",
+      "aliases": [
+        "Verition Fund Management"
+      ],
+      "direct_sources": [
+        "greenhouse-veritiongroupllc"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Virtu Financial",
+      "aliases": [
+        "Virtu Financial"
+      ],
+      "direct_sources": [
+        "greenhouse-virtu"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Voleon Group",
+      "aliases": [
+        "Voleon Group",
+        "The Voleon Group",
+        "Voleon"
+      ],
+      "direct_sources": [
+        "ashby-voleon"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Voloridge Investment Management",
+      "aliases": [
+        "Voloridge Investment Management"
+      ],
+      "direct_sources": [
+        "greenhouse-voloridgeinvestmentmanagement"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "Walleye Capital",
+      "aliases": [
+        "Walleye Capital",
+        "Quantic",
+        "Walleye",
+        "Quantic Global"
+      ],
+      "direct_sources": [
+        "greenhouse-walleyecapital-external-students"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Official student board; campus FAQ identifies Quantic internships. Other subsidiaries and lateral roles are outside this campus source."
+    },
+    {
+      "company": "Wellington Management",
+      "aliases": [
+        "Wellington Management"
+      ],
+      "direct_sources": [
+        "workday-wellington-management-campus",
+        "workday-wellington-management-external"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": "Workday US country facet is used when present, with internship/student/co-op worker types and configured supplementary queries. Unusually categorized programs may be missed."
+    },
+    {
+      "company": "Wells Fargo",
+      "aliases": [
+        "Wells Fargo"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "Official HTML is accessible, but observed keyword/worker-type query parameters returned unfiltered results; completeness for a bounded internship poll has not been established. The reviewed Workday route could not be collected under its robots policy. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+    },
+    {
+      "company": "Wolverine Trading",
+      "aliases": [
+        "Wolverine Trading"
+      ],
+      "direct_sources": [],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "public_feed_incomplete",
+      "note": "Official open-positions page uses a separate JavaScript widget whose asset robots policy could not be verified. Old Lever route returned 404; no current public feed verified. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+    },
+    {
+      "company": "WorldQuant",
+      "aliases": [
+        "WorldQuant"
+      ],
+      "direct_sources": [
+        "greenhouse-worldquant"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
+    },
+    {
+      "company": "XTX Markets",
+      "aliases": [
+        "XTX Markets"
+      ],
+      "direct_sources": [
+        "greenhouse-xtxmarketstechnologies"
+      ],
+      "feed_sources": [
+        "simplify-public-internships"
+      ],
+      "coverage": "direct_and_public_feed",
+      "note": ""
     }
   ]
 }

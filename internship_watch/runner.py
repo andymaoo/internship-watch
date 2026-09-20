@@ -18,8 +18,8 @@ log = logging.getLogger(__name__)
 def collections(config, collector, client):
     """Bound pending boards and memory; SQLite stays on the calling thread."""
     workers = config.get('collection_workers', 1)
-    if not isinstance(workers, int) or not 1 <= workers <= 4:
-        raise ValueError('collection_workers must be between 1 and 4')
+    if not isinstance(workers, int) or not 1 <= workers <= 8:
+        raise ValueError('collection_workers must be between 1 and 8')
     sources = iter(s for s in config.get('sources', []) if s.get('enabled', True))
 
     def fetch(source):
@@ -264,7 +264,7 @@ def _run(config, db_path, collector, client, validator, sender):
                             if not known:
                                 continue  # Keep candidates, while still applying later exclusion evidence.
                         store.upsert_job(key, job, classification, run_id,
-                                         baseline=not previous["initialized"], filters=config.get("filters", {}))
+                                         baseline=not previous["initialized"], filters=config.get("filters", {}), classification_is_current=True)
                     state = store.record_source(key, count=len(jobs))
                     store.incident("source:" + key, False, "Recovered")
                     suspicious_empty = len(jobs) == 0 and (previous.get("last_count", 0) or previous["empty_runs"]

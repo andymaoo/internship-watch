@@ -231,6 +231,9 @@ ADAPTERS = {"greenhouse": greenhouse, "lever": lever, "ashby": ashby, "simplify"
 def collect(source: dict, client) -> list[dict]:
     from . import employer_sources
     from . import platform_sources
+    from . import finance_sources
+    for name in ("deshaw", "trexquant", "groupone", "bankofamerica", "icims_board", "panagora", "finance_avature", "moodys", "renaissance"):
+        ADAPTERS[name] = getattr(finance_sources, name)
     for name in ('workday', 'jibe', 'atlassian', 'jobvite', 'oracle'):
         ADAPTERS[name] = getattr(platform_sources, name)
     for name in ('smartrecruiters', 'eightfold', 'snap', 'uber', 'amazon', 'rippling', 'bloomberg', 'bytedance', 'tiktok'):

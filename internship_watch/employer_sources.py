@@ -92,6 +92,10 @@ def eightfold(source, client):
         seen, start, expected = set(), 0, None
         for _ in range(_bounds(source)):
             params = dict(search, domain=domain, start=start)
+            if source.get('sort_by'):
+                if legacy or source['sort_by'] not in ('relevance','timestamp'):
+                    raise SourceError('Unreviewed Eightfold sort order')
+                params['sort_by']=source['sort_by']
             if legacy:
                 params['num'] = 100
             payload = _json(client, base + ('/api/apply/v2/jobs' if legacy else '/api/pcsx/search'),
@@ -99,6 +103,8 @@ def eightfold(source, client):
             data = payload if legacy else payload.get('data')
             if not isinstance(data, dict):
                 raise SourceError('Eightfold search schema changed')
+            if source.get('sort_by') and data.get('sortBy')!=source['sort_by']:
+                raise SourceError('Eightfold did not honor requested sort order')
             items = _jobs_list(data, 'positions')
             total = _total(data.get('count'))
             if expected is not None and total != expected:

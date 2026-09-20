@@ -123,7 +123,9 @@ def workday_spec(url):
     if not parts or not re.fullmatch(r'[A-Za-z0-9_-]+', parts[0]):
         return None
     base = 'https://' + p.hostname
-    tenant, site = p.hostname.split('.')[0], parts[0]
+    # CCI's public board HTML declares tenant "osv_cci" on a hyphenated host.
+    tenant = {'osv-cci.wd1.myworkdayjobs.com':'osv_cci'}.get(p.hostname,p.hostname.split('.')[0])
+    site = parts[0]
     spec = dict(provider='workday', board=tenant+'/'+site, tenant=tenant, site=site,
                 base=base, canonical=base+'/'+site, api=base+'/wday/cxs/'+tenant+'/'+site)
     if len(parts) > 2 and parts[1] == 'job':
@@ -160,8 +162,9 @@ def workday(source, client):
     queries = source.get('queries', ['intern', 'co-op', 'fellowship', 'residency'])
     if not isinstance(queries, list) or not queries or len(queries) > 8 or not all(isinstance(q,str) for q in queries):
         raise SourceError('Explicit bounded Workday search queries required')
-    searches = [(q, source.get('applied_facets', {}), None) for q in queries]
-    if source.get('opportunity_facets'):
+    applied = dict(source.get('applied_facets', {}))
+    searches = [(q, applied, None) for q in queries]
+    if source.get('opportunity_facets') or source.get('country_scope'):
         # Resolve public facet IDs each poll: these are tenant-specific and can
         # change. Do not confuse International with Intern, or a location with
         # a worker type. Supplement structured internships with program queries.
@@ -169,15 +172,29 @@ def workday(source, client):
             searchText='',appliedFacets={}), respect_robots=True,retry_post=True)
         response.raise_for_status(); discovery = response.json()
         _jobs_list(discovery,'jobPostings'); _total(discovery.get('total'))
-        facet = next((f for f in discovery.get('facets',[]) if f.get('facetParameter')=='workerSubType'),None)
+        if source.get('country_scope'):
+            if source['country_scope'] != ['US']:
+                raise SourceError('Only reviewed US Workday country scope is supported')
+            country = next((f for f in discovery.get('facets',[]) if f.get('facetParameter') in ('locationCountry','Country')),None)
+            values = [] if country is None else [v for v in country.get('values',[])
+                if v.get('descriptor') in ('United States', 'United States of America', 'USA')]
+            if len(values)==1 and isinstance(values[0].get('id'),str) and values[0]['id']:
+                applied[country['facetParameter']] = [values[0]['id']]
+            # Missing country facets fall back to the complete global scope;
+            # the usual geographic classifier remains authoritative.
+            searches = [(q, applied, None) for q in queries]
+        worker_facet = source.get('worker_type_facet','workerSubType')
+        if worker_facet not in ('workerSubType','company'):
+            raise SourceError('Unreviewed Workday worker-type facet')
+        facet = next((f for f in discovery.get('facets',[]) if f.get('facetParameter')==worker_facet),None)
         values = [] if facet is None else [v for v in facet.get('values',[])
             if re.search(r'\b(?:intern(?:ship)?|student worker|co[ -]?op)\b',v.get('descriptor',''),re.I)]
-        if values:
+        if values and source.get('opportunity_facets'):
             if not all(isinstance(v.get('id'),str) and v['id'] for v in values):
                 raise SourceError('Workday worker-type facet identity changed')
             scope = 'internship_worker_type' if all(re.search(r'\bintern',v['descriptor'],re.I) for v in values) else 'opportunity_worker_type'
-            searches = [('',dict(source.get('applied_facets',{}),workerSubType=[v['id'] for v in values]),scope)]
-            searches += [(q,source.get('applied_facets',{}),None) for q in queries if q!='intern']
+            searches = [('',dict(applied,**{worker_facet:[v['id'] for v in values]}),scope)]
+            searches += [(q,applied,None) for q in queries if q!='intern']
     jobs = {}
     for query, facets, scope in searches:
         offset, expected, seen = 0, None, set()
@@ -231,7 +248,10 @@ def workday(source, client):
             continue
         info = workday_detail(workday_spec(job['description_url']), client)['jobPostingInfo']
         if info['title'] != job['title']:
-            raise SourceError('Workday title changed between search and detail')
+            # Search indexes can lag a title edit. workday_detail has already
+            # checked exact tenant/site, posting instance and requisition ID.
+            job['evidence']['search_title'] = job['title']
+            job['title'] = info['title']
         if info.get('posted') is False:
             continue  # retain search observation; live validator decides closure
         country = (info.get('country') or {}).get('descriptor')

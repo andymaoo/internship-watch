@@ -64,6 +64,16 @@ class EmployerSourceTests(unittest.TestCase):
         for data in [{'count':2,'positions':[ef(1)]},{'count':1,'positions':[dict(ef(1),positionUrl='/careers/job/2')]},{'count':1,'positions':[]}]:
             with self.assertRaises(SourceError):collect(source,Client({'data':data}))
 
+    def test_eightfold_explicit_sort_must_be_honored_and_still_rejects_duplicates(self):
+        source=dict(id='ef',type='eightfold',domain='nvidia.com',searches=[{'query':'intern'}],sort_by='timestamp')
+        first={'data':{'sortBy':'timestamp','count':2,'positions':[ef(1)]}}
+        second={'data':{'sortBy':'timestamp','count':2,'positions':[ef(2)]}}
+        client=Client(first,second)
+        self.assertEqual(len(collect(source,client)),2)
+        self.assertTrue(all(k['params']['sort_by']=='timestamp' for u,k in client.calls))
+        with self.assertRaises(SourceError):collect(source,Client(first,first))
+        with self.assertRaises(SourceError):collect(source,Client({'data':{'sortBy':'relevance','count':1,'positions':[ef(1)]}}))
+
     def test_uber_pagination_is_bounded_and_retains_description(self):
         item=dict(Id='1',Title='Software Intern',Urls=[{'IsDefault':True,'Url':'/en/jobs/1/'}],Description='Build software during this internship.',Locations=[{'City':'Seattle','Country':'United States'}])
         client=Client(dict(totalJobs=1,totalPages=1,page=1,jobs=[item]))
@@ -172,23 +182,23 @@ class EmployerValidationTests(unittest.TestCase):
 
     @patch('internship_watch.runner.heartbeat')
     def test_every_requested_company_can_queue_a_new_qualifying_record_once(self,_):
-        config=json.loads((Path(__file__).resolve().parents[1]/'config.example.json').read_text())
-        self.assertEqual(len(config['company_watchlist']),105)
-        self.assertEqual(sum(bool(c['direct_sources']) for c in config['company_watchlist']),99)
+        config=json.loads((Path(__file__).resolve().parents[1]/'config.example.json').read_text(encoding='utf8'))
+        self.assertEqual(len(config['company_watchlist']),212)
+        self.assertEqual(sum(bool(c['direct_sources']) for c in config['company_watchlist']),185)
         configured={s['id'] for s in config['sources'] if s.get('enabled',True)}
         for company in config['company_watchlist']:
             self.assertTrue(set(company['direct_sources']+company['feed_sources']) <= configured)
         with tempfile.TemporaryDirectory() as directory:
-            cfg=dict(database=str(Path(directory)/'jobs.db'),sources=[{'id':'contract'}],filters=config['filters'],validation_budget=200,delivery_budget=200)
+            cfg=dict(database=str(Path(directory)/'jobs.db'),sources=[{'id':'contract'}],filters=config['filters'],validation_budget=300,delivery_budget=300)
             sender=Mock();client=Mock()
             run_once(cfg,collector=lambda *_:[],client=client,validator=verified,sender=sender)
             fixtures=[]
             for index,company in enumerate(config['company_watchlist']):
                 row=job(str(100000+index));row['employer']=company['company'];fixtures.append(row)
             run_once(cfg,collector=lambda *_:fixtures,client=client,validator=verified,sender=sender)
-            self.assertEqual(sender.send.call_count,105)
+            self.assertEqual(sender.send.call_count,212)
             run_once(cfg,collector=lambda *_:fixtures,client=client,validator=verified,sender=sender)
-            self.assertEqual(sender.send.call_count,105)
+            self.assertEqual(sender.send.call_count,212)
 
     def test_fresh_eightfold_detail_proves_posting_only(self):
         url='https://jobs.nvidia.com/careers/job/123'

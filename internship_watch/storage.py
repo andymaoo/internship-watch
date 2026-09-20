@@ -39,8 +39,8 @@ def custom_greenhouse_identity(job):
         parsed = urlsplit(job.get("description_url") or "")
         ids = [value for key, value in parse_qsl(parsed.query) if key == "gh_jid"]
         if (parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password
-                or parsed.hostname in {"boards.greenhouse.io", "job-boards.greenhouse.io"}
-                or ids != [match.group(2)]):
+                or parsed.hostname in {"boards.greenhouse.io", "job-boards.greenhouse.io", "boards.eu.greenhouse.io", "job-boards.eu.greenhouse.io"}
+                or set(ids) != {match.group(2)}):
             return None
     except (TypeError, ValueError):
         return None
@@ -98,6 +98,27 @@ def url_identity(url):
                 # These public supplier hosts returned identical content for
                 # all 885 shared global posting IDs in the live expansion audit.
                 return 'bytedance:'+match[1]
+        if host == 'bankcampuscareers.tal.net':
+            match=re.search(r'/pl/(\d+)/opp/(\d+)(?:-|/)',path)
+            if match:
+                return 'tal:'+host+':'+match[1]+':'+match[2]
+        if host in {'www.deshaw.com','deshaw.com'}:
+            match=re.fullmatch(r'/careers/[A-Za-z0-9-]+-(\d+)',path)
+            if match:return 'deshaw:'+match[1]
+        if host == 'group1.applicantpro.com':
+            match=re.fullmatch(r'/jobs/(\d+)(?:\.html)?',path)
+            if match:return 'applicantpro:group1:'+match[1]
+        if host == 'apply.workable.com':
+            match=re.fullmatch(r'/([^/]+)/j/([A-Za-z0-9]+)(?:/apply)?',path)
+            if match:return 'workable:'+match[1].lower()+':'+match[2].upper()
+        if host == 'careers.twosigma.com':
+            match=re.fullmatch(r'/careers/JobDetail/[^/]+/(\d+)',path)
+            if match:return 'avature:twosigma:'+match[1]
+            if path=='/careers/Login' and re.fullmatch(r'\d+',query.get('jobId','')):return 'avature:twosigma:'+query['jobId']
+        if host == 'recruitment.macquarie.com' and path in {'/en_US/careers/JobDetail','/en_US/careers/ApplicationMethods'}:
+            if re.fullmatch(r'\d+',query.get('jobId','')):return 'avature:macquarie:'+query['jobId']
+        if host == 'career8.successfactors.com' and path=='/sfcareer/jobreqcareer' and query.get('company')=='MoodysProd':
+            if re.fullmatch(r'\d+',query.get('jobId','')):return 'successfactors:MoodysProd:'+query['jobId']
         if host == 'jobs.smartrecruiters.com':
             match = re.fullmatch(r'/([^/]+)/(\d+)(?:-[^/]*)?', path)
             if match:
@@ -128,7 +149,7 @@ def url_identity(url):
             return 'snap:' + query['id']
         job_query = any(value for key, value in query.items() if key.casefold() in
                         {"gh_jid", "jobid", "job_id", "job", "jid", "requisitionid", "requisition_id"})
-        if host in ("boards.greenhouse.io", "job-boards.greenhouse.io"):
+        if host in ("boards.greenhouse.io", "job-boards.greenhouse.io", "boards.eu.greenhouse.io", "job-boards.eu.greenhouse.io"):
             match = re.fullmatch(r"/([^/]+)/jobs/(\d+)(?:/application)?", path)
             if match:
                 return f"gh:{match[1].lower()}:{match[2]}"
@@ -261,6 +282,16 @@ class Store:
                     if identity and identity.startswith(('workday:','atlassian:','oracle:','bytedance:','jibe:')):
                         self.db.execute('INSERT OR IGNORE INTO identities(identity,job_id) VALUES(?,?)',('url:'+identity,row['id']))
             self.db.execute("INSERT INTO meta VALUES('platform_url_aliases_v1',?)",(now(),))
+        if {'original_url','application_url'} <= columns and not self.db.execute("SELECT 1 FROM meta WHERE key='finance_url_aliases_v1'").fetchone():
+            for row in self.db.execute('SELECT id,original_url,application_url FROM jobs').fetchall():
+                original = url_identity(row['original_url'])
+                for field in ('original_url','application_url'):
+                    identity = url_identity(row[field])
+                    if field=='application_url' and original and not original.startswith('https:') and original!=identity:
+                        continue
+                    if identity and identity.startswith(('gh:','tal:','deshaw:','workable:','applicantpro:','avature:','successfactors:')):
+                        self.db.execute('INSERT OR IGNORE INTO identities(identity,job_id) VALUES(?,?)',('url:'+identity,row['id']))
+            self.db.execute("INSERT INTO meta VALUES('finance_url_aliases_v1',?)",(now(),))
         self.db.commit()
 
     def close(self):
@@ -320,7 +351,7 @@ class Store:
                             (prior["empty_runs"] + 1 if count == 0 else 0, stamp, stamp, count, source))
         return self.source_state(source)
 
-    def upsert_job(self, source, job, classification, run_id, baseline=False, filters=None):
+    def upsert_job(self, source, job, classification, run_id, baseline=False, filters=None, classification_is_current=False):
         sid, stamp = str(job["source_id"]), now()
         keys = [f"source:{source}:{sid}"]
         description_key = url_identity(job.get("description_url"))
@@ -333,10 +364,10 @@ class Store:
                 re.fullmatch(r'JR\d+', str(evidence.get('ats_job_id', ''))) and
                 job.get('description_url') == 'https://jobs.nvidia.com/careers/job/' + str(evidence.get('provider_job_id'))):
             keys.append('url:workday:nvidia:' + evidence['ats_job_id'])
-        known_ats = lambda key: bool(key and key.startswith(("gh:", "lever:", "ashby:", "smartrecruiters:", "workday:", "snap:", "atlassian:", "oracle:", "bytedance:", "jibe:")))
+        known_ats = lambda key: bool(key and key.startswith(("gh:", "lever:", "ashby:", "smartrecruiters:", "workday:", "snap:", "atlassian:", "oracle:", "bytedance:", "jibe:", "tal:", "deshaw:", "workable:", "applicantpro:", "avature:", "successfactors:")))
         # Application destinations often share a login/form. Only known ATS
         # requisitions can add an alias; conflicting requisitions cannot merge.
-        if application_key and application_key != description_key and known_ats(application_key):
+        if application_key and application_key != description_key and known_ats(application_key) and not evidence.get('application_identity_conflict'):
             if not known_ats(description_key):
                 keys.append("url:" + application_key)
         found = {r[0] for key in keys for r in self.db.execute("SELECT job_id FROM identities WHERE identity=?", (key,))}
@@ -395,7 +426,9 @@ class Store:
             direct_provider = (direct_payload.get('evidence') or {}).get('provider')
             direct_providers = {'greenhouse','lever','ashby','apple','google','eightfold',
                                 'smartrecruiters','snap','amazon','rippling','bloomberg','bytedance',
-                                'workday','jibe','atlassian','jobvite','oracle','tiktok'}
+                                'workday','jibe','atlassian','jobvite','oracle','tiktok',
+                                'deshaw','trexquant','groupone','bankofamerica','icims_board',
+                                'panagora','finance_avature','moodys','renaissance'}
             incoming_destinations = [url_identity(job.get(field)) for field in ('description_url','application_url') if job.get(field)]
             known_aliases = bool(incoming_destinations) and all(key and self.db.execute(
                 'SELECT 1 FROM identities WHERE identity=? AND job_id=?', ('url:'+key,jid)).fetchone()
@@ -435,10 +468,12 @@ class Store:
                 payload["description"] = old_payload["description"]
                 payload["evidence"] = dict(payload.get("evidence") or {})
                 payload["evidence"]["description_kind"] = "validated_destination"
-        if filters is not None:
-            # Classification must use retained enrichment and today's policy.
-            # A sparse source refresh cannot erase a known PhD-only restriction,
-            # and yesterday's inclusion cannot override a newly ambiguous role.
+        if filters is not None and (not classification_is_current or payload != job):
+            # The supplied decision already describes the incoming job under
+            # today's filters (runner.classify_cached invalidates on code,
+            # filters and payload). Recompute only if merging retained evidence
+            # changed that payload. Sparse refreshes still cannot erase a known
+            # PhD-only restriction or override newly ambiguous evidence.
             classification = classify(payload, filters)
         decision = classification.get("decision", "ambiguous")
         values = (payload["employer"], payload["title"], classification.get("category"), payload.get("location", ""),

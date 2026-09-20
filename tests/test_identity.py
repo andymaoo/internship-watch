@@ -79,6 +79,27 @@ class IdentityTests(unittest.TestCase):
                 description = f"https://{host}/example/{identity}"
                 self.assertEqual(url_identity(description), url_identity(description + "/" + suffix))
 
+    def test_finance_migration_preserves_history_and_exact_aliases(self):
+        pairs=[('https://job-boards.eu.greenhouse.io/imc/jobs/123','https://boards.greenhouse.io/imc/jobs/123'),
+               ('https://bankcampuscareers.tal.net/vx/xf-old/candidate/so/pm/1/pl/1/opp/42-Intern/en-GB','https://bankcampuscareers.tal.net/vx/candidate/so/pm/1/pl/1/opp/42-Changed-title/en-GB'),
+               ('https://www.deshaw.com/careers/software-intern-42','https://www.deshaw.com/careers/renamed-intern-42')]
+        ids=[]
+        for i,(old,new) in enumerate(pairs):
+            ids.append(self.insert('feed',str(i),old))
+        history=self.store.rows('SELECT id,first_seen,baseline FROM jobs ORDER BY id')
+        self.store.db.execute("DELETE FROM identities WHERE identity LIKE 'url:%'")
+        self.store.db.execute("DELETE FROM meta WHERE key='finance_url_aliases_v1'");self.store.db.commit();self.store.close()
+        self.store=Store(Path(self.directory.name)/'jobs.db')
+        for i,(old,new) in enumerate(pairs):self.assertEqual(self.insert('direct',str(i),new),ids[i])
+        self.assertEqual(self.store.rows('SELECT id,first_seen,baseline FROM jobs ORDER BY id'),history)
+
+    def test_conflicting_employer_application_is_never_a_merge_alias(self):
+        application='https://career8.successfactors.com/sfcareer/jobreqcareer?jobId=44&company=MoodysProd'
+        original=self.insert('feed','44',application)
+        job={'source_id':'100','employer':"Moody's",'title':'Data Analyst Intern','description_url':'https://careers.moodys.com/en/job/new-york/data-intern/49841/100','application_url':application,'evidence':{'application_identity_conflict':{'posting_requisition':'43','application_requisition':'44'}}}
+        other=self.store.upsert_job('moodys',job,{'decision':'include','category':'data_analysis'},None)[0]
+        self.assertNotEqual(original,other)
+
 
 if __name__ == "__main__":
     unittest.main()

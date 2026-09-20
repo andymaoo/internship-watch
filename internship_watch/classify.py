@@ -43,8 +43,8 @@ COUNTRIES = {
     "PL": ["poland"], "BR": ["brazil"], "MX": ["mexico"],
 }
 DEGREES = {
-    "bachelor": r"\b(?:bachelor(?:'s)?|undergraduate|B\.?S\.?|BSc|B\.?A\.?)\b",
-    "master": r"\b(?:master(?:'s)?|M\.?S\.?|MSc|MBA|M\.?A\.?)\b",
+    "bachelor": r"\b(?:bachelor(?:'?s)?|undergraduate|B\.?S\.?|BSc|B\.?A\.?)\b",
+    "master": r"\b(?:master(?:'?s)?|M\.?S\.?|MSc|MBA|M\.?A\.?)\b(?!\s+(?:office|excel|word|teams)\b)",
     "phd": r"\b(?:Ph\.?D\.?s?|doctorates?|doctoral|postdoctoral)\b",
     "associate": r"\bassociate(?:'s)? degree\b",
 }
@@ -147,6 +147,8 @@ def classify(job: dict, filters: dict | None = None) -> dict:
         and (ML.search(text) or re.search(r"\bresearch\b", text, re.I)))
         and not re.search(r"\b(?:manager|director|coordinator|operations|legal|medical|clinical|neurosurgeon|surgeon|physician|nurse)\b", title, re.I))
     description_match = re.search(r"\b(?:this (?:position|role|opportunity) is (?:an? )?(?:\w+\s+){0,3}internship|this internship|as an? (?:\w+\s+){0,5}intern\b|(?:seeking|hiring|looking for) (?:an? )?(?:\w+\s+){0,5}intern\b)", description, re.I)
+    if not description_match and re.search(r'\bsummer (?:\w+\s+){0,2}(?:analyst|associate)\b', title, re.I):
+        description_match = re.search(r'\b(?:the|our) internship program\s+(?:our|this)\s+\d{1,2}[ -]week summer program\b', description, re.I)
     negated = re.search(r"\b(?:not an? internship|not (?:an? )?intern(?:ship)? (?:role|position)|permanent (?:role|position)|regular full[ -]?time (?:role|position))\b", text, re.I)
     if title_intern:
         record("title", title, "internship")

@@ -16,7 +16,7 @@ from .classify import plain
 from .http import WorkBudgetExhausted
 from .google_source import GoogleDetailError, google_job_id, google_title_matches, parse_google_detail
 
-VALIDATOR_VERSION = 10
+VALIDATOR_VERSION = 11
 
 
 class Page(HTMLParser):
@@ -198,7 +198,7 @@ def generic_url(url):
     if url_ids(url):
         return False
     parts = [p for p in parsed.path.lower().split("/") if p]
-    if parsed.hostname in {"jobs.ashbyhq.com", "jobs.lever.co", "jobs.eu.lever.co", "job-boards.greenhouse.io", "boards.greenhouse.io"} and len(parts) <= 1:
+    if parsed.hostname in {"jobs.ashbyhq.com", "jobs.lever.co", "jobs.eu.lever.co", "job-boards.greenhouse.io", "boards.greenhouse.io", "job-boards.eu.greenhouse.io", "boards.eu.greenhouse.io"} and len(parts) <= 1:
         return True
     generic = {"jobs", "careers", "career", "search", "opportunities", "openings", "en", "en-us", "en-gb", "us", "job-search", "jobsearch", "results"}
     return not parts or all(p in generic for p in parts)
@@ -415,7 +415,7 @@ def provider_spec(url, job=None):
                  else f'https://{"api.eu.lever.co" if host=="jobs.eu.lever.co" else "api.lever.co"}/v0/postings/{quote(board,safe="")}/{identity}')
             return {'provider':provider,'board':board,'id':identity,'canonical':f'https://{host}/{board}/{identity}','api':api}
     board=identity=None
-    if host in {'job-boards.greenhouse.io','boards.greenhouse.io'}:
+    if host in {'job-boards.greenhouse.io','boards.greenhouse.io','job-boards.eu.greenhouse.io','boards.eu.greenhouse.io'}:
         if len(parts)>=3 and parts[1]=='jobs' and parts[2].isdigit():
             board,identity=parts[0],parts[2]
         elif parts==['embed','job_app']:
@@ -426,9 +426,22 @@ def provider_spec(url, job=None):
             board,identity=match.groups()
     if board and identity and board not in {'.','..'} and re.fullmatch(r'[A-Za-z0-9_.-]+',board) and identity.isdigit():
         return {'provider':'greenhouse','board':board,'id':identity,
-                'canonical':f'https://job-boards.greenhouse.io/{board}/jobs/{identity}',
+                'canonical':f'https://{"job-boards.eu.greenhouse.io" if host.endswith(".eu.greenhouse.io") else "job-boards.greenhouse.io"}/{board}/jobs/{identity}',
                 'api':f'https://boards-api.greenhouse.io/v1/boards/{quote(board,safe="")}/jobs/{identity}'}
     return None
+
+
+def _prune_posting_cache(cache, maximum=64):
+    """A long-lived worker must not retain every full ATS response forever."""
+    expired=[key for key,entry in cache.items() if time.monotonic()-entry[0]>=300]
+    for key in expired:
+        body=cache.pop(key)[1]
+        close=getattr(body,'close',None)
+        if callable(close):close()
+    while len(cache)>maximum:
+        body=cache.pop(next(iter(cache)))[1]
+        close=getattr(body,'close',None)
+        if callable(close):close()
 
 
 def _api_posting(job, spec, client):
@@ -441,11 +454,13 @@ def _api_posting(job, spec, client):
         cached=getattr(client,'_posting_api_cache',None)
         if cached is None:
             cached={};setattr(client,'_posting_api_cache',cached)
+        _prune_posting_cache(cached)
         entry=cached.get(spec['api'])
         if not entry or time.monotonic()-entry[0]>=300:
             response=client.get(spec['api'],allow_redirects=True,respect_robots=False,raise_for_status=False)
             entry=(time.monotonic(),response,datetime.now(timezone.utc).isoformat())
             cached[spec['api']]=entry
+            _prune_posting_cache(cached)
         _,response,fetched_at=entry
         check.update(http_status=response.status_code,final_url=response.url,fetched_at=fetched_at)
         if response.status_code!=200:
@@ -554,6 +569,9 @@ def validate_job(job: dict, client) -> dict:
             break
         application_check["evidence"].append("followed_job_page_apply_link")
         current = target
+    if (job.get('evidence') or {}).get('application_identity_conflict'):
+        checks[-1]['status']='unverified'
+        checks[-1]['evidence'].append('employer_posting_and_application_requisition_conflict')
     statuses = [posting_check['status'], checks[-1]["status"]]
     status = "closed" if "closed" in statuses else "open" if all(s == "open" for s in statuses) else "unverified"
     result = {"status": status, "posting_status":statuses[0],"application_status":statuses[1],

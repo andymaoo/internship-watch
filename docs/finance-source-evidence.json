@@ -1,0 +1,564 @@
+{
+  "observed_utc_date": "2026-09-20",
+  "baseline_commit": "690b0209075ac35cafa2067bcf18329eb56bf467",
+  "new_source_probes": {
+    "greenhouse-aqr": {
+      "status": "ok",
+      "count": 51,
+      "included": 2,
+      "seconds": 0.91
+    },
+    "greenhouse-akunacapital": {
+      "status": "ok",
+      "count": 40,
+      "included": 7,
+      "seconds": 2.19
+    },
+    "lever-belvederetrading": {
+      "status": "ok",
+      "count": 17,
+      "included": 0,
+      "seconds": 1.48
+    },
+    "greenhouse-aquaticcapitalmanagement": {
+      "status": "ok",
+      "count": 8,
+      "included": 2,
+      "seconds": 2.75
+    },
+    "greenhouse-blackedgecapital": {
+      "status": "ok",
+      "count": 6,
+      "included": 2,
+      "seconds": 3.59
+    },
+    "greenhouse-capstoneinvestmentadvisors": {
+      "status": "ok",
+      "count": 13,
+      "included": 0,
+      "seconds": 2.56
+    },
+    "greenhouse-flowtraders": {
+      "status": "ok",
+      "count": 45,
+      "included": 0,
+      "seconds": 3.42
+    },
+    "greenhouse-gelbergroup": {
+      "status": "ok",
+      "count": 8,
+      "included": 0,
+      "seconds": 3.88
+    },
+    "greenhouse-genevatrading": {
+      "status": "ok",
+      "count": 11,
+      "included": 2,
+      "seconds": 3.97
+    },
+    "greenhouse-gsacapital": {
+      "status": "ok",
+      "count": 10,
+      "included": 1,
+      "seconds": 3.73
+    },
+    "greenhouse-mako": {
+      "status": "ok",
+      "count": 7,
+      "included": 0,
+      "seconds": 3.74
+    },
+    "greenhouse-jumptrading": {
+      "status": "ok",
+      "count": 110,
+      "included": 7,
+      "seconds": 4.53
+    },
+    "greenhouse-magnetar": {
+      "status": "ok",
+      "count": 2,
+      "included": 0,
+      "seconds": 4.12
+    },
+    "greenhouse-imc": {
+      "status": "ok",
+      "count": 172,
+      "included": 4,
+      "seconds": 5.2
+    },
+    "greenhouse-oldmissioncapital": {
+      "status": "ok",
+      "count": 39,
+      "included": 1,
+      "seconds": 4.48
+    },
+    "greenhouse-pdtpartners": {
+      "status": "ok",
+      "count": 9,
+      "included": 2,
+      "seconds": 3.51
+    },
+    "greenhouse-point72": {
+      "status": "ok",
+      "count": 233,
+      "included": 3,
+      "seconds": 5.53
+    },
+    "greenhouse-quberesearchandtechnologies": {
+      "status": "ok",
+      "count": 202,
+      "included": 0,
+      "seconds": 5.36
+    },
+    "greenhouse-schonfeld": {
+      "status": "ok",
+      "count": 79,
+      "included": 2,
+      "seconds": 5.38
+    },
+    "greenhouse-squarepointcapital": {
+      "status": "ok",
+      "count": 94,
+      "included": 0,
+      "seconds": 5.3
+    },
+    "greenhouse-towerresearchcapital": {
+      "status": "ok",
+      "count": 89,
+      "included": 3,
+      "seconds": 3.86
+    },
+    "greenhouse-transmarketgroup": {
+      "status": "ok",
+      "count": 19,
+      "included": 3,
+      "seconds": 2.08
+    },
+    "greenhouse-worldquant": {
+      "status": "ok",
+      "count": 104,
+      "included": 0,
+      "seconds": 2.8
+    },
+    "lever-valkyrietrading": {
+      "status": "ok",
+      "count": 6,
+      "included": 0,
+      "seconds": 3.81
+    },
+    "workday-arrowstreet-capital-campus_careers": {
+      "status": "ok",
+      "count": 2,
+      "included": 2,
+      "seconds": 6.38
+    },
+    "greenhouse-ctccampusboard": {
+      "status": "ok",
+      "count": 6,
+      "included": 2,
+      "seconds": 0.55
+    },
+    "workday-blackrock-blackrock_early_careers_program": {
+      "status": "ok",
+      "count": 4,
+      "included": 0,
+      "seconds": 8.39
+    },
+    "greenhouse-chicagotradingcampus": {
+      "status": "ok",
+      "count": 8,
+      "included": 2,
+      "seconds": 0.67
+    },
+    "workday-blackstone-blackstone_campus_careers": {
+      "status": "ok",
+      "count": 29,
+      "included": 0,
+      "seconds": 12.38
+    },
+    "workday-capital-group-capitalgroupcareers": {
+      "status": "ok",
+      "count": 68,
+      "included": 0,
+      "seconds": 7.59
+    },
+    "greenhouse-drwuniversityjobs": {
+      "status": "ok",
+      "count": 1,
+      "included": 0,
+      "seconds": 0.64
+    },
+    "workday-cme-group-cme_careers": {
+      "status": "ok",
+      "count": 4,
+      "included": 2,
+      "seconds": 8.41
+    },
+    "workday-citi-2": {
+      "status": "ok",
+      "count": 14,
+      "included": 0,
+      "seconds": 11.45
+    },
+    "workday-franklin-templeton-primary-external-1": {
+      "status": "ok",
+      "count": 0,
+      "included": 0,
+      "seconds": 4.74
+    },
+    "workday-alliancebernstein-abcampuscareers": {
+      "status": "ok",
+      "count": 22,
+      "included": 0,
+      "seconds": 26.69
+    },
+    "greenhouse-mwinternshipprogram": {
+      "status": "ok",
+      "count": 7,
+      "included": 0,
+      "seconds": 1.55
+    },
+    "greenhouse-mavensecuritiesholdingltd": {
+      "status": "ok",
+      "count": 46,
+      "included": 1,
+      "seconds": 1.47
+    },
+    "workday-g-research-g-research": {
+      "status": "ok",
+      "count": 19,
+      "included": 0,
+      "seconds": 8.58
+    },
+    "workday-blackrock-blackrock_professional": {
+      "status": "ok",
+      "count": 206,
+      "included": 0,
+      "seconds": 28.66
+    },
+    "workday-nasdaq-global_external_site": {
+      "status": "ok",
+      "count": 9,
+      "included": 1,
+      "seconds": 7.62
+    },
+    "workday-peak6-capital-management-capman": {
+      "status": "ok",
+      "count": 2,
+      "included": 0,
+      "seconds": 4.53
+    },
+    "workday-fidelity-investments-fidelitycareers": {
+      "status": "ok",
+      "count": 232,
+      "included": 0,
+      "seconds": 16.47
+    },
+    "greenhouse-radixuniversity": {
+      "status": "ok",
+      "count": 8,
+      "included": 0,
+      "seconds": 0.67
+    },
+    "greenhouse-sevenresearch": {
+      "status": "ok",
+      "count": 8,
+      "included": 1,
+      "seconds": 1.05
+    },
+    "workday-neuberger-berman-nbcareers": {
+      "status": "ok",
+      "count": 47,
+      "included": 0,
+      "seconds": 8.3
+    },
+    "workday-invesco-ivzearlycareers": {
+      "status": "ok",
+      "count": 14,
+      "included": 0,
+      "seconds": 25.73
+    },
+    "ashby-voleon": {
+      "status": "ok",
+      "count": 55,
+      "included": 1,
+      "seconds": 1.09
+    },
+    "greenhouse-walleyecapital-external-students": {
+      "status": "ok",
+      "count": 4,
+      "included": 1,
+      "seconds": 0.67
+    },
+    "workday-invesco-ivz": {
+      "status": "ok",
+      "count": 16,
+      "included": 0,
+      "seconds": 26.89
+    },
+    "workday-s-p-global-spgi_careers": {
+      "status": "ok",
+      "count": 298,
+      "included": 1,
+      "seconds": 24.58
+    },
+    "greenhouse-xtxmarketstechnologies": {
+      "status": "ok",
+      "count": 10,
+      "included": 0,
+      "seconds": 0.89
+    },
+    "workday-t-rowe-price-troweprice": {
+      "status": "ok",
+      "count": 69,
+      "included": 1,
+      "seconds": 17.36
+    },
+    "workday-wellington-management-campus": {
+      "status": "ok",
+      "count": 24,
+      "included": 4,
+      "seconds": 28.75
+    },
+    "workday-vanguard-vanguard_external": {
+      "status": "ok",
+      "count": 215,
+      "included": 4,
+      "seconds": 33.55
+    },
+    "greenhouse-acadianassetmanagementllc": {
+      "status": "ok",
+      "count": 12,
+      "included": 0,
+      "seconds": 0.81
+    },
+    "greenhouse-fiveringsllc": {
+      "status": "ok",
+      "count": 16,
+      "included": 3,
+      "seconds": 1.17
+    },
+    "greenhouse-headlandstechnologiesllc": {
+      "status": "ok",
+      "count": 8,
+      "included": 0,
+      "seconds": 1.72
+    },
+    "greenhouse-tudorgroup": {
+      "status": "ok",
+      "count": 4,
+      "included": 0,
+      "seconds": 1.81
+    },
+    "greenhouse-vaticlabs": {
+      "status": "ok",
+      "count": 8,
+      "included": 0,
+      "seconds": 2.0
+    },
+    "greenhouse-mangroup": {
+      "status": "ok",
+      "count": 56,
+      "included": 0,
+      "seconds": 2.66
+    },
+    "workday-state-street-global": {
+      "status": "ok",
+      "count": 745,
+      "included": 0,
+      "seconds": 46.84
+    },
+    "workday-blackstone-bx_external_site": {
+      "status": "ok",
+      "count": 60,
+      "included": 0,
+      "seconds": 12.67
+    },
+    "greenhouse-veritiongroupllc": {
+      "status": "ok",
+      "count": 30,
+      "included": 0,
+      "seconds": 0.47
+    },
+    "greenhouse-bridgewater89": {
+      "status": "ok",
+      "count": 14,
+      "included": 0,
+      "seconds": 1.12
+    },
+    "workday-pgim-pgim_careers": {
+      "status": "ok",
+      "count": 69,
+      "included": 0,
+      "seconds": 15.34
+    },
+    "workday-wellington-management-external": {
+      "status": "ok",
+      "count": 113,
+      "included": 4,
+      "seconds": 33.06
+    },
+    "workday-barclays-external_career_site_barclays": {
+      "status": "ok",
+      "count": 92,
+      "included": 2,
+      "seconds": 100.45
+    },
+    "workday-pnc": {
+      "status": "ok",
+      "count": 34,
+      "included": 0,
+      "seconds": 29.92
+    },
+    "workday-bmo-capital-markets": {
+      "status": "ok",
+      "count": 23,
+      "included": 2,
+      "seconds": 24.83
+    },
+    "deshaw-direct": {
+      "status": "ok",
+      "count": 82,
+      "included": 3,
+      "seconds": 1.59
+    },
+    "workday-morgan-stanley": {
+      "status": "ok",
+      "count": 50,
+      "included": 0,
+      "seconds": 52.19
+    },
+    "greenhouse-voloridgeinvestmentmanagement": {
+      "status": "ok",
+      "count": 8,
+      "included": 2,
+      "seconds": 0.89
+    },
+    "workday-rbc-capital-markets": {
+      "status": "ok",
+      "count": 10,
+      "included": 0,
+      "seconds": 24.28
+    },
+    "workday-cci": {
+      "status": "ok",
+      "count": 10,
+      "included": 0,
+      "seconds": 7.31
+    },
+    "greenhouse-optiverus": {
+      "status": "ok",
+      "count": 161,
+      "included": 3,
+      "seconds": 2.16
+    },
+    "workday-cboe": {
+      "status": "ok",
+      "count": 4,
+      "included": 1,
+      "seconds": 8.36
+    },
+    "icims-gts": {
+      "status": "ok",
+      "count": 15,
+      "included": 0,
+      "seconds": 1.34
+    },
+    "icims-msci-us": {
+      "status": "ok",
+      "count": 2,
+      "included": 0,
+      "seconds": 1.34
+    },
+    "panagora-direct": {
+      "status": "ok",
+      "count": 1,
+      "included": 0,
+      "seconds": 2.53
+    },
+    "trexquant-direct": {
+      "status": "ok",
+      "count": 34,
+      "included": 0,
+      "seconds": 24.74
+    },
+    "groupone-direct": {
+      "status": "ok",
+      "count": 6,
+      "included": 1,
+      "seconds": 17.22
+    },
+    "workday-pimco-pimco-careers": {
+      "status": "ok",
+      "count": 185,
+      "included": 3,
+      "seconds": 66.0
+    },
+    "bankofamerica-campus": {
+      "status": "ok",
+      "count": 27,
+      "included": 2,
+      "seconds": 91.03
+    },
+    "twosigma-direct": {
+      "status": "ok",
+      "count": 55,
+      "included": 3,
+      "seconds": 13.27
+    },
+    "renaissance-direct": {
+      "status": "ok",
+      "count": 12,
+      "included": 0,
+      "seconds": 14.16
+    },
+    "moodys-campus": {
+      "status": "ok",
+      "count": 28,
+      "included": 4,
+      "seconds": 30.7
+    },
+    "macquarie-campus": {
+      "status": "ok",
+      "count": 31,
+      "included": 0,
+      "seconds": 31.27
+    },
+    "eightfold-nvidia": {
+      "status": "ok",
+      "count": 113,
+      "included": 7,
+      "seconds": 22.38
+    }
+  },
+  "summary": {
+    "requested": 108,
+    "new_sources": 87,
+    "enabled_sources": 210,
+    "watchlist": 212,
+    "requested_direct": 87,
+    "gaps": {
+      "Balyasny Asset Management": "Public Salesforce guest careers page is a JavaScript shell; a complete guest feed has not been verified.",
+      "BNP Paribas": "The official job-search route could not be collected under its robots policy. No access bypass is used.",
+      "Campbell & Company": "Official careers link opens an ADP JavaScript recruitment portal; its complete public collection interface has not been verified. This is the investment firm, not Campbell Soup.",
+      "Citadel": "Official open-opportunities request returned HTTP 403. No challenge bypass is used.",
+      "Citadel Securities": "The official opportunities route could not be collected under its robots policy.",
+      "Deutsche Bank": "Official student information is accessible, but a complete current campus requisition feed has not been verified.",
+      "Goldman Sachs": "The higher.gs.com role directory could not be collected under its robots policy.",
+      "HAP Capital": "The published hap-capital.com home and careers routes returned 404; no current direct job board was verified. This is not evidence that the firm is closed.",
+      "HSBC": "The public careers search API returned HTTP 403; the separate emerging-talent board has not been integrated.",
+      "Intercontinental Exchange": "The reviewed ICE iCIMS directory could not be collected under its robots policy.",
+      "JPMorgan Chase": "The reviewed Oracle candidate-search API could not be collected under its robots policy.",
+      "Millennium Management": "Official careers links to Eightfold; its public search endpoint returned HTTP 403.",
+      "Nomura": "The official campus Tal.net directory returned a human-verification challenge. It is not bypassed.",
+      "Quantlab": "Official careers routes could not be collected under their robots/access policy; no current public ATS feed verified.",
+      "Seven Eight Capital": "The published home and careers routes returned tiny pages with no verifiable job directory; the guessed ATS board did not exist.",
+      "Société Générale": "Official careers pages are accessible, but complete job-search pagination and a current public feed have not been integrated.",
+      "Susquehanna International Group": "The reviewed SIG iCIMS directory could not be collected under its robots policy.",
+      "TGS Management": "The official site could not be collected under its robots/access policy; no current direct ATS route verified.",
+      "UBS": "Official career information is accessible; a complete current public requisition feed has not been verified.",
+      "Wells Fargo": "Official HTML is accessible, but observed keyword/worker-type query parameters returned unfiltered results; completeness for a bounded internship poll has not been established. The reviewed Workday route could not be collected under its robots policy.",
+      "Wolverine Trading": "Official open-positions page uses a separate JavaScript widget whose asset robots policy could not be verified. Old Lever route returned 404; no current public feed verified."
+    }
+  }
+}

@@ -92,6 +92,7 @@ class HttpClient:
         self._host_intervals = {}
         self._robots = {}
         self._lock = threading.Lock()
+        self._pacing_locks = {}
 
     def close(self):
         self.session.close()
@@ -103,7 +104,7 @@ class HttpClient:
             max_redirects=self.max_redirects, user_agent=self.user_agent, resolve_dns=self.resolve_dns,
             forbidden_threshold=self.forbidden_threshold, forbidden_cooldown=self.forbidden_cooldown,
             blocked_hosts=self.blocked_hosts)
-        for name in ('_lock', '_last_request', '_host_intervals', '_robots', 'host_cooldowns', 'host_failure_counts'):
+        for name in ('_lock', '_pacing_locks', '_last_request', '_host_intervals', '_robots', 'host_cooldowns', 'host_failure_counts'):
             setattr(child, name, getattr(self, name))
         return child
 
@@ -218,13 +219,19 @@ class HttpClient:
     def _pace(self, url):
         host = self._host(url)
         with self._lock:
-            self._check_cooldown_locked(host)
-            interval = max(self.min_interval, self._host_intervals.get(host, 0))
-            wait = self._last_request.get(host, 0) + interval - time.monotonic()
+            host_lock = self._pacing_locks.setdefault(host, threading.Lock())
+        # Serialize starts on the same host without sleeping under the global
+        # state lock: a slow board must not stall unrelated employers.
+        with host_lock:
+            with self._lock:
+                self._check_cooldown_locked(host)
+                interval = max(self.min_interval, self._host_intervals.get(host, 0))
+                wait = self._last_request.get(host, 0) + interval - time.monotonic()
             if wait > 0:
                 self._sleep(wait)
-            self._check_cooldown_locked(host)
-            self._last_request[host] = time.monotonic()
+            with self._lock:
+                self._check_cooldown_locked(host)
+                self._last_request[host] = time.monotonic()
 
     def robots_allowed(self, url: str) -> bool:
         self._check_source_policy(url)
