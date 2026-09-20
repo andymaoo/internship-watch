@@ -546,7 +546,8 @@
       "count": 67,
       "included": 0,
       "seconds": 6.86,
-      "scope": "Public campus programme finder; the sample detail is foreign and is not an eligible US match."
+      "scope": "Public campus programme finder; the sample detail is foreign and is not an eligible US match.",
+      "status": "ok"
     }
   },
   "summary": {
@@ -590,7 +591,7 @@
     "production_modified": false,
     "classification_refreshed_after_residential_regression": true
   },
-  "acceptance_note": "212-source checkpoint passed four scheduled runs but exposed Akuna display-name validation churn. Final 213-source acceptance follows the Akuna fix and HSBC campus integration.",
+  "acceptance_note": "Final actual-host scheduled, restart, deduplication and delivery evidence is recorded in FINANCE_ACCEPTANCE.md. Automatic off-host backups remain pending a private bucket and scoped credentials.",
   "unchanged_alias_replay": {
     "before_fix_invalidations": 14,
     "after_fix_invalidations": 0,
@@ -608,5 +609,43 @@
     "us_rows": 19,
     "regression_tests": "tests/test_ubs_source.py",
     "strict_completeness_retained": true
+  },
+  "runtime_commit": "ebfacc718945893f2a15c1a0449401093fad1590",
+  "actual_host": {
+    "scheduled_runs": [
+      231,
+      232,
+      233,
+      234,
+      235,
+      236
+    ],
+    "all_enabled_sources": 213,
+    "application_tests": 304,
+    "backup_tests": 6,
+    "alias_validation_preservation": {
+      "at": "2026-09-20T04:09:48+00:00",
+      "release": "/opt/internship-watch-releases/ebfacc718945",
+      "before_run": 231,
+      "after_run": 235,
+      "unchanged_alias_records_preserved": 293,
+      "changed_or_due_records_not_asserted": [
+        "239b558ff3df440a716571e2",
+        "dea98c989ce1d6971595d17e",
+        "d3adf1db9daf22ee78792978",
+        "31f76be237b6da5de87e6c65"
+      ],
+      "passed": true,
+      "reviewed_alias_employers": {
+        "Akuna Capital": 6,
+        "Voloridge Investment Management": 2,
+        "Five Rings": 3,
+        "Voleon Group": 1,
+        "Schonfeld Strategic Advisors": 2,
+        "Cboe Global Markets": 1
+      }
+    },
+    "restart_preserved_state": true,
+    "manual_snapshot_verified_offhost": true
   }
 }
