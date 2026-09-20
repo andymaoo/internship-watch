@@ -590,5 +590,12 @@
     "production_modified": false,
     "classification_refreshed_after_residential_regression": true
   },
-  "acceptance_note": "212-source checkpoint passed four scheduled runs but exposed Akuna display-name validation churn. Final 213-source acceptance follows the Akuna fix and HSBC campus integration."
+  "acceptance_note": "212-source checkpoint passed four scheduled runs but exposed Akuna display-name validation churn. Final 213-source acceptance follows the Akuna fix and HSBC campus integration.",
+  "unchanged_alias_replay": {
+    "before_fix_invalidations": 14,
+    "after_fix_invalidations": 0,
+    "canonical_jobs": 402,
+    "source_observations": 886,
+    "fixture_only": true
+  }
 }

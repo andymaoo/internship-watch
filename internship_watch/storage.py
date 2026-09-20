@@ -27,7 +27,10 @@ def employer_identity(value):
     name = re.sub(r'[^a-z0-9]', '', str(value or '').casefold())
     return {'andurilindustries':'anduril', 'togetherai':'together',
             'scaleai':'scale', 'tiktok':'bytedance',
-            'akunacapitaluniversity':'akunacapital'}.get(name, name)
+            'akunacapitaluniversity':'akunacapital', 'thevoleongroup':'voleongroup',
+            'fiveringscapital':'fiverings', 'schonfeldstrategicadvisors':'schonfeld',
+            'voloridgeinvestmentmanagement':'voloridge', 'cboeglobalmarkets':'cboe',
+            'royalbankofcanada':'rbccapitalmarkets'}.get(name, name)
 
 
 def custom_greenhouse_identity(job):

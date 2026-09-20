@@ -324,7 +324,7 @@
     {
       "id": "socgen-us",
       "type": "socgen",
-      "employer": "SociÃ©tÃ© GÃ©nÃ©rale",
+      "employer": "Soci\u00e9t\u00e9 G\u00e9n\u00e9rale",
       "country_scope": [
         "US"
       ],
@@ -4543,7 +4543,7 @@
       "company": "Moody's",
       "aliases": [
         "Moody's",
-        "Moodyâ€™s",
+        "Moody\u2019s",
         "Moodys"
       ],
       "direct_sources": [
@@ -4879,9 +4879,9 @@
       "note": ""
     },
     {
-      "company": "SociÃ©tÃ© GÃ©nÃ©rale",
+      "company": "Soci\u00e9t\u00e9 G\u00e9n\u00e9rale",
       "aliases": [
-        "SociÃ©tÃ© GÃ©nÃ©rale",
+        "Soci\u00e9t\u00e9 G\u00e9n\u00e9rale",
         "Societe Generale"
       ],
       "direct_sources": [

@@ -32,6 +32,27 @@ def validate(payload, *, title=TITLE, identity=7964062):
 
 
 class AtsAuthorityTests(unittest.TestCase):
+    def test_reviewed_finance_names_cannot_erase_direct_phd_requirement(self):
+        for board,name,alias in [('fiveringsllc','Five Rings','Five Rings Capital'),
+                                 ('schonfeld','Schonfeld Strategic Advisors','Schonfeld')]:
+            with self.subTest(board=board),tempfile.TemporaryDirectory() as directory:
+                target=f'https://job-boards.greenhouse.io/{board}/jobs/1234567'
+                direct=dict(DIRECT,source_id=f'gh-{board}-1234567',employer=name,
+                            title='Quantitative Research Intern (PhD)',description_url=target,application_url=target,
+                            description='Responsibilities: Develop trading models. Qualifications: This internship requires a PhD degree.',
+                            evidence={'provider':'greenhouse','provider_job_id':'1234567'})
+                feed=dict(FEED,employer=alias,title='Quantitative Research Intern',description_url=target,application_url=target)
+                store=Store(Path(directory)/'jobs.sqlite3')
+                try:
+                    for source,payload in [('simplify',feed),('direct',direct),('simplify',feed),('direct',direct),('simplify',feed)]:
+                        with store.transaction():store.upsert_job(source,payload,{},None,filters=FILTERS)
+                    row=store.rows('SELECT classification,title,description FROM jobs')[0]
+                    self.assertEqual(row['classification'],'exclude')
+                    self.assertEqual(row['title'],direct['title'])
+                    self.assertEqual(row['description'],direct['description'])
+                finally:
+                    store.close()
+
     def test_akuna_display_alias_preserves_direct_title_and_validation(self):
         target='https://www.akunacapital.com/careers/job/8018847/?gh_jid=8018847'
         direct=dict(DIRECT,source_id='gh-akunacapital-8018847',employer='Akuna Capital',

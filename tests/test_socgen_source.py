@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 import unittest
 from unittest.mock import Mock
 
@@ -35,6 +36,13 @@ SOURCE=dict(id='socgen',type='socgen',employer='Société Générale',country_sc
 
 
 class SocGenTests(unittest.TestCase):
+    def test_configured_employer_unicode_matches_real_schema(self):
+        config=json.loads((Path(__file__).resolve().parents[1]/'config.example.json').read_text(encoding='utf8'))
+        source=next(s for s in config['sources'] if s['id']=='socgen-us')
+        self.assertTrue(employer_compatible(source['employer'],'Societe Generale',BASE+'/en'))
+        self.assertTrue(any(c['company']=='Soci\u00e9t\u00e9 G\u00e9n\u00e9rale' for c in config['company_watchlist']))
+        self.assertTrue(any('Moody\u2019s' in c['aliases'] for c in config['company_watchlist']))
+
     def test_all_pages_complete_and_no_internship_invention(self):
         c=client([page([row(n) for n in range(10)],11,1),page([row(10)],11,2)])
         jobs=collect(SOURCE,c)

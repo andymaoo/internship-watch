@@ -131,7 +131,11 @@ class EmployerSourceTests(unittest.TestCase):
 
 class EmployerValidationTests(unittest.TestCase):
     def test_verified_employer_name_aliases_do_not_invalidate_each_other(self):
-        for name,alias in [('Anduril Industries','Anduril'),('together','Together AI'),('scale','Scale AI'),('Akuna Capital','Akuna Capital University')]:
+        for name,alias in [('Anduril Industries','Anduril'),('together','Together AI'),('scale','Scale AI'),
+                           ('Akuna Capital','Akuna Capital University'),('Voleon Group','The Voleon Group'),
+                           ('Five Rings','Five Rings Capital'),('Schonfeld Strategic Advisors','Schonfeld'),
+                           ('Voloridge Investment Management','Voloridge'),('Cboe Global Markets','Cboe'),
+                           ('RBC Capital Markets','Royal Bank of Canada')]:
             with self.subTest(name=name),tempfile.TemporaryDirectory() as directory,closing(Store(Path(directory)/'jobs.db')) as store:
                 feed=job('feed');feed.update(employer=alias,description_url='https://job-boards.greenhouse.io/test/jobs/123',evidence={'provider':'simplify'})
                 feed['application_url']=feed['description_url']
