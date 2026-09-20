@@ -75,16 +75,17 @@ class PublicSearch:
             PowerSearchOptions={'PowerSearchOption': []}, encryptedsessionvalue=f['CookieValue']))
         total = data.get('JobsCount')
         if (not isinstance(total, int) or isinstance(total, bool) or not 0 <= total <= 2000
-                or not any(x.get('Name') == 'LastUpdated' for x in data.get('SortFields', []))):
+                or not any(x.get('Name') == 'JobTitle' for x in data.get('SortFields', []))):
             raise SourceError('UBS public count/order changed')
-        # Explicitly sort page ONE too: the default first page uses another order.
+        # The observed alphabetical UI sort avoids repeated tied-date boundaries
+        # seen with LastUpdated. Sort page ONE too and still require every ID.
         seen = set(); rows = []
         for number in range(1, 41):
             data = self.post('ProcessSortAndShowMoreJobs', dict(partnerId='25008', siteId='5131',
                 keyword='', location='', keywordCustomSolrFields='', locationCustomSolrFields='',
                 linkId=f.get('linkId', ''), Latitude=0, Longitude=0,
                 facetfilterfields={'Facet': []}, powersearchoptions={'PowerSearchOption': []},
-                SortType='LastUpdated', pageNumber=number, encryptedSessionValue=f['CookieValue']))
+                SortType='JobTitle', pageNumber=number, encryptedSessionValue=f['CookieValue']))
             batch = (data.get('Jobs') or {}).get('Job')
             if data.get('JobsCount') != total or not isinstance(batch, list):
                 raise SourceError('UBS search changed during pagination')

@@ -20,7 +20,7 @@ def row(job='1', site='5131', restricted=False):
 
 
 def page(rows, total=2):
-    return dict(JobsCount=total,Jobs={'Job':rows},SortFields=[{'Name':'LastUpdated'}])
+    return dict(JobsCount=total,Jobs={'Job':rows},SortFields=[{'Name':'LastUpdated'}, {'Name':'JobTitle'}])
 
 
 def detail(job='1', site='5131', active=True):
@@ -43,6 +43,33 @@ def client(*payloads):
 
 
 class UBSTests(unittest.TestCase):
+    def test_alphabetical_public_order_avoids_repeated_date_boundaries(self):
+        c=client()
+        def respond(url, **kwargs):
+            payload=kwargs['json']
+            if url.endswith('MatchedJobs'):
+                data=page([row()])
+            elif payload['SortType']=='JobTitle':
+                data=page([row(str(payload['pageNumber']))])
+            else:
+                # Live LastUpdated pages repeated exact IDs at a tied-date boundary.
+                data=page([row()])
+            response=Mock(); response.json.return_value=data; response.url=url
+            response.raise_for_status.return_value=None
+            return response
+        c.post.side_effect=respond
+        rows=PublicSearch(c).rows()
+        self.assertEqual([f['reqid'] for _,f in rows],['1','2'])
+        self.assertEqual([x.kwargs['json']['SortType'] for x in c.post.call_args_list[1:]],
+                         ['JobTitle','JobTitle'])
+
+    def test_missing_reviewed_sort_fails_before_pagination(self):
+        data=page([row()]);data['SortFields']=[{'Name':'LastUpdated'}]
+        c=client(data)
+        with self.assertRaisesRegex(SourceError,'count/order'):
+            PublicSearch(c).rows()
+        self.assertEqual(c.post.call_count,1)
+
     def test_mixed_technology_placement_is_reviewable_not_guaranteed(self):
         from internship_watch.classify import classify
         job=dict(title='2027 Summer Internship - Technology',location='Raleigh, NC',

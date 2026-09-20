@@ -597,5 +597,16 @@
     "canonical_jobs": 402,
     "source_observations": 886,
     "fixture_only": true
+  },
+  "ubs_pagination_repair": {
+    "observed": "2026-09-20T03:31:25+00:00",
+    "declared": 151,
+    "repeated_page_three_ids": 5,
+    "alternate_order": "JobTitle",
+    "consecutive_live_alphabetical_passes": 2,
+    "unique_rows_per_pass": 151,
+    "us_rows": 19,
+    "regression_tests": "tests/test_ubs_source.py",
+    "strict_completeness_retained": true
   }
 }
