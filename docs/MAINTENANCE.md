@@ -102,6 +102,18 @@ collection, supervisor alerts, Healthchecks and local backups continue without
 the PC. If the agent cannot run, Discord/email still notify the owner; the repair
 queue remains available for the next session. There is no paid model API daemon.
 
+The server also alerts if no completed agent review is recorded for 72 hours.
+After an actual review, the follow-up records it with the command below, including
+what was checked and what remains unresolved. It must not record an unperformed
+review just to silence this alert:
+
+```sh
+cd /opt/internship-watch
+sudo -u internship-watch .venv/bin/python -m internship_watch.maintenance \
+  --config /etc/internship-watch.json --record-agent-review \
+  --reason 'Reviewed live maintenance evidence, source failures, backup proof and CI; describe remaining issues here'
+```
+
 ## Commands and stopping
 
 ```sh

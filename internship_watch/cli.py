@@ -55,11 +55,13 @@ def load_config(path):
         if maintenance.get(name):
             maintenance[name] = str((Path(path).resolve().parent / maintenance[name]).resolve())
     for name in ('anomaly_consecutive_polls', 'volume_minimum', 'worker_stale_seconds', 'source_stale_seconds',
-                 'validation_lag_seconds', 'report_stale_seconds', 'backup_max_age_seconds', 'disk_min_free_bytes', 'feed_stale_seconds'):
+                 'validation_lag_seconds', 'report_stale_seconds', 'backup_max_age_seconds', 'disk_min_free_bytes', 'feed_stale_seconds', 'agent_review_max_age_seconds'):
         if name in maintenance and (not isinstance(maintenance[name], int) or isinstance(maintenance[name], bool) or maintenance[name] <= 0):
             raise ValueError(f'maintenance.{name} must be a positive integer')
     if not 0 < maintenance.get('volume_ratio', 0.5) < 1:
         raise ValueError('maintenance.volume_ratio must be between zero and one')
+    if maintenance.get('anomaly_consecutive_polls', 3) > 96:
+        raise ValueError('maintenance.anomaly_consecutive_polls exceeds retained poll history (96)')
     return config
 
 

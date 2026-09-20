@@ -8,7 +8,7 @@ from unittest.mock import Mock, patch
 
 from internship_watch.delivery import deliver_pending
 from internship_watch.maintenance import (Repairs, anomaly_reasons, audit_public_feeds, inspect_backups,
-    inspect_sources, publish, run_maintenance, schedule_canary)
+    inspect_sources, publish, run_maintenance, schedule_canary, inspect_agent_review)
 from internship_watch.runner import run_once
 from internship_watch.safeguards import ContractError, collection_profile, record_sample
 from internship_watch.storage import Store, now
@@ -70,6 +70,22 @@ class MaintenanceTests(unittest.TestCase):
         self.assertEqual(anomaly_reasons(self.profile, [low, low], {}), [])
         self.assertEqual(anomaly_reasons(self.profile, [low, None, low], {}), [])
         self.assertIn('result_count_drop', anomaly_reasons(self.profile, [low]*3, {}))
+
+    def test_configured_five_polls_do_not_resolve_existing_anomaly_early(self):
+        self.samples([self.profile]*3)
+        inspect_sources(self.main.db,self.repairs,self.config)
+        self.repairs.observe('contract:example',True,'warning',{},'Review fixture')
+        self.samples([None,self.profile,self.profile,self.profile])
+        config = dict(self.config,maintenance={'anomaly_consecutive_polls':5})
+        inspect_sources(self.main.db,self.repairs,config)
+        self.assertEqual(self.ticket('contract:example')['state'],'open')
+
+    def test_agent_review_expiry_recovers_only_after_recorded_review(self):
+        inspect_agent_review(self.repairs,self.config)
+        self.assertEqual(self.ticket('agent-review-stale')['state'],'open')
+        (self.root/'agent-review.json').write_text(json.dumps({'at':now(),'summary':'Completed a real review'}))
+        inspect_agent_review(self.repairs,self.config)
+        self.assertEqual(self.ticket('agent-review-stale')['state'],'resolved')
 
     def test_sparse_feed_descriptions_are_not_false_alarms(self):
         sparse = dict(self.profile, description_fraction=0)

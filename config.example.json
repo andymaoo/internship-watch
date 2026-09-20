@@ -11,6 +11,8 @@
     "backup_max_age_seconds": 129600,
     "disk_min_free_bytes": 2147483648,
     "notification_canary": true,
+    "agent_review_monitor": true,
+    "agent_review_max_age_seconds": 259200,
     "feed_metadata_audit": true,
     "feed_stale_seconds": 1209600
   },

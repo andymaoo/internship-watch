@@ -119,6 +119,7 @@ def anomaly_reasons(baseline, recent, settings):
 
 def inspect_sources(db, repairs, config):
     settings = config.get('maintenance', {})
+    required = settings.get('anomaly_consecutive_polls', 3)
     sources = [s for s in config['sources'] if s.get('enabled', True)]
     checked = 0
     for source in sources:
@@ -130,7 +131,7 @@ def inspect_sources(db, repairs, config):
             {'source': key, 'last_error': state.get('last_error'), 'failures': failures,
              'last_success': state.get('last_success')},
             'Reproduce the adapter failure under existing rate/access rules; add a regression test before repair.', alert=False)
-        rows = db.execute('SELECT * FROM source_samples WHERE source=? AND revision=? ORDER BY id DESC LIMIT 12', (key, revision)).fetchall()
+        rows = db.execute('SELECT * FROM source_samples WHERE source=? AND revision=? ORDER BY id DESC LIMIT ?', (key, revision, max(12, required))).fetchall()
         samples = [json.loads(row['profile']) if row['profile'] and not row['error'] else None for row in rows]
         repairs.observe('stale-source:' + key,
             age(state.get('last_attempt')) > settings.get('source_stale_seconds', 1800), 'warning',
@@ -155,7 +156,7 @@ def inspect_sources(db, repairs, config):
             reasons = [reason for reason in reasons if reason != 'new_destination_host']
         ticket = 'contract:' + key
         # A failed poll is not evidence that a previous partial-result problem recovered.
-        if len(samples) < 3 or any(row is None for row in samples[:3]):
+        if len(samples) < required or any(row is None for row in samples[:required]):
             continue
         repairs.observe(ticket, bool(reasons), 'warning',
             {'source': key, 'reasons': reasons, 'baseline': accepted, 'latest': samples[:3], 'run_id': rows[0]['run_id']},
@@ -214,6 +215,18 @@ def inspect_backups(repairs, config):
             'Inspect the backup service and restore proof.' if kind == 'local' else
             'Configure the private off-host bucket credentials in /etc/internship-watch-backup.env, then run and verify the backup service.')
     return results
+
+
+def inspect_agent_review(repairs, config):
+    path = Path(config['database']).parent / 'agent-review.json'
+    try:
+        result = json.loads(path.read_text(encoding='utf-8'))
+        stale = age(result.get('at')) > config.get('maintenance', {}).get('agent_review_max_age_seconds', 3*86400)
+    except (OSError, ValueError, TypeError):
+        result, stale = {}, True
+    repairs.observe('agent-review-stale', stale, 'warning', {'last_review': result.get('at')},
+        'Open Codex on the Windows PC and check the daily maintenance follow-up, SSH access and usage availability. Azure checks still operate independently.')
+    return result
 
 
 def audit_public_feeds(repairs, config, client=None):
@@ -360,6 +373,8 @@ def _run(config, repairs, output, sender):
     repairs.observe('report-stale', report_age is None or report_age > settings.get('report_stale_seconds', 1800), 'warning',
         {'age_seconds': round(report_age) if report_age is not None else None}, 'Check the worker export stage and filesystem permissions.')
     summary['checks']['backups'] = inspect_backups(repairs, config)
+    if settings.get('agent_review_monitor', False):
+        summary['checks']['agent_review'] = inspect_agent_review(repairs, config)
     if settings.get('feed_metadata_audit', True):
         summary['checks']['public_feeds'] = audit_public_feeds(repairs, config)
     gaps = [c['company'] for c in config.get('company_watchlist', []) if not c.get('direct_sources')]
@@ -400,10 +415,17 @@ def main(argv=None):
     parser.add_argument('--env-file')
     parser.add_argument('--accept-baseline', help='Source ID; requires reviewed evidence in --reason')
     parser.add_argument('--reason')
+    parser.add_argument('--record-agent-review', action='store_true', help='Record an actually completed agent review; requires --reason')
     args = parser.parse_args(argv)
     if args.env_file:
         load_env(args.env_file)
     config = load_config(args.config)
+    if args.record_agent_review:
+        if not args.reason or len(args.reason.strip()) < 20:
+            parser.error('A concrete completed review summary of at least 20 characters is required')
+        atomic_json(Path(config['database']).parent / 'agent-review.json', {'at': now(), 'summary': args.reason})
+        print(dump({'agent_review_recorded': True}))
+        return
     if args.accept_baseline:
         if not args.reason or len(args.reason.strip()) < 20:
             parser.error('A concrete review reason of at least 20 characters is required')
