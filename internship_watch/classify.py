@@ -224,7 +224,7 @@ def classify(job: dict, filters: dict | None = None) -> dict:
     unrelated_research = bool(re.search(r"\b(?:user research|UX research|market research|clinical research|medical fellow|legal fellow|neurosurgeon|surgeon|physician|nurse)\b", title, re.I))
     # Use descriptions for generic research/engineering titles, not incidental
     # mentions of colleagues in unrelated roles such as sales/HR internships.
-    if category is None and not unrelated_research and re.search(r"\b(?:research|scientist|engineer|developer|technical|student|fellow|resident)\w*\b", title, re.I):
+    if category is None and not unrelated_research and re.search(r"\b(?:research|scientist|engineer|developer|technical|student|fellow|resident(?!ial))\w*\b", title, re.I):
         category = next((name for name, pattern in CATEGORY_PATTERNS if pattern.search(role_description)), None)
         if category == 'product_management':
             # Mentions of collaborating with PMs do not make an engineer a PM.

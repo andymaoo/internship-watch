@@ -8,6 +8,11 @@ from tests.test_links import Client, response, DESCRIPTION
 
 
 class FinanceLinkRepairs(unittest.TestCase):
+    def test_residential_mortgages_is_not_an_ai_residency(self):
+        job=dict(title='Summer Intern - Private Strategies Analyst (Residential Mortgages)',
+                 description='As an intern, perform qualitative financial analysis. Experience using AI tools in school projects is welcome.',location='Newport Beach, CA')
+        self.assertEqual(classify(job,{})['decision'],'exclude')
+
     def test_current_sophomore_program_is_excluded_for_junior(self):
         job=dict(title='Software Development Internship',location='New York, NY',
             description='This program will focus on current sophomores (those in their second year of university). Current sophomores are invited to apply.')
