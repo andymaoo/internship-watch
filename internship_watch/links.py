@@ -16,7 +16,7 @@ from .classify import plain
 from .http import WorkBudgetExhausted
 from .google_source import GoogleDetailError, google_job_id, google_title_matches, parse_google_detail
 
-VALIDATOR_VERSION = 11
+VALIDATOR_VERSION = 12
 
 
 class Page(HTMLParser):
@@ -152,6 +152,15 @@ def employer_compatible(expected, actual, url):
     if not actual or not expected or expected in actual or actual in expected:
         return True
     host = urlsplit(url).hostname or ''
+    # Observed legal hiring entities, bound to the reviewed employer tenant.
+    legal_aliases = {
+        ('cmegroup.wd1.myworkdayjobs.com','cme group'): {'cme chicago mercantile exchange inc'},
+        ('spgi.wd5.myworkdayjobs.com','s p global'): {'1115 kensho technologies llc'},
+        ('pimco.wd1.myworkdayjobs.com','pimco'): {'0200 pacific investment mgt co llc'},
+        ('bmo.wd3.myworkdayjobs.com','bmo capital markets'): {'bank of montreal'},
+    }
+    if actual in legal_aliases.get((host,expected),set()):
+        return True
     brand = expected.split()[0]
     # Workday uses legal subsidiaries in schema. Require the distinctive employer
     # brand in both the legal name AND the independently bound tenant hostname.
@@ -210,7 +219,7 @@ def generic_url(url):
 def meaningful_description(text):
     text = plain(text).replace("\u2019", "'")
     return len(text) >= 120 and len(text.split()) >= 18 and bool(re.search(
-        r"\b(?:responsibilit|qualification|requirements?|you will|you'll|your (?:role|work|duties)|about (?:the )?(?:role|job)|(?:the|this) (?:role|position|internship)|role details|interns will (?:work|contribute|develop)|as an? (?:\w+\s+){0,5}intern|duties)\w*\b", text, re.I))
+        r"\b(?:responsibilit|qualification|requirements?|you will|you'll|your (?:role|work|duties)|about (?:the )?(?:role|job)|(?:the|this) (?:role|position|internship)|role details|interns will (?:work|contribute|develop|be mentored)|interns (?:interact|sit|gain|participate|design|develop|build)|as an? (?:\w+\s+){0,5}intern|as (?:\w+\s+){0,4}interns|duties)\w*\b", text, re.I))
 
 
 EXPIRED = re.compile(r"\b(?:this (?:job|position|role|posting|vacancy) (?:is |has been |was )?(?:no longer available|no longer accepting|closed|filled|removed|expired)|(?:job|position|posting) (?:has )?expired|no longer accepting applications|the job you (?:are looking for|requested) (?:is no longer|could not be)|job not found|position not found)\b", re.I)
@@ -345,7 +354,8 @@ def _check(job, url, kind, client, cache):
         if title_compatible(expected,candidate_title,same_identifier=same_id):
             organization = posting.get("hiringOrganization", {})
             org_name = normalized(organization.get("name")) if isinstance(organization, dict) else normalized(organization)
-            if not employer_compatible(employer,org_name,check['final_url']):
+            if not employer_compatible(job.get('employer') or job.get('company'),
+                    organization.get('name') if isinstance(organization,dict) else organization,check['final_url']):
                 continue
             structured_match = posting
             description = plain(posting.get("description"))
@@ -385,6 +395,15 @@ def _check(job, url, kind, client, cache):
         # Navigation, footer links, and the expected title cannot substitute for
         # a job description. Prefer an article/main or explicit description div.
         description = plain(" ".join(page.semantic or page.content))
+    if (kind=='description' and urlsplit(check['final_url']).hostname=='bankcampuscareers.tal.net'
+            and employer_compatible(job.get('employer'),'Bank of America',check['final_url'])):
+        # Tal.net wraps the role detail in a form; the generic parser correctly
+        # excludes forms, but this labelled employer description is not a CV form.
+        posting_id=re.search(r'/opp/(\d+)(?:-|/)',urlsplit(check['final_url']).path)
+        if (posting_id and re.search(r'\bProgram ID\s+'+posting_id[1]+r'\b',text)
+                and title_match and 'Program description ' in text):
+            description=text.split('Program description ',1)[1].split('View Cookie / Data Protection Notice',1)[0]
+            check['evidence'].append('exact_talnet_program_description_field')
     application_form = page.has_form and (page.application_input or bool(re.search(r"\b(?:resume|cv|submit application|apply for this job)\b", plain(" ".join(page.form_text)), re.I)))
     if kind == "application" and application_form:
         check["status"] = "open"
@@ -543,10 +562,13 @@ def validate_job(job: dict, client) -> dict:
         posting_check['evidence'].append('recognized_ats_application_url_replaced_for_description')
     checks=[posting_check]
     api_check=None
-    if posting_check['status']=='unverified' and spec:
+    if spec and (posting_check['status']=='unverified' or
+                 'http_not_found_or_gone' in posting_check['evidence']):
         api_check=_api_posting(job,spec,client)
         checks.append(api_check)
         if api_check['status'] in {'open', 'closed'}:
+            if posting_check['status']=='closed' and api_check['status']=='open':
+                api_check['evidence'].append('employer_api_active_but_posting_page_unavailable')
             posting_check=api_check
     visited = set()
     current = (posting_check.get('application_url') if posting_check['status']=='open' else None) or application_url

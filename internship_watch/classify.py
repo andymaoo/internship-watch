@@ -301,7 +301,7 @@ def classify(job: dict, filters: dict | None = None) -> dict:
                    "graduation_evidence": grad_clauses, "co_op": coop,
                    "work_authorization": "unknown"}
     sentences = re.split(r"[.!?;\n]", description)
-    year_clauses = [title] + [s for s in sentences if re.search(r"\b(?:must|open to|eligible|eligibility|only|exclusively|seeking|enrolled|currently|students?)\b", s, re.I)]
+    year_clauses = [title] + [s for s in sentences if re.search(r"\b(?:must|open to|eligible|eligibility|only|exclusively|seeking|enrolled|current|currently|students?)\b", s, re.I)]
     year_context = []
     cleaned_year_clauses = []
     rising = {"sophomore":"freshman","junior":"sophomore","senior":"junior"}
