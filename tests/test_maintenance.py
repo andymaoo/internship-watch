@@ -87,6 +87,24 @@ class MaintenanceTests(unittest.TestCase):
         inspect_agent_review(self.repairs,self.config)
         self.assertEqual(self.ticket('agent-review-stale')['state'],'resolved')
 
+    def test_recovered_transient_errors_remain_available_to_daily_review(self):
+        self.samples([None,self.profile,self.profile,self.profile])
+        inspect_sources(self.main.db,self.repairs,self.config)
+        self.assertEqual(self.ticket('intermittent:example')['state'],'open')
+        self.assertEqual(self.ticket('intermittent:example')['severity'],'info')
+        self.assertEqual(self.monitor.db.execute('SELECT COUNT(*) FROM outbox').fetchone()[0],0)
+        self.samples([self.profile]*96)
+        inspect_sources(self.main.db,self.repairs,self.config)
+        ticket=self.ticket('intermittent:example')
+        self.assertEqual(ticket['state'],'resolved')
+        self.assertIn('timeout',ticket['evidence'])
+
+    def test_worker_outage_groups_source_staleness_into_one_alert(self):
+        self.repairs.observe('worker-stale',True,'critical',{},'Inspect worker')
+        inspect_sources(self.main.db,self.repairs,self.config)
+        self.assertIsNone(self.ticket('stale-source:example'))
+        self.assertEqual(self.monitor.db.execute('SELECT COUNT(*) FROM outbox').fetchone()[0],1)
+
     def test_sparse_feed_descriptions_are_not_false_alarms(self):
         sparse = dict(self.profile, description_fraction=0)
         self.assertNotIn('description_fraction_drop', anomaly_reasons(sparse, [sparse]*3, {}))

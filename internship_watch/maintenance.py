@@ -122,6 +122,8 @@ def inspect_sources(db, repairs, config):
     required = settings.get('anomaly_consecutive_polls', 3)
     sources = [s for s in config['sources'] if s.get('enabled', True)]
     checked = 0
+    worker_incident = repairs.store.db.execute("SELECT state FROM repair_tickets WHERE key='worker-stale'").fetchone()
+    worker_stale = worker_incident and worker_incident['state'] == 'open'
     for source in sources:
         key, revision = source['id'], source_revision(source)
         state = db.execute('SELECT * FROM source_state WHERE source=?', (key,)).fetchone()
@@ -131,11 +133,18 @@ def inspect_sources(db, repairs, config):
             {'source': key, 'last_error': state.get('last_error'), 'failures': failures,
              'last_success': state.get('last_success')},
             'Reproduce the adapter failure under existing rate/access rules; add a regression test before repair.', alert=False)
-        rows = db.execute('SELECT * FROM source_samples WHERE source=? AND revision=? ORDER BY id DESC LIMIT ?', (key, revision, max(12, required))).fetchall()
+        rows = db.execute('SELECT * FROM source_samples WHERE source=? AND revision=? ORDER BY id DESC LIMIT 96', (key, revision)).fetchall()
         samples = [json.loads(row['profile']) if row['profile'] and not row['error'] else None for row in rows]
-        repairs.observe('stale-source:' + key,
-            age(state.get('last_attempt')) > settings.get('source_stale_seconds', 1800), 'warning',
-            {'source': key, 'last_attempt': state.get('last_attempt')}, 'Check scheduling, disabled sources and collection time budgets.')
+        # A dead worker is one incident, not hundreds of source-staleness alerts.
+        # Existing per-source incidents wait for real observations to resume.
+        if not worker_stale:
+            repairs.observe('stale-source:' + key,
+                age(state.get('last_attempt')) > settings.get('source_stale_seconds', 1800), 'warning',
+                {'source': key, 'last_attempt': state.get('last_attempt')}, 'Check scheduling, disabled sources and collection time budgets.')
+        errors = [{'at': row['checked_at'], 'run_id': row['run_id'], 'error': row['error']} for row in rows if row['error']]
+        # Retain transient failures even after recovery, for the daily review.
+        repairs.observe('intermittent:' + key, bool(errors), 'info', {'source': key, 'recent_error_count': len(errors), 'examples': errors[:5]},
+            'Review recurring errors and reproduce suspected parser/pagination defects. A transient timeout alone does not justify a code change.', alert=False)
         if not rows:
             continue  # New runtime needs samples; absence never resolves an old incident.
         checked += 1
