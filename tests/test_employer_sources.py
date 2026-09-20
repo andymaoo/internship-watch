@@ -131,7 +131,7 @@ class EmployerSourceTests(unittest.TestCase):
 
 class EmployerValidationTests(unittest.TestCase):
     def test_verified_employer_name_aliases_do_not_invalidate_each_other(self):
-        for name,alias in [('Anduril Industries','Anduril'),('together','Together AI'),('scale','Scale AI')]:
+        for name,alias in [('Anduril Industries','Anduril'),('together','Together AI'),('scale','Scale AI'),('Akuna Capital','Akuna Capital University')]:
             with self.subTest(name=name),tempfile.TemporaryDirectory() as directory,closing(Store(Path(directory)/'jobs.db')) as store:
                 feed=job('feed');feed.update(employer=alias,description_url='https://job-boards.greenhouse.io/test/jobs/123',evidence={'provider':'simplify'})
                 feed['application_url']=feed['description_url']
@@ -184,7 +184,7 @@ class EmployerValidationTests(unittest.TestCase):
     def test_every_requested_company_can_queue_a_new_qualifying_record_once(self,_):
         config=json.loads((Path(__file__).resolve().parents[1]/'config.example.json').read_text(encoding='utf8'))
         self.assertEqual(len(config['company_watchlist']),212)
-        self.assertEqual(sum(bool(c['direct_sources']) for c in config['company_watchlist']),187)
+        self.assertEqual(sum(bool(c['direct_sources']) for c in config['company_watchlist']),188)
         configured={s['id'] for s in config['sources'] if s.get('enabled',True)}
         for company in config['company_watchlist']:
             self.assertTrue(set(company['direct_sources']+company['feed_sources']) <= configured)

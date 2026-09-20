@@ -32,6 +32,31 @@ def validate(payload, *, title=TITLE, identity=7964062):
 
 
 class AtsAuthorityTests(unittest.TestCase):
+    def test_akuna_display_alias_preserves_direct_title_and_validation(self):
+        target='https://www.akunacapital.com/careers/job/8018847/?gh_jid=8018847'
+        direct=dict(DIRECT,source_id='gh-akunacapital-8018847',employer='Akuna Capital',
+                    title='Software Engineer Intern - C++, Summer 2027',description_url=target,application_url=target,
+                    evidence={'provider':'greenhouse','provider_job_id':'8018847'})
+        feed=dict(FEED,source_id='simplify-akuna',employer='Akuna Capital University',
+                  title='Software Engineer Intern - C++',description_url=target,application_url=target)
+        with tempfile.TemporaryDirectory() as directory:
+            store=Store(Path(directory)/'jobs.sqlite3')
+            try:
+                with store.transaction():
+                    jid,_=store.upsert_job('simplify',feed,{},None,filters=FILTERS)
+                    store.upsert_job('direct',direct,{},None,filters=FILTERS)
+                    store.record_check(jid,{'status':'open','posting_status':'open','application_status':'unverified','checked_at':'2026-09-20T02:00:00+00:00'},'2099-01-01')
+                for source,payload in [('simplify',feed),('direct',direct)]*2:
+                    with store.transaction():store.upsert_job(source,payload,{},None,filters=FILTERS)
+                    row=store.rows('SELECT employer,title,last_checked,next_check,payload FROM jobs')[0]
+                    self.assertEqual(row['title'],direct['title'])
+                    self.assertEqual(row['employer'],'Akuna Capital')
+                    self.assertEqual(row['last_checked'],'2026-09-20T02:00:00+00:00')
+                    self.assertEqual(row['next_check'],'2099-01-01')
+                    self.assertEqual(provider_spec(target,json.loads(row['payload']))['board'],'akunacapital')
+            finally:
+                store.close()
+
     def test_direct_then_feed_and_feed_then_direct_preserve_identity_after_restart(self):
         for first, second in [(DIRECT, FEED), (FEED, DIRECT)]:
             with self.subTest(first=first["evidence"]["provider"]), tempfile.TemporaryDirectory() as directory:

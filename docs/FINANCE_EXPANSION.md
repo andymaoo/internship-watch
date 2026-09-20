@@ -1,8 +1,8 @@
 # Finance and quant expansion
 
-Reviewed from deployment `690b0209075ac35cafa2067bcf18329eb56bf467`. This request adds 108 named finance/quant employers to the coverage audit. Six already had working direct sources and are retained; DRW also gets its separate university board. The resulting configuration has **212 enabled sources and 212 company labels**, including **89 of these 108 employers with a live-tested direct route** and **19 with incomplete public-feed-only discovery**. Company labels are not source counts. A live directory response does not imply there is a qualifying opening today or guarantee every future opening.
+Reviewed from deployment `690b0209075ac35cafa2067bcf18329eb56bf467`. This request adds 108 named finance/quant employers to the coverage audit. Six already had working direct sources and are retained; DRW also gets its separate university board. The resulting configuration has **213 enabled sources and 212 company labels**, including **90 of these 108 employers with a live-tested direct route** and **18 with incomplete public-feed-only discovery**. Company labels are not source counts. A live directory response does not imply there is a qualifying opening today or guarantee every future opening.
 
-The 210-source release was activated on Azure with its original records and receipts preserved. The additional UBS and Société Générale routes are locally tested; final 212-source scheduled production acceptance is recorded separately below after cutover. No extra server, paid service, account or subscription is created.
+The 212-source checkpoint is active on Azure at `ffa6fa775b5546ca0ec6447a135037aea671c093`, with original records and receipts preserved. It passed four scheduled source runs but exposed repeated validation resets caused by Akuna display-name differences. The prepared 213-source release repairs this and adds HSBC campus collection; final acceptance remains pending that cutover. [Actual-host acceptance](FINANCE_ACCEPTANCE.md) records scheduled runs, restart recovery, Discord delivery, measured resource use and validation progress. No extra server, paid service, account or subscription was created.
 
 ## What is collected
 
@@ -22,11 +22,19 @@ The existing public Simplify source remains unrestricted by company: `SimplifyJo
 - `internship_watch/links.py`: European Greenhouse links use the verified public API; posting-response cache is bounded to 64 entries and five minutes instead of retaining every response for the life of the daemon. Memory is measured again on the host.
 - `internship_watch/storage.py`: exact finance/Tal.net/Workable/Avature/ApplicantPro identifiers and European Greenhouse aliases migrate conservatively. Random Tal.net navigation tokens and repeated identical AQR `gh_jid` parameters do not create new jobs. Different board IDs, posting instances and CTC campus requisitions remain distinct, even with identical titles.
 - `internship_watch/finance_sources.py`: Moody's live posting `100482312640` declared requisition **14701**, but its Apply link pointed at **14737**. The observed destination is retained with conflict evidence, cannot become an identity alias, and remains application-unverified. Employer posting validity remains independent. Moody's schema posting date and displayed date can also differ; both pieces of evidence are retained rather than inventing recency.
-- `internship_watch/employer_sources.py`: NVIDIA relevance-ranked pages repeated an ID at a page boundary. Explicit `timestamp` ordering returned all 113 distinct declared results, with descending posted timestamps. The adapter verifies that the server honored the configured sort and still fails on duplicate/truncated pages; it never silently accepts 112 of 113.
+- `internship_watch/employer_sources.py`: NVIDIA pages repeated an ID at a boundary even after timestamp sorting, because multiple results share a timestamp. Explicit timestamp ordering plus overlapping windows returned all 113 distinct declared results. A single bounded restart handles unstable pagination; inconsistent duplicate payloads, missing IDs and changing totals still fail rather than silently accepting partial results.
+- `internship_watch/classify.py`: current-sophomore-only eligibility is excluded for the user's junior profile. The word “Residential” no longer matches “Resident” and incorrectly categorizes a mortgage-finance role as AI research because its description mentions AI tools.
+- `internship_watch/links.py`: exact Workday tenant identities support observed legal employer names for CME, BMO, S&P/Kensho and PIMCO. Real internship responsibilities do not need one prescribed heading. Bank of America's labeled description is read from its Tal.net form only after exact ProgramID/title/host checks. Accented employer names retain their identity during structured-data comparison. An active exact employer API can coexist with a closed public application page; this discrepancy is recorded and suppresses immediate alerts for a known-closed application.
+
+The final live audit of qualifying discoveries from added sources verified **95 employer postings**: 31 also had verified application access, 63 had unverified application access, and one had a known-closed application. These are dated, distinct job observations, not a claim that every historical record is open or that login/JavaScript forms are broken. [Acceptance evidence](FINANCE_ACCEPTANCE.md) distinguishes this audit from the ongoing database and its rechecks.
 
 UBS uses the public search interface with an anonymous session and CSRF token kept only in memory. It checks every declared page with explicit ordering, detects repeated/missing results, excludes restricted postings, and verifies fresh public details using the exact partner/board/job identity. Employer active status and application accessibility stay separate. Its last-updated timestamp is not represented as an employer posting date.
 
 Source-level deadlines, bounded retries, rate limiting, SQLite locking, notification retry/deduplication, source incident suppression, Healthchecks and report exports remain enabled. Existing source baselines and notification receipts are retained. The first collection of each added board is a baseline import, so it does not generate one alert per historical job. Newly arriving verified matches produce immediate notifications after the run's collection/validation decision; qualifying unverified discoveries appear in a separate digest.
+
+HSBC uses the [official campus programme finder](https://www.hsbc.com/careers/students-and-graduates/find-a-programme) and the public load-more API observed in its browser script. HTML page-number requests repeat the first page, so collection uses the observed skip/count/settings parameters and checks the full declared count. The live probe returned all 67 programmes; all three US records were graduate programmes, not internships. Exact employer-linked detail and application IDs are checked for US internship candidates. A foreign internship sample independently passed posting validation while its application remained unverified under robots policy. Structured graduate-programme employment is excluded or marked conflicting when internship evidence disagrees.
+
+The exact Akuna custom URLs expose the same Greenhouse IDs under two observed names: Akuna Capital and Akuna Capital University. The reviewed display-name alias prevents recurring validation resets; it never merges jobs by employer name. Regression tests reproduce the original reset and retain the direct title, description and posting identity after repeated feed refreshes.
 
 ## Incomplete direct routes
 
@@ -36,13 +44,12 @@ These entries remain visible in the company-coverage report. Full access to the 
 |---|---|
 | Balyasny Asset Management | Public Salesforce guest careers page is a JavaScript shell; a complete guest feed has not been verified. |
 | BNP Paribas | The official job-search route could not be collected under its robots policy. No access bypass is used. |
-| Campbell & Company | Official careers link opens an ADP JavaScript recruitment portal; its complete public collection interface has not been verified. This is the investment firm, not Campbell Soup. |
+| Campbell & Company | Official careers link opens an ADP recruitment portal that could not be collected under its robots/access policy. This is the investment firm, not Campbell Soup. |
 | Citadel | Official open-opportunities request returned HTTP 403. No challenge bypass is used. |
 | Citadel Securities | The official opportunities route could not be collected under its robots policy. |
 | Deutsche Bank | Official student information is accessible, but a complete current campus requisition feed has not been verified. |
 | Goldman Sachs | The higher.gs.com role directory could not be collected under its robots policy. |
 | HAP Capital | The published hap-capital.com home and careers routes returned 404; no current direct job board was verified. This is not evidence that the firm is closed. |
-| HSBC | The public careers search API returned HTTP 403; the separate emerging-talent board has not been integrated. |
 | Intercontinental Exchange | The reviewed ICE iCIMS directory could not be collected under its robots policy. |
 | JPMorgan Chase | The reviewed Oracle candidate-search API could not be collected under its robots policy. |
 | Millennium Management | Official careers links to Eightfold; its public search endpoint returned HTTP 403. |
@@ -51,7 +58,7 @@ These entries remain visible in the company-coverage report. Full access to the 
 | Seven Eight Capital | The published home and careers routes returned tiny pages with no verifiable job directory; the guessed ATS board did not exist. |
 | Susquehanna International Group | The reviewed SIG iCIMS directory could not be collected under its robots policy. |
 | TGS Management | The official site could not be collected under its robots/access policy; no current direct ATS route verified. |
-| Wells Fargo | Official HTML is accessible, but observed keyword/worker-type query parameters returned unfiltered results; completeness for a bounded internship poll has not been established. The reviewed Workday route could not be collected under its robots policy. |
+| Wells Fargo | Official HTML declares 1,858 jobs across 93 pages, but observed page-two and keyword/worker-type requests repeated the first 20 results. Complete pagination has not been verified. The reviewed Workday route could not be collected under its robots policy. |
 | Wolverine Trading | Official open-positions page uses a separate JavaScript widget whose asset robots policy could not be verified. Old Lever route returned 404; no current public feed verified. |
 
 Google, Meta, Uber, IBM, Intuit and Tesla retain the separately documented gaps in [the earlier expansion](EXPANSION_100.md). HRT's direct Greenhouse source is working and retained.
@@ -106,7 +113,7 @@ Counts below are public source rows from individual live probes, before the user
 | GTS | `icims-gts` (15) |  |
 | HAP Capital | **Incomplete: public feed only** | See limitation above. |
 | Headlands Technologies | `greenhouse-headlandstechnologiesllc` (8) |  |
-| HSBC | **Incomplete: public feed only** | See limitation above. |
+| HSBC | `hsbc-campus` (67) | Official campus programme finder; complete declared-result pagination. The current three US rows are graduate programmes and are excluded. General/lateral careers are outside this direct scope. |
 | Hudson River Trading | `greenhouse-hudsonrivertrading` (existing) |  |
 | IMC Trading | `greenhouse-imc` (172) |  |
 | Intercontinental Exchange | **Incomplete: public feed only** | See limitation above. |

@@ -26,7 +26,8 @@ def employer_identity(value):
     value = unicodedata.normalize('NFKD',str(value or '')).encode('ascii','ignore').decode()
     name = re.sub(r'[^a-z0-9]', '', str(value or '').casefold())
     return {'andurilindustries':'anduril', 'togetherai':'together',
-            'scaleai':'scale', 'tiktok':'bytedance'}.get(name, name)
+            'scaleai':'scale', 'tiktok':'bytedance',
+            'akunacapitaluniversity':'akunacapital'}.get(name, name)
 
 
 def custom_greenhouse_identity(job):
@@ -72,6 +73,11 @@ def url_identity(url):
             return None
         host, path = u.hostname.lower(), re.sub(r"/+", "/", u.path).rstrip("/")
         query = dict(parse_qsl(u.query))
+        if host == 'apply.careers.hsbc.com':
+            from .hsbc_source import identity as hsbc_identity
+            identity = hsbc_identity(url)
+            if identity:
+                return 'hsbc:'+identity
         if host in {'careers.societegenerale.com','socgen.taleo.net'}:
             from .socgen_source import identity as socgen_identity
             identity = socgen_identity(url)
@@ -316,6 +322,12 @@ class Store:
                 if identity and identity.startswith('socgen:'):
                     self.db.execute('INSERT OR IGNORE INTO identities(identity,job_id) VALUES(?,?)', ('url:'+identity,row['id']))
             self.db.execute("INSERT INTO meta VALUES('socgen_url_aliases_v1',?)", (now(),))
+        if 'original_url' in columns and not self.db.execute("SELECT 1 FROM meta WHERE key='hsbc_url_aliases_v1'").fetchone():
+            for row in self.db.execute('SELECT id,original_url FROM jobs').fetchall():
+                identity = url_identity(row['original_url'])
+                if identity and identity.startswith('hsbc:'):
+                    self.db.execute('INSERT OR IGNORE INTO identities VALUES(?,?)', ('url:'+identity,row['id']))
+            self.db.execute("INSERT INTO meta VALUES('hsbc_url_aliases_v1',?)", (now(),))
         self.db.commit()
 
     def close(self):
@@ -452,7 +464,7 @@ class Store:
                                 'smartrecruiters','snap','amazon','rippling','bloomberg','bytedance',
                                 'workday','jibe','atlassian','jobvite','oracle','tiktok',
                                 'deshaw','trexquant','groupone','bankofamerica','icims_board',
-                                'panagora','finance_avature','moodys','renaissance','ubs','socgen'}
+                                'panagora','finance_avature','moodys','renaissance','ubs','socgen','hsbc'}
             incoming_destinations = [url_identity(job.get(field)) for field in ('description_url','application_url') if job.get(field)]
             known_aliases = bool(incoming_destinations) and all(key and self.db.execute(
                 'SELECT 1 FROM identities WHERE identity=? AND job_id=?', ('url:'+key,jid)).fetchone()

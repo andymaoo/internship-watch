@@ -324,7 +324,7 @@
     {
       "id": "socgen-us",
       "type": "socgen",
-      "employer": "Société Générale",
+      "employer": "SociÃ©tÃ© GÃ©nÃ©rale",
       "country_scope": [
         "US"
       ],
@@ -2230,6 +2230,14 @@
       "employer": "Optiver",
       "enabled": true,
       "expect_nonempty": false
+    },
+    {
+      "id": "hsbc-campus",
+      "type": "hsbc",
+      "employer": "HSBC",
+      "enabled": true,
+      "expect_nonempty": false,
+      "max_pages": 100
     }
   ],
   "poll_seconds": 300,
@@ -4326,12 +4334,14 @@
       "aliases": [
         "HSBC"
       ],
-      "direct_sources": [],
+      "direct_sources": [
+        "hsbc-campus"
+      ],
       "feed_sources": [
         "simplify-public-internships"
       ],
-      "coverage": "public_feed_incomplete",
-      "note": "The public careers search API returned HTTP 403; the separate emerging-talent board has not been integrated. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+      "coverage": "direct_and_public_feed",
+      "note": "Official public campus programme finder, with complete declared-result pagination. Covers internships and other student programmes listed there; lateral-careers and other boards are outside this direct scope. The general Eightfold route remains unavailable."
     },
     {
       "company": "Hudson River Trading",
@@ -4533,7 +4543,7 @@
       "company": "Moody's",
       "aliases": [
         "Moody's",
-        "Moody’s",
+        "Moodyâ€™s",
         "Moodys"
       ],
       "direct_sources": [
@@ -4869,9 +4879,9 @@
       "note": ""
     },
     {
-      "company": "Société Générale",
+      "company": "SociÃ©tÃ© GÃ©nÃ©rale",
       "aliases": [
-        "Société Générale",
+        "SociÃ©tÃ© GÃ©nÃ©rale",
         "Societe Generale"
       ],
       "direct_sources": [

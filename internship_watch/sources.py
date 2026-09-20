@@ -236,6 +236,8 @@ def collect(source: dict, client) -> list[dict]:
     ADAPTERS['ubs'] = ubs
     from .socgen_source import socgen
     ADAPTERS['socgen'] = socgen
+    from .hsbc_source import hsbc
+    ADAPTERS['hsbc'] = hsbc
     for name in ("deshaw", "trexquant", "groupone", "bankofamerica", "icims_board", "panagora", "finance_avature", "moodys", "renaissance"):
         ADAPTERS[name] = getattr(finance_sources, name)
     for name in ('workday', 'jibe', 'atlassian', 'jobvite', 'oracle'):

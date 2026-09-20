@@ -1,8 +1,8 @@
 # Deployment preparation
 
-This repository contains deployment preparation, not proof of a permanent running deployment. Real sources and Discord have been exercised locally; no paid server, reboot startup, external heartbeat or off-host backup is active. Complete the acceptance procedure below on the chosen host before calling the system deployed. [Current evidence](CONTINUATION.md)
+The Azure systemd worker is deployed; [current actual-host acceptance](FINANCE_ACCEPTANCE.md) records scheduled source runs, persistent state, delivery and monitoring evidence, plus the remaining automatic off-host backup setup. The commands below are a provisioning guide for a new installation. Preserve the existing configuration, secrets and database when updating an installed worker.
 
-Use [HOSTING.md](HOSTING.md) for the current price comparison and measurement-based sizing, and [CONNECTIONS.md](CONNECTIONS.md) for private monitor/bucket setup, encrypted off-host backup scheduling, and the Windows Task Scheduler option. Those prepared files do not create accounts or authorize spending.
+Use [HOSTING.md](HOSTING.md) for the dated hosting comparison and sizing measurements, and [CONNECTIONS.md](CONNECTIONS.md) for private monitor/bucket setup, encrypted off-host backup scheduling, and the Windows Task Scheduler option. Those prepared files do not create accounts or authorize spending. Current expanded-workload measurements are in the acceptance report.
 
 ## Choose one runtime
 
@@ -116,4 +116,4 @@ Save a dated deployment evidence report containing:
 6. Stop the scraper, allow the external heartbeat deadline/grace to expire, and confirm the independent monitor's alert. Restart the worker and confirm recovery. This is separate from explicitly sending `/fail`.
 7. A database backup and successful restore into a separate test path. Verify restored records and notification history before considering the backup usable.
 
-The local environment available during preparation did not have an accessible running Docker engine or Linux systemd; image build, unit startup, persistent-volume behavior, final full-source scheduled operation, and external alert delivery must therefore be validated on the target host. Three later local full-source cycles and real Discord tests are documented in [CONTINUATION.md](CONTINUATION.md); the earlier one-source smoke remains in [VALIDATION.md](VALIDATION.md). A CLI help check or YAML parse does not replace deployment acceptance.
+The original local preparation could not exercise Docker or Linux systemd. Subsequent Azure systemd acceptance is recorded in [FINANCE_ACCEPTANCE.md](FINANCE_ACCEPTANCE.md), which distinguishes current tests from historical monitoring tests and remaining backup acceptance. Docker remains an alternative whose runtime must be tested if selected. Earlier local cycles remain in [CONTINUATION.md](CONTINUATION.md), and the original one-source smoke remains in [VALIDATION.md](VALIDATION.md).

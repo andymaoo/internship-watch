@@ -4,7 +4,7 @@ US internship and research-program discovery with persistent records, conservati
 
 The default configuration reflects the requested preferences: United States (including remote roles with US eligibility), all seasons, co-ops, current undergraduate junior, no sponsorship required, and relevant research programs. Freshman/sophomore-only, permanent/new-graduate, and hardware-focused roles are excluded. Unclear eligibility stays available for review. Software/AI internships at hardware companies remain eligible.
 
-**Deployment status:** the Azure worker is active with five-minute polling, persistent SQLite, Discord delivery, independent Healthchecks email and tested automatic reboot startup. The expanded configuration enables 123 sources and tracks 105 company entries: 99 through direct or parent-company boards, with six incomplete public-feed-only routes. See [current coverage, validation and limitations](docs/EXPANSION_100.md). Automatic off-host backups still await the storage-account connection; dated earlier measurements remain in the historical reports.
+**Deployment status:** the Azure worker is active with a five-minute polling target, persistent SQLite, Discord delivery, independent Healthchecks email and tested automatic reboot startup. The prepared configuration enables 213 sources and tracks 212 company entries: 188 through direct or parent-company boards, with 24 incomplete public-feed-only routes. Of the latest 108 finance/quant employers, 90 have direct routes and 18 remain incomplete. Final actual-host acceptance is pending the Akuna alias repair and HSBC campus cutover. See [measured scheduled runs and acceptance](docs/FINANCE_ACCEPTANCE.md) and [every requested finance company and limitation](docs/FINANCE_EXPANSION.md). Slow cycles postpone the next poll without overlapping. Automatic off-host backups still await the storage-account connection; dated earlier measurements remain in the historical reports.
 
 ## Run locally
 
@@ -39,6 +39,7 @@ Deduplication uses job-specific URL/requisition identities, not title similarity
 
 ## Configuration and reports
 
+- [Current actual-host acceptance, measured polling and remaining backup setup](docs/FINANCE_ACCEPTANCE.md)
 - [Finance/quant expansion, all 108 requested employers and explicit gaps](docs/FINANCE_EXPANSION.md)
 - [Current company expansion and coverage limits](docs/EXPANSION_100.md)
 - [Audit and implementation decisions](docs/AUDIT.md)
@@ -56,4 +57,4 @@ Deduplication uses job-specific URL/requisition identities, not title similarity
 - [Secrets, inspection, backup and recovery](docs/OPERATIONS.md)
 - [Example configuration](config.example.json)
 
-Coverage is measured per configured source, not claimed to cover the entire market. Complete direct discovery remains unavailable for Google, Meta, Uber, IBM, Intuit and Tesla; the unrestricted community feed may provide some of their listings. Google individual-posting verification and HRT's public Greenhouse board work. The public Simplify repository is a subset of Simplify's website and has separate curation/export delays. Refresh the canonical seasonal feed configuration when the upstream repository changes.
+Coverage is measured per configured source, not claimed to cover the entire market. The finance report lists 18 additional incomplete direct routes, alongside the earlier Google, Meta, Uber, IBM, Intuit and Tesla gaps; the unrestricted community feed may provide some of their listings. Google individual-posting verification and HRT's public Greenhouse board work. The public Simplify repository is a subset of Simplify's website and has separate curation/export delays. Refresh the canonical seasonal feed configuration when the upstream repository changes.

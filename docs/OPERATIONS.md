@@ -1,6 +1,6 @@
 # Operating Internship Watch
 
-Use [DEPLOYMENT.md](DEPLOYMENT.md) to provision the selected runtime. This guide distinguishes stored evidence from live guarantees. An `open` job has passed the current description/application validator at `last_checked`; an `unverified` job needs another check or manual review. A blocked page, timeout, or rate limit is not proof of closure. Inspect `link-validation.json` for the reason and each destination.
+Use [DEPLOYMENT.md](DEPLOYMENT.md) to provision a new runtime; [current actual-host acceptance](FINANCE_ACCEPTANCE.md) describes the existing Azure deployment. Employer posting validity and application accessibility are separate. A posting marked `open` passed employer-job identity and availability checks at its recorded check time; its application can still be unverified or closed. An `unverified` destination needs another check or manual review. A blocked page, timeout, or rate limit is not proof of closure. Inspect `link-validation.json` for the reason and each destination.
 
 ## Configuration and first run
 
@@ -76,7 +76,7 @@ If storage is unusable, the worker may be unable to persist an incident or deliv
 
 ## Backup, restart, upgrade, and recovery
 
-Use the `backup` command, which uses SQLite's online backup API. Copy the resulting file off the scraper host; provider snapshots alone are not a substitute for testing a usable database copy. Never copy only a running `.sqlite3` file while ignoring its WAL. Retain several dated backups and monitor backup freshness. No automated off-host backup destination is configured until a host/account is chosen.
+Use the `backup` command, which uses SQLite's online backup API. Copy the resulting file off the scraper host; provider snapshots alone are not a substitute for testing a usable database copy. Never copy only a running `.sqlite3` file while ignoring its WAL. Retain several dated backups and monitor backup freshness. The Azure host is configured, but the automatic off-host backup destination still needs the private bucket and scoped credentials; keep its timer disabled until upload/restore and monitoring acceptance succeed.
 
 For the prepared daily encrypted off-host workflow, use `deploy/backup.py` and its systemd timer or Windows backup task. It verifies a separately restored copy before signaling its own backup heartbeat. Setup, retention, credentials, cost assumptions and independent email acceptance are in [CONNECTIONS.md](CONNECTIONS.md) and [HOSTING.md](HOSTING.md). Six regression fixtures and an actual encrypted local restic 0.19.1 backup/restore/check/retention rehearsal passed against the 83.44 MB database. Remote upload/restore, scheduled backup execution and backup-alert delivery remain host/account acceptance items. Run the backup fixtures separately with `python -m unittest discover -s deploy -p test_backup.py -v`.
 

@@ -541,24 +541,29 @@
       "count": 75,
       "included": 0,
       "seconds": 19.33
+    },
+    "hsbc-campus": {
+      "count": 67,
+      "included": 0,
+      "seconds": 6.86,
+      "scope": "Public campus programme finder; the sample detail is foreign and is not an eligible US match."
     }
   },
   "summary": {
     "requested": 108,
-    "new_sources": 89,
-    "enabled_sources": 212,
+    "new_sources": 90,
+    "enabled_sources": 213,
     "watchlist": 212,
-    "requested_direct": 89,
+    "requested_direct": 90,
     "gaps": {
       "Balyasny Asset Management": "Public Salesforce guest careers page is a JavaScript shell; a complete guest feed has not been verified.",
       "BNP Paribas": "The official job-search route could not be collected under its robots policy. No access bypass is used.",
-      "Campbell & Company": "Official careers link opens an ADP JavaScript recruitment portal; its complete public collection interface has not been verified. This is the investment firm, not Campbell Soup.",
+      "Campbell & Company": "The official investment-firm careers page links to ADP. The linked recruitment route is excluded by robots policy or its policy cannot be verified; no bypass is used. This is not Campbell Soup.",
       "Citadel": "Official open-opportunities request returned HTTP 403. No challenge bypass is used.",
       "Citadel Securities": "The official opportunities route could not be collected under its robots policy.",
       "Deutsche Bank": "Official student information is accessible, but a complete current campus requisition feed has not been verified.",
       "Goldman Sachs": "The higher.gs.com role directory could not be collected under its robots policy.",
       "HAP Capital": "The published hap-capital.com home and careers routes returned 404; no current direct job board was verified. This is not evidence that the firm is closed.",
-      "HSBC": "The public careers search API returned HTTP 403; the separate emerging-talent board has not been integrated.",
       "Intercontinental Exchange": "The reviewed ICE iCIMS directory could not be collected under its robots policy.",
       "JPMorgan Chase": "The reviewed Oracle candidate-search API could not be collected under its robots policy.",
       "Millennium Management": "Official careers links to Eightfold; its public search endpoint returned HTTP 403.",
@@ -567,8 +572,23 @@
       "Seven Eight Capital": "The published home and careers routes returned tiny pages with no verifiable job directory; the guessed ATS board did not exist.",
       "Susquehanna International Group": "The reviewed SIG iCIMS directory could not be collected under its robots policy.",
       "TGS Management": "The official site could not be collected under its robots/access policy; no current direct ATS route verified.",
-      "Wells Fargo": "Official HTML is accessible, but observed keyword/worker-type query parameters returned unfiltered results; completeness for a bounded internship poll has not been established. The reviewed Workday route could not be collected under its robots policy.",
+      "Wells Fargo": "Official HTML declares 1,858 jobs across 93 pages, but observed page-two and keyword/worker-type requests repeated the first 20 results. Complete pagination has not been verified. The reviewed Workday route could not be collected under its robots policy.",
       "Wolverine Trading": "Official open-positions page uses a separate JavaScript widget whose asset robots policy could not be verified. Old Lever route returned 404; no current public feed verified."
     }
-  }
+  },
+  "probe_note": "Individual probes are dated raw and pre-link observations; counts may change and earlier classifier counts are not current aggregate job totals. Final staged and scheduled evidence is in FINANCE_ACCEPTANCE.md.",
+  "new_source_link_audit": {
+    "qualifying_observations": 95,
+    "unique_postings": 95,
+    "seconds": 83.22,
+    "counts": {
+      "open/open": 31,
+      "open/unverified": 63,
+      "open/closed": 1
+    },
+    "errors": 0,
+    "production_modified": false,
+    "classification_refreshed_after_residential_regression": true
+  },
+  "acceptance_note": "212-source checkpoint passed four scheduled runs but exposed Akuna display-name validation churn. Final 213-source acceptance follows the Akuna fix and HSBC campus integration."
 }

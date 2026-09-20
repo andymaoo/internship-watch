@@ -172,6 +172,12 @@ def classify(job: dict, filters: dict | None = None) -> dict:
             excludes.append("Explicitly not an internship")
     if NEWGRAD.search(title) and not title_intern and not coop:
         excludes.append("New-graduate/entry-level career position")
+    if NEWGRAD.search(employment):
+        record('employment_type', employment, 'graduate_career_programme')
+        if internship or program:
+            unknown.append('Conflicting internship/program and graduate-career employment evidence')
+        else:
+            excludes.append('Structured graduate-career programme is not an internship')
     if (re.search(r"\bgraduate\b", title, re.I) and employment.casefold() == 'regular'
             and not title_intern and not structured_intern and not coop and not program):
         excludes.append("Graduate career position with structured regular employment")
