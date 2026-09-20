@@ -6,6 +6,15 @@ The default configuration reflects the requested preferences: United States (inc
 
 **Deployment status:** the Azure worker is active with a five-minute polling target, persistent SQLite, Discord delivery, independent Healthchecks email and tested automatic reboot startup. The deployed configuration enables 213 sources and tracks 212 company entries: 188 through direct or parent-company boards, with 24 incomplete public-feed-only routes. Of the latest 108 finance/quant employers, 90 have direct routes and 18 remain incomplete. The final release passed all 213 sources across consecutive scheduled runs, a controlled restart, and cross-source validation-state checks. See [measured scheduled runs and acceptance](docs/FINANCE_ACCEPTANCE.md) and [every requested finance company and limitation](docs/FINANCE_EXPANSION.md). Slow cycles postpone the next poll without overlapping. Automatic off-host backups still await the storage-account connection; dated earlier measurements remain in the historical reports.
 
+Maintenance has an independent 15-minute supervisor, live source contracts,
+persisted repair evidence, anomaly alerts, daily verified local backups, weekly
+delivery checks and a daily Codex repair follow-up. The follow-up requires the
+Windows PC/app to be available; Azure monitoring remains independent. See the
+[maintenance operating guide](docs/MAINTENANCE.md), [actual test evidence](docs/MAINTENANCE_ACCEPTANCE.md)
+and [review queue](docs/MAINTENANCE_REVIEW.md). Automatic off-host backup credentials
+remain an explicit outstanding issue. The private HTML report links to the
+searchable maintenance backlog.
+
 ## Run locally
 
 Requires Python 3.12. Use a virtual environment:

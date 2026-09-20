@@ -25,6 +25,12 @@ than launching a competing complete scrape. Existing link validation rotates
 through new listings and known open/closed/unverified records. A new endpoint
 which returns convincing but incomplete data can still evade these heuristics.
 
+Transient source errors are also copied into the repair history, even if the
+source has recovered before the daily agent review. They are informational
+candidates for investigation, rather than automatically confirmed bugs. A whole
+worker outage is grouped into one outage alert instead of a separate staleness
+alert for every source.
+
 Maintenance status is `export/maintenance.html` (searchable), with evidence in
 `export/maintenance.json`. The main jobs report links to it. The same existing
 private SSH tunnel / report access serves these files; nothing is made public.
@@ -116,6 +122,16 @@ sudo -u internship-watch .venv/bin/python -m internship_watch.maintenance \
 
 ## Commands and stopping
 
+For updates, stage and test a release from the user's private
+`andymaoo/internship-watch` repository before switching the
+`/opt/internship-watch` symlink. Preserve `/etc/internship-watch.json`, private
+environment files, and both databases under `/var/lib/internship-watch`.
+Take and verify a consistent off-host snapshot first, wait for the current poll
+to finish, then stop the worker, switch the release, restart, and verify
+consecutive polls and the supervisor. Keep the previous release for code-only
+rollback; do not overwrite newer production data with an older backup as a
+routine rollback. The daily follow-up follows this same procedure.
+
 ```sh
 # All commands below are run on the existing Azure host.
 sudo systemctl status internship-watch-maintenance.timer
@@ -131,6 +147,8 @@ sudo systemctl disable --now internship-watch-maintenance.timer
 sudo systemctl disable --now internship-watch-local-backup.timer
 # Stop job collection separately.
 sudo systemctl stop internship-watch
+# To keep collection stopped after a reboot as well:
+sudo systemctl disable --now internship-watch
 ```
 
 Enable/re-enable timers with `sudo systemctl enable --now NAME.timer`.
