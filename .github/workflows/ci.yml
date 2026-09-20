@@ -4,6 +4,8 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+  schedule:
+    - cron: '23 14 * * 1'
 
 permissions:
   contents: read

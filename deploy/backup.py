@@ -162,6 +162,14 @@ def perform(args, state):
             database_manifest = sqlite_snapshot(source, snapshot)
             method = "SQLite online backup and all-table hash comparison from one read transaction"
         record = {"created_at": stamp(), "method": method, "database": database_manifest}
+        # The repair backlog and its alert receipts live independently of the
+        # worker DB. Snapshot them separately; no cross-DB transaction is claimed.
+        additional = {}
+        maintenance_path = Path(config.get('maintenance', {}).get('state_database',
+            str((config_path.parent / config.get('database', 'data/jobs.sqlite3')).resolve().parent / 'maintenance.sqlite3')))
+        if not args.compose_dir and maintenance_path.exists():
+            additional['maintenance.sqlite3'] = sqlite_snapshot(maintenance_path, state / 'maintenance.sqlite3')
+        record['additional_databases'] = additional
         (state / "latest.manifest.json").write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
         # This project keeps credentials in environment files, not JSON config.
         shutil.copyfile(config_path, state / "config.json")
@@ -172,10 +180,13 @@ def perform(args, state):
             if args.local_only:
                 restored = restored_root / "latest.sqlite3"
                 shutil.copyfile(snapshot, restored)
+                for name, expected in additional.items():
+                    shutil.copyfile(state / name, restored_root / name)
+                    inspect_database(restored_root / name, expected)
                 snapshot_id = None
             else:
                 text = command(["restic", "backup", "--json", "--tag", "internship-watch",
-                                "latest.sqlite3", "latest.manifest.json", "config.json"], cwd=state)
+                                "latest.sqlite3", "latest.manifest.json", "config.json", *additional], cwd=state)
                 summaries = [json.loads(line) for line in text.splitlines() if line.strip().startswith("{")]
                 snapshot_id = next((row.get("snapshot_id") for row in reversed(summaries) if row.get("message_type") == "summary"), None)
                 if not snapshot_id or not re.fullmatch(r"[0-9a-f]{8,64}", snapshot_id):
@@ -185,6 +196,11 @@ def perform(args, state):
                 if len(files) != 1:
                     raise RuntimeError("Restored snapshot did not contain exactly one expected database")
                 restored = files[0]
+                for name, expected in additional.items():
+                    extra_files = list(restored_root.rglob(name))
+                    if len(extra_files) != 1:
+                        raise RuntimeError('Restored snapshot lacks the expected maintenance database')
+                    inspect_database(extra_files[0], expected)
             inspect_database(restored, database_manifest)
         if not args.local_only:
             command(["restic", "check"])
@@ -195,6 +211,7 @@ def perform(args, state):
                    "restored_database_verified": True,
                    "tables": {name: row["rows"] for name, row in database_manifest["tables"].items()},
                    "database_bytes": snapshot.stat().st_size}
+        outcome['additional_databases_verified'] = sorted(additional)
         (state / "last-success.json").write_text(json.dumps(outcome, indent=2) + "\n", encoding="utf-8")
         print(json.dumps(outcome))
     except Exception:

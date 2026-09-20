@@ -99,6 +99,18 @@ class BackupTests(unittest.TestCase):
         self.assertEqual([call.args for call in ping.call_args_list], [("/start",), ("/fail",)])
         self.assertFalse((self.state / "last-success.json").exists())
 
+    def test_maintenance_backlog_is_snapshotted_and_restore_verified(self):
+        with contextlib.closing(sqlite3.connect(self.root / 'maintenance.sqlite3')) as db:
+            db.executescript("CREATE TABLE repair_tickets(key TEXT PRIMARY KEY); INSERT INTO repair_tickets VALUES('source:fixture');")
+            db.commit()
+        args = argparse.Namespace(config=str(self.config), local_only=True, compose_dir=None)
+        with contextlib.redirect_stdout(io.StringIO()):
+            backup.perform(args, self.state)
+        evidence = json.loads((self.state/'last-success.json').read_text())
+        self.assertEqual(evidence['additional_databases_verified'], ['maintenance.sqlite3'])
+        expected = json.loads((self.state/'latest.manifest.json').read_text())['additional_databases']['maintenance.sqlite3']
+        backup.inspect_database(self.state/'maintenance.sqlite3', expected)
+
 
 if __name__ == "__main__":
     unittest.main()

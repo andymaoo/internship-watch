@@ -243,6 +243,9 @@ CREATE INDEX IF NOT EXISTS jobs_due ON jobs(next_check);
 CREATE INDEX IF NOT EXISTS observations_job ON observations(job_id,observed_at);
 CREATE INDEX IF NOT EXISTS observations_source ON observations(job_id,source,id);
 CREATE INDEX IF NOT EXISTS link_checks_job ON link_checks(job_id,id);
+CREATE TABLE IF NOT EXISTS source_samples(id INTEGER PRIMARY KEY,source TEXT NOT NULL,revision TEXT NOT NULL,
+ run_id INTEGER NOT NULL,checked_at TEXT NOT NULL,profile TEXT,error TEXT);
+CREATE INDEX IF NOT EXISTS source_samples_source ON source_samples(source,id);
 """
 
 

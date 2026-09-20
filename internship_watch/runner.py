@@ -10,6 +10,7 @@ from .delivery import configured_sender, deliver_pending, heartbeat, job_message
 from .google_source import apply_google_eligibility
 from .links import validate_job
 from .locking import run_lock
+from .safeguards import collection_profile, record_sample
 from .storage import Store, dump, now, split_statuses, url_identity
 
 log = logging.getLogger(__name__)
@@ -249,6 +250,7 @@ def _run(config, db_path, collector, client, validator, sender):
                     raise collection_error
                 if not isinstance(jobs, list):
                     raise ValueError("Source returned a non-list result")
+                profile = collection_profile(jobs)
                 with store.transaction():
                     for job in jobs:
                         classification = store.classify_cached(key, job, config.get("filters", {}), classifier=classify)
@@ -266,6 +268,7 @@ def _run(config, db_path, collector, client, validator, sender):
                         store.upsert_job(key, job, classification, run_id,
                                          baseline=not previous["initialized"], filters=config.get("filters", {}), classification_is_current=True)
                     state = store.record_source(key, count=len(jobs))
+                    record_sample(store, source, run_id, profile=profile)
                     store.incident("source:" + key, False, "Recovered")
                     suspicious_empty = len(jobs) == 0 and (previous.get("last_count", 0) or previous["empty_runs"]
                                                                or source.get("expect_nonempty", False))
@@ -279,6 +282,7 @@ def _run(config, db_path, collector, client, validator, sender):
                 detail = f"{type(exc).__name__}: {exc}"[:500]
                 with store.transaction():
                     state = store.record_source(key, error=detail)
+                    record_sample(store, source, run_id, error=detail)
                     store.incident("source:" + key, state["failures"] >= threshold,
                                    f"{key}: failed {state['failures']} consecutive runs. {detail}")
                 summary["sources"][key] = {"status": "failed", "error": detail, "seconds": collection_seconds}

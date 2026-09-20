@@ -252,8 +252,8 @@ def deliver_pending(store, sender, limit=100, retry_base_seconds=60):
     return result
 
 
-def heartbeat(suffix=""):
-    url = os.environ.get("HEALTHCHECKS_PING_URL", "")
+def heartbeat(suffix="", env_name="HEALTHCHECKS_PING_URL"):
+    url = os.environ.get(env_name, "")
     if not url:
         return False
     if urlsplit(url).scheme != "https":

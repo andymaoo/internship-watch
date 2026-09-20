@@ -1,0 +1,23 @@
+[Unit]
+Description=Independent internship source and delivery maintenance supervisor
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=internship-watch
+Group=internship-watch
+WorkingDirectory=/opt/internship-watch
+EnvironmentFile=/etc/internship-watch.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/opt/internship-watch/.venv/bin/python -m internship_watch.maintenance --config /etc/internship-watch.json
+TimeoutStartSec=4min
+UMask=0077
+StateDirectory=internship-watch
+ReadWritePaths=/var/lib/internship-watch
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+MemoryMax=180M
+Nice=10

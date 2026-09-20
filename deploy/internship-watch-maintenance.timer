@@ -1,0 +1,11 @@
+[Unit]
+Description=Check internship maintenance health every fifteen minutes
+
+[Timer]
+OnCalendar=*-*-* *:00,15,30,45:00
+RandomizedDelaySec=30
+Persistent=true
+Unit=internship-watch-maintenance.service
+
+[Install]
+WantedBy=timers.target
