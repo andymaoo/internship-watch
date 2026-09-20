@@ -15,13 +15,16 @@ were changed.
   from one `/32` address; the current client address no longer matches it.
   Fresh scraper and supervisor heartbeats were visible in the signed-in
   Healthchecks account. Read-only health queries therefore used the existing
-  authenticated Azure Run Command interface. The firewall was not changed.
+  authenticated Azure Run Command interface. Initial diagnostics left the
+  firewall unchanged.
 - Grouped a new `management:ssh-client-ip` maintenance ticket separately from
-  worker incidents. Requested approval to replace the single-IP entry with the
-  current client IP, retaining key authentication. Do not widen the rule or
-  repeatedly notify about this unchanged request. Resolve the ticket only after
-  an actual SSH connection succeeds. The Azure management fallback remains
-  available while its existing account session is valid.
+  worker incidents. The user approved replacing the single-IP entry with the
+  current client IP. The existing rule was updated, retaining one `/32`, TCP 22,
+  priority 800 and key authentication. Existing-key SSH with strict host-key
+  verification succeeded at 19:45:44 UTC. The access ticket was resolved at
+  19:46:33 UTC; no new credential or broader network range was introduced.
+  Future client-IP changes may require a separately approved replacement. The
+  Azure management fallback remains available while its account session is valid.
 - Since run 247, the observed window contained 161 successful, eight degraded,
   two interrupted and one running cycle. Latest completed runs 416 and 417
   passed all 213 sources in 301.967 and 307.430 seconds. No source was currently
@@ -51,16 +54,18 @@ were changed.
   passed; the later pip dependency scan also succeeded. The two Actions major
   upgrade proposals remain unmerged pending their separate review.
 
-The review marker and management-access ticket were saved on Azure at 19:42:22
-UTC. A fresh supervisor run completed with no failed or duplicate deliveries;
-the latest worker completion was 19:40:18 UTC. Approval of the SSH rule change
-was still pending, so the rule remained unchanged.
+The initial review marker and management-access ticket were saved on Azure at
+19:42:22 UTC. After the approved access repair, the review marker and supervisor
+were refreshed at 19:46:33 UTC with no failed or duplicate deliveries. Runs 418
+and 419 completed at 19:40:18 and 19:45:28 UTC, both with 213/213 sources passing
+and no pending notifications. Runtime stayed `1d36c8261773` throughout; there
+was no worker restart or application deployment for this network-rule repair.
 
 This daily review did not perform a new careers-site/season audit or rerun a
 full regression suite: there was no code change. The next weekly
 cursor remains the 24 coverage gaps, official permitted routes, Simplify season
 continuity and the two Actions upgrade proposals. On the next daily review,
-check the management-access ticket, lower-priority recheck age, memory trend
+check management connectivity, lower-priority recheck age, memory trend
 and any recurrence of the recovered source errors.
 
 ## Initial deployment review — 2026-09-20, 04:45–05:13 UTC
