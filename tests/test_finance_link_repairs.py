@@ -8,6 +8,34 @@ from tests.test_links import Client, response, DESCRIPTION
 
 
 class FinanceLinkRepairs(unittest.TestCase):
+    def test_overlapping_eightfold_windows_still_require_every_declared_id(self):
+        from internship_watch.sources import collect, SourceError
+        from tests.test_sources import Client as JsonClient
+        from tests.test_employer_sources import ef
+        source=dict(id='nvidia',type='eightfold',domain='nvidia.com',searches=[{'query':'intern'}],page_overlap=1)
+        page=lambda ids:{'data':{'count':4,'positions':[ef(i) for i in ids]}}
+        c=JsonClient(page([1,2]),page([2,3]),page([3,4]))
+        self.assertEqual(len(collect(source,c)),4)
+        self.assertEqual([call[1]['params']['start'] for call in c.calls],[0,1,2])
+        with self.assertRaises(SourceError):collect(source,JsonClient(page([1,2]),page([2,3]),page([2,3])))
+        changed=page([2,3]);changed['data']['positions'][0]['name']='Different posting'
+        with self.assertRaises(SourceError):collect(source,JsonClient(page([1,2]),changed))
+
+    def test_unstable_eightfold_pages_retry_once_from_the_start(self):
+        from internship_watch.sources import collect, SourceError
+        from tests.test_sources import Client as JsonClient
+        from tests.test_employer_sources import ef
+        source=dict(id='nvidia',type='eightfold',domain='nvidia.com',searches=[{'query':'intern'}],pagination_retries=1)
+        page=lambda identity:{'data':{'count':2,'positions':[ef(identity)]}}
+        c=JsonClient(page(1),page(1),page(1),page(2))
+        self.assertEqual(len(collect(source,c)),2)
+        self.assertEqual([call[1]['params']['start'] for call in c.calls],[0,1,0,1])
+        with self.assertRaises(SourceError):collect(source,JsonClient(page(1),page(1),page(1),page(1)))
+        private=page(1);private['data']['positions'][0]['isPrivate']=True
+        c=JsonClient(private)
+        with self.assertRaises(SourceError):collect(source,c)
+        self.assertEqual(len(c.calls),1)
+
     def test_residential_mortgages_is_not_an_ai_residency(self):
         job=dict(title='Summer Intern - Private Strategies Analyst (Residential Mortgages)',
                  description='As an intern, perform qualitative financial analysis. Experience using AI tools in school projects is welcome.',location='Newport Beach, CA')

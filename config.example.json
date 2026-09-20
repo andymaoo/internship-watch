@@ -131,7 +131,9 @@
       "max_pages": 50,
       "enabled": true,
       "expect_nonempty": false,
-      "sort_by": "timestamp"
+      "sort_by": "timestamp",
+      "pagination_retries": 1,
+      "page_overlap": 5
     },
     {
       "id": "snap-direct",

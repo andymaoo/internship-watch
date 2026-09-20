@@ -76,7 +76,28 @@ def smartrecruiters(source, client):
     raise SourceError('SmartRecruiters pagination cap reached')
 
 
+class EightfoldPaginationChanged(SourceError):
+    pass
+
+
 def eightfold(source, client):
+    retries = source.get('pagination_retries', 0)
+    if type(retries) is not int or not 0 <= retries <= 1:
+        raise SourceError('Eightfold pagination retries must be zero or one')
+    for attempt in range(retries + 1):
+        try:
+            return _eightfold_once(source, client)
+        except EightfoldPaginationChanged:
+            if attempt == retries:
+                raise
+            # Discard the entire incomplete attempt. Never silently union pages
+            # with missing IDs; the retry must independently prove completeness.
+
+
+def _eightfold_once(source, client):
+    overlap = source.get('page_overlap', 0)
+    if type(overlap) is not int or not 0 <= overlap <= 9:
+        raise SourceError('Eightfold page overlap must be between zero and nine')
     domain = source['domain']
     if domain not in EIGHTFOLD_HOSTS:
         raise SourceError('Unreviewed Eightfold host')
@@ -108,22 +129,24 @@ def eightfold(source, client):
             items = _jobs_list(data, 'positions')
             total = _total(data.get('count'))
             if expected is not None and total != expected:
-                raise SourceError('Eightfold total changed during pagination')
+                raise EightfoldPaginationChanged('Eightfold total changed during pagination')
             expected = total
             if not items and start < total:
-                raise SourceError('Eightfold returned an empty page before declared end')
+                raise EightfoldPaginationChanged('Eightfold returned an empty page before declared end')
+            added = 0
             for item in items:
                 _required(item, 'id', 'name')
                 identity = str(item['id'])
-                if identity in seen or item.get('isPrivate') is True:
-                    raise SourceError(f'Repeated/private Eightfold posting {identity} at offset {start}, scope {search}')
-                seen.add(identity)
+                if item.get('isPrivate') is True:
+                    raise SourceError('Private Eightfold posting in public search')
+                if identity in seen and not overlap:
+                    raise EightfoldPaginationChanged(f'Repeated Eightfold posting {identity} at offset {start}, scope {search}')
                 canonical = urljoin(base, item.get('canonicalPositionUrl') or item.get('positionUrl') or f'/careers/job/{identity}')
                 matched = re.fullmatch(r'/careers/job/(\d+)(?:/.*)?', urlsplit(canonical).path)
                 if (urlsplit(canonical).netloc != urlsplit(base).netloc or urlsplit(canonical).scheme != 'https' or
                         not identity.isdigit() or not matched or matched[1] != identity):
                     raise SourceError('Eightfold job URL disagrees with identity')
-                jobs[identity] = _base(source, 'ef', f'{domain}-{identity}', item['name'], canonical,
+                candidate = _base(source, 'ef', f'{domain}-{identity}', item['name'], canonical,
                     locations=item.get('standardizedLocations') or item.get('locations') or [item.get('location', '')],
                     posting_date=_date(item.get('postedTs')),
                     evidence={'provider': 'eightfold', 'provider_job_id': identity, 'domain': domain,
@@ -131,11 +154,21 @@ def eightfold(source, client):
                               'description_kind': 'employer_search_summary', 'search_scope': searches,
                               'ats_job_id': item.get('atsJobId') or item.get('ats_job_id'),
                               'workplace_type': item.get('workLocationOption') or item.get('work_location_option')})
-            start += len(items)
-            if start == total:
+                if identity in seen:
+                    if jobs[identity] != candidate:
+                        raise EightfoldPaginationChanged('Eightfold posting changed between overlapping pages')
+                else:
+                    seen.add(identity); added += 1; jobs[identity] = candidate
+            end = start + len(items)
+            if end == total:
+                if len(seen) != total:
+                    raise EightfoldPaginationChanged('Eightfold unique posting count is incomplete')
                 break
-            if start > total:
+            if end > total:
                 raise SourceError('Eightfold returned more jobs than declared')
+            if not added:
+                raise EightfoldPaginationChanged('Eightfold page made no progress')
+            start += max(1, len(items) - overlap)
         else:
             raise SourceError('Eightfold pagination cap reached')
     return list(jobs.values())
