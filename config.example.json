@@ -320,6 +320,16 @@
       "expect_nonempty": false
     },
     {
+      "id": "socgen-us",
+      "type": "socgen",
+      "employer": "Société Générale",
+      "country_scope": [
+        "US"
+      ],
+      "enabled": true,
+      "expect_nonempty": false
+    },
+    {
       "id": "greenhouse-stripe",
       "type": "greenhouse",
       "employer": "stripe",
@@ -4862,12 +4872,14 @@
         "Société Générale",
         "Societe Generale"
       ],
-      "direct_sources": [],
+      "direct_sources": [
+        "socgen-us"
+      ],
       "feed_sources": [
         "simplify-public-internships"
       ],
-      "coverage": "public_feed_incomplete",
-      "note": "Official careers pages are accessible, but complete job-search pagination and a current public feed have not been integrated. Public Simplify feed discovery remains enabled; it cannot guarantee all openings or immediate employer updates."
+      "coverage": "direct_and_public_feed",
+      "note": "Official public Quantum careers search: complete declared US result pagination, exact employer job schema, and Taleo application identity. Anonymous website search tokens stay in memory. Internship evidence is required; ordinary investment banking roles remain outside the configured families."
     },
     {
       "company": "Squarepoint Capital",

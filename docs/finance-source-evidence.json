@@ -535,14 +535,20 @@
       "count": 19,
       "included": 1,
       "seconds": 16.94
+    },
+    "socgen-us": {
+      "status": "ok",
+      "count": 75,
+      "included": 0,
+      "seconds": 19.33
     }
   },
   "summary": {
     "requested": 108,
-    "new_sources": 88,
-    "enabled_sources": 211,
+    "new_sources": 89,
+    "enabled_sources": 212,
     "watchlist": 212,
-    "requested_direct": 88,
+    "requested_direct": 89,
     "gaps": {
       "Balyasny Asset Management": "Public Salesforce guest careers page is a JavaScript shell; a complete guest feed has not been verified.",
       "BNP Paribas": "The official job-search route could not be collected under its robots policy. No access bypass is used.",
@@ -559,7 +565,6 @@
       "Nomura": "The official campus Tal.net directory returned a human-verification challenge. It is not bypassed.",
       "Quantlab": "Official careers routes could not be collected under their robots/access policy; no current public ATS feed verified.",
       "Seven Eight Capital": "The published home and careers routes returned tiny pages with no verifiable job directory; the guessed ATS board did not exist.",
-      "Société Générale": "Official careers pages are accessible, but complete job-search pagination and a current public feed have not been integrated.",
       "Susquehanna International Group": "The reviewed SIG iCIMS directory could not be collected under its robots policy.",
       "TGS Management": "The official site could not be collected under its robots/access policy; no current direct ATS route verified.",
       "Wells Fargo": "Official HTML is accessible, but observed keyword/worker-type query parameters returned unfiltered results; completeness for a bounded internship poll has not been established. The reviewed Workday route could not be collected under its robots policy.",

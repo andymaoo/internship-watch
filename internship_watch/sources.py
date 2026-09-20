@@ -234,6 +234,8 @@ def collect(source: dict, client) -> list[dict]:
     from . import finance_sources
     from .ubs_source import ubs
     ADAPTERS['ubs'] = ubs
+    from .socgen_source import socgen
+    ADAPTERS['socgen'] = socgen
     for name in ("deshaw", "trexquant", "groupone", "bankofamerica", "icims_board", "panagora", "finance_avature", "moodys", "renaissance"):
         ADAPTERS[name] = getattr(finance_sources, name)
     for name in ('workday', 'jibe', 'atlassian', 'jobvite', 'oracle'):

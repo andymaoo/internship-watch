@@ -145,6 +145,9 @@ def title_compatible(expected, actual, *, same_identifier=False):
 
 
 def employer_compatible(expected, actual, url):
+    import unicodedata
+    expected = unicodedata.normalize('NFKD',str(expected or '')).encode('ascii','ignore').decode()
+    actual = unicodedata.normalize('NFKD',str(actual or '')).encode('ascii','ignore').decode()
     expected, actual = normalized(expected), normalized(actual)
     if not actual or not expected or expected in actual or actual in expected:
         return True

@@ -184,7 +184,7 @@ class EmployerValidationTests(unittest.TestCase):
     def test_every_requested_company_can_queue_a_new_qualifying_record_once(self,_):
         config=json.loads((Path(__file__).resolve().parents[1]/'config.example.json').read_text(encoding='utf8'))
         self.assertEqual(len(config['company_watchlist']),212)
-        self.assertEqual(sum(bool(c['direct_sources']) for c in config['company_watchlist']),186)
+        self.assertEqual(sum(bool(c['direct_sources']) for c in config['company_watchlist']),187)
         configured={s['id'] for s in config['sources'] if s.get('enabled',True)}
         for company in config['company_watchlist']:
             self.assertTrue(set(company['direct_sources']+company['feed_sources']) <= configured)
