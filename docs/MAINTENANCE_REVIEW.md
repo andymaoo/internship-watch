@@ -4,7 +4,68 @@ The daily Codex follow-up is active in the original task at 09:00 local time.
 It should investigate stored incidents and apply tested reversible repairs under
 the policy in `MAINTENANCE.md`. Azure monitoring is independent of that follow-up.
 
-Reviewed in this session:
+## Daily follow-up — 2026-09-20, 19:36 UTC observation
+
+Runtime remains `1d36c8261773`; no reproducible application defect was found and
+no runtime code, filters, source restrictions, job statuses or delivery records
+were changed.
+
+- Normal SSH failed twice before authentication. Azure showed the same public
+  VM address and a running VM. Its `default-allow-ssh` rule still permits TCP 22
+  from one `/32` address; the current client address no longer matches it.
+  Fresh scraper and supervisor heartbeats were visible in the signed-in
+  Healthchecks account. Read-only health queries therefore used the existing
+  authenticated Azure Run Command interface. The firewall was not changed.
+- Grouped a new `management:ssh-client-ip` maintenance ticket separately from
+  worker incidents. Requested approval to replace the single-IP entry with the
+  current client IP, retaining key authentication. Do not widen the rule or
+  repeatedly notify about this unchanged request. Resolve the ticket only after
+  an actual SSH connection succeeds. The Azure management fallback remains
+  available while its existing account session is valid.
+- Since run 247, the observed window contained 161 successful, eight degraded,
+  two interrupted and one running cycle. Latest completed runs 416 and 417
+  passed all 213 sources in 301.967 and 307.430 seconds. No source was currently
+  failing, and the worker outbox held ten delivered messages and zero pending.
+  The weekly canary receipt remained intact; no additional test was sent.
+- Recovered source issues included changing pagination totals at AMD (twice)
+  and Nvidia, one unverifiable Barclays robots-policy response, one S&P Global
+  response missing title/path, and earlier Wellington/Unity failures. Later
+  normal scheduled collections succeeded. These observations do not reproduce
+  a code defect; strict completeness/access checks remain enabled.
+- The due-validation count rose from 277 at run 246 to 687 at run 417, with
+  696 at run 416. It is a real accumulated recheck queue, not proof of a new-job
+  notification delay. The separate due-row inspection was largely ambiguous
+  or excluded records. The oldest due included record was scheduled for
+  18:38:55 UTC, within the configured two-hour alert window when inspected.
+  Continue tracking lower-priority queue age and qualifying lag; this review
+  does not establish long-term capacity or claim all checks are resolved.
+- Runs 263 and 264 were interrupted around 06:37 UTC. The journal records
+  explicit systemd stop/start events; the same host boot continued, automatic
+  crash restart count was zero, and no kernel OOM events were found. The stop
+  initiator was not determined. Collection recovered and remained current.
+  Observed service memory was about 502 MiB, peak 627 MiB; compare subsequent
+  observations before diagnosing a leak or proposing a larger paid host.
+- The local backup still had verified restores of both databases at 05:09:58
+  UTC, within its 36-hour freshness threshold. Off-host credentials remain the
+  known outstanding setup item. The deployed-code and latest committed-docs CI
+  passed; the later pip dependency scan also succeeded. The two Actions major
+  upgrade proposals remain unmerged pending their separate review.
+
+The review marker and management-access ticket were saved on Azure at 19:42:22
+UTC. A fresh supervisor run completed with no failed or duplicate deliveries;
+the latest worker completion was 19:40:18 UTC. Approval of the SSH rule change
+was still pending, so the rule remained unchanged.
+
+This daily review did not perform a new careers-site/season audit or rerun a
+full regression suite: there was no code change. The next weekly
+cursor remains the 24 coverage gaps, official permitted routes, Simplify season
+continuity and the two Actions upgrade proposals. On the next daily review,
+check the management-access ticket, lower-priority recheck age, memory trend
+and any recurrence of the recovered source errors.
+
+## Initial deployment review — 2026-09-20, 04:45–05:13 UTC
+
+Reviewed during deployment:
 
 - All 213 enabled sources through actual Azure collection and the new normalized
   contracts. First pass: 212 successes and one Group One robots-policy/access

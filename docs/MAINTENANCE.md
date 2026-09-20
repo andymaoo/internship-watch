@@ -120,6 +120,16 @@ sudo -u internship-watch .venv/bin/python -m internship_watch.maintenance \
   --reason 'Reviewed live maintenance evidence, source failures, backup proof and CI; describe remaining issues here'
 ```
 
+If SSH times out, first check the VM and independent heartbeats before declaring
+the worker down. The Azure SSH rule is restricted to one client IP and a changed
+home/campus connection can invalidate it. The existing signed-in Azure Run
+Command interface can perform bounded, redacted health queries without changing
+that firewall rule. Avoid printing private environment files or putting secrets
+in command scripts. Record review metadata as the `internship-watch` account so
+the supervisor can read its files. Obtain the required owner confirmation before
+changing server-access rules; keep a single management-access ticket until an
+actual SSH connection verifies recovery.
+
 ## Commands and stopping
 
 For updates, stage and test a release from the user's private
