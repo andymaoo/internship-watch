@@ -83,6 +83,46 @@ class PlatformSourceTests(unittest.TestCase):
         denied=Mock();denied.get.side_effect=TimeoutError('test timeout')
         self.assertEqual(check_posting(record,spec,denied)['status'],'unverified')
 
+    def test_reviewed_workday_url_and_site_aliases_preserve_identity(self):
+        from internship_watch.platform_sources import workday_detail
+        for tenant, requested, published, cluster in [('fmr','fidelitycareers','FidelityCareers','wd1'),
+                                                       ('icf','icfexternal_career_site','ICFExternal_Career_Site','wd5')]:
+            url=f'https://{tenant}.{cluster}.myworkdayjobs.com/{requested}'+wd_row('R123')['externalPath']
+            detail=wd_detail();info=detail['jobPostingInfo'];info['jobPostingSiteId']=published
+            info['externalUrl']=(f'https://{cluster}.myworkdaysite.com/recruiting/{tenant}/{published}' if tenant=='fmr'
+                                 else f'https://{tenant}.{cluster}.myworkdayjobs.com/{published}')+wd_row('R123')['externalPath']
+            spec=workday_spec(url)
+            self.assertEqual(workday_detail(spec,Client(detail))['jobPostingInfo']['jobReqId'],'R123')
+            for key,value in [('externalUrl',info['externalUrl'].replace(tenant,'other',1)),
+                              ('externalUrl',info['externalUrl'].replace(cluster,'wd99',1)),
+                              ('externalUrl',info['externalUrl'].replace(published,'Internal',1)),
+                              ('externalUrl',info['externalUrl'].replace('_R123','_R124')),
+                              ('jobPostingSiteId','Internal')]:
+                wrong=copy.deepcopy(detail);wrong['jobPostingInfo'][key]=value
+                with self.subTest(tenant=tenant,key=key,value=value),self.assertRaises(SourceError):
+                    workday_detail(spec,Client(wrong))
+
+    def test_workday_country_facet_underscore_variant(self):
+        source=dict(id='wd',type='workday',url=BOARD,queries=['intern'],country_scope=['US'])
+        facets=[dict(facetParameter='Location_Country',values=[dict(id='us',descriptor='United States of America')])]
+        client=BothClient(dict(total=50,jobPostings=[],facets=facets),
+                          dict(total=1,jobPostings=[wd_row('R123')]),wd_detail())
+        self.assertEqual(len(collect(source,client)),1)
+        self.assertEqual(client.calls[1][1]['json']['appliedFacets'],{'Location_Country':['us']})
+        # A malformed US result still fails; filtering must not silence schema defects.
+        with self.assertRaises(SourceError):
+            collect(source,BothClient(dict(total=50,jobPostings=[],facets=facets),
+                                      dict(total=1,jobPostings=[{'bulletFields':['R123']}])))
+
+    def test_intern_token_may_move_only_with_independently_verified_identity(self):
+        from internship_watch.links import title_compatible
+        expected='Software Developer Intern'
+        actual='2027 Summer Intern, Software Developer (Reston, VA)'
+        self.assertTrue(title_compatible(expected,actual,same_identifier=True))
+        self.assertFalse(title_compatible(expected,actual))
+        self.assertFalse(title_compatible(expected,'2027 Software Developer',same_identifier=True))
+        self.assertFalse(title_compatible(expected,'2027 Summer Intern, Product Manager',same_identifier=True))
+
     def test_jibe_pagination_dedupes_searches_and_rejects_incomplete(self):
         source=dict(id='jibe',type='jibe',url='https://careers.amd.com',queries=['intern','co-op'])
         one={'data':dict(slug='123',req_id='123',title='Software Intern',description='Intern building software',

@@ -68,11 +68,24 @@ class Repairs:
         self.store = store
         store.db.executescript(SCHEMA)
 
-    def observe(self, key, active, severity, evidence, action, alert=True):
+    def observe(self, key, active, severity, evidence, action, alert=True, recovery_seconds=0):
         previous = self.store.db.execute('SELECT * FROM repair_tickets WHERE key=?', (key,)).fetchone()
         if not active and not previous:
             return
         stamp = now()
+        if recovery_seconds:
+            marker = 'recovery-pending:' + key
+            with self.store.transaction():
+                if active or not previous or previous['state'] != 'open':
+                    self.store.db.execute('DELETE FROM meta WHERE key=?', (marker,))
+                else:
+                    pending = self.store.db.execute('SELECT value FROM meta WHERE key=?', (marker,)).fetchone()
+                    if not pending:
+                        self.store.db.execute('INSERT INTO meta VALUES(?,?)', (marker,stamp))
+                        return
+                    if age(pending['value'], datetime.fromisoformat(stamp)) < recovery_seconds:
+                        return
+                    self.store.db.execute('DELETE FROM meta WHERE key=?', (marker,))
         signature = hashlib.sha256(dump(evidence).encode()).hexdigest()
         state = 'open' if active else 'resolved'
         changed = not previous or previous['state'] != state or (active and previous['signature'] != signature)
@@ -179,6 +192,14 @@ def inspect_sources(db, repairs, config):
     return {'enabled': len(sources), 'with_live_samples': checked}
 
 
+def validation_backlog_growing(backlog, already_open):
+    if len(backlog) != 6 or not all(isinstance(n, int) for n in backlog):
+        return bool(already_open)  # Missing history is not recovery evidence.
+    net = backlog[0] - backlog[-1]
+    return (net > 0 if already_open else
+            net >= 50 and sum(a > b for a,b in zip(backlog,backlog[1:])) >= 3)
+
+
 def inspect_worker(db, repairs, config):
     settings = config.get('maintenance', {})
     last = db.execute("SELECT * FROM runs WHERE status IN ('ok','degraded') ORDER BY id DESC LIMIT 1").fetchone()
@@ -193,12 +214,22 @@ def inspect_worker(db, repairs, config):
         'Inspect slow sources and validation workload; preserve request limits and no-overlap locking.')
     due = db.execute("SELECT COUNT(*) count,MIN(COALESCE(next_check,first_seen)) oldest FROM jobs WHERE classification='include' "
                      "AND (next_check IS NULL OR next_check<=?)", (now(),)).fetchone()
-    stale = bool(due['count']) and age(due['oldest']) > settings.get('validation_lag_seconds', 7200)
+    def open_ticket(key):
+        row = repairs.store.db.execute('SELECT state FROM repair_tickets WHERE key=?', (key,)).fetchone()
+        return row and row['state']=='open'
+    lag_limit = settings.get('validation_lag_seconds', 7200)
+    if open_ticket('validation-lag'):
+        lag_limit = min(lag_limit,settings.get('validation_lag_recovery_seconds',3600))
+    stale = bool(due['count']) and age(due['oldest']) > lag_limit
+    recovery_seconds = settings.get('validation_recovery_seconds',1800)
     repairs.observe('validation-lag', stale, 'warning', {'qualifying_due': due['count'], 'oldest_due': due['oldest']},
-        'Inspect validation throughput and access failures. Pending checks remain unverified; do not force open/closed statuses.')
+        'Inspect validation throughput and access failures. Recovery requires sustained lower lag; pending checks remain unverified.',
+        recovery_seconds=recovery_seconds)
     backlog = [s.get('metrics', {}).get('validation_due') for s in summaries]
-    growth = len(backlog) == 6 and all(isinstance(n, int) for n in backlog) and all(a > b for a, b in zip(backlog, backlog[1:])) and backlog[0] - backlog[-1] >= 50
-    repairs.observe('validation-backlog-growth', growth, 'warning', {'recent_due': backlog}, 'Investigate sustained backlog growth and prioritize qualifying new records.')
+    growth = validation_backlog_growing(backlog,open_ticket('validation-backlog-growth'))
+    repairs.observe('validation-backlog-growth', growth, 'warning', {'recent_due': backlog},
+        'Investigate sustained backlog growth and prioritize qualifying new records. Recovery requires sustained non-growth.',
+        recovery_seconds=recovery_seconds)
     failures = db.execute("SELECT COUNT(*) count,MIN(created_at) oldest,MAX(attempts) attempts FROM outbox WHERE status='pending' AND attempts>0").fetchone()
     repairs.observe('worker-notification-failure', bool(failures['count']) and (failures['attempts'] >= 3 or age(failures['oldest']) > 3600), 'critical',
         dict(failures), 'Check the private webhook configuration and provider status; keep failed messages queued.')

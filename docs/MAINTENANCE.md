@@ -12,12 +12,28 @@ public-feed-only gaps stay explicitly incomplete.
 | --- | --- | --- |
 | Every worker poll, target 5 minutes | Required normalized identity/title/employer; duplicate IDs; count, description/location/URL completeness; destination hosts | Reject malformed collection transactions. Preserve jobs and delivery history. Save bounded telemetry from all enabled sources, including sources with no in-scope matches. Existing per-source failure alerts apply. |
 | Every 15 minutes | Compare 3 real consecutive successful polls with an accepted baseline | Open one incident for count below 50% of a baseline of at least 20, strong missing-field regression, or new employer destination host. Public feeds can legitimately add hosts. A baseline is established after 3 successes, follows sustained growth, and never learns a sustained decline. |
-| Every 15 minutes | Worker completion older than 20 minutes; source attempts/report older than 30 minutes; 3 cycles above 150% of polling target; qualifying checks overdue 2 hours; six increasing validation backlogs growing by at least 50; notification retry problems | Retain one repair ticket and alert; recovery is announced only if the original alert was delivered. Thresholds are configurable. |
+| Every 15 minutes | Worker completion older than 20 minutes; source attempts/report older than 30 minutes; 3 cycles above 150% of polling target; qualifying checks overdue 2 hours; net validation backlog growth of at least 50 over six polls with at least three increases; notification retry problems | Retain one repair ticket and alert; recovery is announced only if the original alert was delivered. Queue warnings use sustained recovery thresholds described below. |
 | Daily, during a supervisor run | Simplify public repository redirects/canonical name, archived status, configured branch/path commit; feed unchanged for 14 days | Record evidence and request review. A transient metadata failure gets hourly retries and alerts after 3 failures. No automatic season switch. |
 | Daily | SQLite quick check; separate local online backup, restored copy and all-table hashes | Monitor proof freshness. Local copies are explicitly distinct from off-host recovery. Repair DB and alert receipts are backed up too. |
 | Every 15 minutes | Disk below 2 GiB or 10% free; missing/stale backup restore evidence beyond 36 hours | Alert through independent supervisor outbox. |
 | Weekly | A labeled test message through the actual worker outbox; grouped unresolved-issue reminder | Require saved Discord acknowledgement within 30 minutes. Does not submit applications or consume job notification keys. |
 | Weekly | CI regressions; dependency update proposals | Test pinned runtime; review dependency PRs before deployment. No automatic merging. |
+
+Validation queue warnings now require 30 minutes of healthy observations before
+recovery. A lag warning opens at two hours overdue and must fall below one hour
+before that recovery window starts. Backlog growth tolerates small count dips;
+an open incident requires non-growth before recovery starts. The persistent
+recovery marker is cleared on relapse. Defaults are configurable with
+`validation_recovery_seconds` and `validation_lag_recovery_seconds`.
+
+`validation_workers` permits 1–4 simultaneous link checks (the example uses 2).
+Workers use separate HTTP sessions but share per-host pacing, robots rules and
+rate-limit cooldowns. SQLite writes stay on the main thread; the same wall-clock
+validation budget and no-overlap worker lock still apply. Repeated identical
+Workday identity/content mismatches receive the existing longer unverified
+recheck interval; unknown errors, timeouts, 429s and temporary server failures
+retain short retries. This improves capacity without declaring unresolved links
+open or closed. Measure real scheduled runs before claiming backlog stability.
 
 Each adapter continues its existing pagination and schema checks. The source
 contracts supplement these checks, using actual scheduled collections rather

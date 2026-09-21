@@ -6,7 +6,7 @@ from datetime import datetime
 from pathlib import Path
 from unittest.mock import Mock, patch
 
-from internship_watch.runner import recheck_policy, run_once, validation_candidates
+from internship_watch.runner import recheck_policy, run_once, validation_candidates, validations
 from internship_watch.storage import Store
 from tests.test_notification_policy import checked, listing
 
@@ -21,6 +21,49 @@ def unresolved(job, evidence, http_status=None):
 
 
 class ValidationScheduleTests(unittest.TestCase):
+    def test_parallel_validation_uses_independent_clients_with_a_shared_deadline(self):
+        import threading,time
+        from types import SimpleNamespace
+        barrier=threading.Barrier(2);children=[]
+        def fork():
+            child=SimpleNamespace(deadline=None,close=Mock());children.append(child);return child
+        client=SimpleNamespace(fork=fork);deadline=time.monotonic()+5
+        def validator(job,child):
+            self.assertEqual(child.deadline,deadline)
+            barrier.wait(timeout=2)
+            return checked(job)
+        rows=[{'id':str(i),'payload':json.dumps(listing(i))} for i in (1,2)]
+        results=list(validations(rows,validator,client,deadline,2))
+        self.assertEqual({r[0]['id'] for r in results},{'1','2'})
+        self.assertEqual(len({id(c) for c in children}),2)
+        self.assertTrue(all(c.close.call_count==1 for c in children))
+        self.assertEqual(list(validations(rows,validator,client,time.monotonic()-1,2)),[])
+
+    def test_parallel_pipeline_preserves_delivery_identity_after_restart(self):
+        from internship_watch.http import HttpClient
+        from contextlib import closing
+        with tempfile.TemporaryDirectory() as directory,patch('internship_watch.runner.heartbeat'):
+            config={'database':str(Path(directory)/'jobs.db'),'sources':[{'id':'one'}],
+                    'validation_workers':2,'initial_run':'silent'}
+            sender=Mock();sender.send.return_value='test-receipt'
+            client=HttpClient(resolve_dns=False)
+            try:
+                def run(items):
+                    return run_once(config,collector=lambda *_:items,validator=lambda job,_:checked(job),
+                                    client=client,sender=sender)
+                run([listing(1)])
+                result=run([listing(1),listing(2),listing(3)])
+                self.assertEqual(result['checked'],2)
+                self.assertEqual(result['delivery']['delivered'],2)
+                result=run([listing(1),listing(2),listing(3)])
+                self.assertEqual(result['checked'],0)
+                self.assertEqual(sender.send.call_count,2)
+                with closing(Store(config['database'])) as store:
+                    self.assertEqual(len(store.rows('SELECT * FROM jobs')),3)
+                    self.assertEqual(len(store.rows("SELECT * FROM outbox WHERE status='delivered'")),2)
+            finally:
+                client.close()
+
     def test_included_matches_precede_older_ambiguous_in_each_fair_group(self):
         with tempfile.TemporaryDirectory() as directory:
             store = Store(Path(directory) / "jobs.sqlite3")
@@ -94,6 +137,21 @@ class ValidationScheduleTests(unittest.TestCase):
         self.assertEqual(recheck_policy(result, {}, result), (43200, "persistent_access_or_content_problem"))
         self.assertEqual(recheck_policy(checked(job), {}, result), (86400, "verified_open"))
         self.assertEqual(recheck_policy(checked(job, "closed", "unverified"), {}, result), (604800, "posting_closed"))
+
+    def test_repeat_employer_identity_failure_backs_off_but_transport_does_not(self):
+        job=listing(123)
+        for detail in ['ValueError:Workday employer mismatch','ValueError:Workday title mismatch',
+                       'SourceError:Workday returned a different posting/site']:
+            result=unresolved(job,['expected_job_identity_not_verified'])
+            result['checks'].insert(1,{'kind':'posting_api','status':'unverified','requested_url':job['description_url'],
+                'evidence':['public_employer_detail_unverified:'+detail]})
+            self.assertEqual(recheck_policy(result,{},None),(3600,'first_or_transient_unverified'))
+            self.assertEqual(recheck_policy(result,{},result),(43200,'persistent_access_or_content_problem'))
+        for detail in ['ReadTimeout:timeout','HTTPError:429 Too Many Requests','SourceError:New unknown response']:
+            result=unresolved(job,['expected_job_identity_not_verified'])
+            result['checks'].insert(1,{'kind':'posting_api','status':'unverified',
+                'evidence':['public_employer_detail_unverified:'+detail]})
+            self.assertEqual(recheck_policy(result,{},result),(3600,'first_or_transient_unverified'))
 
     def test_successful_posting_api_fallback_ignores_prior_page_timeout_for_retry_class(self):
         job = listing(123)

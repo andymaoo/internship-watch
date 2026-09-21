@@ -41,6 +41,30 @@ class MaintenanceTests(unittest.TestCase):
         row = self.monitor.db.execute('SELECT * FROM repair_tickets WHERE key=?', (key,)).fetchone()
         return dict(row) if row else None
 
+    def test_recovery_grace_persists_and_a_relapse_restarts_it(self):
+        def observe(active, stamp):
+            with patch('internship_watch.maintenance.now',return_value=stamp):
+                Repairs(self.monitor).observe('validation-lag',active,'warning',{},'Review',recovery_seconds=1800)
+        observe(True,'2026-09-21T01:00:00+00:00')
+        observe(False,'2026-09-21T01:15:00+00:00')
+        self.assertEqual(self.ticket('validation-lag')['state'],'open')
+        observe(False,'2026-09-21T01:30:00+00:00')
+        self.assertEqual(self.ticket('validation-lag')['state'],'open')
+        observe(True,'2026-09-21T01:35:00+00:00')
+        observe(False,'2026-09-21T01:45:00+00:00')
+        observe(False,'2026-09-21T02:00:00+00:00')
+        self.assertEqual(self.ticket('validation-lag')['state'],'open')
+        observe(False,'2026-09-21T02:15:00+00:00')
+        self.assertEqual(self.ticket('validation-lag')['state'],'resolved')
+        self.assertEqual(self.monitor.db.execute("SELECT COUNT(*) FROM repair_events WHERE ticket='validation-lag'").fetchone()[0],2)
+
+    def test_backlog_trend_tolerates_a_small_dip_and_recovery_needs_non_growth(self):
+        from internship_watch.maintenance import validation_backlog_growing
+        self.assertTrue(validation_backlog_growing([730,725,728,690,680,650],False))
+        self.assertTrue(validation_backlog_growing([701,710,709,700,690,680],True))
+        self.assertFalse(validation_backlog_growing([650,670,680,685,690,700],True))
+        self.assertFalse(validation_backlog_growing([730,None,720],False))
+
     def test_collection_contract_rejects_duplicate_ids_before_storage(self):
         sender = Mock()
         with patch('internship_watch.runner.heartbeat'):

@@ -139,14 +139,40 @@ def workday_spec(url):
     return spec
 
 
+def _workday_returned_spec(url):
+    """Recognize Workday's shared recruiting host without changing stored IDs."""
+    parsed = urlsplit(url)
+    if parsed.scheme != 'https' or parsed.username or parsed.password or parsed.port not in (None,443):
+        return None
+    cluster = re.fullmatch(r'(wd\d+)\.myworkdaysite\.com', parsed.hostname or '')
+    if cluster:
+        parts = parsed.path.strip('/').split('/')
+        if (len(parts) < 5 or parts[0] != 'recruiting' or
+                not re.fullmatch(r'[a-z0-9-]+', parts[1])):
+            return None
+        url = 'https://' + parts[1] + '.' + cluster[1] + '.myworkdayjobs.com/' + '/'.join(parts[2:])
+    return workday_spec(url)
+
+
+def _workday_site_key(tenant, site):
+    # Live employer detail responses confirm these case-only site aliases.
+    # Do not case-fold unknown sites or rewrite existing source/job identities.
+    aliases = {('fmr', 'fidelitycareers'): 'FidelityCareers',
+               ('icf', 'icfexternal_career_site'): 'ICFExternal_Career_Site'}
+    return aliases.get((tenant, str(site).lower()), site)
+
+
 def workday_detail(spec, client):
     data = _json(client, spec['api']+spec['path'], respect_robots=True)
     info = data.get('jobPostingInfo')
     if not isinstance(info, dict):
         raise SourceError('Missing Workday jobPostingInfo')
-    returned = workday_spec(info.get('externalUrl', ''))
-    if (not returned or returned.get('id') != spec['id'] or returned['board'] != spec['board']
-            or returned['base'] != spec['base'] or info.get('jobPostingSiteId') != spec['site']):
+    returned = _workday_returned_spec(info.get('externalUrl', ''))
+    site = _workday_site_key(spec['tenant'], spec['site'])
+    if (not returned or returned.get('id') != spec['id'] or returned['tenant'] != spec['tenant']
+            or returned['base'] != spec['base']
+            or _workday_site_key(returned['tenant'], returned['site']) != site
+            or _workday_site_key(spec['tenant'], info.get('jobPostingSiteId')) != site):
         raise SourceError('Workday returned a different posting/site')
     _required(info, 'id', 'title', 'jobDescription', 'jobReqId')
     # Workday posting instances may append -1, -2 etc. Keep those distinct.
@@ -175,7 +201,8 @@ def workday(source, client):
         if source.get('country_scope'):
             if source['country_scope'] != ['US']:
                 raise SourceError('Only reviewed US Workday country scope is supported')
-            country = next((f for f in discovery.get('facets',[]) if f.get('facetParameter') in ('locationCountry','Country')),None)
+            country = next((f for f in discovery.get('facets',[]) if f.get('facetParameter') in
+                            ('locationCountry','Country','Location_Country')),None)
             values = [] if country is None else [v for v in country.get('values',[])
                 if v.get('descriptor') in ('United States', 'United States of America', 'USA')]
             if len(values)==1 and isinstance(values[0].get('id'),str) and values[0]['id']:

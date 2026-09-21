@@ -52,7 +52,8 @@ class FinanceLinkRepairs(unittest.TestCase):
         pairs=[('CME Group','CME Chicago Mercantile Exchange Inc.','cmegroup.wd1.myworkdayjobs.com'),
                ('S&P Global','1115 KENSHO TECHNOLOGIES LLC','spgi.wd5.myworkdayjobs.com'),
                ('PIMCO','0200 Pacific Investment Mgt Co. LLC','pimco.wd1.myworkdayjobs.com'),
-               ('BMO Capital Markets','Bank of Montreal','bmo.wd3.myworkdayjobs.com')]
+               ('BMO Capital Markets','Bank of Montreal','bmo.wd3.myworkdayjobs.com'),
+               ('Northrop Grumman','0090 CORP-Corporate Office','ngc.wd1.myworkdayjobs.com')]
         for display,legal,host in pairs:
             self.assertTrue(employer_compatible(display,legal,'https://'+host+'/jobs/12345'))
             self.assertFalse(employer_compatible(display,legal,'https://other.wd1.myworkdayjobs.com/jobs/12345'))

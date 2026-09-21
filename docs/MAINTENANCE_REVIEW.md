@@ -1,8 +1,24 @@
-# Maintenance review — 2026-09-20 UTC
+# Maintenance reviews
 
 The daily Codex follow-up is active in the original task at 09:00 local time.
 It should investigate stored incidents and apply tested reversible repairs under
 the policy in `MAINTENANCE.md`. Azure monitoring is independent of that follow-up.
+
+## Incident repair preparation — 2026-09-21 UTC
+
+The owner requested repair of the reproduced Fidelity and State Street failures
+and validation issues. See `REPAIR_2026-09-21.md` for the precise changes, live
+source/link evidence and 335 passing local application regressions plus seven
+backup tests. Oracle passed unchanged. Repairs also address repeated structural
+validation retries, bounded validation concurrency and queue-alert flapping.
+The user's citizenship, sponsorship, geography and role filters are preserved.
+
+At preparation time SSH was again blocked by a changed client IP. The existing
+Azure browser session provided read-only production inspection; the single-IP
+allowlist replacement was requested and remains pending confirmation. No server
+access rule or production release was changed. Deployment, fresh verified
+off-host snapshots and consecutive actual-host acceptance runs remain required.
+The previous weekly coverage/dependency review cursor below remains unchanged.
 
 ## Daily follow-up — 2026-09-20, 19:36 UTC observation
 

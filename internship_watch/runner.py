@@ -59,6 +59,54 @@ def later(seconds):
     return (datetime.now(timezone.utc) + timedelta(seconds=seconds)).isoformat(timespec="seconds")
 
 
+def validations(rows, validator, client, deadline, workers=1):
+    """Bound network-only concurrency; the caller retains all SQLite writes."""
+    if not isinstance(workers,int) or not 1 <= workers <= 4:
+        raise ValueError('validation_workers must be between 1 and 4')
+    def budget_exhausted(result):
+        return any('work_budget_exhausted' in item.get('evidence',[])
+                   for item in result.get('checks',[]))
+    def check(row):
+        job = json.loads(row['payload'])
+        worker = client.fork() if workers > 1 else client
+        worker.deadline = deadline
+        try:
+            try:
+                result = validator(job,worker)
+            except Exception as exc:
+                result = {'status':'unverified','checks':[{'error':f'{type(exc).__name__}: {exc}'[:300]}]}
+            return row,job,result
+        finally:
+            if workers > 1:
+                worker.close()
+    if workers == 1:
+        for row in rows:
+            if time.monotonic() >= deadline:
+                return
+            result = check(row)
+            yield result
+            if budget_exhausted(result[2]):
+                return
+        return
+    rows = iter(rows)
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        pending = set()
+        exhausted = False
+        while True:
+            while not exhausted and len(pending) < workers and time.monotonic() < deadline:
+                row = next(rows,None)
+                if row is None:
+                    break
+                pending.add(executor.submit(check,row))
+            if not pending:
+                return
+            done,pending = wait(pending,return_when=FIRST_COMPLETED)
+            for future in done:
+                result = future.result()
+                exhausted = exhausted or budget_exhausted(result[2])
+                yield result
+
+
 
 VALIDATION_CANDIDATE = ("(classification='include' OR (classification='ambiguous' AND "
                         "json_extract(evidence,'$.positive_opportunity_evidence')=1) OR "
@@ -141,6 +189,11 @@ def stable_unverified_signature(result):
         "public_api_identifier_mismatch": "identity", "public_api_canonical_url_mismatch": "identity",
         "public_api_title_mismatch": "identity", "exact_job_absent_from_public_api": "api_absent",
         "public_api_unavailable:404": "api_absent", "public_api_unavailable:410": "api_absent",
+        "public_employer_detail_unverified:ValueError:Workday employer mismatch": "identity",
+        "public_employer_detail_unverified:ValueError:Workday title mismatch": "identity",
+        "public_employer_detail_unverified:SourceError:Workday returned a different posting/site": "identity",
+        "public_employer_detail_unverified:SourceError:Workday requisition mismatch": "identity",
+        "public_employer_detail_unverified:ValueError:Missing meaningful Workday description": "description",
     }
     signature = set()
     for check in selected:
@@ -296,14 +349,8 @@ def _run(config, db_path, collector, client, validator, sender):
         pending = validation_candidates(store, max(0, config.get("validation_budget", 100)))
         validation_deadline = time.monotonic() + config.get("validation_seconds", 60)
         client.deadline = validation_deadline
-        for row in pending:
-            if time.monotonic() >= validation_deadline:
-                break
-            job = json.loads(row["payload"])
-            try:
-                result = validator(job, client)
-            except Exception as exc:
-                result = {"status": "unverified", "checks": [{"error": f"{type(exc).__name__}: {exc}"[:300]}]}
+        for row,job,result in validations(pending,validator,client,validation_deadline,
+                                           config.get('validation_workers',1)):
             if result.get("status") not in ("open", "closed", "unverified"):
                 result = {"status": "unverified", "checks": [{"error": "Invalid validator result"}]}
             checks = result.get('checks', [])
@@ -312,8 +359,9 @@ def _run(config, db_path, collector, client, validator, sender):
                 summary['validation_budget_deferred'] = 1
                 if not any('work_budget_exhausted' not in check.get('evidence', []) for check in checks):
                     # No destination could be assessed: retain the previous
-                    # evidence and due time, and stop rather than churning jobs.
-                    break
+                    # evidence and due time. Drain other in-flight checks;
+                    # the shared deadline prevents scheduling more work.
+                    continue
             previous_check = store.db.execute("SELECT result FROM link_checks WHERE job_id=? ORDER BY id DESC LIMIT 1",
                                               (row["id"],)).fetchone() if row["last_checked"] else None
             delay, recheck_reason = recheck_policy(result, config, json.loads(previous_check["result"]) if previous_check else None)
@@ -338,8 +386,6 @@ def _run(config, db_path, collector, client, validator, sender):
                     store.db.execute("UPDATE jobs SET description=?,payload=?,classification=?,category=?,evidence=? WHERE id=?",
                                      (job["description"], dump(job), decision["decision"], decision.get("category"), dump(decision), row["id"]))
             summary["checked"] += 1
-            if deferred:
-                break
         client.deadline = None
         summary["timings_seconds"]["validation"] = round(time.monotonic()-validation_started, 3)
         notification_started = time.monotonic()

@@ -39,6 +39,25 @@ class Client:
 
 
 class LinkTests(unittest.TestCase):
+    def test_employer_greenhouse_embed_supplies_board_but_never_job_validity(self):
+        url='https://example.com/careers/jobs?gh_jid=123456&gh_jid=123456'
+        record=dict(JOB,description_url=url,application_url=url)
+        html='<div id="grnhse_app"></div><script src="https://boards.greenhouse.io/embed/job_board/js?for=example"></script>'
+        api='https://boards-api.greenhouse.io/v1/boards/example/jobs/123456'
+        data=dict(id=123456,title=JOB['title'],company_name='Example',absolute_url=url,content=DESCRIPTION)
+        result=validate_job(record,Client({url:response(html),api:response(json.dumps(data))}))
+        self.assertEqual(result['posting_status'],'open')
+        self.assertEqual(result['application_status'],'unverified')
+        for bad in [dict(data,id=999),dict(data,company_name='Unrelated Company'),
+                    dict(data,absolute_url=url.replace('123456','999'))]:
+            result=validate_job(record,Client({url:response(html),api:response(json.dumps(bad))}))
+            self.assertEqual(result['posting_status'],'unverified')
+        conflict=url.replace('123456&','999&')
+        client=Client({conflict:response(html)})
+        result=validate_job(dict(record,description_url=conflict,application_url=conflict),client)
+        self.assertEqual(len(client.calls),1)
+        self.assertEqual(result['posting_status'],'unverified')
+
     def test_documented_board_namespace_allows_dots_without_path_traversal(self):
         suffix='/8f06f221-8777-4a4d-b035-40882db5f4a0'
         self.assertEqual(provider_spec('https://jobs.ashbyhq.com/mistral.ai'+suffix)['board'],'mistral.ai')

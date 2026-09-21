@@ -16,7 +16,7 @@ from .classify import plain
 from .http import WorkBudgetExhausted
 from .google_source import GoogleDetailError, google_job_id, google_title_matches, parse_google_detail
 
-VALIDATOR_VERSION = 12
+VALIDATOR_VERSION = 13
 
 
 class Page(HTMLParser):
@@ -35,11 +35,18 @@ class Page(HTMLParser):
         self.form_text = []
         self.application_input = False
         self.anchors = []
+        self.greenhouse_boards = set()
         self.anchor = None
         self.feed(text[:2_000_000])
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
+        if tag == 'script' and valid_url(attrs.get('src')):
+            src = urlsplit(attrs['src'])
+            if src.netloc == 'boards.greenhouse.io' and src.path == '/embed/job_board/js':
+                boards = parse_qs(src.query).get('for', [])
+                if len(boards)==1 and re.fullmatch(r'[A-Za-z0-9_-]+',boards[0]):
+                    self.greenhouse_boards.add(boards[0])
         semantic = tag in {"main", "article"} or bool(re.search(r"(?:job[-_ ]?description|posting[-_ ]?content|job[-_ ]?content|description[-_ ]?content)", attrs.get("class", "") + " " + attrs.get("id", ""), re.I))
         if tag not in {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"}:
             self.elements.append((tag, semantic))
@@ -139,6 +146,14 @@ def title_compatible(expected, actual, *, same_identifier=False):
     observed = [aliases.get(word,word) for word in actual.split()]
     if len(wanted) < 3:
         return False
+    if 'intern' in wanted and 'intern' in observed:
+        # Employer titles can place Intern before the role; feed titles often
+        # place it after. Keep the role words ordered and require both sides to
+        # retain the internship token, only after binding the exact posting ID.
+        role = [word for word in wanted if word != 'intern']
+        if len(role) >= 2:
+            wanted = role
+            observed = [word for word in observed if word != 'intern']
     # Ordered token subsequence is deliberately narrower than fuzzy matching.
     iterator = iter(observed)
     return all(any(word == candidate for candidate in iterator) for word in wanted)
@@ -158,6 +173,7 @@ def employer_compatible(expected, actual, url):
         ('spgi.wd5.myworkdayjobs.com','s p global'): {'1115 kensho technologies llc'},
         ('pimco.wd1.myworkdayjobs.com','pimco'): {'0200 pacific investment mgt co llc'},
         ('bmo.wd3.myworkdayjobs.com','bmo capital markets'): {'bank of montreal'},
+        ('ngc.wd1.myworkdayjobs.com','northrop grumman'): {'0090 corp corporate office'},
     }
     if actual in legal_aliases.get((host,expected),set()):
         return True
@@ -303,6 +319,14 @@ def _check(job, url, kind, client, cache):
     if expired:
         check.update(status="closed", evidence=["explicit_expiry:" + expired.group(0)])
         return check
+    if kind == 'description' and len(page.greenhouse_boards)==1:
+        wanted = set(parse_qs(urlsplit(url).query).get('gh_jid',[]))
+        actual = set(parse_qs(urlsplit(check['final_url']).query).get('gh_jid',[]))
+        if wanted == actual and len(wanted)==1 and next(iter(wanted)).isdigit():
+            # The wrapper declares the board, not that the job is active. The
+            # API must still verify employer, requisition, title and description.
+            check['public_posting_hint'] = ('https://job-boards.greenhouse.io/' +
+                next(iter(page.greenhouse_boards)) + '/jobs/' + next(iter(wanted)))
     if google_job_id(url):
         # The page also renders unrelated search results. Do not let their
         # headings or descriptions validate a missing/changed detail record.
@@ -562,6 +586,8 @@ def validate_job(job: dict, client) -> dict:
         posting_check['evidence'].append('recognized_ats_application_url_replaced_for_description')
     checks=[posting_check]
     api_check=None
+    if not spec and posting_check.get('public_posting_hint'):
+        spec=provider_spec(posting_check['public_posting_hint'])
     if spec and (posting_check['status']=='unverified' or
                  'http_not_found_or_gone' in posting_check['evidence']):
         api_check=_api_posting(job,spec,client)
