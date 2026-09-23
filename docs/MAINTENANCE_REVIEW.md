@@ -4,6 +4,69 @@ The daily Codex follow-up is active in the original task at 09:00 local time.
 It should investigate stored incidents and apply tested reversible repairs under
 the policy in `MAINTENANCE.md`. Azure monitoring is independent of that follow-up.
 
+## Daily follow-up — 2026-09-23, 22:23–22:25 UTC observation
+
+Read-only production review used the existing authenticated Azure Run Command
+interface because normal SSH remained unavailable. The pending single-IP
+allowlist change was not performed. Runtime is still `1d36c8261773`; prepared
+repair `2430be8` has not been deployed. No filters, records, notification history,
+source configuration, access rules or production code were changed.
+
+- Worker was active with zero automatic restarts and about 527 MiB current
+  service memory. Runs 1274–1276 completed in 334.276, 308.893 and 319.341 seconds,
+  all degraded, with 211, 212 and 210 of 213 sources succeeding respectively.
+  Fidelity had 760 consecutive failures with the already-reproduced
+  posting/site alias defect. The prepared repair remains the appropriate next
+  step after approved maintenance access, fresh verified off-host snapshots and
+  actual-host staging. State Street had one missing/repeated identity failure
+  after a successful collection at 22:14:48; this single observation does not
+  establish a new code defect or authorize weakening identity validation.
+- The worker outbox contained 190 delivered messages and zero pending, with a
+  receipt at 22:22:17. The supervisor outbox contained 42 delivered and zero
+  pending, with its latest receipt at 21:15:30. The weekly worker canary was
+  acknowledged on September 21 at 00:02:29, on its first attempt. These are
+  provider acknowledgements, not a new inbox-receipt test with the owner.
+- The live Simplify source already uses `SimplifyJobs/Summer2027-Internships`,
+  branch `dev`, path `.github/scripts/listings.json`. Its successful 22:22:40
+  poll returned 4,513 source records with zero source failures. The daily metadata
+  audit at 05:31:05 confirmed the canonical repository and feed commit
+  `e4819a76003d9abeb8cb5782ae9fed09de669ab6`, dated 05:01:33 UTC. No duplicate source
+  was added. This is public-repository coverage, not Simplify website coverage
+  or a guarantee of five-minute upstream publication.
+- Due validation candidates rose from 1,080 to 1,087 to 1,102 over the observed
+  three cycles. The oldest candidate was about four days overdue, including
+  lower-priority records; this must not be presented as the age of a newly
+  qualifying job. The history contained 175 notification decisions with a
+  296-second median and 48,508-second maximum from discovery. These historical
+  values do not establish current worst-case latency or include upstream delays.
+  A separate 22:25:05 query found 262 qualifying rechecks due, oldest at 20:31:10
+  (about 114 minutes overdue), and zero newly included, unverified jobs without
+  any prior link check. Production still uses one validation worker; the prepared
+  two-worker capacity change is not live.
+- The supervisor report was fresh at 22:15:40. Its active warnings were Fidelity,
+  the known missing off-host backup connection, and a stale agent review.
+  Local backup restore proof was current at 04:52:15 on September 23, including
+  the 426,864,640-byte jobs database and `maintenance.sqlite3`; saved row counts
+  included 3,184 jobs, 164 worker outbox rows and 213 source states. Automatic
+  off-host restore evidence remained absent; no repeated credential request was
+  issued.
+- GitHub's latest Tests workflow on `2430be8`, run `35645525695` from September 21
+  at 19:33:12 UTC, completed successfully. The two Actions major-upgrade proposals
+  remain open and unmerged. No code changed, so the existing full regression
+  result was not needlessly repeated.
+
+After these checks, the actual daily review marker was recorded at 22:26:14 UTC
+as the `internship-watch` service account. The saved reason explicitly retains
+the undeployed repair, access requirement, backlog and off-host setup limitations.
+The next regular supervisor execution can evaluate that refreshed marker; this
+review did not force or claim a delivered recovery alert.
+
+The weekly cursor remains the 24 coverage gaps and permitted official routes,
+season continuity beyond the configured feed, and the two dependency proposals.
+This was a daily production review, not a fresh audit of every employer. The
+deferred deployment and off-host backup connection remain separate outstanding
+items; none of these read-only observations proves the pending repair is live.
+
 ## Incident repair preparation — 2026-09-21 UTC
 
 The owner requested repair of the reproduced Fidelity and State Street failures

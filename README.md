@@ -48,6 +48,7 @@ Deduplication uses job-specific URL/requisition identities, not title similarity
 
 ## Configuration and reports
 
+- [Simplify feed verification and separate Handshake/LinkedIn native alerts](docs/ADDITIONAL_DISCOVERY_CHANNELS.md)
 - [Current actual-host acceptance, measured polling and remaining backup setup](docs/FINANCE_ACCEPTANCE.md)
 - [Finance/quant expansion, all 108 requested employers and explicit gaps](docs/FINANCE_EXPANSION.md)
 - [Current company expansion and coverage limits](docs/EXPANSION_100.md)
