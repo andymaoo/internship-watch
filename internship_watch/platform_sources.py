@@ -13,6 +13,23 @@ ORACLE_BASE = 'https://eeho.fa.us2.oraclecloud.com'
 ORACLE_SITE = 'CX_45001'
 
 
+class _SnapshotChanged(SourceError):
+    """An inconsistent search snapshot; retry from scratch, never combine it."""
+
+
+def _stable_snapshot(adapter, source, client):
+    for attempt in range(2):
+        try:
+            rows = adapter(source, client)
+            if attempt:
+                for row in rows:
+                    row['evidence']['collection_snapshot_retries'] = attempt
+            return rows
+        except _SnapshotChanged:
+            if attempt:
+                raise
+
+
 def oracle(source, client):
     """Oracle's public Student/Intern worker-type search, all advertised pages."""
     endpoint = ORACLE_BASE+'/hcmRestApi/resources/latest/'
@@ -61,6 +78,10 @@ def oracle(source, client):
 
 
 def atlassian(source, client):
+    return _stable_snapshot(_atlassian_snapshot, source, client)
+
+
+def _atlassian_snapshot(source, client):
     items = _jobs_list(_json(client,'https://www.atlassian.com/endpoint/careers/listings',respect_robots=True))
     jobs=[]; seen={}
     for item in items:
@@ -68,7 +89,7 @@ def atlassian(source, client):
         identity=str(item['id']);portal=item['portalJobPost']
         if identity in seen:
             if seen[identity]!=item:
-                raise SourceError('Atlassian duplicate requisition has conflicting content')
+                raise _SnapshotChanged('Atlassian duplicate requisition has conflicting content')
             continue
         seen[identity]=item
         if not identity.isdigit() or str(portal.get('id'))!=identity or not isinstance(item['locations'],list):
@@ -292,6 +313,10 @@ def workday(source, client):
 
 
 def jibe(source, client):
+    return _stable_snapshot(_jibe_snapshot, source, client)
+
+
+def _jibe_snapshot(source, client):
     """iCIMS/Jibe public search used by AMD and GitHub career-site UIs."""
     base = source['url'].rstrip('/')
     if urlsplit(base).path not in ('', '/'):
@@ -303,7 +328,7 @@ def jibe(source, client):
             data = _json(client, base+'/api/jobs', params={'keywords':query,'page':page,'limit':100,'lang':'en-us'}, respect_robots=True)
             items, total = _jobs_list(data,'jobs'), _total(data.get('totalCount'))
             if expected is not None and expected != total:
-                raise SourceError('iCIMS total changed during pagination')
+                raise _SnapshotChanged('iCIMS total changed during pagination')
             expected = total
             for entry in items:
                 item = entry.get('data') if isinstance(entry,dict) else None

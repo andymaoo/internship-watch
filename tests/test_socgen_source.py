@@ -80,5 +80,32 @@ class SocGenTests(unittest.TestCase):
         self.assertTrue(employer_compatible('Société Générale','Societe Generale',r['url1']))
         self.assertFalse(employer_compatible('Société Générale','Other Bank',r['url1']))
 
+    def test_expired_detail_does_not_abort_complete_search(self):
+        expired=row(1,'Software Intern','Internship')
+        for status in (404,410):
+            c=client([page([expired,row(2)],2,1)])
+            initial=list(c.get.side_effect)
+            response=Mock(status_code=status,url=expired['url1'])
+            response.raise_for_status.side_effect=AssertionError('Expired detail is retained as evidence')
+            c.get.side_effect=initial+[response]
+            jobs=collect(SOURCE,c)
+            self.assertEqual(len(jobs),2)
+            self.assertEqual(jobs[0]['evidence']['detail_http_status'],status)
+            self.assertEqual(jobs[0]['evidence']['description_kind'],'employer_search_summary')
+            self.assertNotIn('status',jobs[0])
+            self.assertIsNone(jobs[0]['posting_date'])
+            self.assertFalse(c.get.call_args.kwargs['raise_for_status'])
+
+    def test_expired_redirect_and_access_failure_do_not_succeed(self):
+        expired=row(1,'Software Intern','Internship')
+        for status,url in [(410,BASE+'/en'),(410,row(2)['url1']),(403,expired['url1']),
+                           (429,expired['url1']),(503,expired['url1'])]:
+            c=client([page([expired],1,1)])
+            initial=list(c.get.side_effect)
+            response=Mock(status_code=status,url=url)
+            response.raise_for_status.side_effect=SourceError('HTTP failure')
+            c.get.side_effect=initial+[response]
+            with self.assertRaises(SourceError):collect(SOURCE,c)
+
 
 if __name__=='__main__':unittest.main()

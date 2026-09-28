@@ -85,28 +85,36 @@ def socgen(source, client):
         evidence=dict(provider='socgen',provider_job_id=job,search_total=total,
             search_publication_date=row.get('sourcedatetime1'),description_kind='employer_search_summary')
         if re.search(r'\b(?:intern(?:ship)?|co[ -]?op|summer|fellow|residen(?:cy|t))\b', title+' '+str(employment or ''), re.I):
-            response=client.get(url,respect_robots=True);response.raise_for_status()
+            response=client.get(url,respect_robots=True,raise_for_status=False)
             if identity(response.url) != job:
                 raise SourceError('Societe Generale detail redirected to another posting')
-            page=Page(response.text)
-            items=[x for x in page.postings() if (x.get('identifier') or {}).get('value')==job]
-            if len(items)!=1:
-                raise SourceError('Societe Generale expected public job schema unavailable')
-            item=items[0]
-            if (not title_compatible(title,item.get('title'),same_identifier=True)
-                    or not employer_compatible(source['employer'],(item.get('hiringOrganization') or {}).get('name'),url)
-                    or not item.get('description')):
-                raise SourceError('Societe Generale job title/employer/description mismatch')
-            desc=re.split(r'Why join us|Business insight',_description(item['description']),maxsplit=1)[0]
-            employment=item.get('employmentType') or employment
-            if item.get('datePosted'):
-                posting_date=datetime.strptime(item['datePosted'],'%Y/%m/%d').date().isoformat()
-            apps=list(dict.fromkeys(target for target,_ in page.anchors if identity(target)==job
-                                    and urlsplit(target).hostname=='socgen.taleo.net'))
-            if len(apps)>1:raise SourceError('Societe Generale multiple application destinations')
-            if apps:application=apps[0]
-            evidence.update(description_kind='employer_public_detail',posting_date_kind='employer_schema_datePosted',
-                            employer_schema_date=item.get('datePosted'),valid_through=item.get('validThrough'))
+            if response.status_code in (404,410):
+                # Search indexes can retain a withdrawn requisition. Preserve the
+                # observation, not an inferred open/closed state; the validator
+                # checks its exact destination independently before notification.
+                evidence.update(detail_http_status=response.status_code,
+                                detail_final_url=response.url)
+            else:
+                response.raise_for_status()
+                page=Page(response.text)
+                items=[x for x in page.postings() if (x.get('identifier') or {}).get('value')==job]
+                if len(items)!=1:
+                    raise SourceError('Societe Generale expected public job schema unavailable')
+                item=items[0]
+                if (not title_compatible(title,item.get('title'),same_identifier=True)
+                        or not employer_compatible(source['employer'],(item.get('hiringOrganization') or {}).get('name'),url)
+                        or not item.get('description')):
+                    raise SourceError('Societe Generale job title/employer/description mismatch')
+                desc=re.split(r'Why join us|Business insight',_description(item['description']),maxsplit=1)[0]
+                employment=item.get('employmentType') or employment
+                if item.get('datePosted'):
+                    posting_date=datetime.strptime(item['datePosted'],'%Y/%m/%d').date().isoformat()
+                apps=list(dict.fromkeys(target for target,_ in page.anchors if identity(target)==job
+                                        and urlsplit(target).hostname=='socgen.taleo.net'))
+                if len(apps)>1:raise SourceError('Societe Generale multiple application destinations')
+                if apps:application=apps[0]
+                evidence.update(description_kind='employer_public_detail',posting_date_kind='employer_schema_datePosted',
+                                employer_schema_date=item.get('datePosted'),valid_through=item.get('validThrough'))
         jobs.append(_base(source,'socgen',job,title,url,description=desc,application_url=application,
             locations=[row.get('sourcestr7','')],employment_type=employment,posting_date=posting_date,evidence=evidence))
     return jobs

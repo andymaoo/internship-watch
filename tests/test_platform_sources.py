@@ -142,9 +142,35 @@ class PlatformSourceTests(unittest.TestCase):
         self.assertEqual(len(rows),1)
         self.assertEqual(rows[0]['employment_type'],'Internship')
         self.assertEqual(url_identity(rows[0]['description_url']),url_identity(rows[0]['application_url']))
-        with self.assertRaises(SourceError):collect(dict(id='atl',type='atlassian'),Client([one,dict(one,title='Different Position')]))
+        conflict=[one,dict(one,title='Different Position')]
+        with self.assertRaises(SourceError):collect(dict(id='atl',type='atlassian'),Client(conflict,conflict))
         other=copy.deepcopy(one);other['portalJobPost']['portalUrl']='https://other.icims.com/jobs/123/foo/job'
         with self.assertRaises(SourceError):collect(dict(id='atl',type='atlassian'),Client([other]))
+
+    def test_atlassian_retries_conflicting_snapshot_without_merging_it(self):
+        one=dict(id=123,title='Product Manager Intern',locations=['New York, NY'],category='Interns',
+            overview='Internship',portalJobPost=dict(id=123,portalUrl='https://careers-americas.icims.com/jobs/123/intern/job'))
+        newer=dict(one,title='Software Engineering Intern')
+        c=Client([one,newer],[newer])
+        rows=collect(dict(id='atl',type='atlassian'),c)
+        self.assertEqual(len(c.calls),2)
+        self.assertEqual([r['title'] for r in rows],['Software Engineering Intern'])
+        self.assertEqual(rows[0]['evidence']['collection_snapshot_retries'],1)
+
+    def test_jibe_restarts_changed_snapshot_once_and_never_leaks_partial_rows(self):
+        source=dict(id='jibe',type='jibe',url='https://careers.amd.com',queries=['intern'])
+        def item(i):return {'data':dict(slug=str(i),req_id=str(i),title='Software Intern',description='Internship')}
+        a=dict(totalCount=2,jobs=[item(1)]);b=dict(totalCount=1,jobs=[item(2)])
+        c=Client(a,b,b)
+        rows=collect(source,c)
+        self.assertEqual([r['evidence']['provider_job_id'] for r in rows],['2'])
+        self.assertEqual([x[1]['params']['page'] for x in c.calls],[1,2,1])
+        self.assertEqual(rows[0]['evidence']['collection_snapshot_retries'],1)
+        c=Client(a,b,a,b)
+        with self.assertRaisesRegex(SourceError,'total changed'):collect(source,c)
+        self.assertEqual(len(c.calls),4)
+        # Schema/access failures are not hidden by snapshot retries.
+        with self.assertRaises(SourceError):collect(source,Client(dict(totalCount=1,jobs=[{'data':{}}])))
 
     def test_oracle_pages_and_exact_details(self):
         def page(offset,identity,total=2):
