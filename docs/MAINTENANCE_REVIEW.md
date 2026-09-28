@@ -204,3 +204,39 @@ legitimate seasonal decline can require a reviewed new baseline; blocked sources
 remain incomplete; external delivery acknowledgement failures can cause a rare
 duplicate if the provider accepted a message but its response was lost. Neither
 CI nor a heartbeat proves complete market coverage.
+
+## Repair and weekly review — 2026-09-28
+
+The owner-reported incidents were compared with current production state and
+permitted live endpoints. Société Générale requisition `26000K4P` reproducibly
+returned HTTP 410 and previously aborted its entire source. AMD's changing iCIMS
+pagination totals and Atlassian's conflicting duplicate snapshots were retained
+as intermittent evidence. Broadcom's malformed Workday row did not reproduce.
+The new bounded snapshot retry discards an inconsistent attempt and repeats the
+whole request set once; persistent inconsistencies and every existing identity,
+count, schema, destination, robots and access check still fail visibly. See
+`REPAIR_2026-09-28.md` for regression and source evidence.
+
+Azure remained on `1d36c8261773` until a fresh host review showed Fidelity's
+known alias defect at 2,110 consecutive failures. The worker, supervisor and
+local backup timer were active, outboxes had no pending deliveries, and the
+September 28 local restore proof covered both databases. The owner approved the
+narrow SSH allowlist update, enabling a verified two-database off-host snapshot,
+Azure staging and cutover to `ce0d1ccc882b`. All 213 staged source contracts,
+339 application tests, seven backup tests and GitHub CI passed. Consecutive
+production evidence and preservation results are recorded in
+`MAINTENANCE_ACCEPTANCE.md`.
+
+The configured Simplify source still points to the canonical, unarchived
+`SimplifyJobs/Summer2027-Internships` repository, `dev` branch and
+`.github/scripts/listings.json`; its latest reviewed feed-path commit was
+`0b529f6c00e169a96016b8e856fa6b2b58bc309a` at 20:31:27 UTC. This confirms the
+public repository feed, not Simplify's full website or its upstream publication
+latency. Three dependency proposals remain unmerged pending review: Protego
+0.6.2→0.7.0, actions/checkout 4→7 and actions/setup-python 5→7.
+
+This weekly coverage review was partial. The 24 known permitted-route gaps,
+including Google's direct gap and Meta's public-feed-only limitation, remain the
+next company-review cursor. Automatic off-host storage is still unconfigured.
+The S&P Global count-drop contract is open for evidence-based review, and the
+validation backlog must be observed until sustained recovery clears its warning.

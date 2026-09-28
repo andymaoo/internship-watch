@@ -145,3 +145,42 @@ can be repaired automatically.
 See [operating, updating and stopping instructions](MAINTENANCE.md) and
 [the review queue](MAINTENANCE_REVIEW.md). The existing private live report now
 links to `maintenance.html`; a downloaded report remains a static snapshot.
+
+## September 28 repair deployment
+
+Release `ce0d1ccc882bd5fe108d9e8081922f3a6b53e8a5` was deployed at
+20:59:10 UTC after the owner approved replacing the stale SSH /32 with the
+current single-client /32. Before cutover, consistent copies of both production
+databases were downloaded off the VM and independently verified by SHA-256,
+SQLite integrity check and complete per-table manifests. These are manual
+predeployment recovery copies; the automatic encrypted off-host backup remains
+unconfigured and its warning remains valid.
+
+The combined release passed 339 application tests and seven backup tests
+locally and on Azure, passed GitHub CI, and collected all 213 enabled sources in
+250.912 seconds with no failures during staging. The actual-host cutover
+preserved 3,410 existing job identities, first-seen/baseline values, 437 worker
+delivery receipts, 146 supervisor receipts, every source/filter setting and the
+five-minute polling interval. It changed only `validation_workers` from the
+implicit default of one to two and requeued 13 affected unverified records for
+real checks without assigning open or closed status. The prior release remains
+available for a code-only rollback without replacing newer SQLite data.
+
+Post-cutover runs 2630, 2632 and 2633 completed with all 213 sources; runs 2632
+and 2633 were consecutive clean polls. Run 2631 had one transient Veeva
+pagination inconsistency and the following run recovered. The
+previously persistent Fidelity failure recovered, and Fidelity, State Street,
+Broadcom, Atlassian, AMD and Société Générale each had a successful production
+collection with zero current failures. Validation throughput rose from 25–28
+checks in the first cycles to 55 in run 2632 and 64 in run 2633; the due count
+fell from 1,244 to 1,162. This is early capacity evidence, not proof the historical backlog is
+fully drained. The worker remained active with zero service restarts and no
+pending notification deliveries.
+
+State Street's corrected US-scoped result was stable at 252 records across the
+staged check and three production polls. Its reviewed baseline was accepted with
+an audit reason because the prior 744-record baseline represented the global
+board. S&P Global's separate count-drop warning remains open pending review; no
+unexplained decline was accepted. Healthchecks showed recent worker and
+maintenance pings with email enabled. A September 28 review marker records the
+actual host, source, CI, delivery and restore checks.
