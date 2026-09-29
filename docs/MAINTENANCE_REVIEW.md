@@ -240,3 +240,19 @@ including Google's direct gap and Meta's public-feed-only limitation, remain the
 next company-review cursor. Automatic off-host storage is still unconfigured.
 The S&P Global count-drop contract is open for evidence-based review, and the
 validation backlog must be observed until sustained recovery clears its warning.
+
+## Source repair review — 2026-09-29
+
+Production and permitted live evidence confirmed three current adapter issues.
+Atlassian introduced one additional public iCIMS portal; Capital Group retained
+an expired Workday search row whose exact detail returned 404; and Fidelity
+returned eight stable search-only shells alongside 331 usable records. The
+prepared repair preserves strict identity, redirect and access checks and reports
+Fidelity's incomplete upstream rows through a dedicated maintenance ticket. See
+`REPAIR_2026-09-29.md` for evidence and acceptance gates.
+
+The local suite passes with 346 tests and 126 subtests. Live checks passed for
+Atlassian, Capital Group and Fidelity. Deployment remains pending because the
+maintenance computer's public address changed after the approved single-IP SSH
+rule update. The existing off-host-backup setup gap and weekly coverage-review
+cursor are unchanged.

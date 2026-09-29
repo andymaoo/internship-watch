@@ -7,7 +7,7 @@ from .employer_sources import _bounds, _total
 
 ATLASSIAN_PORTALS = {'careers-americas.icims.com', 'globalcareers-atlassian.icims.com',
     'careers-apac-atlassian.icims.com', 'campus-globalcareers-atlassian.icims.com',
-    'campus-americas.icims.com'}
+    'campus-americas.icims.com', 'globalmobility-careers-atlassian.icims.com'}
 
 ORACLE_BASE = 'https://eeho.fa.us2.oraclecloud.com'
 ORACLE_SITE = 'CX_45001'
@@ -203,6 +203,10 @@ def workday_detail(spec, client):
 
 
 def workday(source, client):
+    return _stable_snapshot(_workday_snapshot, source, client)
+
+
+def _workday_snapshot(source, client):
     spec = workday_spec(source['url'])
     if not spec or 'id' in spec:
         raise SourceError('Expected a public Workday board URL')
@@ -244,6 +248,7 @@ def workday(source, client):
             searches = [('',dict(applied,**{worker_facet:[v['id'] for v in values]}),scope)]
             searches += [(q,applied,None) for q in queries if q!='intern']
     jobs = {}
+    partial_shell_ids = set()
     for query, facets, scope in searches:
         offset, expected, seen = 0, None, set()
         for _ in range(_bounds(source)):
@@ -262,7 +267,33 @@ def workday(source, client):
             if not items and offset < expected:
                 raise SourceError('Workday truncated a search page')
             for item in items:
-                _required(item, 'title', 'externalPath')
+                if not item.get('title') and item.get('externalPath'):
+                    # Workday can briefly retain an expired row with only its
+                    # path/requisition. Ignore it only after the exact public
+                    # detail endpoint proves 404/410; blocked or malformed
+                    # details remain a visible source failure.
+                    path = item['externalPath']
+                    candidate_spec = workday_spec(spec['canonical']+path) if isinstance(path,str) else None
+                    if candidate_spec and candidate_spec.get('path') == path:
+                        detail_url = candidate_spec['api']+candidate_spec['path']
+                        expired = client.get(detail_url,respect_robots=True,raise_for_status=False)
+                        if expired.url != detail_url:
+                            raise SourceError('Expired Workday row redirected to another posting')
+                        if expired.status_code in (404,410):
+                            continue
+                        expired.raise_for_status()
+                if not item.get('title') or not item.get('externalPath'):
+                    # Some Workday tenants persist search-only shells containing
+                    # just a requisition identifier. They are neither usable jobs
+                    # nor closure evidence. Keep collecting valid rows while
+                    # surfacing the exact coverage gap to maintenance telemetry.
+                    fields = item.get('bulletFields') if set(item) == {'bulletFields'} else None
+                    if (isinstance(fields, list) and len(fields) == 1 and
+                            isinstance(fields[0], str) and
+                            re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9-]{1,79}', fields[0])):
+                        partial_shell_ids.add(fields[0])
+                        continue
+                    raise _SnapshotChanged('Job lacks required fields: title, externalPath')
                 path = item['externalPath']
                 if not isinstance(path, str) or not path.startswith('/job/') or '..' in path or '?' in path:
                     raise SourceError('Invalid Workday posting path')
@@ -289,6 +320,12 @@ def workday(source, client):
                 raise SourceError('Workday returned more rows than declared')
         else:
             raise SourceError('Workday pagination cap reached')
+    if partial_shell_ids and not jobs:
+        raise SourceError('Workday returned only partial search shells')
+    for job in jobs.values():
+        job['evidence']['source_partial_records'] = len(partial_shell_ids)
+        if partial_shell_ids:
+            job['evidence']['source_partial_reason'] = 'workday_search_shell'
     # Public search has no description/structured employment type. Enrich explicit
     # opportunity titles, retaining all other search rows without inventing evidence.
     for job in jobs.values():

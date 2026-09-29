@@ -161,6 +161,14 @@ def inspect_sources(db, repairs, config):
         if not rows:
             continue  # New runtime needs samples; absence never resolves an old incident.
         checked += 1
+        # A failed poll cannot prove that an upstream partial-record gap opened
+        # or recovered; retain the last ticket state until a successful sample.
+        if samples[0] is not None:
+            partial = int(samples[0].get('partial_records', 0))
+            repairs.observe('partial-source:' + key, partial > 0, 'warning',
+                {'source': key, 'partial_records': partial, 'run_id': rows[0]['run_id']},
+                'Review unresolved upstream search shells. Keep them unverified; do not invent jobs or closure evidence.',
+                alert=True)
         baseline = repairs.store.db.execute('SELECT * FROM source_baselines WHERE source=?', (key,)).fetchone()
         if not baseline or baseline['revision'] != revision:
             if len(samples) >= 3 and all(samples[:3]):

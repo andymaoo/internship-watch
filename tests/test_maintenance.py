@@ -85,6 +85,36 @@ class MaintenanceTests(unittest.TestCase):
     def test_empty_source_is_valid_contract_not_proof_of_coverage(self):
         self.assertEqual(collection_profile([])['count'], 0)
 
+    def test_partial_source_records_are_profiled_and_alerted_separately(self):
+        rows = [job('one'), job('two')]
+        for row in rows:
+            row['evidence'] = {'source_partial_records': 8}
+        profile = collection_profile(rows)
+        self.assertEqual(profile['partial_records'], 8)
+        self.samples([profile])
+        inspect_sources(self.main.db, self.repairs, self.config)
+        ticket = self.ticket('partial-source:example')
+        self.assertEqual(ticket['state'], 'open')
+        self.assertEqual(ticket['severity'], 'warning')
+        self.assertEqual(self.monitor.db.execute('SELECT COUNT(*) FROM outbox').fetchone()[0], 1)
+        healthy = dict(profile, partial_records=0)
+        self.samples([healthy])
+        inspect_sources(self.main.db, self.repairs, self.config)
+        self.assertEqual(self.ticket('partial-source:example')['state'], 'resolved')
+
+    def test_failed_poll_does_not_resolve_partial_source_incident(self):
+        partial = dict(self.profile, partial_records=8)
+        self.samples([partial])
+        inspect_sources(self.main.db, self.repairs, self.config)
+        self.samples([None])
+        inspect_sources(self.main.db, self.repairs, self.config)
+        self.assertEqual(self.ticket('partial-source:example')['state'], 'open')
+
+    def test_invalid_partial_source_evidence_fails_contract(self):
+        row = job(); row['evidence'] = {'source_partial_records': 'eight'}
+        with self.assertRaises(ContractError):
+            collection_profile([row])
+
     def test_telemetry_retention_is_bounded(self):
         self.samples([self.profile] * 110)
         self.assertEqual(self.main.db.execute('SELECT COUNT(*) FROM source_samples').fetchone()[0], 96)

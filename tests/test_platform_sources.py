@@ -112,7 +112,56 @@ class PlatformSourceTests(unittest.TestCase):
         # A malformed US result still fails; filtering must not silence schema defects.
         with self.assertRaises(SourceError):
             collect(source,BothClient(dict(total=50,jobPostings=[],facets=facets),
+                                      dict(total=1,jobPostings=[{'bulletFields':['R123']}]),
+                                      dict(total=50,jobPostings=[],facets=facets),
                                       dict(total=1,jobPostings=[{'bulletFields':['R123']}])))
+
+    def test_workday_skips_only_exact_expired_search_orphan(self):
+        source=dict(id='wd',type='workday',url=BOARD,queries=['intern'])
+        orphan=dict(externalPath='/job/New-York/Closed-Role_R404',bulletFields=['R404'])
+        class OrphanClient(Client):
+            def __init__(self,status,url=None):
+                super().__init__(dict(total=1,jobPostings=[orphan]));self.status=status;self.final=url
+            def post(self,url,**kwargs):return Client.get(self,url,**kwargs)
+            def get(self,url,**kwargs):
+                self.calls.append((url,kwargs));r=Mock(status_code=self.status,url=self.final or url)
+                if self.status not in (404,410):r.raise_for_status.side_effect=RuntimeError('access failure')
+                return r
+        for status in (404,410):
+            c=OrphanClient(status)
+            self.assertEqual(collect(source,c),[])
+            self.assertFalse(c.calls[-1][1]['raise_for_status'])
+        for status in (403,429,503):
+            with self.assertRaises(RuntimeError):collect(source,OrphanClient(status))
+        redirected=BOARD+'/job/New-York/Other_R999'
+        with self.assertRaises(SourceError):collect(source,OrphanClient(410,redirected))
+        # Without an exact posting path, closure cannot be verified.
+        with self.assertRaises(SourceError):
+            collect(source,BothClient(dict(total=1,jobPostings=[{'bulletFields':['R404']}]),
+                                      dict(total=1,jobPostings=[{'bulletFields':['R404']}])))
+
+    def test_workday_retries_one_inconsistent_search_snapshot(self):
+        source=dict(id='wd',type='workday',url=BOARD,queries=['intern'])
+        malformed=dict(total=1,jobPostings=[{'bulletFields':['R123'],'unexpected':True}])
+        good=dict(total=1,jobPostings=[wd_row('R123')])
+        rows=collect(source,BothClient(malformed,good,wd_detail()))
+        self.assertEqual(len(rows),1)
+        self.assertEqual(rows[0]['evidence']['collection_snapshot_retries'],1)
+        with self.assertRaises(SourceError):collect(source,BothClient(malformed,malformed))
+
+    def test_workday_reports_exact_partial_shells_without_inventing_jobs(self):
+        source=dict(id='wd',type='workday',url=BOARD,queries=['intern'])
+        page=dict(total=3,jobPostings=[wd_row('R123'),
+            {'bulletFields':['R404']},{'bulletFields':['R404']}])
+        rows=collect(source,BothClient(page,wd_detail()))
+        self.assertEqual(len(rows),1)
+        self.assertEqual(rows[0]['evidence']['source_partial_records'],1)
+        self.assertEqual(rows[0]['evidence']['source_partial_reason'],'workday_search_shell')
+        shells=dict(total=1,jobPostings=[{'bulletFields':['R404']}])
+        with self.assertRaisesRegex(SourceError,'only partial search shells'):
+            collect(source,BothClient(shells,shells))
+        malformed=dict(total=2,jobPostings=[wd_row('R123'),{'bulletFields':['bad id']}])
+        with self.assertRaises(SourceError):collect(source,BothClient(malformed,malformed))
 
     def test_intern_token_may_move_only_with_independently_verified_identity(self):
         from internship_watch.links import title_compatible
@@ -146,6 +195,13 @@ class PlatformSourceTests(unittest.TestCase):
         with self.assertRaises(SourceError):collect(dict(id='atl',type='atlassian'),Client(conflict,conflict))
         other=copy.deepcopy(one);other['portalJobPost']['portalUrl']='https://other.icims.com/jobs/123/foo/job'
         with self.assertRaises(SourceError):collect(dict(id='atl',type='atlassian'),Client([other]))
+
+    def test_atlassian_reviewed_global_mobility_portal(self):
+        one=dict(id=27067,title='Senior Manager',locations=['Germany'],category='Engineering',overview='Role',
+            portalJobPost=dict(id=27067,portalUrl='https://globalmobility-careers-atlassian.icims.com/jobs/27067/senior-manager/job'))
+        rows=collect(dict(id='atl',type='atlassian'),Client([one]))
+        self.assertEqual(len(rows),1)
+        self.assertEqual(rows[0]['evidence']['provider_job_id'],'27067')
 
     def test_atlassian_retries_conflicting_snapshot_without_merging_it(self):
         one=dict(id=123,title='Product Manager Intern',locations=['New York, NY'],category='Interns',

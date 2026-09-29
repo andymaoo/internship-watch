@@ -16,6 +16,7 @@ def collection_profile(jobs):
     if not isinstance(jobs, list):
         raise ContractError('Collection is not a list')
     identifiers, descriptions, locations, urls = set(), 0, 0, 0
+    partial_records = 0
     hosts = set()
     for index, job in enumerate(jobs):
         if not isinstance(job, dict):
@@ -27,6 +28,11 @@ def collection_profile(jobs):
         if identifier in identifiers:
             raise ContractError(f'Duplicate source identifier at record {index}; check pagination')
         identifiers.add(identifier)
+        evidence = job.get('evidence') if isinstance(job.get('evidence'), dict) else {}
+        reported_partial = evidence.get('source_partial_records', 0)
+        if not isinstance(reported_partial, int) or isinstance(reported_partial, bool) or reported_partial < 0:
+            raise ContractError(f'Record {index} has invalid source_partial_records')
+        partial_records = max(partial_records, reported_partial)
         descriptions += len(str(job.get('description') or '').strip()) >= 80
         locations += bool(job.get('location') or job.get('locations'))
         good = False
@@ -44,6 +50,7 @@ def collection_profile(jobs):
             'location_fraction': locations / count if count else 0,
             'url_fraction': urls / count if count else 0,
             'identity_hash': hashlib.sha256('\n'.join(sorted(identifiers)).encode()).hexdigest(),
+            'partial_records': partial_records,
             'hosts': sorted(hosts)[:40]}
 
 
