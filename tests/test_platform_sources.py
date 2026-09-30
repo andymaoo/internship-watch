@@ -203,6 +203,26 @@ class PlatformSourceTests(unittest.TestCase):
         self.assertEqual(len(rows),1)
         self.assertEqual(rows[0]['evidence']['provider_job_id'],'27067')
 
+    def test_atlassian_merges_only_identical_approved_portal_mirrors(self):
+        one=dict(id=25264,title='Principal Solutions Engineer',locations=['US'],category='Engineering',
+            overview='Same role',portalId='17',applyUrl='https://globalcareers-atlassian.icims.com/jobs/25264/role/job?mode=apply',
+            portalJobPost=dict(id=25264,portalId=17,updatedDate='2026-09-29',
+                portalUrl='https://globalcareers-atlassian.icims.com/jobs/25264/role/job'))
+        mirror=copy.deepcopy(one)
+        mirror.update(portalId='111',applyUrl='https://careers-americas.icims.com/jobs/25264/role/job?mode=apply')
+        mirror['portalJobPost'].update(portalId=111,
+            portalUrl='https://careers-americas.icims.com/jobs/25264/role/job')
+        rows=collect(dict(id='atl',type='atlassian'),Client([one,mirror]))
+        self.assertEqual(len(rows),1)
+        self.assertEqual(rows[0]['application_url'],mirror['portalJobPost']['portalUrl'])
+        changed=copy.deepcopy(mirror);changed['locations']=['Canada']
+        with self.assertRaisesRegex(SourceError,'conflicting content'):
+            collect(dict(id='atl',type='atlassian'),Client([one,changed],[one,changed]))
+        unreviewed=copy.deepcopy(mirror)
+        unreviewed['portalJobPost']['portalUrl']='https://other.icims.com/jobs/25264/role/job'
+        with self.assertRaisesRegex(SourceError,'unreviewed application'):
+            collect(dict(id='atl',type='atlassian'),Client([one,unreviewed]))
+
     def test_atlassian_retries_conflicting_snapshot_without_merging_it(self):
         one=dict(id=123,title='Product Manager Intern',locations=['New York, NY'],category='Interns',
             overview='Internship',portalJobPost=dict(id=123,portalUrl='https://careers-americas.icims.com/jobs/123/intern/job'))

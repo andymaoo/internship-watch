@@ -83,20 +83,30 @@ def atlassian(source, client):
 
 def _atlassian_snapshot(source, client):
     items = _jobs_list(_json(client,'https://www.atlassian.com/endpoint/careers/listings',respect_robots=True))
-    jobs=[]; seen={}
+    selected={}
     for item in items:
         _required(item,'id','title','locations','portalJobPost')
         identity=str(item['id']);portal=item['portalJobPost']
-        if identity in seen:
-            if seen[identity]!=item:
-                raise _SnapshotChanged('Atlassian duplicate requisition has conflicting content')
-            continue
-        seen[identity]=item
         if not identity.isdigit() or str(portal.get('id'))!=identity or not isinstance(item['locations'],list):
             raise SourceError('Atlassian posting identity/location schema changed')
         application=portal.get('portalUrl','');p=urlsplit(application)
         if p.hostname not in ATLASSIAN_PORTALS or not p.path.startswith('/jobs/'+identity+'/'):
             raise SourceError('Atlassian returned an unreviewed application destination')
+        # Atlassian may publish one requisition on multiple approved regional
+        # iCIMS portals. Merge only portal-specific mirrors whose complete core
+        # content is identical; conflicting job content still retries/fails.
+        core={key:value for key,value in item.items() if key not in ('applyUrl','portalId','portalJobPost')}
+        previous=selected.get(identity)
+        if previous:
+            if previous[0] != core:
+                raise _SnapshotChanged('Atlassian duplicate requisition has conflicting content')
+            if application < previous[2]:
+                selected[identity]=(core,item,application)
+            continue
+        selected[identity]=(core,item,application)
+    jobs=[]
+    for identity,(_,item,application) in selected.items():
+        portal=item['portalJobPost']
         description='\n'.join(str(item.get(k) or '') for k in ('overview','responsibilities','qualifications'))
         jobs.append(_base(source,'atlassian',identity,item['title'],
             'https://www.atlassian.com/company/careers/details/'+identity,

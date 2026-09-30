@@ -256,3 +256,9 @@ Atlassian, Capital Group and Fidelity. Deployment remains pending because the
 maintenance computer's public address changed after the approved single-IP SSH
 rule update. The existing off-host-backup setup gap and weekly coverage-review
 cursor are unchanged.
+
+The later complete-source staging pass reproduced an additional Atlassian
+mirror: requisition 25264 appeared on two reviewed regional iCIMS portals with
+identical core content. A focused regression now permits only this structurally
+identical portal mirror and preserves failures for any core-content conflict or
+unreviewed host. The expanded local suite passes with 347 tests and 126 subtests.
