@@ -368,16 +368,29 @@ def moodys(source,client):
         r=client.get(job['description_url'],respect_robots=True);r.raise_for_status();p=Page(r.text)
         matching=[x for x in p.postings() if x.get('url')==job['description_url']]
         if len(matching)!=1 or matching[0].get('title')!=job['title']:raise SourceError('Moody\'s exact job schema missing')
-        item=matching[0];_required(item,'description','jobLocation','identifier')
-        addresses=[x.get('address',{}) for x in item['jobLocation']]
+        item=matching[0];_required(item,'description','identifier')
+        addresses=[x.get('address',{}) for x in item.get('jobLocation',[]) if isinstance(x,dict)]
+        displayed_location=None
+        if not addresses:
+            location_pairs=re.findall(
+                r'<h1\b[^>]*class="[^"]*\bjob-description__heading\b[^"]*"[^>]*>(.*?)</h1>\s*'
+                r'<p\b[^>]*class="[^"]*\bjob-description__job-location-info\b[^"]*"[^>]*>(.*?)</p>',
+                r.text,re.S)
+            displayed_locations=[_description(value) for heading,value in location_pairs
+                                 if _description(heading)==item['title'] and _description(value)]
+            if len(displayed_locations)!=1:raise SourceError('Moody\'s job location missing')
+            displayed_location=displayed_locations[0]
         applications={u for u,t in p.anchors if t=='Apply now' and urlsplit(u).hostname=='career8.successfactors.com' and parse_qs(urlsplit(u).query).get('company')==['MoodysProd'] and re.fullmatch(r'\d+',parse_qs(urlsplit(u).query).get('jobId',[''])[0])}
         if len(applications)!=1:raise SourceError('Moody\'s application identity missing for '+job['source_id'])
         application=next(iter(applications));application_id=parse_qs(urlsplit(application).query)['jobId'][0]
         if application_id!=str(item['identifier']):
             job['evidence']['application_identity_conflict']={'posting_requisition':str(item['identifier']),'application_requisition':application_id}
         locations=[', '.join(str(x.get(k) or '') for k in ('addressLocality','addressRegion','addressCountry')).strip(', ') for x in addresses]
+        if displayed_location:
+            locations=[displayed_location]
         job.update(description=_description(item['description']),locations=locations,location='; '.join(locations),country=addresses[0].get('addressCountry') if addresses else None,employment_type=item.get('employmentType'),posting_date=item.get('datePosted'),application_url=application)
         job['evidence'].update(description_kind='employer_public_detail',posting_date_kind='employer_schema_datePosted',requisition_id=str(item['identifier']))
+        if displayed_location:job['evidence']['location_kind']='employer_displayed_detail'
         if item.get('datePosted'):
             job['evidence']['employer_schema_datePosted']=item['datePosted']
             try:job['posting_date']=datetime.strptime(item['datePosted'],'%Y-%m-%d').date().isoformat()

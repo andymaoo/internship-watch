@@ -262,3 +262,44 @@ mirror: requisition 25264 appeared on two reviewed regional iCIMS portals with
 identical core content. A focused regression now permits only this structurally
 identical portal mirror and preserves failures for any core-content conflict or
 unreviewed host. The expanded local suite passes with 347 tests and 126 subtests.
+
+## Weekly source and dependency review — 2026-10-07
+
+The review began from deployed revision
+`b3d88cd7674eb84853be889db6c8ff24bda317d6`. A complete permitted local live
+collection checked 213 enabled sources and collected 36,367 records. Moody's
+had one reproducible structured-location omission and HubSpot's former
+Greenhouse board had been retired. Three access failures passed immediate
+isolated retries. The prepared strict Moody's fallback and explicit HubSpot
+public-feed-only downgrade are documented in `REPAIR_2026-10-07.md`; production
+remains unchanged pending the actual-host acceptance gates.
+
+The configured Simplify source remains the canonical, unarchived
+`SimplifyJobs/Summer2027-Internships` repository, `dev` branch and
+`.github/scripts/listings.json` path. Its latest reviewed path commit was
+`1c7e4c0c59a24d57949cb006f8ae7eb160ba9b58` at 20:31:56 UTC. This confirms
+only the public repository feed. It cannot prove full-site coverage or upstream
+employer-to-feed delay.
+
+The official careers routes for Balyasny, BNP Paribas, Campbell & Company and
+Citadel were manually revisited as the next four items in the gap cursor. The
+landing pages or internship/opening directories remain current, but this review
+did not establish a complete permitted structured collector for any of them.
+Citadel's current openings remain inaccessible from the Azure collector and no
+documented stable API was found. They therefore remain explicit public-feed-only
+gaps; no page restrictions were bypassed.
+
+GitHub CI for the deployed commit passed again on October 5. Dependabot PR #4
+updates Protego from 0.6.2 to 0.7.0 and changes robots matching behavior; it is
+not eligible for automatic merge and needs source replay plus Azure staging.
+The actions/checkout and actions/setup-python major-version proposals also
+remain unmerged pending review. Dependabot security-alert details were
+unavailable because the repository setting/API denied that read; this is not
+evidence of zero vulnerabilities.
+
+The next weekly cursor begins after Citadel and continues through the remaining
+official-route gaps, then dependency replay and actual off-host restore evidence.
+The known missing automatic off-host bucket connection remains unchanged and is
+not being re-requested. Live Azure maintenance state, production source health,
+recent runs, notification receipts and current backup restore proof remain
+pending until the authenticated single-IP maintenance path is restored.

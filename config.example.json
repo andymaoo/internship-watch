@@ -1918,8 +1918,9 @@
       "type": "greenhouse",
       "slug": "hubspotjobs",
       "employer": "HubSpot",
-      "enabled": true,
-      "expect_nonempty": true
+      "enabled": false,
+      "expect_nonempty": true,
+      "disabled_reason": "The former Greenhouse board returns HTTP 404. HubSpot now serves its official careers directory through a public website shell whose backing GraphQL endpoint is unavailable under its robots policy; public Simplify-feed discovery remains enabled, but cannot guarantee complete or immediate coverage."
     },
     {
       "id": "greenhouse-aquaticcapitalmanagement",
@@ -3321,14 +3322,12 @@
       "aliases": [
         "HubSpot"
       ],
-      "direct_sources": [
-        "greenhouse-hubspotjobs"
-      ],
+      "direct_sources": [],
       "feed_sources": [
         "simplify-public-internships"
       ],
-      "coverage": "direct_and_public_feed",
-      "note": ""
+      "coverage": "public_feed_incomplete",
+      "note": "The former Greenhouse board returns HTTP 404. HubSpot now serves its official careers directory through a public website shell whose backing GraphQL endpoint is unavailable under its robots policy; public Simplify-feed discovery remains enabled, but cannot guarantee complete or immediate coverage."
     },
     {
       "company": "Atlassian",

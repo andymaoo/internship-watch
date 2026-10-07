@@ -97,6 +97,23 @@ class FinanceAdapterTests(unittest.TestCase):
         self.assertNotIn('application_identity_conflict',rows[0]['evidence'])
         with self.assertRaises(SourceError):collect(source,self.html_client(page(1,'100',True),page(1,'100')))
 
+    def test_moodys_uses_exact_displayed_location_when_schema_omits_it(self):
+        import json
+        identity='101601004096'; title='Ratings and Research Support Working Student - Financial Institutions Group'
+        url=f'https://careers.moodys.com/en/job/hong-kong-sar/working-student/49841/{identity}'
+        listing=f'''<section id="search-results" data-current-page="1" data-total-results="1" data-total-pages="1"></section><ul id="search-results-jobs"><li><a href="/en/job/hong-kong-sar/working-student/49841/{identity}">{title}</a></li></ul><nav id="pagination-bottom">'''
+        item={'@type':'JobPosting','url':url,'title':title,'description':'Students support ratings research.','identifier':'14721','datePosted':'2026-08-06','employmentType':'Part Time'}
+        detail='<script type="application/ld+json">'+json.dumps(item)+'</script>'+f'''<section class="job-description"><div class="job-description__heading-wrapper"><h1 class="job-description__heading">{title}</h1><p class="job-description__job-location-info">Hong Kong</p></div></section><a href="https://career8.successfactors.com/sfcareer/jobreqcareer?jobId=14721&company=MoodysProd">Apply now</a>'''
+        rows=collect({'id':'moodys','type':'moodys','employer':"Moody's"},self.html_client(listing,detail))
+        self.assertEqual(rows[0]['locations'],['Hong Kong'])
+        self.assertEqual(rows[0]['location'],'Hong Kong')
+        self.assertIsNone(rows[0]['country'])
+        self.assertEqual(rows[0]['evidence']['location_kind'],'employer_displayed_detail')
+
+        bad_detail='<script type="application/ld+json">'+json.dumps(item)+'</script>'+f'<a href="https://career8.successfactors.com/sfcareer/jobreqcareer?jobId=14721&company=MoodysProd">Apply now</a>'
+        with self.assertRaisesRegex(SourceError,"Moody's job location missing"):
+            collect({'id':'moodys','type':'moodys','employer':"Moody's"},self.html_client(listing,bad_detail))
+
     def test_twosigma_complete_pagination_and_not_campus_fulltime(self):
         def page(identity,next_page=False):
             return f'''<article class="article article--result"><a href="https://careers.twosigma.com/careers/JobDetail/Role/{identity}">Software Engineer - Campus Full-Time</a><span class="paragraph_inner-span">United States - NY New York</span><span class="paragraph_inner-span">Engineering</span><span class="paragraph_inner-span">Early Careers</span></article>'''+('<a class="paginationNextLink" href="https://careers.twosigma.com/careers/OpenRoles/?jobOffset=10">Next</a>' if next_page else '')
