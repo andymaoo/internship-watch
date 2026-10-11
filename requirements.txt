@@ -1,7 +1,7 @@
 requests==2.34.2
-Protego==0.6.2
+Protego==0.7.0
 # Tested dependency set, 2026-09-19. Review and update together with tests.
 certifi==2026.7.22
-charset-normalizer==3.5.1
+charset-normalizer==3.5.2
 idna==3.20
 urllib3==2.8.0
