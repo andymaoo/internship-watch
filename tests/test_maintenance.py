@@ -225,6 +225,24 @@ class MaintenanceTests(unittest.TestCase):
         inspect_backups(self.repairs,self.config)
         self.assertEqual(self.ticket('backup:offhost')['state'], 'open')
 
+    def test_existing_canary_remains_readable_while_worker_holds_write_lock(self):
+        schedule_canary(self.main.db, self.monitor, {})
+        self.main.db.execute("UPDATE outbox SET status='delivered',receipt_id='saved-discord-receipt' WHERE dedupe_key LIKE 'maintenance-canary:%'")
+        self.main.db.commit()
+        reader=sqlite3.connect(self.main.path,timeout=0.01)
+        reader.row_factory=sqlite3.Row
+        self.addCleanup(reader.close)
+        writer=sqlite3.connect(self.main.path)
+        self.addCleanup(writer.close)
+        writer.execute('BEGIN IMMEDIATE')
+        try:
+            receipt=schedule_canary(reader,self.monitor,{})
+            self.assertEqual(receipt['status'],'delivered')
+            self.assertEqual(receipt['receipt_id'],'saved-discord-receipt')
+        finally:
+            writer.rollback()
+        self.assertEqual(reader.execute("SELECT COUNT(*) FROM outbox WHERE dedupe_key LIKE 'maintenance-canary:%'").fetchone()[0],1)
+
     def test_weekly_canary_is_durable_and_uses_worker_delivery(self):
         one = schedule_canary(self.main.db, self.monitor, {})
         self.assertEqual(one['status'], 'pending')

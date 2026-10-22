@@ -336,6 +336,11 @@ def schedule_canary(db, store, settings):
     key = 'maintenance-canary:' + week
     if not settings.get('notification_canary', True):
         return None
+    # An existing weekly canary needs only a receipt read. Avoid competing with
+    # the collector's write transaction on every supervisor observation.
+    receipt = db.execute('SELECT status,attempts,created_at,delivered_at,receipt_id FROM outbox WHERE dedupe_key=?', (key,)).fetchone()
+    if receipt is not None:
+        return dict(receipt)
     db.execute("INSERT OR IGNORE INTO outbox(dedupe_key,kind,payload,created_at,next_attempt) VALUES(?,?,?,?,?)",
         (key, 'digest', dump({'title': 'Internship Watch weekly delivery check',
          'body': 'Scheduled maintenance test: the worker delivered this through its normal persistent notification queue. No application action is needed.'}), now(), now()))

@@ -323,3 +323,13 @@ approximately 3 GB; a fresh full integrity check and compressed backup took abou
 six minutes on this host. The prepared unit extends the bound to ten minutes
 within the existing fifteen-minute schedule. Actual post-update supervisor
 completion must still be verified; checks are retained rather than disabled.
+
+Acceptance also reproduced an independent supervisor defect at
+`maintenance.py:339`: observing an already queued/delivered weekly canary still
+issued `INSERT OR IGNORE`, unnecessarily requesting the worker database's write
+lock. Production had retained 27 storage-error occurrences at this line. A real
+SQLite regression held an independent write transaction while reading the
+existing receipt; the old code failed with `database is locked`. The repair reads
+and returns that receipt before attempting an insert. New weekly canaries still
+use the durable, deduplicated insertion path. This preserves real storage alerts
+and avoids the unnecessary recurring write conflict.
