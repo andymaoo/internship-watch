@@ -1,5 +1,12 @@
 # Maintenance safeguards: actual-host acceptance
 
+**Latest update:** October 22 deployed backend `c145618` and verified consecutive
+production polls, saved Discord delivery, persistent records, current integrity
+evidence and recovered supervisor execution. See
+[October 22 acceptance](DEPLOYMENT_2026-10-22.md) and
+[the current deployment](CURRENT_DEPLOYMENT.md). The measurements below are
+dated historical acceptance evidence.
+
 Runtime release: `1d36c8261773ca31d59dcbaf656a9b2b2f339bc2`, on the existing Azure
 VM through `/opt/internship-watch`. The user's US/junior/role/eligibility filters,
 all 213 enabled sources, five-minute polling target, persistent SQLite, private

@@ -1,13 +1,13 @@
 {
   "repository": "andymaoo/internship-watch",
-  "observed_at": "2026-10-22T20:56:33Z",
-  "verification": "Azure Run Command, read-only; all 22 package files matched with normalized line endings",
-  "git_commit": "b3d88cd7674eb84853be889db6c8ff24bda317d6",
-  "release_directory": "/opt/internship-watch-releases/b3d88cd",
-  "snapshot_tag": "azure-production-2026-10-22",
-  "normalized_package_sha256": "f19d9ca975393384759ae2ffa6594b221359fa7810a63ea3334dd8c2c5f44f52",
-  "pending_runtime_repair_commit": "efeefe4b6396b51a04ae59398018e77aa2982757",
+  "observed_at": "2026-10-22T21:36:24Z",
+  "verification": "Strict-host-key SSH; exact package fingerprint, consecutive full-source scheduled runs, preserved SQLite history and saved Discord delivery receipt",
+  "git_commit": "c1456189b7bccefca7e5a0fc2fe45a4857be6184",
+  "release_directory": "/opt/internship-watch-releases/c1456189b7bc",
+  "snapshot_tag": "azure-production-2026-10-22-updated",
+  "normalized_package_sha256": "65ff174409fbf9d799012d4001450b08de90c437f05241d9f8e3ef57e6db41c8",
+  "pending_runtime_repair_commit": null,
   "automatic_deployment": false,
-  "health": "worker active, delivery queue drained; source collection degraded",
+  "health": "worker active and enabled; consecutive polls passed 212/213 sources with owner-ignored Old Mission 404; no pending worker deliveries; supervisor and daily integrity check recovered; existing contract/coverage and off-host-backup warnings retained",
   "details": "docs/CURRENT_DEPLOYMENT.md"
 }

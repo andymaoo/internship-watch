@@ -333,3 +333,17 @@ existing receipt; the old code failed with `database is locked`. The repair read
 and returns that receipt before attempting an insert. New weekly canaries still
 use the durable, deduplicated insertion path. This preserves real storage alerts
 and avoids the unnecessary recurring write conflict.
+
+The final repair `c145618` was deployed and accepted at 21:36 UTC. Runs 9211 and
+9212 collected all 213 configured sources, with only the owner-ignored Old Mission
+404 failing; the other 212 passed. The Discord deployment check was delivered
+once and no worker messages remained pending. All prior job, identity,
+source-record and delivered-receipt assertions passed after restart. Both
+off-VM restored database copies were verified before cutover. The integrity
+marker advanced to 21:19:18 UTC and supervisor executions at 21:30 and 21:36
+completed in 1.272 and 1.919 seconds, resolving storage/stale-review incidents.
+See `DEPLOYMENT_2026-10-22.md` for measured evidence. Existing contract warnings,
+backlog/coverage gaps and the automatic off-host bucket setup remain open. No
+baseline or job status was changed to silence them. This deployment did not
+complete a new review of every official careers route or dependency proposal;
+the prior weekly review cursor remains outstanding.
