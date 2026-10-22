@@ -315,3 +315,11 @@ October 7 retirement proposal was therefore reversed before deployment. All
 other source settings and the owner's filters are retained. Old Mission's 404
 is left as a known exception per the owner's instruction. Pending cutover still
 requires the off-host snapshot, staged live check and production acceptance.
+
+The maintenance timer was active but its service repeatedly reached the old
+four-minute timeout. Its last completed report was 12:30 UTC, and the due daily
+integrity marker remained at October 21, 12:34 UTC. The jobs database is now
+approximately 3 GB; a fresh full integrity check and compressed backup took about
+six minutes on this host. The prepared unit extends the bound to ten minutes
+within the existing fifteen-minute schedule. Actual post-update supervisor
+completion must still be verified; checks are retained rather than disabled.

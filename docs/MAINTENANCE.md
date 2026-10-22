@@ -64,6 +64,13 @@ duplicated. Both processes use persistent retry queues, with separate rate-limit
 cooldowns. Discord can still be unavailable to both; Healthchecks email is the
 independent route.
 
+The supervisor has a bounded ten-minute service timeout within its fifteen-minute
+schedule. The former four-minute limit repeatedly terminated the due daily
+integrity check after the jobs database grew to approximately 3 GB. The longer
+limit retains the integrity check and leaves the independent monitor's grace
+window in place. The service and kernel lock prevent overlapping supervisor
+runs; source and notification checks still require a completed report.
+
 Private `/etc/internship-watch.env` adds:
 
 ```dotenv

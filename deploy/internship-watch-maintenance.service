@@ -11,7 +11,7 @@ WorkingDirectory=/opt/internship-watch
 EnvironmentFile=/etc/internship-watch.env
 Environment=PYTHONDONTWRITEBYTECODE=1
 ExecStart=/opt/internship-watch/.venv/bin/python -m internship_watch.maintenance --config /etc/internship-watch.json
-TimeoutStartSec=4min
+TimeoutStartSec=10min
 UMask=0077
 StateDirectory=internship-watch
 ReadWritePaths=/var/lib/internship-watch
