@@ -70,13 +70,15 @@ Automatic encrypted off-host backup storage remains unconfigured.
 
 ## GitHub code awaiting deployment
 
-The default branch contains the tested October 7 repair commit `efeefe4` and
-later documentation. Its Moody's structured-location fallback and HubSpot
-direct-board retirement are **not present on the running VM**. The prepared
-configuration has 212 enabled sources, 212 company entries, 187 direct routes
-and 25 incomplete public-feed-only routes. The live configuration still has
-213 enabled sources. These are source routes and watchlist entries, not counts
-of distinct employers successfully returning qualifying internships.
+The default branch contains the tested October 7 Moody's repair and later
+documentation; that runtime repair is **not yet present on the running VM**.
+During update preparation, scheduled Azure collection independently showed
+HubSpot's original Greenhouse board recovered with 62 records at 21:08:26 UTC.
+Its earlier retirement proposal was reversed before deployment. The prepared
+and live configurations both retain 213 enabled sources, 212 company entries,
+188 direct routes and 24 incomplete public-feed-only routes. These are source
+routes and watchlist entries, not counts of distinct employers successfully
+returning qualifying internships.
 
 The release tag `azure-production-2026-10-22` identifies the verified deployed
 code. It is a snapshot of deployment evidence, not a separate running service.

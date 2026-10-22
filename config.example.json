@@ -1918,9 +1918,8 @@
       "type": "greenhouse",
       "slug": "hubspotjobs",
       "employer": "HubSpot",
-      "enabled": false,
-      "expect_nonempty": true,
-      "disabled_reason": "The former Greenhouse board returns HTTP 404. HubSpot now serves its official careers directory through a public website shell whose backing GraphQL endpoint is unavailable under its robots policy; public Simplify-feed discovery remains enabled, but cannot guarantee complete or immediate coverage."
+      "enabled": true,
+      "expect_nonempty": true
     },
     {
       "id": "greenhouse-aquaticcapitalmanagement",
@@ -3322,12 +3321,14 @@
       "aliases": [
         "HubSpot"
       ],
-      "direct_sources": [],
+      "direct_sources": [
+        "greenhouse-hubspotjobs"
+      ],
       "feed_sources": [
         "simplify-public-internships"
       ],
-      "coverage": "public_feed_incomplete",
-      "note": "The former Greenhouse board returns HTTP 404. HubSpot now serves its official careers directory through a public website shell whose backing GraphQL endpoint is unavailable under its robots policy; public Simplify-feed discovery remains enabled, but cannot guarantee complete or immediate coverage."
+      "coverage": "direct_and_public_feed",
+      "note": "Original Greenhouse board recovered; Azure scheduled collection returned 62 records on 2026-10-22. The October 7 retirement proposal was not deployed."
     },
     {
       "company": "Atlassian",

@@ -303,3 +303,15 @@ The known missing automatic off-host bucket connection remains unchanged and is
 not being re-requested. Live Azure maintenance state, production source health,
 recent runs, notification receipts and current backup restore proof remain
 pending until the authenticated single-IP maintenance path is restored.
+
+## Deployment preparation — 2026-10-22
+
+SSH access was restored by rotating the existing owner management rule from the
+stale network range to the current single-client /32, retaining TCP 22 and the
+existing SSH key. Read-only Azure checks confirmed runtime `b3d88cd` and current
+Discord delivery. HubSpot's original Greenhouse board had recovered: production
+source state showed 62 rows, zero failures and success at 21:08:26 UTC. Its
+October 7 retirement proposal was therefore reversed before deployment. All
+other source settings and the owner's filters are retained. Old Mission's 404
+is left as a known exception per the owner's instruction. Pending cutover still
+requires the off-host snapshot, staged live check and production acceptance.
