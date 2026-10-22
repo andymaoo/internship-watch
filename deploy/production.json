@@ -1,0 +1,13 @@
+{
+  "repository": "andymaoo/internship-watch",
+  "observed_at": "2026-10-22T20:56:33Z",
+  "verification": "Azure Run Command, read-only; all 22 package files matched with normalized line endings",
+  "git_commit": "b3d88cd7674eb84853be889db6c8ff24bda317d6",
+  "release_directory": "/opt/internship-watch-releases/b3d88cd",
+  "snapshot_tag": "azure-production-2026-10-22",
+  "normalized_package_sha256": "f19d9ca975393384759ae2ffa6594b221359fa7810a63ea3334dd8c2c5f44f52",
+  "pending_runtime_repair_commit": "efeefe4b6396b51a04ae59398018e77aa2982757",
+  "automatic_deployment": false,
+  "health": "worker active, delivery queue drained; source collection degraded",
+  "details": "docs/CURRENT_DEPLOYMENT.md"
+}
