@@ -347,3 +347,96 @@ backlog/coverage gaps and the automatic off-host bucket setup remain open. No
 baseline or job status was changed to silence them. This deployment did not
 complete a new review of every official careers route or dependency proposal;
 the prior weekly review cursor remains outstanding.
+
+## Daily and partial weekly review — 2026-10-23, 23:15–23:20 UTC
+
+Azure Run Command provided actual-host inspection after SSH timed out. The
+existing Azure session refreshed successfully; no network rule, credential,
+runtime code, source configuration, filter, job status or delivery history was
+changed. The running release remains `c1456189b7bc`.
+
+- Worker and both maintenance/local-backup timers were active and enabled, with
+  zero worker automatic restarts. Completed runs 9499–9501 each passed 212 of
+  213 configured sources, taking 322.918, 322.219 and 322.893 seconds. Only the
+  owner-ignored Old Mission Greenhouse 404 was failing. These observations do
+  not demonstrate permanent freedom from intermittent upstream failures.
+- Nvidia returned 215 records at 23:12:01, Palo Alto returned 29 at 23:12:19,
+  and Simplify returned 5,040 at 23:16:14, all with zero current failures.
+  Palo Alto's two-shell partial-source ticket had resolved on October 22 at
+  06:45:31, before the latest deployment; it was not repaired by that update.
+  Its retained October 23 robots/access-verification failure is informational
+  history, followed by successful normal collections. No access bypass or
+  reproducible new pagination/parser defect was established.
+- At 23:15 the worker outbox contained 1,901 delivered messages and no pending
+  records; its latest acknowledgement was at 23:10:20, receipt
+  `1563328753780658198`. Maintenance had 1,086 delivered, 14 cancelled and none
+  pending. Its latest acknowledgement was at 22:00:06. No extra test message
+  was sent; these are provider receipts, not a new owner inbox confirmation.
+- The latest sampled maintenance report was 23:00:31, completed in 1.680
+  seconds without failed delivery. Storage remained resolved; the daily
+  integrity marker advanced to 21:34:26. Local backup restore evidence at
+  05:09:12 verified the 3,049,222,144-byte jobs database and the additional
+  maintenance database, including saved table counts. Free storage was
+  35.68 GiB. Automatic off-host restore proof remains absent; the already-known
+  bucket setup requirement is unchanged and was not requested again.
+- Healthchecks independently showed both scraper and maintenance indicators
+  UP, with recent pings and the email integration attached. Their schedules
+  remain five minutes plus fifteen-minute grace, and fifteen minutes plus
+  twenty-minute grace, respectively. The off-host backup check still has never
+  received a ping, consistent with the known setup gap. No missed-ping outage
+  test was repeated during this review.
+- Overall validation candidates rose 1,395 → 1,408 → 1,415 in the three sampled
+  cycles. This short rising window does not establish stability. There were
+  114 qualifying rechecks due, oldest at 22:11:08 (about one hour overdue), and
+  zero included jobs awaiting their first link check. The five latest saved
+  notification decisions each occurred 283 seconds after discovery; this is a
+  small recent sample, not a worst-case guarantee or upstream publication delay.
+  The existing backlog-growth ticket had recovered at 18:15:26 after the
+  sustained recovery window; it may reopen on renewed sustained growth.
+  Validation-lag also remained resolved. No thresholds or statuses were relaxed.
+- GitHub Tests for deployed backend `c145618` and default-branch `4291ae7`
+  were successful, including runs `39856029512` and `39859062092`. Three
+  dependency proposals remain unmerged: Protego 0.7.0 plus charset-normalizer
+  3.5.2 in PR #4, checkout 7 in #2, and setup-python 7 in #1. Protego changes
+  robots matching, so passing PR CI alone does not replace source replay and
+  staged acceptance. The Dependabot alerts endpoint returned 403 and reported
+  alerts disabled; vulnerability-alert state therefore remains unavailable,
+  rather than being reported as zero vulnerabilities.
+
+The supervisor's daily feed audit at 21:15:24 confirmed the canonical,
+unarchived `SimplifyJobs/Summer2027-Internships`, branch `dev`, path
+`.github/scripts/listings.json`, commit
+`1ca4a34cfb953007fb0888892de37c8bb5723417`, dated 21:01:49 UTC. This is public
+repository coverage; neither additional seasons nor Simplify's complete website
+or upstream latency were established.
+
+The weekly official-route cursor advanced through four more known gaps:
+
+- [Citadel Securities internships](https://www.citadelsecurities.com/careers/internships/)
+  still links to an internship-filtered open-opportunities directory. The
+  observed directory contained filter controls without enumerated requisitions;
+  this manual review did not establish a complete permitted collector.
+- [Deutsche Bank's application calendar](https://careers.db.com/students-graduates/your-application/?language_id=1)
+  distinguishes US summer internships, graduate programs and their eligibility.
+  Its [Search Programmes page](https://careers.db.com/students-graduates/Search-Programmes/)
+  did not expose a complete requisition collection in the observed text.
+- [Goldman Sachs's student directory](https://www.goldmansachs.com/careers/students/programs-and-internships)
+  still points to [higher.gs.com](https://higher.gs.com/results). The observed
+  directory had filter headings, while the role destination exposed no usable
+  text to this review. No complete permitted API was verified.
+- The previously published [HAP Capital domain](https://www.hap-capital.com/)
+  again returned 404 to this review. This does not prove that the firm is closed;
+  similarly named unrelated employers were not substituted.
+
+All four remain explicitly incomplete public-feed coverage. Google/Meta and
+other previously recorded gaps remain unchanged. The next weekly cursor starts
+with Intercontinental Exchange, JPMorgan Chase, Millennium and Nomura, then the
+remaining gaps, dependency replay, additional season continuity and automatic
+off-host restore evidence. This was a partial review, not a re-audit of every
+employer. No verified new code defect justified a repair or deployment, so full
+runtime tests and disruptive restart/failure tests were not repeated.
+
+The completed review marker was saved as the service account at 23:18:47 UTC.
+A final host query confirmed consecutive completed runs 9501 and 9502, both
+with 212 sources passing and only the known Old Mission exception. This marker
+records the review performed; it does not resolve coverage or backup warnings.
