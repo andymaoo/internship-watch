@@ -440,3 +440,83 @@ The completed review marker was saved as the service account at 23:18:47 UTC.
 A final host query confirmed consecutive completed runs 9501 and 9502, both
 with 212 sources passing and only the known Old Mission exception. This marker
 records the review performed; it does not resolve coverage or backup warnings.
+
+## Daily review — 2026-10-26, 06:08 UTC (October 25 Pacific)
+
+Read `MAINTENANCE.md`, acceptance notes and the preceding review before checking
+production. SSH timed out again; the authenticated Azure Run Command fallback
+worked without changing the single-IP firewall rule. The release remained
+`c1456189b7bc`; the worker, supervisor timer and local-backup timer were active
+and enabled, with zero worker automatic restarts.
+
+Completed runs 10123–10125 passed **211/213** sources in 298.698, 311.264 and
+300.117 seconds. Old Mission's owner-ignored 404 remains unchanged. The other
+current failure was Bank of America's campus source: seven consecutive
+`US facet missing; scope cannot be verified` failures at inspection. Its existing
+ticket is `source:bankofamerica-campus`, first seen at 00:00:27 UTC; the source
+last succeeded at 05:28:44, so the observed problem has been intermittent as well
+as currently persistent. This is distinct from its older count-drop contract.
+
+A permitted local diagnostic using the existing `HttpClient`, robots checks and
+request pacing returned HTTP 200 with **"Quick Check Needed"** and a request to
+confirm a real person, instead of the country filters/job board. The missing
+facet is therefore reproducible on an access-challenge response; this is not
+proof of a changed facet schema or permission to bypass the challenge. Prior
+records remain intact, and no unverified job was declared open/closed or merged.
+Public Simplify discovery remains available as incomplete fallback coverage.
+
+The new `contract:ashby-replit` observation, first seen October 24, showed three
+consistent 37-record responses against its 76-record baseline. All observed
+description/location/URL fractions were 1.0, the host was unchanged and partial
+records were zero. This is a count-drop hypothesis, not a reproduced parser
+defect; its baseline and warning were retained pending independent completeness
+evidence. Other existing source-contract/coverage incidents were not reset.
+
+- The supervisor report at 06:00:24 completed in 2.730 seconds with no failed
+  notification delivery. Worker outbox: 2,007 delivered, none pending; latest
+  acknowledgement 05:47:07, receipt `1564153383055532144`. Maintenance outbox:
+  1,124 delivered, 14 cancelled, none pending. The newly scheduled weekly worker
+  canary was delivered on its first attempt at 00:03:06, receipt
+  `1564066810775601183`. These are provider acknowledgements; no extra test
+  notification or inbox confirmation was requested.
+- Independent Healthchecks scraper and maintenance indicators were both UP,
+  with recent pings and email destinations still attached. The unconfigured
+  off-host backup check still showed Never; its known setup requirement was
+  not requested again.
+- The 05:02:01 local restore proof verified the 3,303,460,864-byte job database,
+  saved table counts (4,903 jobs and 11,640 identities), and the maintenance
+  database. The daily integrity marker was October 25 at 22:05:00, and disk
+  space was 35.26 GiB free. This local proof does not establish automatic
+  off-host recovery; the earlier verified manual deployment copies are separate.
+- Due validation candidates decreased 1,608 → 1,585 → 1,546 over the sampled
+  completed cycles. There were 173 qualifying rechecks due, oldest 04:42:43
+  (about 85 minutes overdue), and zero included jobs without a first link check.
+  The existing backlog-growth ticket remained open under its sustained recovery
+  rule. A short decrease does not establish long-term capacity or justify
+  changing the alert threshold.
+- The daily Simplify audit at October 25, 21:30:35 confirmed the canonical,
+  unarchived `SimplifyJobs/Summer2027-Internships`, branch `dev`, path
+  `.github/scripts/listings.json`, commit
+  `b4fd6c2cc8ba61c3925012262240a6b5255df363` (16:02:40 UTC). Upstream website
+  publication latency and additional seasons remain unknown.
+- Default-branch CI for `b8dcacb` passed (run `40226522522`). Dependabot replaced
+  PR #4 with unmerged PR #5, adding certifi 2026.10.19 to the existing proposed
+  Protego 0.7.0/charset-normalizer 3.5.2 changes. PR #5 CI passed, but no
+  dependency was merged or deployed without the required behavioral/source
+  review. Actions proposals #1 and #2 remain open.
+
+No new code defect was established, so no runtime deployment, restart, data
+rollback or redundant full test run was performed. The October 23 partial
+weekly review remains the latest official-route review; its cursor starts with
+Intercontinental Exchange, JPMorgan Chase, Millennium and Nomura. This daily
+check did not re-audit those companies or claim to close the 24 coverage gaps.
+
+An Azure diagnostic at 06:12:49 independently reproduced the same HTTP 200
+human-verification page, with `human_verification: true`. Its bounded evidence
+was saved as the service account in
+`/var/lib/internship-watch/agent-evidence/2026-10-26-bofa.json` and appended as an
+`agent_review` event under the existing Bank of America source ticket. No ticket
+status, source baseline, job or outbox row was changed. The completed review
+marker was recorded at 06:13:00 UTC. Direct coverage remains blocked pending
+permitted access or an independently verified permitted alternative; the human
+check was not solved or bypassed.
