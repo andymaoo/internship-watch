@@ -520,3 +520,69 @@ status, source baseline, job or outbox row was changed. The completed review
 marker was recorded at 06:13:00 UTC. Direct coverage remains blocked pending
 permitted access or an independently verified permitted alternative; the human
 check was not solved or bypassed.
+
+## Daily review — 2026-10-28, 20:49 UTC actual observation
+
+The queued heartbeat's trigger time was earlier; the observations below use the
+actual Azure query timestamps. Read the maintenance policy, acceptance notes
+and preceding reviews first. SSH still timed out, but the existing Azure session
+refreshed and Run Command worked. No firewall or credential change was needed.
+
+- Backend remained `c1456189b7bc`, with the worker and both supervisor/local
+  backup timers active and enabled, and zero worker automatic restarts.
+  Runs 10815 and 10816 passed 212/213 sources in 342.908 and 322.411 seconds.
+  Run 10817 passed 211/213 in 335.041 seconds: the known owner-ignored Old Mission
+  404 and a PIMCO Workday response with more rows than its declared total.
+  PIMCO had already returned to zero failures in current source state. One
+  inconsistent upstream snapshot followed by recovery does not reproduce a
+  parser defect; the strict completeness check remains enabled.
+- **Bank of America direct discovery recovered through normal scheduled polls.**
+  Its existing source incident resolved at 16:15:38. Six consecutive samples
+  from runs 10813–10818 (20:18:27–20:46:10) each successfully returned nine
+  source records, with zero current failures. No human check was solved,
+  cookie/session imported, restriction bypassed or adapter modified. This is
+  observed recovery, not a permanent access fix. The older 27-to-9 count-drop
+  contract remains a separate unresolved coverage/completeness question.
+- Fidelity and State Street each still reported one upstream partial search
+  shell in run 10817, grouped under their existing `partial-source` tickets.
+  Usable records continue collecting, while incomplete rows stay unresolved.
+  No new identity, description or job status was invented to clear the warning.
+- Worker outbox: 2,220 delivered, none pending; latest receipt
+  `1565081574796566668` at 19:15:25. Supervisor: 1,245 delivered, 14 cancelled,
+  none pending; latest receipt `1565100477253685459` at 20:30:32. The October 26
+  weekly canary receipt remained delivered on its first attempt. These are
+  provider receipts, not new owner inbox confirmations; no extra test was sent.
+- The 20:45:25 supervisor report completed in 1.874 seconds without delivery
+  failures. Independent Healthchecks scraper and supervisor indicators were
+  both UP with recent pings and email integrations. The off-host check still
+  showed Never, consistent with its known unconfigured bucket connection.
+- Local restore proof at 05:14:08 verified the 3,495,862,272-byte jobs database
+  and maintenance database, with saved counts including 5,078 jobs and 12,002
+  identities. Daily integrity evidence was current at October 27, 22:35:21;
+  34.72 GiB remained free. No automatic off-host proof was claimed, and the
+  existing missing-credentials/setup request was not repeated.
+- Overall validation candidates were 1,735 → 1,728 → 1,727 across the sampled
+  completed runs. There were 253 qualifying rechecks due, oldest 19:20:20,
+  about 89 minutes before the query, and zero included jobs without a first
+  link check. Backlog-growth had recovered at 19:00:43. Validation-lag remained
+  open under its lower-lag/sustained-recovery rule; the ticket's older evidence
+  is not the current oldest due time. The five latest saved decisions took
+  222, 91, 191, 224 and 292 seconds from discovery. This small recent sample
+  does not establish worst-case delay, upstream freshness or stable capacity.
+- The daily Simplify audit at October 27, 22:00:35 still verified the canonical,
+  unarchived Summer2027 repository, `dev` branch and listings JSON path, commit
+  `e8fb6e97fb71c8d8c77b28ed08b3931c23f6abbe` (21:02:24 UTC). Default-branch
+  `a3f4490` CI passed, including run `40391613904`. Dependency PRs #1, #2 and #5
+  remained unmerged. No runtime dependency or source configuration changed.
+
+No new reproducible code defect required a repair, restart or deployment, so
+full runtime tests and disruptive failure tests were not repeated. The October
+23 partial weekly review remains current; the next official-route cursor is
+Intercontinental Exchange, JPMorgan Chase, Millennium and Nomura, followed by
+the other documented gaps, dependency replay, season continuity and off-host
+restore evidence. This daily review did not re-audit every employer.
+
+The completed review marker was saved as the service account at 20:51:41 UTC.
+Run 10818 subsequently confirmed 212/213 successful sources, with only the
+known Old Mission 404. PIMCO's successful 20:48:04 collection independently
+confirmed its recovery. No worker restart or new notification test was needed.
