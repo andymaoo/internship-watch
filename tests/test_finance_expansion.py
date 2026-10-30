@@ -8,6 +8,20 @@ from tests.test_employer_sources import BothClient
 from tests.test_platform_sources import wd_row, wd_detail, BOARD
 
 class FinanceRegressionTests(unittest.TestCase):
+    def test_technology_internship_program_uses_its_own_software_duties(self):
+        job={'title':'2027 Technology Summer Internship Program','location':'Houston',
+             'description':"What role will you play? As an intern in Technology, you'll be embedded within an engineering team. Projects include software engineering and application development, including designing, developing, testing, and deploying code. What you offer Undergraduate students graduating between December 2027 and June 2028."}
+        decision=classify(job,{'countries':['US'],'degrees':['bachelor']})
+        self.assertEqual(decision['decision'],'include')
+        self.assertEqual(decision['category'],'software_engineering')
+        self.assertIn('technology_program_software_responsibilities',[x['kind'] for x in decision['evidence']])
+        job['description']="What role will you play? As an intern, resolve IT helpdesk tickets and support office equipment. What you offer Software engineering experience and Python coding are useful."
+        self.assertNotEqual(classify(job,{})['decision'],'include')
+        job['description']="You may be placed as a Software Engineer or Business Analyst."
+        self.assertEqual(classify(job,{})['decision'],'ambiguous')
+        job['description']="What role will you play? As an intern in Technology, you'll be embedded within an engineering team. Build software and develop FPGA circuits. What you offer A bachelor degree."
+        self.assertNotEqual(classify(job,{})['decision'],'include')
+
     def test_unchanged_resolved_payload_reuses_current_classification(self):
         import tempfile
         from pathlib import Path
@@ -122,6 +136,32 @@ class FinanceAdapterTests(unittest.TestCase):
         self.assertEqual(len(rows),2)
         self.assertNotEqual(classify(rows[0],{})['decision'],'include')
         with self.assertRaises(SourceError):collect(source,self.html_client(page('1',True),page('1')))
+
+    def test_macquarie_single_page_total_still_requires_complete_records(self):
+        source={'id':'macquarie','type':'finance_avature','board':'macquarie','employer':'Macquarie Group'}
+        def page(ids,total=2,next_page=False,legend=True):
+            counter=f'<div class="list-controls__text__legend visibility--hidden--visually" aria-label="{total} results">\n  {total}\n\n  results\n</div>' if legend else f'<p>{total} results</p>'
+            rows=''.join(f'<article class="article article--result clearfix"><h3><a href="https://recruitment.macquarie.com/en_US/careers/JobDetail?jobId={identity}">Financial Management Graduate Program</a></h3></article>' for identity in ids)
+            return counter+rows+('<a class="paginationNextLink" href="https://recruitment.macquarie.com/en_US/careers/SearchJobs?jobOffset=1">Next</a>' if next_page else '')
+        rows=collect(source,self.html_client(page(['1','2'])))
+        self.assertEqual([r['source_id'] for r in rows],['macquarie-1','macquarie-2'])
+        self.assertTrue(all(classify(r,{})['decision']!='include' for r in rows))
+        with self.assertRaisesRegex(SourceError,'truncated'):
+            collect(source,self.html_client(page(['1'])))
+        with self.assertRaisesRegex(SourceError,'result count missing'):
+            collect(source,self.html_client(page(['1','2'],legend=False)))
+        with self.assertRaisesRegex(SourceError,'result count missing'):
+            collect(source,self.html_client('<p>Quick Check Needed</p>'))
+        rows=collect(source,self.html_client(page(['1'],next_page=True),page(['2'])))
+        self.assertEqual(len(rows),2)
+        with self.assertRaisesRegex(SourceError,'duplicate across pages'):
+            collect(source,self.html_client(page(['1'],next_page=True),page(['1'])))
+        with self.assertRaisesRegex(SourceError,'result count changed'):
+            collect(source,self.html_client(page(['1'],next_page=True),page(['2'],total=3)))
+        legacy=page(['1','2'],legend=False).replace('<p>2 results</p>','<p>1-2 of 2 results</p>')
+        self.assertEqual(len(collect(source,self.html_client(legacy))),2)
+        with self.assertRaisesRegex(SourceError,'result count missing'):
+            collect(source,self.html_client(page(['1','2'])+'<div class="list-controls__text__legend">3 results</div>'))
 
     def test_renaissance_specific_positions_no_internship_invented(self):
         source={'id':'rentec','type':'renaissance','employer':'Renaissance Technologies'}

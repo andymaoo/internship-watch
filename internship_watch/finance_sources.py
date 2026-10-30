@@ -270,6 +270,13 @@ def finance_avature(source, client):
         visited.add(url);r=client.get(url,respect_robots=True);r.raise_for_status();p=Page(r.text)
         if board=='macquarie':
             count=re.search(r'\b\d+-\d+ of (\d+) results\b',p.text)
+            if not count:
+                # Avature omits the displayed range when the entire result set
+                # fits on one page. Only trust its dedicated results legend;
+                # arbitrary body text or an access challenge is not a total.
+                legends=re.findall(r'<div\b[^>]*class=["\x27][^"\x27]*\blist-controls__text__legend\b[^"\x27]*["\x27][^>]*>(.*?)</div>',r.text,re.S|re.I)
+                if len(legends)==1:
+                    count=re.fullmatch(r'(\d+)\s+results?',_description(legends[0]))
             if not count:raise SourceError('Macquarie result count missing')
             if expected is not None and expected!=int(count[1]):raise SourceError('Macquarie result count changed')
             expected=int(count[1])

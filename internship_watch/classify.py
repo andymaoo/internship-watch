@@ -217,6 +217,18 @@ def classify(job: dict, filters: dict | None = None) -> dict:
             if category:
                 record('description', placement[0], 'possible_in_scope_internship_placement')
                 unknown.append('Program includes qualifying placements, but the assigned role is not guaranteed')
+        # A generic technology program can nevertheless promise engineering
+        # work. Require its own responsibilities section, an engineering-team
+        # assignment and concrete software/code duties; qualifications or
+        # possible placements alone do not establish the role.
+        if category is None and re.fullmatch(r'(?:20\d{2}\s+)?technology\s+(?:(?:summer|winter|spring|fall)\s+)?internship\s+program(?:me)?',title,re.I):
+            duties=re.search(r'\bwhat role will you play\??\s*(.*?)(?:\bwhat you offer\b|\b(?:required|preferred) qualifications\b|$)',description,re.I)
+            if duties:
+                team=re.search(r'\b(?:embedded|work(?:ing)?)\s+(?:within|in|on)\s+(?:an?|the)\s+(?:software\s+)?engineering team\b',duties[1],re.I)
+                code_work=SOFTWARE_DUTIES.search(duties[1]) or re.search(r'\b(?:deploy(?:ing)?|writ(?:e|ing)|develop(?:ing)?|test(?:ing)?)\s+(?:\w+\s+){0,3}code\b',duties[1],re.I)
+                if team and code_work:
+                    category='software_engineering'
+                    record('description',team[0]+'; '+code_work[0],'technology_program_software_responsibilities')
     if re.search(r"\b(?:program|project) manag(?:er|ement)\b", title, re.I) and category != 'product_management':
         excludes.append("Program/project management is outside the requested product-management family")
     trading_title = bool(re.search(r"\btrad(?:er|ing)\b", title, re.I))

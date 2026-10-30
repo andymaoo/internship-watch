@@ -586,3 +586,62 @@ The completed review marker was saved as the service account at 20:51:41 UTC.
 Run 10818 subsequently confirmed 212/213 successful sources, with only the
 known Old Mission 404. PIMCO's successful 20:48:04 collection independently
 confirmed its recovery. No worker restart or new notification test was needed.
+
+## Daily repair preparation and partial weekly review — 2026-10-30
+
+The 22:31:16 Azure query confirmed deployed `c145618`, active/enabled worker and
+supervisor/local-backup timers, zero automatic restarts, a fresh successful
+22:30:25 supervisor report and UP independent scraper/supervisor monitors.
+Runs 11361–11363 passed 208, 209 and 210 of 213 sources in 325.475, 319.461 and
+313.546 seconds. Current source state had the owner-ignored Old Mission 404 and
+72 Macquarie failures; transient other failures require source-specific evidence
+rather than weakening collection checks. Worker outbox had 2,353 delivered and
+one pending record during an active poll; this alone does not establish failed
+delivery. The latest receipt was at 22:29:17, and the supervisor had no pending
+messages or delivery failures. The existing weekly canary remained acknowledged.
+
+Macquarie's count-format defect and a generic-title classification false
+exclusion were reproduced and repaired locally with failing-before/passing-after
+regressions. See `REPAIR_2026-10-30.md`. All 351 application and seven backup
+tests passed. Actual-host staging, off-VM backup verification, deployment and
+consecutive production acceptance remain pending at this preparation point.
+
+There were 232 qualifying rechecks due, oldest 21:08:14, and zero included jobs
+without their first check. Total due counts were 1,750 → 1,750 → 1,741. Existing
+validation-lag/coverage/contracts remain open. Local restore proof at 05:08:46
+was valid/recent, integrity evidence was October 29 at 23:05:23, and 34.63 GiB
+remained free. Automatic off-host storage remains unconfigured; no repeated
+credential request was issued. Default-branch CI for `af4f9e8` passed. Dependency
+PRs #1, #2 and #5 remain unmerged; no automatic dependency deployment occurred.
+
+The daily feed audit at 22:30:26 confirmed the canonical, unarchived
+`SimplifyJobs/Summer2027-Internships`, `dev`, `.github/scripts/listings.json`,
+commit `f6ef829ffeb246f72e0b0506b2d71b2974540ee1` at 22:02:20. This verifies
+the configured public feed, not whole-site coverage or employer-to-feed latency.
+
+The weekly official-route review advanced through these four known gaps:
+
+- [ICE's current careers host](https://careers.ice.com/jobs/14113?lang=en-us)
+  exposed a current internship in search indexing, but direct opening returned
+  HTTP 403. No access bypass or complete permitted collector was established.
+- [JPMorganChase students](https://www.jpmorganchase.com/careers/explore-opportunities/students-and-graduates)
+  still links to the official Oracle CX_1001 candidate site. The observed
+  destination rendered no usable requisition text. No complete permitted API
+  was verified by this review; its earlier access restriction was not bypassed.
+- [Millennium students](https://www.mlp.com/careers/students/) currently links
+  2027 applications to `campusjobs.mlp.com`, domain `mlp.com`, campus microsite.
+  The observed destination exposed navigation/configuration rather than a
+  complete job enumeration. This is a useful route-review candidate, not an
+  enabled integration or proof of complete coverage.
+- [Nomura's program overview](https://www.nomura.com/careers/early-careers/program-overviews/)
+  still links to its official Tal.net campus board. The manual web view now
+  exposed student opportunities rather than the earlier challenge. Actual-host
+  robots/access policy, complete pagination and identity/detail validation must
+  be established before claiming a working direct collector.
+
+All four remain incomplete public-feed coverage. The next gap-review cursor is
+Quantlab, Seven Eight Capital, SIG and TGS, followed by Wells Fargo/Wolverine and
+the remaining earlier gaps. Dependency behavioral replay, extra season
+continuity and automatic off-host restore evidence remain outstanding. This
+partial review did not re-audit all companies or infer that old access failures
+are permanent.
