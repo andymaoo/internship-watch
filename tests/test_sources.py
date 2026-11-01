@@ -125,6 +125,34 @@ class SourceTests(unittest.TestCase):
             with self.assertRaises(RuntimeError):
                 apple_scraper.fetch_apple_internships()
 
+    def test_apple_identical_overlap_keeps_new_records_but_rejects_conflicts(self):
+        a={'id':'a','positionId':'100','postingTitle':'Software Intern','transformedPostingTitle':'software-intern'}
+        b=dict(a,id='b',positionId='101')
+        c=dict(a,id='c',positionId='102')
+        pages=[{'searchResults':[a,b],'totalRecords':4},{'searchResults':[dict(b),c],'totalRecords':4},{'searchResults':[],'totalRecords':4}]
+        with patch.object(apple_scraper,'_prime_session'),patch.object(apple_scraper,'_get_csrf_token',return_value='token'),patch.object(apple_scraper,'_search_page',side_effect=pages):
+            rows=apple_scraper.fetch_apple_internships()
+        self.assertEqual([j['id'] for j in rows],['a','b','c'])
+        for second,reason in [([dict(b,postingTitle='Different Intern'),c],'conflicting'),([dict(a),dict(b)],'no progress')]:
+            with self.subTest(reason=reason),patch.object(apple_scraper,'_prime_session'),patch.object(apple_scraper,'_get_csrf_token',return_value='token'),patch.object(apple_scraper,'_search_page',side_effect=[{'searchResults':[a,b]},{'searchResults':second}]):
+                with self.assertRaisesRegex(RuntimeError,reason):apple_scraper.fetch_apple_internships()
+
+    def test_apple_declared_raw_total_must_be_complete_and_stable(self):
+        a={'id':'a','positionId':'100','postingTitle':'Software Intern','transformedPostingTitle':'software-intern'}
+        for terminal in (0,1):
+            with self.subTest(terminal=terminal),patch.object(apple_scraper,'_prime_session'),patch.object(apple_scraper,'_get_csrf_token',return_value='token'),patch.object(apple_scraper,'_search_page',side_effect=[{'searchResults':[a],'totalRecords':1},{'searchResults':[],'totalRecords':terminal}]):
+                self.assertEqual(len(apple_scraper.fetch_apple_internships()),1)
+        for pages in [
+            [{'searchResults':[a],'totalRecords':2},{'searchResults':[],'totalRecords':2}],
+            [{'searchResults':[a],'totalRecords':2},{'searchResults':[],'totalRecords':1}],
+            [{'searchResults':[a],'totalRecords':0}],
+            [{'searchResults':[],'totalRecords':True}],
+            [{'searchResults':[a],'totalRecords':2},{'searchResults':[]}],
+            [{'searchResults':[a],'totalRecords':2},{'searchResults':[],'totalRecords':0}],
+        ]:
+            with self.subTest(pages=pages),patch.object(apple_scraper,'_prime_session'),patch.object(apple_scraper,'_get_csrf_token',return_value='token'),patch.object(apple_scraper,'_search_page',side_effect=pages):
+                with self.assertRaises(RuntimeError):apple_scraper.fetch_apple_internships()
+
     def test_apple_retains_available_summary_location_and_employer_date(self):
         item = {"id": "200-3810", "title": "Software Intern", "url": "https://jobs.apple.com/en-us/details/200/software-intern", "source_record": {"jobSummary": "Work on a software internship.", "postDateInGMT": "2026-09-01T00:00:00Z", "locations": [{"city": "Cupertino", "stateProvince": "California", "countryName": "United States of America"}]}}
         with patch.object(apple_scraper, "fetch_apple_internships", return_value=[item]):

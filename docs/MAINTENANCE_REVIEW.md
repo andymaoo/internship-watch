@@ -645,3 +645,24 @@ the remaining earlier gaps. Dependency behavioral replay, extra season
 continuity and automatic off-host restore evidence remain outstanding. This
 partial review did not re-audit all companies or infer that old access failures
 are permanent.
+
+## Deployment continuation — 2026-11-01
+
+The local connection was interrupted before deployment, and its public address
+changed. The same authorized owner-only SSH rule was rotated to the current
+single /32, retaining TCP 22, priority 800 and the existing key. Actual-key SSH
+confirmed recovery. Production remained `c145618`; no stale snapshot or prepared
+release was mistaken for a completed deployment. Current state retained the
+Macquarie count failure, an Apple duplicate-pagination incident and the known
+Old Mission exception. The worker remained active with zero automatic restarts
+and 2,561 delivered outbox messages with none pending.
+
+Fresh permitted Apple evidence established an exact duplicate, rather than
+conflicting job identities, on a populated final page. A narrow repair retains
+conflict/no-progress checks and verifies Apple's declared raw totals, including
+its observed beyond-end zero-total response. See `REPAIR_2026-10-30.md` for
+failing-before regressions, the 64-unique-record live result and 353 passing
+local application tests. Final host tests, staged affected-source checks,
+verified restored off-VM snapshot and production acceptance are still pending
+at this preparation point. The earlier weekly coverage cursor remains valid;
+this continuation did not repeat or broaden that review.

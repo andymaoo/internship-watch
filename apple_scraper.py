@@ -123,19 +123,46 @@ def fetch_apple_internships(max_pages: int = 100, locations: list[str] | None = 
     csrf = _get_csrf_token(session)
 
     jobs: list[dict] = []
-    seen = set()
+    seen = {}
+    expected = None
+    raw_count = 0
     for page in range(1, max_pages + 1):
         page_data = _search_page(session, csrf, page=page, locations=locations)
         results = page_data["searchResults"]
+        if "totalRecords" in page_data:
+            total = page_data["totalRecords"]
+            if not isinstance(total, int) or isinstance(total, bool) or total < 0:
+                raise RuntimeError("Apple result total is invalid")
+            if expected is not None and total != expected:
+                # Apple's observed beyond-end response reports zero, even
+                # after populated pages report the full query total. It is
+                # terminal evidence only once every declared raw row arrived.
+                if not (not results and total == 0 and raw_count == expected):
+                    raise RuntimeError("Apple result total changed during pagination")
+            else:
+                expected = total
+        elif expected is not None:
+            raise RuntimeError("Apple result total disappeared during pagination")
         if not results:
+            if expected is not None and raw_count != expected:
+                raise RuntimeError("Apple pagination ended before its declared total")
             return jobs
+        raw_count += len(results)
+        if expected is not None and raw_count > expected:
+            raise RuntimeError("Apple returned more rows than declared")
+        added = 0
         for r in results:
             identity = r.get("id") or r.get("positionId")
             if not identity or not r.get("postingTitle") or not r.get("positionId"):
                 raise RuntimeError("Apple job is missing id, title or positionId")
             if identity in seen:
-                raise RuntimeError("Apple pagination repeated job IDs")
-            seen.add(identity)
+                if seen[identity] != r:
+                    raise RuntimeError("Apple repeated job ID has conflicting content")
+                # A live final page contained one exact repeat alongside new
+                # positions. It is the same posting, not an extra opportunity.
+                continue
+            seen[identity] = r
+            added += 1
             jobs.append({
                 "id": identity,
                 "title": r.get("postingTitle", ""),
@@ -145,6 +172,8 @@ def fetch_apple_internships(max_pages: int = 100, locations: list[str] | None = 
                 ),
                 "source_record": r,
             })
+        if not added:
+            raise RuntimeError("Apple pagination made no progress")
     raise RuntimeError(f"Apple pagination reached safety limit ({max_pages} pages)")
 
 
