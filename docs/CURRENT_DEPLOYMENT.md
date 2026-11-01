@@ -1,16 +1,24 @@
 # Current deployment and canonical repository
 
-Last actual-host verification: **2026-10-22 at 21:36 UTC (2:36 PM Pacific)**.
+Last actual-host verification: **2026-11-01 at 23:03 UTC (3:03 PM Pacific)**.
 This is a dated observation, not a guarantee of future service or source health.
 
 ## One canonical project
 
-Keep `andymaoo/internship-watch` (private), default branch
+Keep `andymaoo/internship-watch`, default branch
 `codex/reliable-internship-discovery`. This contains the Python package, source
 registry, SQLite storage, eligibility classifier, link validation, durable
 Discord delivery, maintenance supervisor, backup tooling and regression tests
 used by the Azure installation. GitHub Actions runs tests here; collection runs
 on the VM. A Git push does not deploy the VM.
+
+GitHub currently reports this repository as **public** (November 1 API check).
+Earlier private-repository descriptions are not reliable evidence of its current
+visibility. Visibility was left unchanged pending owner intent. Reports, live
+configuration, credentials and SQLite files remain outside tracked Git files.
+A current-tree heuristic check found no tracked private credential files or
+Discord-webhook/Healthchecks-ping/private-key patterns; this is not a full-history
+secret audit.
 
 The older public `andymaoo/internship-job-monitor` is a separate history with
 the initial `scrape.py`, title keywords, `seen.json` and a GitHub Actions
@@ -32,73 +40,72 @@ is not part of a Git bundle. Local recovery instructions are below.
 
 | Item | Observed value |
 | --- | --- |
-| Release directory | `/opt/internship-watch-releases/c1456189b7bc` |
-| Git commit | `c1456189b7bccefca7e5a0fc2fe45a4857be6184` |
+| Release directory | `/opt/internship-watch-releases/31d418e3d958` |
+| Backend Git commit | `31d418e3d958423eaf838bc9e7bcbf9d1abe44be` |
 | Entry point | `python -m internship_watch --config /etc/internship-watch.json daemon` |
-| Worker service | `internship-watch.service`: active |
-| Supervisor schedule | `internship-watch-maintenance.timer`: active |
-| Local backup schedule | `internship-watch-local-backup.timer`: active |
+| Worker | Active, enabled after reboot, zero automatic restarts |
+| Supervisor / daily local backup | Existing independent timers retained |
 | Configured / enabled sources | 216 / 213 |
 | Company watchlist entries | 212 |
-| Delivered worker outbox messages | 1,776; no pending messages at acceptance |
-| Deployment test delivery | Delivered once at 21:25:00 UTC, receipt `1562939858689990727` |
-| Latest accepted full-source runs | 9211 and 9212; 212 passed, only known Old Mission 404 failed |
-| Latest supervisor completion | 21:36:26 UTC, successful, 1.919 seconds |
+| Deployment test | Delivered once at 22:57:39 UTC, receipt `1566587055507636375` |
+| Normal recovered job alert | Macquarie technology internship delivered 22:57:40 UTC |
+| Consecutive full-source polls | 11920 / 11921; 212/213 passed; 356.475 / 302.403 seconds |
+| Worker outbox | 2,565 delivered, none pending |
+| Supervisor completion | 23:03:35 UTC, successful, 1.712 seconds |
 
-All 22 direct Python files in `internship_watch/` matched the Git commit after
-normalizing CRLF to LF. The aggregate SHA-256 was
-`65ff174409fbf9d799012d4001450b08de90c437f05241d9f8e3ef57e6db41c8`.
-The digest concatenates sorted path, NUL, normalized contents and NUL for each
-file. This checks the deployed source content, independently of its directory
-name. Private credentials were not displayed or copied.
+All 23 runtime source files match the deployed Git commit after normalizing
+CRLF to LF: 22 package modules plus root `apple_scraper.py`. The sorted path/NUL/
+contents/NUL SHA-256 is
+`432dbf403c11196143581461cbdcf375fac8740f3dfcdae712c622ecdb486345`.
+The package-only digest is
+`ca6c4661b4beee89094a92c4259c13e7e0511cf446c8b339761a11484f56aef7`.
+Private credentials were not displayed or committed.
 
-The initial read-only inspection used Azure Run Command. Owner SSH access was
-then restored by rotating the existing rule to the current single-client /32,
-retaining TCP 22 and the existing key. It was rotated again when the client's
-public IP changed during acceptance. The final cutover completed even though
-that change interrupted the SSH response; its saved host result and subsequent
-observations independently confirmed success. Configuration and both databases
-were preserved. The current code and systemd timeout were deployed through SSH.
+The owner-only SSH rule was rotated to the current single-client /32, retaining
+TCP 22 and the existing key. Actual-key SSH verified recovery before staging.
+A fresh consistent snapshot of both databases was downloaded, restored and
+verified off the VM before the atomic release switch. The restart preserved all
+5,375 old job identities/first-seen values/baseline flags, 12,628 identity mappings,
+6,069 source mappings/first-seen values, and 2,561 worker plus 1,399 maintenance
+delivered receipts. New observations and notifications continue in the same DBs.
 
-## Current health limit
+## Current health limits
 
-Old Mission's direct board still returns HTTP 404 and is left unchanged per the
-owner's instruction. Runs remain labeled degraded because this real source
-failure is retained. No other source failed in the staged check or the two
-accepted consecutive production runs. Existing count/schema contract warnings,
-intermittent-access history, coverage gaps and validation backlog warnings remain
-visible; they were not silenced by accepting new baselines or changing job status.
+The repaired Macquarie counter parser and duty-based technology-program
+classification now work on actual source data. Apple's exact-overlap handling
+retains conflict/no-progress and raw-count validation. All 353 application and
+seven backup tests passed locally, on Azure and in CI. See
+[November 1 acceptance](DEPLOYMENT_2026-11-01.md) for actual scheduled results,
+latency, receipt, preservation and independent monitoring evidence.
 
-The supervisor's storage-error and stale-agent-review incidents recovered. Its
-daily integrity marker is current at 21:19:18 UTC. The local-backup restore proof
-from 05:10:25 UTC remains valid and recent, and this update independently created
-and restored both databases off the VM before cutover. Automatic encrypted
-off-host bucket storage remains unconfigured; manual recovery copies do not
-resolve that separate warning. Independent worker and supervisor heartbeat
-configuration remains present, and the latest supervisor reported no heartbeat
-or delivery failures. A new missed-heartbeat outage test was not repeated for
-this code-only update.
+Old Mission's direct board still returns HTTP 404 and remains unchanged per the
+owner's instruction. Existing count/schema contracts, intermittent-access history,
+incomplete coverage, validation lag/backlog and automatic off-host storage remain
+visible. They were not silenced by accepting baselines or changing job statuses.
+The worker's configured five-minute interval is a target; slow collections and
+validation postpone the next cycle without overlap. Upstream feed delays are
+separate and unmeasured.
+
+Daily local restore proof is valid/recent. Manual off-VM recovery copies were
+verified on November 1; automatic encrypted bucket backup remains unconfigured.
+Both independent worker/supervisor Healthchecks checks were observed UP after
+the two accepted production polls. Disruptive outage tests were not repeated
+for this adapter/classifier update; previous live evidence and current regression
+coverage remain available. This is not a claim of perfect future health.
 
 ## Code and deployment history
 
-The latest backend code, including the Moody's repair and the maintenance
-canary-lock fix, is deployed. HubSpot's original Greenhouse board recovered with
-62 records at 21:08:26 UTC, so its earlier retirement proposal was reversed before
-deployment. All live configuration values, including source settings and user
-filters, remain unchanged. The configuration retains 213 enabled sources, 212
-company entries, 188 direct routes and 24 incomplete public-feed-only routes.
-These are routes and watchlist entries, not guaranteed market coverage.
+The tag `azure-production-2026-11-01` identifies the running backend. Older
+production tags are retained as historical code snapshots, not separate services.
+The default branch contains the same backend plus later documentation-only
+commits. A documentation commit does not require restarting the worker.
+All production settings, including 213 enabled sources, 212 watchlist entries,
+188 direct routes and 24 incomplete public-feed-only entries, remain unchanged.
+These route counts do not establish complete employer or market coverage.
 
-The release tag `azure-production-2026-10-22-updated` identifies the current
-Discord worker code. The earlier `azure-production-2026-10-22` tag records the
-pre-update `b3d88cd` release and is retained as historical evidence. Tags are
-code snapshots, not separate running services. The default branch contains the
-same backend plus current documentation; documentation-only commits do not
-require another restart. See `DEPLOYMENT_2026-10-22.md` for acceptance evidence.
-
-Deploy pending code only after current live checks, staged tests, a verified
-off-host predeployment snapshot and a reversible cutover preserving both
-databases. See `MAINTENANCE.md`. There is no automatic deployment workflow.
+Future runtime changes still require staged tests, permitted live checks, a
+verified fresh off-VM snapshot and reversible code-only deployment. See
+MAINTENANCE.md. There is no automatic Git-push deployment workflow.
 
 ## Recovering the retired repository's code
 

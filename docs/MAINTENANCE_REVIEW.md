@@ -666,3 +666,50 @@ local application tests. Final host tests, staged affected-source checks,
 verified restored off-VM snapshot and production acceptance are still pending
 at this preparation point. The earlier weekly coverage cursor remains valid;
 this continuation did not repeat or broaden that review.
+
+## Completed actual-host acceptance — 2026-11-01, 23:03 UTC
+
+The October 30 preparation and November 1 continuation above are now deployed
+as backend `31d418e`. The actual deployed 22 package modules plus root Apple
+module match Git fingerprints. Local and Azure staging passed all 353 application
+and seven backup tests; CI run 41358943582 passed. Full-source staging and the
+changed Apple recheck retained complete pagination/contracts, with one bounded
+successful PIMCO retry and only the owner-ignored Old Mission 404 outstanding.
+Both fresh SQLite snapshots were restored and fully hash/integrity/table-count
+verified off the VM before activation. No production DB was overwritten.
+
+Production polls 11920/11921 completed at 22:57:52/23:02:55 in 356.475/302.403
+seconds. Both passed 212/213 sources, with only Old Mission failing. Apple and
+Macquarie have zero failures; the real Macquarie Houston program now qualifies
+on explicit software responsibilities. Its posting is open and application
+access unverified. Its normal job notification decision took 262 seconds from
+discovery, with Discord acknowledgement at 267 seconds. The separate labeled
+deployment check and ordinary source recovery messages also delivered once.
+The worker had 2,565 delivered/zero pending messages, zero automatic restarts,
+and preserved every existing job/identity/source mapping and delivered receipt
+plus the unchanged user filters and source settings.
+
+Supervisor completion at 23:03:35 took 1.712 seconds, without storage/delivery
+failure. Its completed review marker is 23:03:33. Both independent worker and
+supervisor monitors were observed UP after the second poll. Daily local restore
+proof remains current; automatic encrypted off-host backup is still unconfigured.
+The manual off-VM deployment copy is explicitly separate, and no repeated
+credential request was sent. There are 26 retained warning/info tickets.
+Due checks fell 1,950 to 1,947 across the two polls; qualifying rechecks were 379,
+oldest 21:31:50, with zero included jobs missing their first check. This short
+sample does not establish stable queue capacity. Lag/backlog, count/schema,
+intermittent history and incomplete-coverage findings remain visible.
+
+New decision ticket `repository-visibility`: authenticated GitHub API reports
+`andymaoo/internship-watch` public, contrary to earlier private descriptions.
+Leave visibility unchanged pending owner intent. Current-tree heuristic scans
+found no tracked private credential files or actual webhook/ping/private-key
+patterns; this is not a full-history audit. Reports and database/backup files
+remain outside Git. Current documentation now describes the observed visibility.
+
+The partial weekly official-route review above remains the work actually done;
+next cursor is Quantlab, Seven Eight Capital, SIG and TGS, then Wells Fargo,
+Wolverine and other gaps. Dependency PRs #1/#2/#5 remain unmerged. No blanket
+market/season/dependency re-audit is claimed. See DEPLOYMENT_2026-11-01.md for
+full recovery/receipt/operation evidence. The Windows report snapshot is under
+`outputs/maintenance-2026-11-01/report` in the task workspace and is not live.

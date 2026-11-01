@@ -1,11 +1,11 @@
 # Maintenance safeguards: actual-host acceptance
 
-**Latest update:** October 22 deployed backend `c145618` and verified consecutive
-production polls, saved Discord delivery, persistent records, current integrity
-evidence and recovered supervisor execution. See
-[October 22 acceptance](DEPLOYMENT_2026-10-22.md) and
+**Latest update:** November 1 deployed backend `31d418e` repairs Macquarie
+counts/software-duty classification and exact Apple pagination overlaps. All
+353 application and seven backup tests passed locally, on Azure and in CI.
+See [November 1 actual-host acceptance](DEPLOYMENT_2026-11-01.md) and
 [the current deployment](CURRENT_DEPLOYMENT.md). The measurements below are
-dated historical acceptance evidence.
+dated historical acceptance evidence, including earlier controlled outage tests.
 
 Runtime release: `1d36c8261773ca31d59dcbaf656a9b2b2f339bc2`, on the existing Azure
 VM through `/opt/internship-watch`. The user's US/junior/role/eligibility filters,

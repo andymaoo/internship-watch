@@ -1,13 +1,17 @@
 {
   "repository": "andymaoo/internship-watch",
-  "observed_at": "2026-10-22T21:36:24Z",
-  "verification": "Strict-host-key SSH; exact package fingerprint, consecutive full-source scheduled runs, preserved SQLite history and saved Discord delivery receipt",
-  "git_commit": "c1456189b7bccefca7e5a0fc2fe45a4857be6184",
-  "release_directory": "/opt/internship-watch-releases/c1456189b7bc",
-  "snapshot_tag": "azure-production-2026-10-22-updated",
-  "normalized_package_sha256": "65ff174409fbf9d799012d4001450b08de90c437f05241d9f8e3ef57e6db41c8",
+  "observed_at": "2026-11-01T23:03:35Z",
+  "verification": "Strict-host-key SSH; exact 23-file runtime fingerprint, consecutive full-source scheduled runs, preserved SQLite history, verified off-VM restores, real job and deployment Discord receipts, independent worker/supervisor Healthchecks UP",
+  "git_commit": "31d418e3d958423eaf838bc9e7bcbf9d1abe44be",
+  "release_directory": "/opt/internship-watch-releases/31d418e3d958",
+  "snapshot_tag": "azure-production-2026-11-01",
+  "normalized_package_sha256": "ca6c4661b4beee89094a92c4259c13e7e0511cf446c8b339761a11484f56aef7",
   "pending_runtime_repair_commit": null,
   "automatic_deployment": false,
-  "health": "worker active and enabled; consecutive polls passed 212/213 sources with owner-ignored Old Mission 404; no pending worker deliveries; supervisor and daily integrity check recovered; existing contract/coverage and off-host-backup warnings retained",
-  "details": "docs/CURRENT_DEPLOYMENT.md"
+  "health": "worker active/enabled; consecutive polls 11920/11921 passed 212/213 sources, only owner-ignored Old Mission 404; Apple/Macquarie recovered; zero pending worker/supervisor deliveries; supervisor and independent monitors healthy; queue/contract/coverage and automatic off-host-backup warnings retained",
+  "details": "docs/CURRENT_DEPLOYMENT.md",
+  "normalized_runtime_sha256": "432dbf403c11196143581461cbdcf375fac8740f3dfcdae712c622ecdb486345",
+  "normalized_runtime_files": 23,
+  "apple_sha256": "5d1792a7627fa08e3d7d1f1b3b72d67d9806afe8ce5aab61c09bbbc3bf6bf863",
+  "repository_visibility_observed": "public"
 }
