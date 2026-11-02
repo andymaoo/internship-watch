@@ -713,3 +713,69 @@ Wolverine and other gaps. Dependency PRs #1/#2/#5 remain unmerged. No blanket
 market/season/dependency re-audit is claimed. See DEPLOYMENT_2026-11-01.md for
 full recovery/receipt/operation evidence. The Windows report snapshot is under
 `outputs/maintenance-2026-11-01/report` in the task workspace and is not live.
+
+## Daily actual-host review — 2026-11-02, 19:13–19:17 UTC
+
+Backend `31d418e` remains deployed: all 23 runtime source fingerprints match
+Git, with unchanged user filters, 300-second target and 213 enabled sources.
+Worker and maintenance/local-backup timers are active/enabled; the worker has
+zero automatic restarts. The owner-only SSH rule was rotated to the current
+single-client /32 after a network change, retaining TCP 22 and the existing
+key. Actual-key SSH confirmed recovery; this was not a worker outage.
+
+Runs 12148/12149 passed 212/213 sources in 321.664/326.997 seconds. Run 12150
+passed 211/213 in 337.292 seconds because BlackRock's robots access could not
+be verified, alongside the owner-ignored Old Mission 404. BlackRock subsequently
+recovered in source state during normal polling. Recent Bank of America facet
+and NVIDIA changing-total failures also recovered. No access restriction,
+validator, filter or job status was bypassed to clear a transient source error.
+Apple returned 61 rows and Macquarie eight, both with zero failures.
+
+Group the Macquarie warning under existing `contract:macquarie-campus`:
+its reviewed live count is eight versus the older accepted baseline of 31.
+Three recent samples agree on eight identities, 7/8 descriptions/locations,
+complete posting URLs, the unchanged employer host and no partial records.
+The previous repair established complete reconciliation against the employer's
+new single-page count. This daily check did not independently establish why
+all older positions disappeared, so the baseline remains unchanged; a later
+upstream count review is required before explicitly accepting it. This is a
+coverage anomaly, not evidence that the repaired adapter is failing again.
+The T. Rowe Price/Vanguard partial-shell warnings already have September 30
+history; they remain unverified. Other count/schema/intermittent, validation,
+coverage and automatic off-host backup findings remain grouped in existing tickets.
+
+The worker outbox contains 2,589 delivered messages and none pending. A normal
+Microsoft internship alert was acknowledged at 17:46:41 (receipt
+`1566871184451043368`). The Monday canary was acknowledged at 00:00:32 on its
+first attempt (receipt `1566602877424635986`). Latest five saved discovery-to-
+notification decisions took 225, 284, 264, 264 and 264 seconds; this small sample
+does not establish worst-case delay or upstream publication freshness.
+Due checks across runs 12148–12150 were 1,977, 1,957 and 1,956; 377 qualifying
+rechecks were due at the later query, oldest 17:20:00, with zero included jobs
+missing their first check. Long-term queue stability is not established.
+
+The supervisor completed a fresh report at 19:15:40, after the earlier successful
+19:00 report. The latter had no failed deliveries and its outbox had 1,452
+delivered/14 cancelled messages with none pending. Current local restore proof
+is 05:16:50, verifying the 3,927,867,392-byte job DB, all table counts and the
+additional maintenance DB. The integrity marker from November 1 at 23:50:34
+is within its daily interval. This is local restore proof, not automatic off-host
+recovery. November 1's verified manual off-VM deployment snapshots remain
+separate; the bucket connection is unchanged and was not requested again.
+The real worker/supervisor heartbeat states were checked independently; a
+brief in-progress/grace state during each scheduled execution is not an outage.
+
+Default-branch and production-tag CI passed, including runs 41360352898 and
+41360356256. Dependency PRs #1/#2/#5 remain unmerged. GitHub still reports the
+repository public; the existing owner-visibility decision remains pending and
+was not repeated. No reproducible new code defect, new test requirement or
+runtime deployment was established; the previous full tests were not rerun
+for a read-only health review. The completed agent-review marker was saved
+as the service account at 19:17:21.
+
+The cached daily Simplify audit remains within 24 hours: canonical Summer2027,
+dev, .github/scripts/listings.json, feed-path commit
+`319a6b5750ad3e73c1593034b7091759a69bc166` at November 1, 21:32:29 UTC.
+No new complete employer/season/dependency audit is claimed. The partial weekly
+review remains current; prioritize Macquarie's count anomaly before the next
+Quantlab, Seven Eight Capital, SIG/TGS, Wells Fargo/Wolverine gap-review cursor.
