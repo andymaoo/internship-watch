@@ -779,3 +779,56 @@ dev, .github/scripts/listings.json, feed-path commit
 No new complete employer/season/dependency audit is claimed. The partial weekly
 review remains current; prioritize Macquarie's count anomaly before the next
 Quantlab, Seven Eight Capital, SIG/TGS, Wells Fargo/Wolverine gap-review cursor.
+
+## Daily actual-host review — 2026-11-03, 22:24–22:30 UTC
+
+Authorized Azure Run Command supplied actual-host evidence after SSH remained
+unverified on the current network. Successive local public-IP checks differed;
+the existing SSH entry was refreshed to one observed owner address, retaining
+one /32, TCP 22 and the key, but TCP connection attempts still timed out. The
+saved portal rule is not proof of restored SSH. No subnet, second rule, new key
+or broader access was introduced. The existing Run Command channel avoided a
+new owner-access request and allowed the review to complete.
+
+Runtime remains `31d418e`: all 23 source fingerprints match the deployed Git
+commit. User filters, 300-second target and 213 enabled sources are unchanged.
+Worker and maintenance/local-backup timers remain active/enabled, with zero
+worker restarts. Consecutive completed polls 12451–12453 each passed 212/213
+sources, with only the owner-ignored Old Mission 404, in 328.110, 327.325 and
+325.412 seconds. Apple returned 63 records and Macquarie eight, with zero
+failures. No new adapter defect was reproducible. Existing count/schema,
+intermittent, queue and incomplete-coverage tickets remain; Macquarie's prior
+31-row baseline was not reset to silence its eight-row count anomaly.
+
+Worker outbox: 2,637 delivered, none pending. Supervisor outbox: 1,497 delivered,
+14 cancelled, none pending. The latest real job receipt was acknowledged at
+19:26:12 UTC, ID `1567258617013346444`; the unchanged Monday canary remains
+acknowledged. The 22:15:30 supervisor report completed in 3.364 seconds with no
+failed/unconfigured delivery and 36 retained warning/info tickets. Both
+independent worker/supervisor Healthchecks were observed UP again after the
+later 22:30 executions. The off-host backup check still has never received a
+ping, matching the known unconfigured bucket rather than a completed backup.
+
+November 3 local restore proof at 05:15:55 verifies the 4,016,672,768-byte job
+DB and additional maintenance DB. Daily integrity evidence is 00:05:53; free
+space is 29.66 GiB. November 1 manual off-VM recovery copies remain separate
+from daily local proof and the outstanding automatic off-host connection. No
+credentials were requested again. Due checks were 1,980, 1,977 and 1,979 across
+the three polls, with 384 qualifying rechecks due and no included jobs missing
+their first check. This short window does not establish sustained queue stability.
+
+The cached daily Simplify audit at November 2, 22:45:31 remains within 24 hours:
+canonical unarchived Summer2027-Internships, dev, .github/scripts/listings.json,
+commit `10ec3d0a4a6ec3b2a4f15b1bb1f87190d715c34f`, feed-path time 22:31:48 UTC.
+Default-branch CI run 41540330482 passed. Dependency PRs #1/#2/#5 remain unmerged;
+no new full dependency/season/employer audit is claimed. The partial weekly
+review cursor remains Macquarie's count review, then Quantlab, Seven Eight,
+SIG/TGS and Wells Fargo/Wolverine. The public-repository visibility decision
+also remains unchanged and was not repeated.
+
+The service-account review marker was successfully saved at 22:30:24, with
+completed run 12454 independently visible at 22:30:19. No backend/configuration
+change, restart or new deployment was required. Full runtime and disruptive
+outage tests were not repeated for a health review; previous acceptance and
+current CI remain the applicable test evidence. The redacted private query
+results are retained outside tracked Git files.

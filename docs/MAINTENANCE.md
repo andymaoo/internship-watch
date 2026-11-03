@@ -153,6 +153,21 @@ the supervisor can read its files. Obtain the required owner confirmation before
 changing server-access rules; keep a single management-access ticket until an
 actual SSH connection verifies recovery.
 
+If successive public-IP observations differ or a saved /32 rule does not restore
+actual-key SSH, do not keep chasing addresses or widen access to a campus/home
+subnet. Use the existing authorized Azure Run Command channel for bounded,
+redacted health queries and record SSH as unverified. Keep runtime changes gated
+on actual transfer, off-VM recovery verification and acceptance evidence.
+
+For Run Command, a locally reviewed base64-encoded Python payload can preserve
+literal backslash escapes that its shell-script transport otherwise alters.
+Base64 is not encryption: never include private credentials or environment-file
+contents. Use read-only SQLite connections for inspection, keep output within
+the portal's limit, and record completed reviews as the service account. Inspect
+stdout and stderr: Azure's outer `Enable succeeded` message does not establish
+that the inner Python command succeeded. Confirm valid returned data and an
+empty error stream before treating execution as successful.
+
 ## Commands and stopping
 
 For updates, stage and test a release from the user's private
