@@ -832,3 +832,44 @@ change, restart or new deployment was required. Full runtime and disruptive
 outage tests were not repeated for a health review; previous acceptance and
 current CI remain the applicable test evidence. The redacted private query
 results are retained outside tracked Git files.
+
+## Partial review; Azure access action required — 2026-11-04, 20:13–20:20 UTC
+
+Group this under the existing management-access issue. Strict-host-key SSH
+again timed out. The existing Azure tab was on an internal browser error page;
+the browser security policy rejected acquiring authority to observe it because
+of the internal URL protocol, and explicitly prohibited indirect workarounds.
+No alternate surface, session extraction, firewall widening or retry of that
+blocked observation was attempted. The owner was asked to manually reopen the
+normal HTTPS Azure portal in the Codex browser and sign in if required.
+
+Independent Healthchecks remained accessible through their own HTTPS page.
+Worker and supervisor were initially observed UP with recent real pings; a
+later worker in-progress/grace state was within its configured grace window,
+not a confirmed outage. The automatic off-host check still shows Never,
+consistent with its known outstanding connection. Default-branch CI run
+41731636034 passed and dependency PRs #1/#2/#5 remain unmerged. These independent
+checks do not establish current per-source, SQLite, outbox or backup health.
+
+Useful public-feed verification continued without Azure access. GitHub API
+metadata confirmed canonical, unarchived SimplifyJobs/Summer2027-Internships,
+default/configured branch dev, and .github/scripts/listings.json. The feed-path
+commit observed was `138511cb7c1a3d383adde432c9f9e4cf6bd35404`, dated
+19:31:44 UTC. A separate live dev-branch schema sample contained 17,641 rows
+(13,253,049 bytes), including 5,148 active/visible rows. None lacked the adapter's
+required identity/company/title/URL fields or boolean active/is_visible flags.
+This is schema/availability evidence, not proof of live job destinations,
+qualifying count, VM ingestion, Discord delivery or whole-site Simplify coverage.
+The independent schema sample is not claimed to be pinned to the metadata
+commit if upstream changed between requests. Historical/multiple-season terms
+remain present; no season configuration or automatic migration was applied.
+
+The last completed actual-host review remains November 3 at 22:30:24. This
+partial review did not overwrite that service-account marker or claim fresh
+runtime fingerprints, completed source runs, notification receipts, integrity
+or local restore evidence. No runtime/configuration/data/baseline change or
+deployment was made. Automatic off-host and repository-visibility decisions
+remain unchanged; no repeated credential request was issued. The weekly
+coverage cursor remains Macquarie's count anomaly, then Quantlab, Seven Eight,
+SIG/TGS and Wells Fargo/Wolverine. Resume the full host review once the owner
+restores a normal authorized Azure page or actual-key SSH connectivity.
