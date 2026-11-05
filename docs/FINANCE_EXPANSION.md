@@ -1,5 +1,13 @@
 # Finance and quant expansion
 
+**November 5 route-review note:** Company/count tables below retain their dated
+expansion observations. The latest partial official-route review is recorded in
+[MAINTENANCE_REVIEW.md](MAINTENANCE_REVIEW.md). It found an employer-linked TGS
+Lever opportunity pool, but the public API returned no jobs and the linked page
+was labeled Full-Time; complete direct collection remains unverified. None of
+Quantlab, Seven Eight Capital, SIG or TGS was newly enabled by that review.
+
+
 Reviewed from deployment `690b0209075ac35cafa2067bcf18329eb56bf467`. This request adds 108 named finance/quant employers to the coverage audit. Six already had working direct sources and are retained; DRW also gets its separate university board. The resulting configuration has **213 enabled sources and 212 company labels**, including **90 of these 108 employers with a live-tested direct route** and **18 with incomplete public-feed-only discovery**. Company labels are not source counts. A live directory response does not imply there is a qualifying opening today or guarantee every future opening.
 
 The 213-source release is active on Azure at `ebfacc718945893f2a15c1a0449401093fad1590`, with original records and delivery receipts preserved. All 213 sources passed consecutive scheduled runs, including after a controlled restart. Reviewed employer aliases retain validation across unchanged feed updates, and HSBC campus collection is enabled. [Actual-host acceptance](FINANCE_ACCEPTANCE.md) records scheduled runs, restart recovery, Discord delivery, measured resource use and validation progress. No extra server, paid service, account or subscription was created.

@@ -873,3 +873,62 @@ remain unchanged; no repeated credential request was issued. The weekly
 coverage cursor remains Macquarie's count anomaly, then Quantlab, Seven Eight,
 SIG/TGS and Wells Fargo/Wolverine. Resume the full host review once the owner
 restores a normal authorized Azure page or actual-key SSH connectivity.
+
+## Partial weekly route review — 2026-11-05, 22:58–23:01 UTC
+
+The existing management-access incident is unchanged: strict SSH timed out,
+and tab metadata still showed the same internal Azure error page. Its blocked
+observation was not retried or bypassed. The prior manual-portal reopening
+request was not repeated. Independent worker/supervisor Healthchecks were UP
+with recent real pings; the off-host check remains Never. CI run 41905788426
+passed. These observations do not substitute for fresh source/outbox/database/
+restore evidence on the VM. The last completed host-review marker remains
+November 3; no unperformed review was recorded on the service.
+
+Useful independent route review advanced through the next four known gaps:
+
+- [Quantlab's employer careers route](https://www.quantlab.com/careers?nl=1&p=jobs)
+  returned 403 to this web review. The separately observed
+  [Quantlab-branded Jobvite board](https://jobs.jobvite.com/quantlab/search?nl=1)
+  rendered No results found. The current employer-to-ATS relationship, permitted
+  complete collection and job identity/detail checks remain to be established.
+  An empty rendered board is not proof of no Quantlab opportunities.
+- [Seven Eight Capital's published home](https://www.seveneightcapital.com/)
+  returned 502 in this observation. This is an unverified access failure, not
+  proof of permanent removal or job closure; no guessed ATS board was added.
+- [SIG's technology page](https://sig.com/careers/technology/)
+  separately describes student/graduate, intern/co-op and earlier discovery
+  tracks. The [global campus directory](https://careers.sig.com/global-campus/jobs)
+  remains a useful public reference, but direct live opening returned 403.
+  Search-index text mixed internship, co-op, full-time graduate and early
+  discovery entries; it is not current collection or eligibility evidence.
+  The earlier access restriction was not bypassed and no collector was enabled.
+- [TGS Management's official join page](https://www.tgsmc.com/join-our-team/)
+  now establishes an exact Lever referral:
+  [Join Our Team](https://jobs.lever.co/tgsmc/eeb03bfa-4314-440b-ac4c-77ca12215752).
+  The observed page is a general opportunity pool labeled Full-Time, not
+  internship evidence. A local bounded check through the existing Lever adapter
+  against the published `tgsmc` slug returned a valid empty jobs array in 0.500
+  seconds. It did not enumerate that linked role. The discrepancy could reflect
+  an unlisted/removed evergreen page or search-cache freshness; its cause was
+  not established. This is a candidate permitted ATS route, not proof of complete
+  company discovery, a verified internship, or a deployed source. No job status,
+  production source configuration or baseline was changed.
+
+All four companies retain incomplete public-feed-only production coverage.
+No exact current-job or future-discovery guarantee follows from a public career
+link or a successful empty API response. TGS is distinct from the unrelated
+geoscience company at careers.tgs.com. The route-review cursor advances to
+Wells Fargo/Wolverine and remaining earlier gaps, with Macquarie's count anomaly
+still a separate priority. Actual-host policy/pagination/identity tests and
+recovery-copy/deployment gates remain necessary before enabling an alternative.
+
+Independent GitHub metadata still confirms the unarchived canonical
+SimplifyJobs/Summer2027-Internships, dev branch and listings JSON path; the latest
+feed-path commit observed is `c5561a07d5ba06c4367b658ce468656b02a2d0c8`, dated
+22:31:46 UTC. The November 4 full schema sample remains separately recorded;
+it was not repeated or attributed to today's commit. Dependency PRs #1/#2/#5,
+repository-visibility intent and automatic off-host setup remain unchanged.
+No new reproducible backend defect or runtime repair was established, and the
+existing full regression suite was not rerun for documentation/route research.
+The current deployed backend is not re-verified merely by this partial review.
