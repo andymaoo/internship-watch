@@ -932,3 +932,65 @@ repository-visibility intent and automatic off-host setup remain unchanged.
 No new reproducible backend defect or runtime repair was established, and the
 existing full regression suite was not rerun for documentation/route research.
 The current deployed backend is not re-verified merely by this partial review.
+
+## Partial weekly route review — 2026-11-06, 22:06–22:12 UTC
+
+Management access remains blocked by the existing incident: the strict-key SSH
+connection timed out, and browser tab metadata still showed the previously
+blocked Azure session-error page. That observation was not retried or bypassed,
+and the pending manual portal-restoration request was not repeated. Independent
+Healthchecks showed both scraper and maintenance UP at 22:11:17 UTC; the refreshed
+page showed scraper completion about two minutes earlier (5 min 22 sec duration)
+and maintenance about ten minutes earlier (3 sec duration), with email enabled.
+The off-host check remains Never, matching the known unconfigured bucket.
+Redacted evidence is retained in ignored local maintenance artifacts.
+
+CI run 42126481327 passed for the preceding documentation commit f743245.
+Dependency PRs #1/#2/#5 remain unmerged. Public GitHub metadata confirms the
+unarchived canonical SimplifyJobs/Summer2027-Internships, dev branch and
+`.github/scripts/listings.json`; the latest observed feed-path commit is
+`df6c2820cf378b7ae68ef329e20ece9a63c4f070`, dated 22:01:50 UTC. The earlier full
+schema sample was not repeated or attributed to this commit.
+
+The next two known direct-coverage gaps received an independent public-route
+review, rather than an actual-host collector probe:
+
+- [Wells Fargo early careers](https://www.wellsfargojobs.com/en/early-careers/)
+  links to a [search directory](https://www.wellsfargojobs.com/en/jobs/?pagesize=20&search=%22early+careers%22)
+  with unrelated permanent/global roles. Page one displayed 1–20 of 1628;
+  [page two](https://www.wellsfargojobs.com/en/jobs/?page=2&pagesize=20&search=%22early+careers%22)
+  still displayed 1–20, now of 1690, with overlapping entries. Dynamic/cache
+  effects remain possible; reliable filtering and complete pagination are not
+  established. An [exact Data Engineering internship posting](https://www.wellsfargojobs.com/en/jobs/r-583066/2027-technology-summer-internship-early-careers-data-engineering/)
+  has explicit summer-2027 duties, bachelor graduation Dec 2027–June 2028,
+  US locations, no current/future sponsorship, displayed posting date October 26
+  and November 9 closing date (possibly earlier). Its Full time metadata describes
+  hours and does not override explicit internship evidence. The employer's
+  [Workday application destination](https://wd1.myworkdaysite.com/recruiting/wf/WellsFargoJobs/job/CHARLOTTE-NC/XMLNAME-2027-Technology-Summer-Internship---Early-Careers--Data-Engineering-_R-583066)
+  yielded no readable content in this check: application access remains unverified,
+  not closed. No production record, receipt or notification was inferred from
+  this example; it may already be present through the public feed.
+- [Wolverine Trading's official open-positions page](https://www.wolve.com/open-positions)
+  links through its Pinpoint domain to
+  [careers.wolve.com](https://careers.wolve.com/en?scroll_to=js-careers-jobs-block).
+  The rendered board exposed Current Opportunities and an interest-registration
+  form, but no enumerated individual jobs. This establishes the employer's ATS
+  relationship, not zero vacancies, internship evidence or complete collection.
+  No interest form was submitted. A permitted API/schema, complete pagination
+  and job-identity validation still require testing before enabling a collector.
+
+Both companies retain incomplete public-feed-only production discovery. No new
+source was enabled; access restrictions, validators, source baselines, user
+filters, job identities and notification history remain unchanged. No new
+reproducible backend defect was established, so there was no runtime change,
+deployment or regression-suite rerun for this documentation-only review.
+
+The last completed actual-host review remains November 3 at 22:30:24 UTC. This
+partial review does not renew its service marker or re-verify runtime hashes,
+completed source runs, receipts, storage integrity or restore evidence. The next
+weekly cursor is Macquarie's unresolved count anomaly and another pass through
+earlier gaps, starting with Balyasny, BNP Paribas, Campbell & Company and
+Citadel/Citadel Securities. Dependency replay and actual-host backup verification
+also remain pending access. No repeated off-host credentials or repository
+visibility question was issued; no full coverage or current deployment-health
+claim follows from independent heartbeats.

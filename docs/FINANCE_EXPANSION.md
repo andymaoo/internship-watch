@@ -1,11 +1,14 @@
 # Finance and quant expansion
 
-**November 5 route-review note:** Company/count tables below retain their dated
+**November 6 route-review note:** Company/count tables below retain their dated
 expansion observations. The latest partial official-route review is recorded in
 [MAINTENANCE_REVIEW.md](MAINTENANCE_REVIEW.md). It found an employer-linked TGS
 Lever opportunity pool, but the public API returned no jobs and the linked page
-was labeled Full-Time; complete direct collection remains unverified. None of
-Quantlab, Seven Eight Capital, SIG or TGS was newly enabled by that review.
+was labeled Full-Time; complete direct collection remains unverified. Wells
+Fargo's directory still lacks established reliable pagination, while Wolverine
+Trading now links to an employer Pinpoint board whose complete enumeration is
+unverified. Neither those two companies nor Quantlab, Seven Eight Capital, SIG
+or TGS was newly enabled by these reviews; public-feed discovery remains incomplete.
 
 
 Reviewed from deployment `690b0209075ac35cafa2067bcf18329eb56bf467`. This request adds 108 named finance/quant employers to the coverage audit. Six already had working direct sources and are retained; DRW also gets its separate university board. The resulting configuration has **213 enabled sources and 212 company labels**, including **90 of these 108 employers with a live-tested direct route** and **18 with incomplete public-feed-only discovery**. Company labels are not source counts. A live directory response does not imply there is a qualifying opening today or guarantee every future opening.
