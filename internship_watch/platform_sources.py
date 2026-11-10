@@ -339,7 +339,11 @@ def _workday_snapshot(source, client):
     # Public search has no description/structured employment type. Enrich explicit
     # opportunity titles, retaining all other search rows without inventing evidence.
     for job in jobs.values():
-        if not job['evidence'].get('structured_opportunity_scope') and not re.search(r'\b(?:intern(?:ship)?s?|co[ -]?op|fellow(?:ship)?|residen(?:t|cy)|research program)\b',job['title'],re.I):
+        extra = False
+        if source.get("member_opportunities"):
+            from .member_evidence import GRAD, IB
+            extra = bool(GRAD.search(job["title"]) or IB.search(job["title"]))
+        if not extra and not job['evidence'].get('structured_opportunity_scope') and not re.search(r'\b(?:intern(?:ship)?s?|co[ -]?op|fellow(?:ship)?|residen(?:t|cy)|research program)\b',job['title'],re.I):
             continue
         info = workday_detail(workday_spec(job['description_url']), client)['jobPostingInfo']
         if info['title'] != job['title']:

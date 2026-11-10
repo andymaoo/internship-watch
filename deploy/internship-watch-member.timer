@@ -1,0 +1,10 @@
+[Unit]
+Description=Run the US member feed pilot twice an hour
+
+[Timer]
+OnCalendar=*-*-* *:05,35:00
+Persistent=true
+Unit=internship-watch-member.service
+
+[Install]
+WantedBy=timers.target

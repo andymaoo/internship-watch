@@ -56,6 +56,9 @@ def opportunity_type(job: dict) -> str:
     labels = f"{title} {employment}"
     intern = bool(INTERN.search(labels) or re.search(
         r"\bthis (?:role|position) is an? (?:paid )?internship\b", description, re.I))
+    if IB.search(title) and re.search(r"\bsummer (?:analyst|associate)\b", title, re.I):
+        intern = intern or bool(re.search(
+            r"\b(?:our|this|the) (?:summer )?internship program\b", description, re.I))
     grad = bool(GRAD.search(labels) or re.search(
         r"\bthis (?:role|position|program) is (?:designed )?for (?:new|recent) graduates\b",
         description, re.I))
@@ -86,3 +89,14 @@ def preview_member_listing(job: dict) -> dict:
                 route=member_route(us_eligible=us, remote=remote, opportunity_type=kind,
                                    category=topic, posting_status=job.get("posting_status", ""),
                                    application_status=job.get("application_status", "")))
+
+
+def classify_member(job: dict, _filters=None) -> dict:
+    """Classify before link checking; preserve uncertain remote evidence."""
+    us, remote = geography(job)
+    kind, topic = opportunity_type(job), category(job)
+    allowed = us is not False and (us is True or remote)
+    return {"decision": "include" if allowed and kind and topic else "exclude",
+            "category": topic, "opportunity_type": kind,
+            "us_eligible": us, "remote": remote,
+            "positive_opportunity_evidence": bool(kind)}

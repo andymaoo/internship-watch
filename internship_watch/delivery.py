@@ -51,6 +51,9 @@ class Discord:
             url = os.environ.get("DISCORD_WEBHOOK_URL", "")
         if not url:
             raise NotConfigured(f"{destination} is not configured; delivery stays queued")
+        return self._send_to(url, payload)
+
+    def _send_to(self, url, payload):
         parsed = urlsplit(url)
         if parsed.scheme != "https" or parsed.hostname not in ("discord.com", "discordapp.com") or not parsed.path.startswith("/api/webhooks/"):
             raise ValueError("Expected an HTTPS Discord incoming webhook URL")
@@ -77,8 +80,30 @@ class Discord:
             raise RuntimeError(f"Discord transport failed ({type(exc).__name__})") from None
 
 
+class MemberDiscord(Discord):
+    """Send only to explicit member routes; operations use the staff route."""
+
+    def send(self, payload, operational=False):
+        if operational:
+            return super().send(payload, operational=True)
+        route = payload.get("_member_route")
+        try:
+            destinations = json.loads(os.environ.get("MEMBER_DISCORD_WEBHOOKS_JSON", "{}"))
+        except ValueError:
+            raise NotConfigured("Invalid member channel mapping") from None
+        from .member_routes import CATEGORIES, KINDS
+        allowed = {f"{kind}-{topic}" for kind in KINDS.values() for topic in CATEGORIES.values()}
+        if not isinstance(destinations, dict) or route not in allowed or not destinations.get(route):
+            raise NotConfigured("No Discord destination for this member route; delivery stays queued")
+        return self._send_to(destinations[route], payload)
+
+
 def configured_sender(config):
     channel = config.get("notifications", {}).get("channel", "discord")
+    if config.get("member_feed", False):
+        if channel != "discord":
+            raise ValueError("Member feed requires Discord")
+        return MemberDiscord(split_channels=True)
     if channel == "discord":
         return Discord(split_channels=config.get("notifications", {}).get("split_channels", False))
     if channel == "ntfy":
@@ -228,6 +253,18 @@ def deliver_pending(store, sender, limit=100, retry_base_seconds=60):
             payload = json.loads(row["payload"])
             if row["kind"] == "job" and row["dedupe_key"].startswith("new:"):
                 payload = dict(payload, **job_message(job))
+                if payload.get("member_feed"):
+                    from .member_evidence import preview_member_listing
+                    current = dict(json.loads(job["payload"]), posting_status=job["posting_status"],
+                                   application_status=job["application_status"])
+                    preview = preview_member_listing(current)
+                    if not preview["route"]:
+                        continue
+                    payload["_member_route"] = preview["route"]
+                    payload["title"] = ("New internship" if preview["opportunity_type"] == "internship"
+                                        else "New grad opening")
+                    if preview["remote"] and preview["us_eligible"] is None:
+                        payload["body"] += "\nRemote — location eligibility unspecified."
             elif row["kind"] == "digest":
                 payload = digest_message(store, row)
                 if payload is None:

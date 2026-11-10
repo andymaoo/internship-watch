@@ -1,0 +1,30 @@
+[Unit]
+Description=Internship Watch US member feed pilot
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=internship-watch
+Group=internship-watch
+WorkingDirectory=/opt/internship-watch-member
+EnvironmentFile=/etc/internship-watch.env
+EnvironmentFile=/etc/internship-watch-member.env
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONDONTWRITEBYTECODE=1
+# The personal and member collectors share providers. Serialize network polls.
+ExecStart=/usr/bin/flock --exclusive --wait 420 /var/lib/internship-watch/jobs.sqlite3.lock /opt/internship-watch-member/.venv/bin/python -m internship_watch --config /etc/internship-watch-member.json run
+TimeoutStartSec=20min
+UMask=0077
+StateDirectory=internship-watch-member
+StateDirectoryMode=0750
+ReadWritePaths=/var/lib/internship-watch/jobs.sqlite3.lock
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true

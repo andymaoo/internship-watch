@@ -393,7 +393,7 @@ class Store:
                             (prior["empty_runs"] + 1 if count == 0 else 0, stamp, stamp, count, source))
         return self.source_state(source)
 
-    def upsert_job(self, source, job, classification, run_id, baseline=False, filters=None, classification_is_current=False):
+    def upsert_job(self, source, job, classification, run_id, baseline=False, filters=None, classification_is_current=False, classifier=classify):
         sid, stamp = str(job["source_id"]), now()
         keys = [f"source:{source}:{sid}"]
         description_key = url_identity(job.get("description_url"))
@@ -516,7 +516,7 @@ class Store:
             # filters and payload). Recompute only if merging retained evidence
             # changed that payload. Sparse refreshes still cannot erase a known
             # PhD-only restriction or override newly ambiguous evidence.
-            classification = classify(payload, filters)
+            classification = classifier(payload, filters)
         decision = classification.get("decision", "ambiguous")
         values = (payload["employer"], payload["title"], classification.get("category"), payload.get("location", ""),
                   payload.get("description", ""), payload.get("employment_type", ""), payload.get("posting_date"),

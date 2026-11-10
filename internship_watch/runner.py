@@ -1,4 +1,5 @@
 """One collection transaction per source, independent link checks, durable outbox."""
+import hashlib
 import json
 import logging
 import time
@@ -141,6 +142,7 @@ def validation_candidates(store, limit):
 
 def queue_notifications(store, config, run_id, source_succeeded):
     stamp = now()
+    member = config.get("member_feed", False)
     # These are policy decision timestamps, distinct from source discovery and
     # delivery receipts. A digest receipt never consumes the immediate key.
     store.db.execute("UPDATE jobs SET first_qualifying_at=COALESCE(first_qualifying_at,?),"
@@ -149,8 +151,9 @@ def queue_notifications(store, config, run_id, source_succeeded):
         store.queue("initial:digest", "digest", {"digest_type": "initial", "decided_at": stamp})
     for row in store.rows("SELECT * FROM jobs WHERE baseline=0 AND classification='include' "
                           "AND posting_status='open' AND application_status!='closed'"):
-        store.queue("new:" + row["id"], "job", dict(job_message(row), decided_at=stamp))
-    if not config.get("awaiting_digest_enabled", True):
+        store.queue("new:" + row["id"], "job", dict(job_message(row), decided_at=stamp, member_feed=True)
+                    if member else dict(job_message(row), decided_at=stamp))
+    if member or not config.get("awaiting_digest_enabled", True):
         return
     awaiting = store.rows("SELECT j.* FROM jobs j WHERE baseline=0 AND classification='include' "
                           "AND posting_status!='closed' AND (posting_status!='open' OR application_status='closed') "
@@ -281,9 +284,28 @@ def run_once(config, collector=None, client=None, validator=validate_job, sender
 def _run(config, db_path, collector, client, validator, sender):
     started = time.monotonic()
     store = None
+    member = config.get("member_feed", False)
     run_id = None
     try:
         store = Store(db_path)
+        mode = store.db.execute("SELECT value FROM meta WHERE key='member_feed_mode'").fetchone()
+        if member:
+            if not mode and store.db.execute("SELECT 1 FROM runs LIMIT 1").fetchone():
+                raise ValueError("Member feed requires a fresh dedicated database")
+            if config.get("initial_run", "silent") != "silent":
+                raise ValueError("Member feed requires silent initial collection")
+            from .member_evidence import classify_member
+            from pathlib import Path
+            classifier = classify_member
+            store.classifier_revision += ":" + hashlib.sha256(b"".join(
+                Path(__file__).with_name(f).read_bytes() for f in ("member_evidence.py", "member_routes.py")
+            )).hexdigest()
+            with store.transaction():
+                store.db.execute("INSERT OR IGNORE INTO meta VALUES('member_feed_mode','1')")
+        elif mode:
+            raise ValueError("Dedicated member database cannot run in personal mode")
+        else:
+            classifier = classify
         rate_state = store.db.execute("SELECT value FROM meta WHERE key='http_rate_limits'").fetchone()
         if rate_state and callable(getattr(client, "load_rate_limits", None)):
             client.load_rate_limits(json.loads(rate_state["value"]))
@@ -292,7 +314,8 @@ def _run(config, db_path, collector, client, validator, sender):
             store.db.execute("UPDATE runs SET status='interrupted',finished_at=? WHERE status='running'", (now(),))
             run_id = store.db.execute("INSERT INTO runs(started_at,status) VALUES(?,'running')", (now(),)).lastrowid
         try:
-            heartbeat("/start")
+            if not member:
+                heartbeat("/start")
         except Exception as exc:
             log.warning("Heartbeat start failed: %s", exc)
         summary = {"sources": {}, "checked": 0, "run_id": run_id}
@@ -313,7 +336,7 @@ def _run(config, db_path, collector, client, validator, sender):
                 profile = collection_profile(jobs)
                 with store.transaction():
                     for job in jobs:
-                        classification = store.classify_cached(key, job, config.get("filters", {}), classifier=classify)
+                        classification = store.classify_cached(key, job, config.get("filters", {}), classifier=classifier)
                         candidate = classification["decision"] == "include" or (
                             classification["decision"] == "ambiguous" and classification.get("positive_opportunity_evidence"))
                         if not candidate:
@@ -326,7 +349,7 @@ def _run(config, db_path, collector, client, validator, sender):
                             if not known:
                                 continue  # Keep candidates, while still applying later exclusion evidence.
                         store.upsert_job(key, job, classification, run_id,
-                                         baseline=not previous["initialized"], filters=config.get("filters", {}), classification_is_current=True)
+                                         baseline=not previous["initialized"], filters=config.get("filters", {}), classification_is_current=True, classifier=classifier)
                     state = store.record_source(key, count=len(jobs))
                     record_sample(store, source, run_id, profile=profile)
                     store.incident("source:" + key, False, "Recovered")
@@ -389,7 +412,7 @@ def _run(config, db_path, collector, client, validator, sender):
                     job["description"] = result["description"]
                     job["evidence"] = dict(job.get("evidence") or {})
                     job["evidence"]["description_kind"] = "validated_destination"
-                    decision = classify(job, config.get("filters", {}))
+                    decision = classifier(job, config.get("filters", {}))
                     store.db.execute("UPDATE jobs SET description=?,payload=?,classification=?,category=?,evidence=? WHERE id=?",
                                      (job["description"], dump(job), decision["decision"], decision.get("category"), dump(decision), row["id"]))
             summary["checked"] += 1
@@ -417,7 +440,9 @@ def _run(config, db_path, collector, client, validator, sender):
             store.db.execute("UPDATE runs SET finished_at=?,status=?,summary=? WHERE id=?", (now(), status, dump(summary), run_id))
         # Notify dead-man service only after database commit and completed pipeline.
         try:
-            if failures or (summary["sources"] and all(s["status"] == "failed" for s in summary["sources"].values())):
+            if member:
+                pass  # Dedicated service never signals the personal heartbeat.
+            elif failures or (summary["sources"] and all(s["status"] == "failed" for s in summary["sources"].values())):
                 heartbeat("/fail")
             else:
                 heartbeat()
@@ -427,7 +452,8 @@ def _run(config, db_path, collector, client, validator, sender):
     except Exception as exc:
         log.exception("Run failed")
         try:
-            heartbeat("/fail")
+            if not member:
+                heartbeat("/fail")
         except Exception:
             pass
         # Storage may be unable to dedupe/queue. The independent monitor owns

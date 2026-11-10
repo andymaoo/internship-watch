@@ -1,0 +1,11 @@
+[Unit]
+Description=Daily verified backup of the member feed
+
+[Timer]
+OnCalendar=*-*-* 05:45:00 UTC
+RandomizedDelaySec=60
+Persistent=true
+Unit=internship-watch-member-backup.service
+
+[Install]
+WantedBy=timers.target
