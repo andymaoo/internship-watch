@@ -1,8 +1,8 @@
 # Internship Watch
 
-A personal internship discovery system that runs continuously on Azure, checks for new opportunities every five minutes, and sends matching jobs to Discord.
+Internship scraper system that runs continuously on Azure, checks for new listings every five minutes, and sends matching jobs to Discord.
 
-I built this to reduce the time between an internship becoming discoverable and actually seeing it. Applying early matters, but so does finding roles that fit. This project brings listings from multiple sources into one database, filters them against my requirements, checks for duplicates and usable application links, and sends alerts so I do not have to keep refreshing career pages.
+This scraper brings listings from multiple sources into one database, filters them against requirements, checks for duplicates and usable application links, and sends alerts so I do not have to keep refreshing career pages.
 
 The current setup is tailored to my search and shared with members of my club.
 
@@ -201,14 +201,3 @@ The current deployment runs continuously on Azure. Its important operating setti
 | Backups | Daily local backups are scheduled; automatic off-host backups await the storage connection |
 
 Webhook URLs, heartbeat URLs, and any source credentials belong in private deployment configuration, not in the repository. Azure instance details and source-specific setup instructions should be documented alongside the actual deployment configuration.
-
-## Development
-
-This project builds on the Python and ATS integration approach in [ALNgu1/job-scraper](https://github.com/ALNgu1/job-scraper), extending it with persistent storage, eligibility filtering, link validation, reliable delivery, and operational monitoring.
-
-GPT-6 Astra Ultra assisted with development, including the expansion of company-specific collection logic. That integration-building work took approximately nine hours in total.
-
-Regression tests cover filtering, source schemas and pagination, deduplication, delivery retries, restart recovery, outages, expiry handling, and changing job descriptions. Company-specific collectors need ongoing maintenance as career sites change.
-
-
-We're getting j*bs.
