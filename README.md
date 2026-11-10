@@ -1,78 +1,214 @@
 # Internship Watch
 
-US internship and research-program discovery with persistent records, conservative link checks, and retryable Discord or ntfy notifications. **This repository, `andymaoo/internship-watch`, is the canonical backend for the Azure Discord worker.** It extends the original project reviewed at `2a776814a993fd74e92cc91aa15e90fb0f99424a`.
+A personal internship discovery system that runs continuously on Azure, checks for new opportunities every five minutes, and sends matching jobs to Discord.
 
-The default configuration reflects the requested preferences: United States (including remote roles with US eligibility), all seasons, co-ops, current undergraduate junior, no sponsorship required, and relevant research programs. Freshman/sophomore-only, permanent/new-graduate, and hardware-focused roles are excluded. Unclear eligibility stays available for review. Software/AI internships at hardware companies remain eligible.
+I built this to reduce the time between an internship becoming discoverable and actually seeing it. Applying early matters, but so does finding roles that fit. This project brings listings from multiple sources into one database, filters them against my requirements, checks for duplicates and usable application links, and sends alerts so I do not have to keep refreshing career pages.
 
-**Latest backend deployed November 1, 2026 at 22:51:55 UTC:** Azure runs `31d418e`, with 213 enabled sources and 212 company entries. This repairs Macquarie's changed result counter, generic technology internships with explicit software duties, and Apple's identical pagination overlaps while retaining strict identity/completeness checks. All 353 application and seven backup tests passed locally, on Azure and in CI. The restart preserved user filters, SQLite identities and prior delivery receipts. A real qualifying Macquarie job alert and one deployment check were acknowledged by Discord. See [the current deployment record](docs/CURRENT_DEPLOYMENT.md) and [November 1 acceptance](docs/DEPLOYMENT_2026-11-01.md) for consecutive scheduled-run results and remaining warnings.
+The current setup is tailored to my search and shared with members of my club.
 
-The source configuration has 188 direct or parent-company routes and 24 incomplete public-feed-only company entries; these are configured routes, not guaranteed employer or market coverage. GitHub stores code and runs CI; the VM runs the worker. Later documentation-only commits do not require a runtime update. Future backend changes still require a tested deployment. GitHub currently reports this repository as public; private reports, live configuration, credentials and databases remain outside tracked files. Earlier private-repository descriptions should not be used as current visibility evidence.
+## At a glance
 
-The older public `internship-job-monitor` repository contained a separate legacy scraper and was deleted on October 22 after its collection schedule was disabled and its full Git history was backed up locally. Keep this repository for development and deployment. This backend runs as `python -m internship_watch` on Azure; its `scrape.py` is only a compatibility entry point to the same durable pipeline. `seen.json` is a historical import artifact. Neither is a separate active notification service in this repository.
+| Area | Current setup |
+| --- | --- |
+| Hosting | Runs 24/7 on Azure |
+| Job collection | Target interval of five minutes |
+| Maintenance checks | Every 15 minutes, with operational alerts |
+| Notifications | Discord |
+| Storage | Persistent SQLite database |
+| Geography | United States, including remote roles that allow work from the US |
+| Education | Bachelor's-level / undergraduate opportunities |
+| Opportunity type | Internships, with qualifying co-ops and undergraduate research programs |
+| Role families | SWE, Data, ML, AI, Cloud, Quant, and Product Management |
+| Exclusions | Hardware-focused roles and opportunities outside the configured eligibility requirements |
 
-The Azure installation uses persistent SQLite, Discord webhooks and previously configured independent Healthchecks email. Automatic startup was tested during deployment. Automatic off-host backups still await the storage-account connection; daily local backup scheduling is active. Older acceptance reports contain dated measurements, not a current all-sources-health guarantee. Slow cycles postpone the next poll without overlapping.
+**Five-minute polling is a collection schedule, not a guarantee that every job reaches Discord within five minutes of being posted.** A source must first make the job available, and collection, filtering, validation, and delivery each take time.
 
-Handshake and LinkedIn marketplace discovery use separate native daily account alerts. They do not feed the Azure database or Discord queue. The LinkedIn employer's own SmartRecruiters board is a different configured source. Cloud/platform software roles may qualify under software engineering; there is no separate cloud category. See [additional discovery channels](docs/ADDITIONAL_DISCOVERY_CHANNELS.md).
+## What it looks for
 
-Maintenance has an independent 15-minute supervisor, live source contracts,
-persisted repair evidence, anomaly alerts, daily verified local backups, weekly
-delivery checks and a daily Codex repair follow-up. The follow-up requires the
-Windows PC/app to be available; Azure monitoring remains independent. See the
-[maintenance operating guide](docs/MAINTENANCE.md), [actual test evidence](docs/MAINTENANCE_ACCEPTANCE.md)
-and [review queue](docs/MAINTENANCE_REVIEW.md). Automatic off-host backup credentials
-remain an explicit outstanding issue. The private HTML report links to the
-searchable maintenance backlog.
+The filters are configured for a current undergraduate junior who is authorized to work in the United States without sponsorship. They are personal search preferences rather than universal eligibility rules.
 
-## Run locally
+| Role family | Examples within scope |
+| --- | --- |
+| Software Engineering | Backend, frontend, full-stack, and other software development internships |
+| Data | Data engineering, data science, analytics, and related software-oriented roles |
+| Machine Learning and AI | ML engineering, AI engineering, applied AI, and relevant undergraduate research |
+| Cloud and Infrastructure | Cloud software, platform engineering, and software-focused infrastructure |
+| Quantitative Finance | Quant trading, quantitative development, quantitative research, algorithm development, and related roles |
+| Product Management | Product management and closely related product internships |
 
-Requires Python 3.12. Use a virtual environment:
+The search covers all internship seasons and US locations. Relevant co-ops and research programs can qualify when they are compatible with the undergraduate profile; this is not a general feed of full-time or graduate-only jobs.
 
-```sh
-python -m venv .venv
-# Activate .venv for your shell, then:
-python -m pip install -r requirements.txt
-cp config.example.json config.json
-python -m unittest discover -s tests -v
-python -m internship_watch --config config.json --env-file .env run
-python -m internship_watch --config config.json status
-python -m internship_watch --config config.json export --output data/export
+Filtering considers the role's responsibilities and eligibility information, not just whether its title contains a keyword.
+
+### Included and excluded
+
+- **Included:** internships and qualifying related programs open to bachelor's students, including US-eligible remote opportunities.
+- **Excluded:** permanent full-time and new-graduate positions, hardware-focused work, master's- or PhD-only opportunities, and freshman- or sophomore-only programs.
+- **Reviewed when unclear:** missing degree requirements, ambiguous graduation windows, uncertain location eligibility, and explicit citizenship or security-clearance restrictions.
+
+An internship can have full-time working hours and still be eligible. A posting that accepts both bachelor's and graduate students is not excluded just because it mentions a master's degree or PhD.
+
+US work authorization does not establish citizenship or security-clearance eligibility. Unclear requirements remain review items rather than being treated as confirmed matches.
+
+## Where jobs come from
+
+The system combines recruiting-platform integrations, public feeds, job-board sources, and company-specific collectors.
+
+| Source | Role in discovery |
+| --- | --- |
+| Simplify | Collects from the public internship feed; this represents a subset of Simplify's broader coverage |
+| Greenhouse | Collects listings from supported company job boards through structured ATS integrations |
+| Ashby | Collects listings from supported company job boards through structured ATS integrations |
+| Lever | Collects listings from supported company job boards through structured ATS integrations |
+| LinkedIn (employer board) | Collects LinkedIn’s own openings through SmartRecruiters |
+| Company-specific career pages | Dedicated collection logic for companies that need handling beyond the shared integrations |
+
+### Company-specific coverage
+
+The [last verified Azure release](docs/CURRENT_DEPLOYMENT.md) (`31d418e`) has **213 enabled sources** and **212 company watchlist entries**. These are configuration counts, not counts of open internships or guarantees of complete direct coverage. Several employers rely on public-feed discovery; see the [finance and quant coverage audit](docs/FINANCE_EXPANSION.md) for known gaps. Simplify discovery uses the public Summer 2027 repository feed, which can lag employer postings.
+
+### Separate Handshake and LinkedIn alerts
+
+Handshake and LinkedIn marketplace discovery use [native daily account alerts](docs/ADDITIONAL_DISCOVERY_CHANNELS.md). They do not feed the Azure scraper, SQLite database, or Discord queue, and are separate from five-minute polling. LinkedIn’s own employer board is a distinct source.
+
+## How the pipeline works
+
+```mermaid
+flowchart TD
+    A["Platform sources and public feeds"] --> C["Collect, normalize, and deduplicate"]
+    B["Company-specific collectors"] --> C
+    C --> D["Persistent job database"]
+    D --> E["Eligibility and link checks"]
+    E --> F["Matching, verified new jobs"]
+    E --> G["Review and status records"]
+    F --> H["Durable notification queue"]
+    H --> I["Discord alerts"]
 ```
 
-On PowerShell, use `.venv\Scripts\Activate.ps1` and `Copy-Item config.example.json config.json`. For a **new** checkout, copy `.env.example` to `.env` and privately fill its fields before the command above; do not overwrite an existing configuration, secret file or database. Alternatively omit `--env-file` when the service manager supplies the environment. Open `data/export/jobs.html` for a searchable snapshot; CSV, JSON, source status and link evidence are beside it. The default `initial_run: "digest"` sends one grouped initial report; use `"silent"` to import quietly. Notification credentials belong in private environment configuration, never committed to Git.
+### 1. Collect and normalize
 
-Run continuously with `python -m internship_watch --config config.json --env-file .env daemon`. The target polling interval is five minutes; slow sources, retries and queued link verification can delay discovery/notification. A five-minute interval is not a promise of finding employer postings five minutes after publication.
+Scheduled collectors fetch available listings and convert their different formats into common job records. Records retain source provenance so the same opportunity can be traced back to where it was discovered.
 
-## Design
+Stored information includes available company, title, location, description, posting and application URLs, source identifiers, discovery timestamps, and subsequent check results.
 
-1. Public Greenhouse, Lever, Ashby, Workday, SmartRecruiters and other reviewed employer integrations plus the existing Simplify community feed collect records. Each source has independent health and bootstrap state.
-2. An evidence-based classifier identifies role family, internship/program evidence, location, season and eligibility. Ambiguous listings remain explicit.
-3. SQLite records source observations, job identities, historical checks, run health and a separate delivery outbox. Only changed observations add history; `last_seen` advances each successful observation.
-4. Employer posting validity and application access are stored separately. Each verified destination must identify the expected position; HTTP 200 alone does not mean open. Robots restrictions, timeouts, missing descriptions and access failures remain unverified.
-5. Included jobs with a verified posting generate immediate alerts unless the application is known closed. An inaccessible application is clearly labeled. Newly discovered included jobs awaiting verification get a separate, duplicate-suppressed digest. Failed deliveries stay queued. Source/empty-result incidents are deduplicated until recovery. Once configured, a separately hosted Healthchecks monitor detects missing runs and persistent notification/storage failures.
+### 2. Identify duplicates and updates
 
-Deduplication uses job-specific URL/requisition identities, not title similarity. This avoids merging separate positions with identical titles but leaves uncertain cross-source aliases separate. Delivery is at least once across the rare crash-after-provider-acceptance window; the worker does not promise impossible exactly-once delivery.
+Listings are compared using source identifiers, requisition information, and normalized URLs. When evidence points to the same job, the system updates the existing record instead of treating each appearance as a new opportunity.
 
-`seen.json` is a historical artifact containing 5,472 IDs. Import it once with `import-seen seen.json` if those IDs should be suppressed. It never becomes delivery evidence, is never rewritten, and is no longer committed by scheduled GitHub Actions. Do not delete the SQLite database during deployments.
+Matching is conservative: two jobs with similar titles are not automatically the same requisition.
 
-## Configuration and reports
+Persistent storage preserves discovery and notification state across process restarts. A restart should not turn all previously collected jobs into new alerts.
 
-- [Simplify feed verification and separate Handshake/LinkedIn native alerts](docs/ADDITIONAL_DISCOVERY_CHANNELS.md)
-- [Current actual-host acceptance, measured polling and remaining backup setup](docs/FINANCE_ACCEPTANCE.md)
-- [Finance/quant expansion, all 108 requested employers and explicit gaps](docs/FINANCE_EXPANSION.md)
-- [Current company expansion and coverage limits](docs/EXPANSION_100.md)
-- [Audit and implementation decisions](docs/AUDIT.md)
-- [Current delivery, measurements and remaining access](docs/CONTINUATION.md)
-- [Unresolved link triage and representative live checks](docs/LINK_TRIAGE.md)
-- [Notification and recheck policy](docs/NOTIFICATIONS.md)
-- [Measured hosting comparison](docs/HOSTING.md)
-- [Proposed Azure student setup](docs/AZURE_STUDENT.md)
-- [Private account and secret setup](docs/CONNECTIONS.md)
-- [Sources and verified migrations](docs/SOURCE_AUDIT.md)
-- [Simplify comparison and hosting research](docs/RESEARCH.md)
-- [Classification and link policy](docs/CLASSIFICATION.md)
-- [Validation evidence and remaining acceptance](docs/VALIDATION.md)
-- [Deployment and acceptance procedure](docs/DEPLOYMENT.md)
-- [Secrets, inspection, backup and recovery](docs/OPERATIONS.md)
-- [Example configuration](config.example.json)
+### 3. Apply eligibility filters
 
-Coverage is measured per configured source, not claimed to cover the entire market. The finance report lists 18 additional incomplete direct routes, alongside the earlier Google, Meta, Uber, IBM, Intuit and Tesla gaps; the unrestricted community feed may provide some of their listings. Google individual-posting verification and HRT's public Greenhouse board work. The public Simplify repository is a subset of Simplify's website and has separate curation/export delays. Refresh the canonical seasonal feed configuration when the upstream repository changes.
+The classifier evaluates geography, opportunity type, education requirements, role family, and hardware-related responsibilities.
+
+A record can be included, excluded, or held for review. Missing eligibility details remain visible rather than being silently interpreted as proof that the applicant qualifies.
+
+### 4. Validate posting and application links
+
+Job descriptions and application destinations are checked separately. A page loading successfully does not necessarily mean it still describes the correct job or accepts applications for that opening.
+
+Validation considers issues such as:
+
+- Broken URLs and explicit closure messages.
+- Redirects to a generic careers homepage.
+- Missing descriptions or mismatched job identities.
+- Login requirements, access restrictions, and JavaScript-dependent application flows.
+- Stale cohorts or seasons that require additional confirmation.
+
+An inaccessible or inconclusive page is recorded as **unverified**, rather than automatically being called closed. Records that need review remain available in the database and reports.
+
+### 5. Queue and deliver alerts
+
+Matching, verified new jobs enter a persistent notification queue for Discord delivery. Failed deliveries can be retried without losing the job or incorrectly treating an unsuccessful send as completed.
+
+The implementation supports Discord incoming webhooks, which allow automated channel messages without requiring an interactive bot. Discord is the notification destination; the collection worker runs separately on Azure.
+
+New qualifying listings that still need verification go into a separate digest with duplicate suppression. A verified posting can trigger an alert when application access remains unverified, with that status labeled; a known closed application blocks the immediate alert.
+
+Initial collection can be silent to avoid flooding the channel with existing listings. The implementation also supports an initial digest option.
+
+## Storage and reliability
+
+The backend is written in Python and uses SQLite with write-ahead logging and transactions. The database stores canonical jobs, source evidence, history, validation results, and notification state.
+
+Reliability features include:
+
+- A separate, durable notification outbox.
+- Request timeouts, bounded retries, and pagination safeguards.
+- Source-level failure handling so problems can be identified and reported.
+- Process locking to prevent overlapping worker runs.
+- Incident suppression to reduce repeated operational messages.
+- Backup and restore support for persistent state.
+
+Completed alerts are deduplicated, but delivery is not an absolute exactly-once guarantee. For example, if Discord accepts a message and the worker crashes before saving the receipt, retrying may produce a duplicate.
+
+## Monitoring and maintenance
+
+The current Azure setup runs maintenance checks every **15 minutes** and sends operational alerts when those checks detect problems.
+
+Job discovery alerts and operational alerts serve different purposes: one reports opportunities; the other reports failures that may affect coverage or delivery. The implementation supports separate operational routing.
+
+### Independent heartbeat monitoring
+
+The Azure deployment uses **Healthchecks.io** to monitor the worker and maintenance supervisor independently and send email alerts.
+
+A heartbeat is a small periodic check-in from the worker to an independent service. If expected check-ins stop arriving within the configured interval and grace period, that service can alert the operator.
+
+This is useful because a worker that has stopped completely cannot send its own failure notification. External monitoring can detect missing check-ins even when the Azure process or host is unavailable.
+
+## Browsing collected jobs
+
+Discord provides timely alerts, while saved reports support reviewing the broader collection.
+
+Available outputs include:
+
+- A searchable HTML job report.
+- CSV exports.
+- JSON job records.
+- Per-job link-validation evidence.
+- Source-health information.
+
+Exports are snapshots from their generation time. The persistent database holds the underlying records and history.
+
+## Freshness and coverage limits
+
+The goal is fast, useful discovery with clear evidence, not guaranteed coverage of every internship.
+
+- A five-minute poll only discovers jobs already exposed by a source. Community curation and upstream exports can introduce additional delay.
+- Rate limits, outages, slower collection cycles, and validation backlogs can delay alerts.
+- A job can appear through several sources, while another may be available only on a company-specific page.
+- A working application form does not always prove that a particular cohort is still recruiting.
+- Strict validation can hold back legitimate listings when the available evidence is incomplete.
+- Maintenance checks identify observable failures; no single check proves that every source is complete or every classification is correct.
+
+The system discovers and reports opportunities. It does not submit applications.
+
+## Deployment and configuration
+
+The current deployment runs continuously on Azure. Its important operating settings include:
+
+| Setting | Purpose |
+| --- | --- |
+| Source registry | Determines which boards, feeds, and company collectors are enabled |
+| Eligibility filters | Controls geography, education, opportunity type, and role scope |
+| Collection interval | Targets a new collection cycle every five minutes |
+| Maintenance interval | Schedules operational checks every 15 minutes |
+| Persistent database storage | Preserves jobs, history, and delivery state |
+| Discord configuration | Routes job notifications and operational messages |
+| Heartbeat configuration | Healthchecks.io monitors missed check-ins independently |
+| Backups | Daily local backups are scheduled; automatic off-host backups await the storage connection |
+
+Webhook URLs, heartbeat URLs, and any source credentials belong in private deployment configuration, not in the repository. Azure instance details and source-specific setup instructions should be documented alongside the actual deployment configuration.
+
+## Development
+
+This project builds on the Python and ATS integration approach in [ALNgu1/job-scraper](https://github.com/ALNgu1/job-scraper), extending it with persistent storage, eligibility filtering, link validation, reliable delivery, and operational monitoring.
+
+GPT-6 Astra Ultra assisted with development, including the expansion of company-specific collection logic. That integration-building work took approximately nine hours in total.
+
+Regression tests cover filtering, source schemas and pagination, deduplication, delivery retries, restart recovery, outages, expiry handling, and changing job descriptions. Company-specific collectors need ongoing maintenance as career sites change.
+
+
+We're getting j*bs.
