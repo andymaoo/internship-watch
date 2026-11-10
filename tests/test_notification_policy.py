@@ -83,6 +83,23 @@ class NotificationPolicyTests(unittest.TestCase):
         self.run_jobs([listing(1), listing(2)])
         self.assertEqual(self.sender.send.call_count, 2)
 
+    def test_split_mode_waits_a_day_then_batches_only_still_unverified(self):
+        self.config["notifications"] = {"split_channels": True}
+        self.run_jobs([listing(1)])
+        self.run_jobs([listing(1), listing(2), listing(3)], posting="unverified")
+        self.sender.send.assert_not_called()
+        due = self.rows("SELECT value FROM meta WHERE key='awaiting_digest_due'")[0]["value"]
+        from datetime import datetime, timezone
+        self.assertGreater((datetime.fromisoformat(due) - datetime.now(timezone.utc)).total_seconds(), 86390)
+        self.sql("UPDATE meta SET value='2000-01-01' WHERE key='awaiting_digest_due'")
+        self.sql("UPDATE jobs SET posting_status='open' WHERE original_url LIKE '%/2'")
+        self.run_jobs([listing(1), listing(2), listing(3)])
+        self.assertEqual(self.sender.send.call_count, 2)
+        digest = next(call.args[0] for call in self.sender.send.call_args_list
+                      if call.args[0].get("digest_type") == "awaiting")
+        self.assertIn("Intern 3", digest["body"])
+        self.assertNotIn("Intern 2", digest["body"])
+
     def test_closed_application_is_digest_only_and_short_recheck(self):
         self.run_jobs([listing(1)])
         self.run_jobs([listing(1), listing(2)], application="closed")

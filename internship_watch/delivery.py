@@ -35,16 +35,22 @@ def retry_after(response):
 
 
 class Discord:
-    def __init__(self, timeout=15):
+    def __init__(self, timeout=15, split_channels=False):
         self.timeout = timeout
+        self.split_channels = split_channels
         self.last_send = 0
 
     def send(self, payload, operational=False):
-        url = os.environ.get("OPS_DISCORD_WEBHOOK_URL" if operational else "DISCORD_WEBHOOK_URL", "")
-        if operational and not url:
+        key = payload.get("_delivery_key", "")
+        staff = operational or key.startswith("maintenance-reminder:")
+        destination = "OPS_DISCORD_WEBHOOK_URL" if staff else "DISCORD_WEBHOOK_URL"
+        if self.split_channels and not staff and payload.get("digest_type") in ("initial", "awaiting"):
+            destination = "DIGEST_DISCORD_WEBHOOK_URL"
+        url = os.environ.get(destination, "")
+        if not self.split_channels and staff and not url:
             url = os.environ.get("DISCORD_WEBHOOK_URL", "")
         if not url:
-            raise NotConfigured("Discord webhook is not configured; delivery stays queued")
+            raise NotConfigured(f"{destination} is not configured; delivery stays queued")
         parsed = urlsplit(url)
         if parsed.scheme != "https" or parsed.hostname not in ("discord.com", "discordapp.com") or not parsed.path.startswith("/api/webhooks/"):
             raise ValueError("Expected an HTTPS Discord incoming webhook URL")
@@ -74,7 +80,7 @@ class Discord:
 def configured_sender(config):
     channel = config.get("notifications", {}).get("channel", "discord")
     if channel == "discord":
-        return Discord()
+        return Discord(split_channels=config.get("notifications", {}).get("split_channels", False))
     if channel == "ntfy":
         return Ntfy()
     raise ValueError("notifications.channel must be discord or ntfy")

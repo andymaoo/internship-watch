@@ -150,19 +150,26 @@ def queue_notifications(store, config, run_id, source_succeeded):
     for row in store.rows("SELECT * FROM jobs WHERE baseline=0 AND classification='include' "
                           "AND posting_status='open' AND application_status!='closed'"):
         store.queue("new:" + row["id"], "job", dict(job_message(row), decided_at=stamp))
+    if not config.get("awaiting_digest_enabled", True):
+        return
     awaiting = store.rows("SELECT j.* FROM jobs j WHERE baseline=0 AND classification='include' "
                           "AND posting_status!='closed' AND (posting_status!='open' OR application_status='closed') "
                           "AND NOT EXISTS (SELECT 1 FROM digest_jobs d WHERE d.job_id=j.id) "
                           "AND NOT EXISTS (SELECT 1 FROM outbox o WHERE o.dedupe_key='new:'||j.id AND o.status='delivered') "
                           "ORDER BY first_seen,id")
     next_digest = store.db.execute("SELECT value FROM meta WHERE key='awaiting_digest_due'").fetchone()
+    split = config.get("notifications", {}).get("split_channels", False)
+    interval = max(86400 if split else 0, config.get("awaiting_digest_seconds", 900))
+    if split and not next_digest:
+        store.db.execute("INSERT INTO meta VALUES('awaiting_digest_due',?)", (later(interval),))
+        return
     if awaiting and (not next_digest or next_digest["value"] <= stamp):
         key = "awaiting:" + str(run_id)
         store.queue(key, "digest", {"digest_type": "awaiting", "decided_at": stamp})
         outbox_id = store.db.execute("SELECT id FROM outbox WHERE dedupe_key=?", (key,)).fetchone()[0]
         store.db.executemany("INSERT INTO digest_jobs(outbox_id,job_id) VALUES(?,?)", ((outbox_id, row["id"]) for row in awaiting))
         store.db.execute("INSERT OR REPLACE INTO meta VALUES('awaiting_digest_due',?)",
-                         (later(max(0, config.get("awaiting_digest_seconds", 900))),))
+                         (later(interval),))
 
 
 
