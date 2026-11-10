@@ -1,5 +1,7 @@
 # Internship Watch
 
+I built this because the job market is too competitive, and in this day and age being fast is one of the only ways to improve your chances of getting a job :(
+
 Internship scraper system that runs continuously on Azure, checks for new listings every five minutes, and sends matching jobs to Discord.
 
 This scraper brings listings from multiple sources into one database, filters them against requirements, checks for duplicates and usable application links, and sends alerts so I do not have to keep refreshing career pages.
