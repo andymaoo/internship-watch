@@ -166,3 +166,72 @@ completed successfully at 11:15:27 UTC, with no delivery errors. Worker and
 maintenance timer are active and enabled. The first organic daily digest was
 not observed in this window; its destination was verified with the labeled
 Discord test and its cadence in the automated tests.
+
+## Category-channel pilot
+
+Internships and New Grad each have six locked channels: SWE, ML/AI, Data,
+Quant, PM and IB. No member roles were granted. Incoming webhook URLs live
+in root-only /etc/internship-watch-member.env; the existing staff webhook
+receives operational messages. There is no fallback into #internships.
+All twelve webhooks were checked against their exact channel and server IDs,
+and each returned a Discord receipt for one labeled routing test.
+
+The pilot is a separate systemd oneshot with its own SQLite database, exports,
+release directory, and queue. It never emits the personal worker's heartbeat.
+The initial source import is silent; later verified jobs use the canonical
+job ID for dedupe and the current classification for the channel lookup.
+A missing destination keeps delivery pending. The timer schedules two polls
+an hour; shared locking prevents concurrent collection with the personal
+worker, which can defer a personal poll while the member pilot runs.
+
+Eight reviewed boards are enabled: Databricks, Notion, Zoox, Point72, Bank of
+America campus, Capital One, Morgan Stanley, and Truist Securities campus. Workday member queries add
+new-grad and investment-banking summer searches; the private worker's searches
+are untouched. The November 10 local live probe collected all seven boards.
+Databricks and Notion produced explicit new-grad candidates. No qualifying IB posting appeared in the initial seven-board probe. The
+additional Truist campus query returned a verified IB internship in the next
+Azure run. This pilot does not mirror all 213 personal sources.
+
+Local and VM staging tests: 400 tests and 136 subtests passed. Tests include
+silent seeding, remote location rules, new-grad and IB routing, missing
+destination retry, durable deduplication after restart, and refusal to use the
+personal database in member mode.
+
+To stop only the category pilot, run:
+    sudo systemctl disable --now internship-watch-member.timer
+    sudo systemctl stop internship-watch-member.service
+
+The personal worker remains on its separate release and database. To resume
+the pilot after checking configuration, enable the member timer again.
+
+
+### Deployed pilot acceptance — November 10, 2026
+
+Release /opt/internship-watch-releases/member-cbd7761a5233 contains the member
+runtime from local commit 3aa65a0. The two initial host runs were triggered
+for acceptance; the recurring timer was enabled after they passed.
+
+| Run | Finished (UTC) | Successful boards | Verified listings | Delivered or failed |
+| --- | --- | ---: | ---: | --- |
+| 1 | 11:39:38 | 7/7 | 20, including 3 new-grad roles | 0 delivered, 0 failed |
+| 2 | 11:42:13 | 8/8 | 21, including the Truist IB internship | 0 delivered, 0 failed |
+
+Both runs retained the initial listing backlog silently and had empty outboxes.
+Discord acknowledged the 12 labeled route tests, and a transient systemd check
+loaded all 12 distinct mappings from the same private environment file used
+by the service. No organic post-baseline alert was observed during acceptance.
+
+The collection timer is active and enabled, scheduled at :05 and :35 UTC.
+The daily local restore-check timer is active and enabled, and the first
+manual snapshot was restored and verified at 11:42:24 UTC. Its downloaded
+off-VM copy matched the saved hash, passed SQLite integrity, and matched all
+table counts. Automated off-VM backup storage remains unconfigured.
+
+Private server report: /var/lib/internship-watch-member/export/jobs.html,
+with jobs.csv and link-validation.json in the same directory. The existing
+personal release stayed active and its configuration was not modified.
+Stop the member backup timer as well if suspending all member tasks:
+    sudo systemctl disable --now internship-watch-member-backup.timer
+
+Member access, paid enrollment, full source expansion, and end-to-end
+speed benchmarking remain separate from this private deployment.
