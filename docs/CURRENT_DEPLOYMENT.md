@@ -1,6 +1,11 @@
 # Current deployment and canonical repository
 
-Last actual-host verification: **2026-11-01 at 23:03 UTC (3:03 PM Pacific)**.
+The **November 10 Discord notification split** is the latest runtime change.
+See [its cutover record](MEMBER_FEED_ROLLOUT.md#azure-cutover--2026-11-10).
+The source/filter baseline and release details below are from the November 1
+backend deployment that the notification split extends.
+
+Baseline actual-host verification: **2026-11-01 at 23:03 UTC (3:03 PM Pacific)**.
 This is a dated observation, not a guarantee of future service or source health.
 
 ## One canonical project
