@@ -235,3 +235,41 @@ Stop the member backup timer as well if suspending all member tasks:
 
 Member access, paid enrollment, full source expansion, and end-to-end
 speed benchmarking remain separate from this private deployment.
+
+## Server-member visibility and primary-worker routing
+
+Both Discord categories and all twelve child feeds were synchronized with
+server-member view and read-history allowed, and posting, thread creation,
+and webhook management denied to everyone. Operations and digest channels
+remain private. This is server-member access, not a change to Whop billing.
+
+The original worker still sends jobs to #internships until the Azure cutover.
+The local opt-in notifications.category_channels implementation uses its
+stored, verified internship category to select the matching channel. It
+preserves the original filters, source registry, SQLite identity, and outbox
+keys. Unmapped category jobs remain queued; digests and operational messages
+use their existing destinations. No historical job alerts are replayed.
+
+When Azure access is restored:
+1. Stage the same tested delivery code in new personal and member releases.
+   Verify all existing webhook IDs and file permissions without printing URLs.
+2. Verify fresh off-VM snapshots of personal jobs, maintenance, and member jobs.
+   Save both active releases, configs, and systemd unit/drop-in versions.
+3. Pass /etc/internship-watch-member.env to the primary worker as an additional
+   root-owned systemd EnvironmentFile. Enable category_channels for the main
+   worker; set category_peer_database in each config to the other's absolute
+   SQLite path. Both services need SQLite WAL access to the peer directory
+   under their service sandbox, but the receipt query opens the peer read-only.
+   Keep the existing shared poll lock and check that drain/retry respects it.
+4. Test both deployed paths under the service account with non-posting staging
+   fixtures; test receipt suppression, existing digest/ops routing, and missing
+   destinations. Cut over between runs, then check consecutive runs, a natural
+   job receipt and its channel, zero unexpected legacy sends, and supervisor
+   health. Roll back code/config only if routing fails.
+5. Only exact shared identities with an acknowledged category receipt suppress
+   the second post; a legacy #internships receipt is not a category delivery.
+   Suppression records a separate outbox state rather than fabricating delivery.
+
+Local evidence: 406 tests and 136 subtests passed. SSH timed out and the Azure
+browser session remained expired, so no production routing or storage was
+changed for this cutover.

@@ -1,6 +1,9 @@
 """Acknowledged ntfy delivery. Secrets are environment variables, never job data."""
 import json
 import os
+import sqlite3
+from contextlib import closing
+from pathlib import Path
 import hashlib
 import time
 from collections import Counter
@@ -98,12 +101,30 @@ class MemberDiscord(Discord):
         return self._send_to(destinations[route], payload)
 
 
+class CategoryDiscord(MemberDiscord):
+    """Use saved personal categories without changing the collection policy."""
+
+    def send(self, payload, operational=False):
+        key = payload.get("_delivery_key", "")
+        if key.startswith("new:"):
+            return super().send(payload, operational=False)
+        return Discord.send(self, payload, operational=operational or key.startswith("maintenance-canary:"))
+
+
 def configured_sender(config):
     channel = config.get("notifications", {}).get("channel", "discord")
     if config.get("member_feed", False):
         if channel != "discord":
             raise ValueError("Member feed requires Discord")
-        return MemberDiscord(split_channels=True)
+        sender = MemberDiscord(split_channels=True)
+        sender.peer_database = config.get("notifications", {}).get("category_peer_database")
+        return sender
+    if config.get("notifications", {}).get("category_channels", False):
+        if channel != "discord":
+            raise ValueError("Category channels require Discord")
+        sender = CategoryDiscord(split_channels=True)
+        sender.peer_database = config["notifications"].get("category_peer_database")
+        return sender
     if channel == "discord":
         return Discord(split_channels=config.get("notifications", {}).get("split_channels", False))
     if channel == "ntfy":
@@ -195,7 +216,7 @@ def digest_message(store, row):
         jobs = store.rows("SELECT j.* FROM digest_jobs d JOIN jobs j ON j.id=d.job_id WHERE d.outbox_id=? "
                           "AND j.baseline=0 AND j.classification='include' AND j.posting_status!='closed' "
                           "AND (j.posting_status!='open' OR j.application_status='closed') "
-                          "AND NOT EXISTS (SELECT 1 FROM outbox o WHERE o.dedupe_key='new:'||j.id AND o.status='delivered') "
+                          "AND NOT EXISTS (SELECT 1 FROM outbox o WHERE o.dedupe_key='new:'||j.id AND o.status IN ('delivered','suppressed')) "
                           "ORDER BY j.first_seen,j.employer,j.title", (row["id"],))
         keep = {j["id"] for j in jobs}
         with store.transaction():
@@ -223,6 +244,29 @@ def digest_message(store, row):
         lines.append(f"{len(shown)-listed} more matches are included in this grouped report.")
     lines.append("Browse the private jobs export for the full list and link evidence. A later verified new posting can still send its own alert.")
     return dict(payload, title=title, body="\n\n".join(lines))
+
+
+def category_peer_receipt(store, peer_database, job_id):
+    """Recognize an actual category post by a shared exact job identity."""
+    identities = [row["identity"] for row in store.rows(
+        "SELECT identity FROM identities WHERE job_id=?", (job_id,))]
+    if not identities:
+        return None
+    database = Path(peer_database).resolve()
+    if database == store.path.resolve():
+        raise ValueError("Category peer database must be separate")
+    with closing(sqlite3.connect(database.as_uri() + "?mode=ro", uri=True, timeout=5)) as peer:
+        for offset in range(0, len(identities), 500):
+            keys = identities[offset:offset + 500]
+            placeholders = ",".join("?" for _ in keys)
+            row = peer.execute(
+                "SELECT o.receipt_id FROM identities i JOIN outbox o ON o.dedupe_key='new:'||i.job_id "
+                f"WHERE i.identity IN ({placeholders}) AND o.status='delivered' AND o.kind='job' "
+                "AND o.receipt_id IS NOT NULL AND json_extract(o.payload,'$._member_route') IS NOT NULL LIMIT 1",
+                keys).fetchone()
+            if row:
+                return row[0]
+    return None
 
 
 def deliver_pending(store, sender, limit=100, retry_base_seconds=60):
@@ -253,7 +297,13 @@ def deliver_pending(store, sender, limit=100, retry_base_seconds=60):
             payload = json.loads(row["payload"])
             if row["kind"] == "job" and row["dedupe_key"].startswith("new:"):
                 payload = dict(payload, **job_message(job))
-                if payload.get("member_feed"):
+                if isinstance(sender, CategoryDiscord):
+                    from .member_routes import CATEGORIES
+                    category = CATEGORIES.get(job["category"])
+                    if not category:
+                        raise NotConfigured("Verified job has no recognized category; delivery stays queued")
+                    payload["_member_route"] = "intern-" + category
+                elif payload.get("member_feed"):
                     from .member_evidence import preview_member_listing
                     current = dict(json.loads(job["payload"]), posting_status=job["posting_status"],
                                    application_status=job["application_status"])
@@ -272,6 +322,17 @@ def deliver_pending(store, sender, limit=100, retry_base_seconds=60):
                         store.db.execute("UPDATE outbox SET status='cancelled',last_error='No remaining unverified eligible members' WHERE id=?", (row["id"],))
                     continue
             payload["_delivery_key"] = row["dedupe_key"]
+            peer_database = getattr(sender, "peer_database", None)
+            if payload.get("_member_route") and isinstance(peer_database, str) and peer_database:
+                peer_receipt = category_peer_receipt(store, peer_database, job["id"])
+                if peer_receipt:
+                    with store.transaction():
+                        store.db.execute("UPDATE outbox SET status='suppressed',receipt_id=?,last_error=NULL,"
+                                         "payload=? WHERE id=?",
+                                         (peer_receipt, json.dumps(dict(payload, duplicate_category_delivery=True),
+                                                                    ensure_ascii=False), row["id"]))
+                    result["deduplicated"] = result.get("deduplicated", 0) + 1
+                    continue
             receipt = sender.send(payload, operational=row["kind"] == "incident")
         except Exception as exc:
             attempts = row["attempts"] + 1

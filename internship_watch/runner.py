@@ -158,7 +158,7 @@ def queue_notifications(store, config, run_id, source_succeeded):
     awaiting = store.rows("SELECT j.* FROM jobs j WHERE baseline=0 AND classification='include' "
                           "AND posting_status!='closed' AND (posting_status!='open' OR application_status='closed') "
                           "AND NOT EXISTS (SELECT 1 FROM digest_jobs d WHERE d.job_id=j.id) "
-                          "AND NOT EXISTS (SELECT 1 FROM outbox o WHERE o.dedupe_key='new:'||j.id AND o.status='delivered') "
+                          "AND NOT EXISTS (SELECT 1 FROM outbox o WHERE o.dedupe_key='new:'||j.id AND o.status IN ('delivered','suppressed')) "
                           "ORDER BY first_seen,id")
     next_digest = store.db.execute("SELECT value FROM meta WHERE key='awaiting_digest_due'").fetchone()
     split = config.get("notifications", {}).get("split_channels", False)
