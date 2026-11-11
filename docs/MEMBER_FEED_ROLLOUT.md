@@ -273,3 +273,48 @@ When Azure access is restored:
 Local evidence: 406 tests and 136 subtests passed. SSH timed out and the Azure
 browser session remained expired, so no production routing or storage was
 changed for this cutover.
+
+## Main-worker category cutover — November 10 Pacific
+
+The public-to-server visibility change was confirmed at action time.
+Both Internships and New Grad have everyone view/read-history allowed,
+normal posting and thread creation denied, and children synced to the category.
+The separate operations and digest channels remain private.
+
+The primary category release is category-personal-8664d236bdef;
+the pilot category release is category-member-8664d236bdef. Both extend the
+prior releases using the tested delivery code in commit a21f3bf. The existing
+213-source worker now routes verified job messages to intern-* using its
+stored classifier category. The pilot retains explicit internship/new-grad
+routing. Operational messages and digests retain their separate destinations.
+
+The three off-VM restored SQLite snapshots matched compressed/raw hashes,
+integrity checks and table counts. After cutover, all 3,030 acknowledged worker,
+1,761 supervisor and zero pilot job receipts from those snapshots were unchanged.
+Rollback configs are saved under /root/category-20261111-005359. Production
+records and notification keys were preserved; no job backlog was replayed.
+
+The startup EnvironmentFile contains the same 12 existing category webhooks.
+Service-account preflight checked all exact channel/server IDs and read-only
+peer SQLite access under the systemd sandbox. Each worker can suppress an exact
+shared identity only when the peer has a real, acknowledged category post.
+Suppression is recorded separately from delivery. Legacy #internships receipts
+do not qualify as category delivery. This requires the existing shared run lock
+when executing either worker; do not run independent drain commands concurrently.
+
+For the screenshot examples, the live stored categories map Art of Problem
+Solving Data Science Intern to intern-data, Trimble Software Engineer Intern
+to intern-swe, and Rambus Forward Deployed Engineer Intern - AI & Enterprise
+Systems to intern-ml-ai. Existing historic Discord posts were left in place.
+
+Post-cutover execution: main runs 14307 and 14308 completed at 5:18 and
+5:28 PM Pacific on November 10. Both collected successfully from 209 of 213
+sources; the same four pre-cutover issues remained (Atlassian, Old Mission,
+MSCI and Trexquant). The manually requested member execution, run 30,
+completed at 5:20 PM with 8/8 boards. The scheduled supervisor completed at
+5:15 PM. Both worker queues were empty and there were no notification failures
+or new qualifying deliveries in the observation window. An installed-code
+dry run under systemd selected the three expected destinations for the pictured
+listings, using a disposable outbox and intercepted Discord transport. No live
+job message was replayed. The worker, timers and local backup remain enabled.
+Configuration comparison confirmed that only routing settings changed.
