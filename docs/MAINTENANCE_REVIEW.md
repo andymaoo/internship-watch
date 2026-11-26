@@ -1201,3 +1201,45 @@ silent, with one grouped catch-up digest acknowledged separately. Real category
 canary retry and duplicate suppression were checked. Personal code/config/data
 were not modified. Full evidence: NEW_GRAD_REPAIR_2026-11-25.md. Broader source
 baseline/coverage review remains outstanding; this is a focused repair.
+
+### November 26 UTC: expanded undergraduate member funnel
+
+Reviewed all five curated 50-employer lists (161 unique targets), bounded official
+career/ATS destinations, permitted public feed job destinations, and actual local
+and Azure source results. Added the missing Simplify New-Grad-Positions dev
+listings feed alongside Summer2027-Internships. Reused 139 exact raw source
+collections rather than applying the personal internship filter to member input.
+Member sources expanded to 152, with 149 successful live collections across the
+rollout and three persistent restricted Workday routes. Matrix distinguishes
+39 configured direct targets, 37 responding targets and public-feed-only gaps.
+None of those counts proves complete employer coverage. Unsupported/restricted
+source candidates remain disabled with reasons; native alerts and licensed feeds
+remain alternatives requiring actual setup/rights. No authenticated scraping,
+dependency merge, paid service or new cloud resource was introduced.
+
+Added graduate-required exclusions, bachelor alternatives, business categories,
+curated new-grad/cohort evidence and persistent member policy reclassification.
+Verified and fixed producer lock-collision delay and stale stored policy decisions
+without changing personal filters, identities, baseline flags or delivery history.
+451 tests plus 136 subtests and seven backup tests passed; actual Azure staging
+passed the full suite and GitHub CI 45782593249 succeeded. Verified all three
+SQLite snapshots off the VM before reversible code/configuration deployment.
+All 27 runtime modules match code commit ddb86b7 on both active releases.
+
+Final scheduled member runs 770/771 succeeded, with 146 checked sources and six
+cadence deferrals each, no overlap, no pending delivery failures and validation
+due decreasing 2799 to 2767. Personal runs 18283/18284 continued, retaining their
+48 existing source failures. Real IMC new-grad delivery, labeled Notion live
+validation/retry/dedup, grouped private backlog receipt, stored degree exclusions,
+restart persistence and supervisor member inspection were verified. Full dated
+evidence and limitations: BUSINESS_FUNNEL.md. Eight additional category webhook
+destinations still require private configuration; existing twelve are retained.
+
+Review cursor: individual permitted custom adapters/feeds for the remaining
+business targets, the broader existing source-contract/Macquarie baseline review,
+member feed metadata freshness in the weekly audit, and actual long-term backlog
+throughput. General off-host bucket credentials remain the same known setup gap;
+do not request them repeatedly or label manual deployment snapshots as recurring
+cloud backups. Preserve old repair tickets and distinguish source restrictions
+from code defects. Handshake/LinkedIn native alerts remain separate, not five-minute
+authenticated collection or a verified substitute for all employer vacancies.

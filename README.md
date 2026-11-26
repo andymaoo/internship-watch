@@ -84,8 +84,10 @@ full-board collections through private, freshness-checked snapshots. There are
 five curated lists of 50 employers each (**161 unique targets**), with configured
 direct routes for 39 targets; this is not a guarantee of complete coverage or a
 universal company ranking. Public-feed matches supplement direct routes.
-Staging collected 148/152 member sources successfully; restricted/rate-limited
-Workday routes remain explicit failures. See [target companies](docs/BUSINESS_EMPLOYER_TARGETS.md),
+Staging collected 148/152 member sources successfully; production subsequently
+collected 149, with three existing restricted Workday sources still failing.
+Of 39 targets with configured direct routes, 37 are responding. See the
+[per-company coverage matrix](docs/BUSINESS_COVERAGE_MATRIX.md), [target companies](docs/BUSINESS_EMPLOYER_TARGETS.md),
 [business rollout](docs/BUSINESS_FUNNEL.md) and the [finance coverage audit](docs/FINANCE_EXPANSION.md).
 
 Simplify feeds use Summer2027-Internships and New-Grad-Positions, branch `dev`,

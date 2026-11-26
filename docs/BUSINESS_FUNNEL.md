@@ -84,9 +84,106 @@ Healthchecks email monitoring remains active.
 
 ## Deployment and acceptance
 
-Local tests: 449 passed and 136 subtests; seven deployment backup tests passed.
+Local and Azure staged tests: 451 passed and 136 subtests; seven deployment backup tests passed.
 Fresh consistent personal, maintenance and member snapshots were verified off
 Azure using compressed/raw SHA-256, integrity and table counts before cutover.
-Actual staging/production timings, coverage counts and receipts follow after
-acceptance. Newly imported backlog is grouped rather than replayed as individual
-new-job alerts. New category destinations remain queued until configured.
+The added sources initially import silently. Existing delivery keys and receipts
+remain intact. New category destinations remain queued until configured.
+
+The source-cache startup race exposed a daemon defect: an overlap skipped the
+producer for an entire five-minute interval. It now retries the same lock after
+15 seconds. This neither permits overlapping collection nor increases successful
+provider polling frequency. Member policy revisions also reclassify stored jobs,
+including jobs omitted by an unavailable source; identity, baseline flags,
+posting-check evidence and delivery receipts remain unchanged.
+
+Production collected 149/152 sources successfully across the rollout. Capital
+One, Morgan Stanley and Truist Workday routes remain restricted, with their
+existing failure history retained. They receive no access-policy bypass. Six
+Workday/iCIMS sources have 30-minute per-source cadence; a deferred poll is
+identified separately from a successful upstream collection. See the dated
+[per-company matrix](BUSINESS_COVERAGE_MATRIX.md): 39 targets have configured
+direct routes and 37 are responding; others retain incomplete public-feed routes.
+
+The actual new-grad path delivered IMC Trading's Quant Performance Engineer to
+new-grad-quant at 08:18:10 UTC on November 26 (receipt 1575425419845304441).
+This proves real qualifying-job delivery, not the employer's original posting
+date. A separate labeled test introduced an existing Notion new-grad posting into
+a disposable database after empty-source initialization, performed live posting
+validation in 2.83 seconds, retained a controlled failed delivery, then delivered
+the retry to new-grad-swe (receipt 1575422573569908756). A third drain sent nothing;
+Discord message lookups verified both destination channel IDs. Application access
+for that Notion test remained unverified. Production records were not reseeded.
+
+Code commit ddb86b70d63ecee3c3354d4cd8732f7bc00e8f5e passed
+[GitHub CI](https://github.com/andymaoo/internship-watch/actions/runs/45782593249).
+All 27 runtime Python modules on both active Azure releases matched that commit.
+Releases are business-personal-0d60489082db and business-member-0d60489082db;
+the personal service, member timer and maintenance timer are enabled after reboot.
+Secrets remain root-owned mode 0600. Rollback configuration is privately saved in
+/root/business-20261126-072828-cutover-779b094a; previous release symlinks remain
+available. Rollback changes code/configuration only, never restores an older DB.
+
+Final release scheduled acceptance (November 26 UTC):
+
+| Worker/run | Actual collection start | Completion | Result |
+| --- | --- | --- | --- |
+| Personal 18283 | 08:23:31 | 08:27:08 | Completed/degraded: 165/213 sources succeeded; 48 pre-existing source access/schema failures remain |
+| Member 770 | 08:27:11 | 08:27:55 | OK: 146 successful collections, six explicitly deferred sources; 25 link checks |
+| Personal 18284 | 08:28:31 | 08:32:28 | Completed/degraded: 165/213 sources succeeded; existing failures remain |
+| Member 771 | 08:32:29 | 08:33:15 | OK: 146 successful collections, six deferred sources; 34 link checks |
+
+Member processing took approximately 46 seconds per run; timer service lifetimes
+also include waiting for the shared lock. Actual member starts were 318 seconds
+apart, so five minutes is a target rather than an exact delivery guarantee.
+No completed worker runs overlapped. Member validation due fell from 2,799 to
+2,767 across the final two runs; the imported backlog is still large and this
+short window does not establish long-term queue stability. New discoveries
+retain their separate validation priority. No production notification failures
+were pending. The independent supervisor completed at 08:30:36 and successfully
+inspected the new member monitor. General existing source/coverage, validation
+and off-host-bucket incidents were not declared resolved by this rollout.
+
+At 08:33:41, the member DB contained 3,046 jobs with all 60 delivered production
+outbox records retained, including pre-rollout history. The personal DB retained
+6,536 jobs and 3,774 delivered records. Twenty-eight graduate-required jobs were
+excluded; zero included jobs had graduate_degree_required=true. Ninety qualifying
+new-grad employer postings were verified open, 1,040 were unverified and three
+were closed. These are stored listing statuses, not employer posting recency.
+One grouped backlog message went to private watch-digest at 08:33:46 (receipt
+1575429345537691719); Discord lookup confirmed the channel and a duplicate drain
+sent nothing. Baseline imports were not replayed individually.
+
+Private evidence is work/maintenance/business-funnel: backup-verified.json,
+stage.txt, pipeline-check.json, receipt-verified.json, production-acceptance.json,
+final-invariants.json, cutover.json and runtime-match.json. These include private
+operational data and are deliberately excluded from Git. Updated local report:
+outputs/business-funnel/report/jobs.html, with CSV and coverage/link evidence.
+The recurring cloud backup bucket is still unconfigured; today's verified
+off-VM deployment copies do not constitute an automated off-host backup service.
+
+## Operating the expansion
+
+The authoritative configuration remains /etc/internship-watch.json and
+/etc/internship-watch-member.json. build_funnel in internship_watch/member_funnel.py
+constructs candidate configurations from the existing registry, enabled additions
+and target catalog. Review/stage those candidates before replacing live files.
+Adding a catalog name alone does not implement an employer collector. For each
+new direct route, verify the official destination and access rules, exercise
+complete pagination, add adapter regression fixtures, run local and actual-host
+checks, then observe consecutive scheduled collections and its Discord route.
+Record blocked/partial coverage explicitly. Keep new-source initial import silent.
+
+See [Discord setup](DISCORD_BUSINESS_SETUP.md) for the eight missing webhook keys.
+The private updated member report is /var/lib/internship-watch-member/export/jobs.html,
+with jobs.csv, link-validation.json, sources.json and coverage.html beside it.
+Copy exports over SSH or bind a temporary report server to 127.0.0.1 and tunnel it
+as described in DEPLOYMENT.md, substituting the member export directory. Downloaded
+local HTML files are snapshots; refreshing a local file does not fetch Azure.
+
+After a reviewed code/config update, restart internship-watch.service; the next
+member timer invocation reads the active member release/configuration. To stop
+both collection workers, stop internship-watch-member.timer,
+internship-watch-member.service and internship-watch.service. Independent
+maintenance/Healthchecks may alert about the intentional stop. Do not delete
+SQLite files, clear the outbox or reset initial baselines.
