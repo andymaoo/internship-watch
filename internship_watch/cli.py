@@ -120,6 +120,9 @@ def _export(store, directory, config=None):
             safe = False
         link = f'<a href="{esc(url)}" rel="noreferrer noopener" target="_blank">{esc(row["title"])}</a>' if safe else esc(row["title"])
         reasons = "; ".join(json.loads(row["evidence"]).get("reasons", []))
+        opportunity = json.loads(row['evidence']).get('opportunity_type','')
+        if opportunity:
+            reasons = opportunity.replace('_',' ') + ('; '+reasons if reasons else '')
         app_url = row["final_application_url"] or row["application_url"] or ""
         app_link = ""
         try:
@@ -140,6 +143,9 @@ input,select{padding:10px;margin:8px 12px 18px 0;max-width:100%;box-sizing:borde
 <input id="search" type="search" aria-label="Search jobs" placeholder="Company, role, location"><select id="filter" aria-label="Listing status"><option value="include open">Verified matches</option><option value="include">All matches</option><option value="ambiguous">Needs review</option><option value="">All collected candidates</option></select><span id="count"></span>
 <table><thead><tr><th>Employer</th><th>Role</th><th>Category</th><th>Location</th><th>Status / reasons</th><th>First seen</th><th>Last checked</th></tr></thead><tbody>__ROWS__</tbody></table>
 <script>const search=document.getElementById('search'),filter=document.getElementById('filter');function refresh(){let n=0;for(const row of document.querySelectorAll('tbody tr')){row.hidden=!(row.textContent.toLowerCase().includes(search.value.toLowerCase())&&row.dataset.state.includes(filter.value));if(!row.hidden)n++;}document.getElementById('count').textContent=n+' listings';}search.addEventListener('input',refresh);filter.addEventListener('change',refresh);refresh();</script></html>'''
+    if config and config.get('member_feed'):
+        page = page.replace('Internships and configured research programs.',
+            'US internships and new-grad/entry-level opportunities, including remote roles unless explicitly outside the US. Roles requiring a master’s degree or PhD are excluded.')
     (output / "jobs.html").write_text(page.replace("__DATE__", esc(now())).replace("__ROWS__", "".join(body)), encoding="utf-8")
     from .coverage import export_coverage
     export_coverage(store, output, config or {})
@@ -168,17 +174,21 @@ def main(argv=None):
     if args.command in ("run", "daemon"):
         while True:
             started = time.monotonic()
+            interval = config.get("poll_seconds", 300)
             try:
                 print(dump(run_once(config)), flush=True)
             except AlreadyRunning:
                 logging.warning("Skipped overlap")
+                # A peer finishing a short run must not starve the collection
+                # producer for a full poll interval on each timer collision.
+                interval = min(interval, 15)
             except Exception:
                 if args.command == "run":
                     raise
                 logging.exception("Poll failed; will retry next interval")
             if args.command == "run":
                 return
-            time.sleep(max(1, config.get("poll_seconds", 300) - (time.monotonic() - started)))
+            time.sleep(max(1, interval - (time.monotonic() - started)))
     elif args.command in ("test-notification", "test-failure-alert"):
         operational = args.command == "test-failure-alert" or args.operational
         receipt = configured_sender(config).send({"title": "Internship Watch TEST", "body": "Operational alert test — no real outage." if operational else "Notification delivery test."}, operational=operational)

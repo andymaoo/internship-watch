@@ -1,0 +1,3208 @@
+{
+  "methodology": "Curated 50-employer research targets per field, not an objective top-50 ranking or a claim of successful automated coverage. Inclusion does not imply current US graduate vacancies. Parent/brand route consolidation requires observed evidence.",
+  "fields": {
+    "technology_consulting": [
+      "Accenture",
+      "Deloitte",
+      "PwC",
+      "EY",
+      "KPMG",
+      "IBM",
+      "Capgemini",
+      "Cognizant",
+      "Infosys",
+      "Tata Consultancy Services",
+      "Wipro",
+      "HCLTech",
+      "NTT DATA",
+      "DXC Technology",
+      "CGI",
+      "EPAM Systems",
+      "Globant",
+      "Thoughtworks",
+      "Slalom",
+      "Publicis Sapient",
+      "Booz Allen Hamilton",
+      "Guidehouse",
+      "ICF",
+      "Perficient",
+      "Avanade",
+      "West Monroe",
+      "Point B",
+      "Credera",
+      "Protiviti",
+      "BearingPoint",
+      "Reply",
+      "Endava",
+      "SoftServe",
+      "LTIMindtree",
+      "Mphasis",
+      "Coforge",
+      "Persistent Systems",
+      "Hexaware",
+      "Tech Mahindra",
+      "UST",
+      "Akkodis",
+      "Grid Dynamics",
+      "Virtusa",
+      "Capco",
+      "Hitachi Solutions",
+      "Hitachi Vantara",
+      "WillowTree",
+      "Kin and Carta",
+      "Sogeti",
+      "Teradata"
+    ],
+    "strategy_consulting": [
+      "McKinsey & Company",
+      "Boston Consulting Group",
+      "Bain & Company",
+      "Deloitte",
+      "PwC",
+      "EY",
+      "KPMG",
+      "Accenture",
+      "Oliver Wyman",
+      "Kearney",
+      "L.E.K. Consulting",
+      "Roland Berger",
+      "AlixPartners",
+      "Alvarez & Marsal",
+      "Arthur D. Little",
+      "Simon-Kucher",
+      "ZS",
+      "OC&C Strategy Consultants",
+      "ClearView Healthcare Partners",
+      "Huron",
+      "FTI Consulting",
+      "Charles River Associates",
+      "Analysis Group",
+      "NERA Economic Consulting",
+      "Cornerstone Research",
+      "Berkeley Research Group",
+      "The Brattle Group",
+      "IQVIA",
+      "Trinity Life Sciences",
+      "Putnam",
+      "Health Advances",
+      "ECG Management Consultants",
+      "HKA",
+      "Keystone Strategy",
+      "Sia",
+      "ghSMART",
+      "The Bridgespan Group",
+      "Dalberg",
+      "Redstone Strategy Group",
+      "RHR International",
+      "The Chartis Group",
+      "ScottMadden",
+      "Marakon",
+      "Innosight",
+      "Stax",
+      "SSA & Company",
+      "Kepler",
+      "Cambridge Consultants",
+      "Censeo Consulting Group",
+      "Bates White"
+    ],
+    "technical_product_management": [
+      "Google",
+      "Microsoft",
+      "Amazon",
+      "Meta",
+      "Apple",
+      "NVIDIA",
+      "Salesforce",
+      "Adobe",
+      "Oracle",
+      "ServiceNow",
+      "Atlassian",
+      "LinkedIn",
+      "Uber",
+      "Airbnb",
+      "Stripe",
+      "Block",
+      "PayPal",
+      "Intuit",
+      "Cisco",
+      "SAP",
+      "IBM",
+      "Samsung",
+      "Netflix",
+      "Spotify",
+      "Snap",
+      "ByteDance",
+      "Palantir",
+      "Databricks",
+      "Snowflake",
+      "Figma",
+      "Notion",
+      "Asana",
+      "Dropbox",
+      "Box",
+      "Twilio",
+      "Datadog",
+      "MongoDB",
+      "Cloudflare",
+      "HubSpot",
+      "Okta",
+      "Pinterest",
+      "Reddit",
+      "DoorDash",
+      "Roblox",
+      "Instacart",
+      "Ramp",
+      "Brex",
+      "Coinbase",
+      "Robinhood",
+      "Zoom"
+    ],
+    "product_strategy": [
+      "Google",
+      "Microsoft",
+      "Amazon",
+      "Meta",
+      "Apple",
+      "NVIDIA",
+      "Salesforce",
+      "Adobe",
+      "Oracle",
+      "ServiceNow",
+      "Atlassian",
+      "LinkedIn",
+      "Uber",
+      "Airbnb",
+      "Stripe",
+      "Block",
+      "PayPal",
+      "Intuit",
+      "Cisco",
+      "SAP",
+      "IBM",
+      "Samsung",
+      "Netflix",
+      "Spotify",
+      "Snap",
+      "ByteDance",
+      "Palantir",
+      "Databricks",
+      "Snowflake",
+      "Figma",
+      "Deloitte",
+      "Accenture",
+      "McKinsey & Company",
+      "Boston Consulting Group",
+      "Bain & Company",
+      "PwC",
+      "EY",
+      "KPMG",
+      "Capgemini",
+      "Cognizant",
+      "Publicis Sapient",
+      "Slalom",
+      "Thoughtworks",
+      "Globant",
+      "EPAM Systems",
+      "West Monroe",
+      "Credera",
+      "ZS",
+      "Simon-Kucher",
+      "Kearney"
+    ],
+    "business_analysis": [
+      "Accenture",
+      "Deloitte",
+      "PwC",
+      "EY",
+      "KPMG",
+      "IBM",
+      "Capgemini",
+      "Cognizant",
+      "Infosys",
+      "Tata Consultancy Services",
+      "Wipro",
+      "HCLTech",
+      "NTT DATA",
+      "DXC Technology",
+      "CGI",
+      "EPAM Systems",
+      "Globant",
+      "Thoughtworks",
+      "Slalom",
+      "Publicis Sapient",
+      "McKinsey & Company",
+      "Boston Consulting Group",
+      "Bain & Company",
+      "Oliver Wyman",
+      "Kearney",
+      "ZS",
+      "Capital One",
+      "JPMorgan Chase",
+      "Bank of America",
+      "Citi",
+      "Wells Fargo",
+      "Goldman Sachs",
+      "Morgan Stanley",
+      "American Express",
+      "Visa",
+      "Mastercard",
+      "BlackRock",
+      "Fidelity Investments",
+      "S&P Global",
+      "Bloomberg",
+      "Amazon",
+      "Microsoft",
+      "Google",
+      "Salesforce",
+      "Adobe",
+      "Oracle",
+      "ServiceNow",
+      "Walmart",
+      "Target",
+      "UnitedHealth Group"
+    ]
+  },
+  "companies": [
+    {
+      "id": "accenture",
+      "name": "Accenture",
+      "fields": [
+        "technology_consulting",
+        "strategy_consulting",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://accenture.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "deloitte",
+      "name": "Deloitte",
+      "fields": [
+        "technology_consulting",
+        "strategy_consulting",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://deloitte.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "pwc",
+      "name": "PwC",
+      "fields": [
+        "technology_consulting",
+        "strategy_consulting",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://pwc.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "ey",
+      "name": "EY",
+      "fields": [
+        "technology_consulting",
+        "strategy_consulting",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://ey.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "kpmg",
+      "name": "KPMG",
+      "fields": [
+        "technology_consulting",
+        "strategy_consulting",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://kpmg.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "ibm",
+      "name": "IBM",
+      "fields": [
+        "technology_consulting",
+        "technical_product_management",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://ibm.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "capgemini",
+      "name": "Capgemini",
+      "fields": [
+        "technology_consulting",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://capgemini.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "cognizant",
+      "name": "Cognizant",
+      "fields": [
+        "technology_consulting",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://cognizant.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "infosys",
+      "name": "Infosys",
+      "fields": [
+        "technology_consulting",
+        "business_analysis"
+      ],
+      "official_root": "https://infosys.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "tataconsultancyservices",
+      "name": "Tata Consultancy Services",
+      "fields": [
+        "technology_consulting",
+        "business_analysis"
+      ],
+      "official_root": "https://tcs.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "wipro",
+      "name": "Wipro",
+      "fields": [
+        "technology_consulting",
+        "business_analysis"
+      ],
+      "official_root": "https://wipro.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "hcltech",
+      "name": "HCLTech",
+      "fields": [
+        "technology_consulting",
+        "business_analysis"
+      ],
+      "official_root": "https://hcltech.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "nttdata",
+      "name": "NTT DATA",
+      "fields": [
+        "technology_consulting",
+        "business_analysis"
+      ],
+      "official_root": "https://nttdata.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "dxctechnology",
+      "name": "DXC Technology",
+      "fields": [
+        "technology_consulting",
+        "business_analysis"
+      ],
+      "official_root": "https://dxc.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "cgi",
+      "name": "CGI",
+      "fields": [
+        "technology_consulting",
+        "business_analysis"
+      ],
+      "official_root": "https://cgi.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "epamsystems",
+      "name": "EPAM Systems",
+      "fields": [
+        "technology_consulting",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://epam.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "globant",
+      "name": "Globant",
+      "fields": [
+        "technology_consulting",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://globant.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "thoughtworks",
+      "name": "Thoughtworks",
+      "fields": [
+        "technology_consulting",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://thoughtworks.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "slalom",
+      "name": "Slalom",
+      "fields": [
+        "technology_consulting",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://slalom.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "publicissapient",
+      "name": "Publicis Sapient",
+      "fields": [
+        "technology_consulting",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://publicissapient.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "boozallenhamilton",
+      "name": "Booz Allen Hamilton",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://boozallen.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "guidehouse",
+      "name": "Guidehouse",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://guidehouse.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "icf",
+      "name": "ICF",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://icf.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "perficient",
+      "name": "Perficient",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://perficient.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "avanade",
+      "name": "Avanade",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://avanade.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "westmonroe",
+      "name": "West Monroe",
+      "fields": [
+        "technology_consulting",
+        "product_strategy"
+      ],
+      "official_root": "https://westmonroe.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "pointb",
+      "name": "Point B",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://pointb.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "credera",
+      "name": "Credera",
+      "fields": [
+        "technology_consulting",
+        "product_strategy"
+      ],
+      "official_root": "https://credera.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "protiviti",
+      "name": "Protiviti",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://protiviti.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "bearingpoint",
+      "name": "BearingPoint",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://bearingpoint.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "reply",
+      "name": "Reply",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://reply.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "endava",
+      "name": "Endava",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://endava.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "softserve",
+      "name": "SoftServe",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://softserveinc.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "ltimindtree",
+      "name": "LTIMindtree",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://ltimindtree.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "mphasis",
+      "name": "Mphasis",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://mphasis.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "coforge",
+      "name": "Coforge",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://coforge.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "persistentsystems",
+      "name": "Persistent Systems",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://persistent.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "hexaware",
+      "name": "Hexaware",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://hexaware.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "techmahindra",
+      "name": "Tech Mahindra",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://techmahindra.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "ust",
+      "name": "UST",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://ust.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "akkodis",
+      "name": "Akkodis",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://akkodis.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "griddynamics",
+      "name": "Grid Dynamics",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://griddynamics.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "virtusa",
+      "name": "Virtusa",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://virtusa.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "capco",
+      "name": "Capco",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://capco.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "hitachisolutions",
+      "name": "Hitachi Solutions",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://global.hitachi-solutions.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "hitachivantara",
+      "name": "Hitachi Vantara",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://hitachivantara.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "willowtree",
+      "name": "WillowTree",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://willowtreeapps.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "kinandcarta",
+      "name": "Kin and Carta",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://kinandcarta.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "sogeti",
+      "name": "Sogeti",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://sogeti.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "teradata",
+      "name": "Teradata",
+      "fields": [
+        "technology_consulting"
+      ],
+      "official_root": "https://teradata.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "mckinseycompany",
+      "name": "McKinsey & Company",
+      "fields": [
+        "strategy_consulting",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://mckinsey.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "bostonconsultinggroup",
+      "name": "Boston Consulting Group",
+      "fields": [
+        "strategy_consulting",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://bcg.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "baincompany",
+      "name": "Bain & Company",
+      "fields": [
+        "strategy_consulting",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://bain.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "oliverwyman",
+      "name": "Oliver Wyman",
+      "fields": [
+        "strategy_consulting",
+        "business_analysis"
+      ],
+      "official_root": "https://oliverwyman.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "kearney",
+      "name": "Kearney",
+      "fields": [
+        "strategy_consulting",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://kearney.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "lekconsulting",
+      "name": "L.E.K. Consulting",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://lek.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "rolandberger",
+      "name": "Roland Berger",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://rolandberger.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "alixpartners",
+      "name": "AlixPartners",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://alixpartners.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "alvarezmarsal",
+      "name": "Alvarez & Marsal",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://alvarezandmarsal.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "arthurdlittle",
+      "name": "Arthur D. Little",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://adlittle.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "simonkucher",
+      "name": "Simon-Kucher",
+      "fields": [
+        "strategy_consulting",
+        "product_strategy"
+      ],
+      "official_root": "https://simon-kucher.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "zs",
+      "name": "ZS",
+      "fields": [
+        "strategy_consulting",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://zs.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "occstrategyconsultants",
+      "name": "OC&C Strategy Consultants",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://occstrategy.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "clearviewhealthcarepartners",
+      "name": "ClearView Healthcare Partners",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://clearviewhcp.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "huron",
+      "name": "Huron",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://huronconsultinggroup.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "fticonsulting",
+      "name": "FTI Consulting",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://fticonsulting.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "charlesriverassociates",
+      "name": "Charles River Associates",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://crai.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "analysisgroup",
+      "name": "Analysis Group",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://analysisgroup.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "neraeconomicconsulting",
+      "name": "NERA Economic Consulting",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://nera.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "cornerstoneresearch",
+      "name": "Cornerstone Research",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://cornerstone.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "berkeleyresearchgroup",
+      "name": "Berkeley Research Group",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://thinkbrg.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "thebrattlegroup",
+      "name": "The Brattle Group",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://brattle.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "iqvia",
+      "name": "IQVIA",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://iqvia.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "trinitylifesciences",
+      "name": "Trinity Life Sciences",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://trinitylifesciences.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "putnam",
+      "name": "Putnam",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://putassoc.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "healthadvances",
+      "name": "Health Advances",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://healthadvances.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "ecgmanagementconsultants",
+      "name": "ECG Management Consultants",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://ecgmc.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "hka",
+      "name": "HKA",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://hka.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "keystonestrategy",
+      "name": "Keystone Strategy",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://keystone.ai",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "sia",
+      "name": "Sia",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://sia-partners.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "ghsmart",
+      "name": "ghSMART",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://ghsmart.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "thebridgespangroup",
+      "name": "The Bridgespan Group",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://bridgespan.org",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "dalberg",
+      "name": "Dalberg",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://dalberg.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "redstonestrategygroup",
+      "name": "Redstone Strategy Group",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://redstonestrategy.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "rhrinternational",
+      "name": "RHR International",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://rhrinternational.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "thechartisgroup",
+      "name": "The Chartis Group",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://chartis.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "scottmadden",
+      "name": "ScottMadden",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://scottmadden.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "marakon",
+      "name": "Marakon",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://marakon.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "innosight",
+      "name": "Innosight",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://innosight.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "stax",
+      "name": "Stax",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://stax.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "ssacompany",
+      "name": "SSA & Company",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://ssaandco.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "kepler",
+      "name": "Kepler",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://kepler-consulting.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "cambridgeconsultants",
+      "name": "Cambridge Consultants",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://cambridgeconsultants.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "censeoconsultinggroup",
+      "name": "Censeo Consulting Group",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://censeoconsulting.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "bateswhite",
+      "name": "Bates White",
+      "fields": [
+        "strategy_consulting"
+      ],
+      "official_root": "https://bateswhite.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "google",
+      "name": "Google",
+      "fields": [
+        "technical_product_management",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://google.com",
+      "registry_sources": [
+        "google-google"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "microsoft",
+      "name": "Microsoft",
+      "fields": [
+        "technical_product_management",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://microsoft.com",
+      "registry_sources": [
+        "eightfold-microsoft"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "amazon",
+      "name": "Amazon",
+      "fields": [
+        "technical_product_management",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://amazon.jobs",
+      "registry_sources": [
+        "amazon-direct"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "meta",
+      "name": "Meta",
+      "fields": [
+        "technical_product_management",
+        "product_strategy"
+      ],
+      "official_root": "https://metacareers.com",
+      "registry_sources": [
+        "meta-meta"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "apple",
+      "name": "Apple",
+      "fields": [
+        "technical_product_management",
+        "product_strategy"
+      ],
+      "official_root": "https://apple.com",
+      "registry_sources": [
+        "apple-apple"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "nvidia",
+      "name": "NVIDIA",
+      "fields": [
+        "technical_product_management",
+        "product_strategy"
+      ],
+      "official_root": "https://nvidia.com",
+      "registry_sources": [
+        "eightfold-nvidia"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "salesforce",
+      "name": "Salesforce",
+      "fields": [
+        "technical_product_management",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://salesforce.com",
+      "registry_sources": [
+        "workday-salesforce"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "adobe",
+      "name": "Adobe",
+      "fields": [
+        "technical_product_management",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://adobe.com",
+      "registry_sources": [
+        "workday-adobe"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "oracle",
+      "name": "Oracle",
+      "fields": [
+        "technical_product_management",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://oracle.com",
+      "registry_sources": [
+        "oracle-direct"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "servicenow",
+      "name": "ServiceNow",
+      "fields": [
+        "technical_product_management",
+        "product_strategy",
+        "business_analysis"
+      ],
+      "official_root": "https://servicenow.com",
+      "registry_sources": [
+        "smartrecruiters-servicenow"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "atlassian",
+      "name": "Atlassian",
+      "fields": [
+        "technical_product_management",
+        "product_strategy"
+      ],
+      "official_root": "https://atlassian.com",
+      "registry_sources": [
+        "atlassian-direct"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "linkedin",
+      "name": "LinkedIn",
+      "fields": [
+        "technical_product_management",
+        "product_strategy"
+      ],
+      "official_root": "https://linkedin.com",
+      "registry_sources": [
+        "smartrecruiters-linkedin"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "uber",
+      "name": "Uber",
+      "fields": [
+        "technical_product_management",
+        "product_strategy"
+      ],
+      "official_root": "https://uber.com",
+      "registry_sources": [
+        "uber-direct"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "airbnb",
+      "name": "Airbnb",
+      "fields": [
+        "technical_product_management",
+        "product_strategy"
+      ],
+      "official_root": "https://airbnb.com",
+      "registry_sources": [
+        "greenhouse-airbnb"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "stripe",
+      "name": "Stripe",
+      "fields": [
+        "technical_product_management",
+        "product_strategy"
+      ],
+      "official_root": "https://stripe.com",
+      "registry_sources": [
+        "greenhouse-stripe"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "block",
+      "name": "Block",
+      "fields": [
+        "technical_product_management",
+        "product_strategy"
+      ],
+      "official_root": "https://block.xyz",
+      "registry_sources": [
+        "greenhouse-block"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "paypal",
+      "name": "PayPal",
+      "fields": [
+        "technical_product_management",
+        "product_strategy"
+      ],
+      "official_root": "https://paypal.com",
+      "registry_sources": [
+        "eightfold-paypal"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "intuit",
+      "name": "Intuit",
+      "fields": [
+        "technical_product_management",
+        "product_strategy"
+      ],
+      "official_root": "https://intuit.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "cisco",
+      "name": "Cisco",
+      "fields": [
+        "technical_product_management",
+        "product_strategy"
+      ],
+      "official_root": "https://cisco.com",
+      "registry_sources": [
+        "workday-cisco"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "sap",
+      "name": "SAP",
+      "fields": [
+        "technical_product_management",
+        "product_strategy"
+      ],
+      "official_root": "https://sap.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "samsung",
+      "name": "Samsung",
+      "fields": [
+        "technical_product_management",
+        "product_strategy"
+      ],
+      "official_root": "https://samsung.com",
+      "registry_sources": [
+        "workday-samsung"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "netflix",
+      "name": "Netflix",
+      "fields": [
+        "technical_product_management",
+        "product_strategy"
+      ],
+      "official_root": "https://netflix.com",
+      "registry_sources": [
+        "eightfold-netflix"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "spotify",
+      "name": "Spotify",
+      "fields": [
+        "technical_product_management",
+        "product_strategy"
+      ],
+      "official_root": "https://spotify.com",
+      "registry_sources": [
+        "lever-spotify"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "snap",
+      "name": "Snap",
+      "fields": [
+        "technical_product_management",
+        "product_strategy"
+      ],
+      "official_root": "https://snap.com",
+      "registry_sources": [
+        "snap-direct"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "bytedance",
+      "name": "ByteDance",
+      "fields": [
+        "technical_product_management",
+        "product_strategy"
+      ],
+      "official_root": "https://bytedance.com",
+      "registry_sources": [
+        "bytedance-direct"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "palantir",
+      "name": "Palantir",
+      "fields": [
+        "technical_product_management",
+        "product_strategy"
+      ],
+      "official_root": "https://palantir.com",
+      "registry_sources": [
+        "lever-palantir"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "databricks",
+      "name": "Databricks",
+      "fields": [
+        "technical_product_management",
+        "product_strategy"
+      ],
+      "official_root": "https://databricks.com",
+      "registry_sources": [
+        "greenhouse-databricks"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "snowflake",
+      "name": "Snowflake",
+      "fields": [
+        "technical_product_management",
+        "product_strategy"
+      ],
+      "official_root": "https://snowflake.com",
+      "registry_sources": [
+        "ashby-snowflake"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "figma",
+      "name": "Figma",
+      "fields": [
+        "technical_product_management",
+        "product_strategy"
+      ],
+      "official_root": "https://figma.com",
+      "registry_sources": [
+        "greenhouse-figma"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "notion",
+      "name": "Notion",
+      "fields": [
+        "technical_product_management"
+      ],
+      "official_root": "https://notion.so",
+      "registry_sources": [
+        "ashby-notion"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "asana",
+      "name": "Asana",
+      "fields": [
+        "technical_product_management"
+      ],
+      "official_root": "https://asana.com",
+      "registry_sources": [
+        "greenhouse-asana"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "dropbox",
+      "name": "Dropbox",
+      "fields": [
+        "technical_product_management"
+      ],
+      "official_root": "https://dropbox.com",
+      "registry_sources": [
+        "greenhouse-dropbox"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "box",
+      "name": "Box",
+      "fields": [
+        "technical_product_management"
+      ],
+      "official_root": "https://box.com",
+      "registry_sources": [
+        "greenhouse-boxinc"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "twilio",
+      "name": "Twilio",
+      "fields": [
+        "technical_product_management"
+      ],
+      "official_root": "https://twilio.com",
+      "registry_sources": [
+        "greenhouse-twilio"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "datadog",
+      "name": "Datadog",
+      "fields": [
+        "technical_product_management"
+      ],
+      "official_root": "https://datadoghq.com",
+      "registry_sources": [
+        "greenhouse-datadog"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "mongodb",
+      "name": "MongoDB",
+      "fields": [
+        "technical_product_management"
+      ],
+      "official_root": "https://mongodb.com",
+      "registry_sources": [
+        "greenhouse-mongodb"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "cloudflare",
+      "name": "Cloudflare",
+      "fields": [
+        "technical_product_management"
+      ],
+      "official_root": "https://cloudflare.com",
+      "registry_sources": [
+        "greenhouse-cloudflare"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "hubspot",
+      "name": "HubSpot",
+      "fields": [
+        "technical_product_management"
+      ],
+      "official_root": "https://hubspot.com",
+      "registry_sources": [
+        "greenhouse-hubspotjobs"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "okta",
+      "name": "Okta",
+      "fields": [
+        "technical_product_management"
+      ],
+      "official_root": "https://okta.com",
+      "registry_sources": [
+        "greenhouse-okta"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "pinterest",
+      "name": "Pinterest",
+      "fields": [
+        "technical_product_management"
+      ],
+      "official_root": "https://pinterest.com",
+      "registry_sources": [
+        "greenhouse-pinterest"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "reddit",
+      "name": "Reddit",
+      "fields": [
+        "technical_product_management"
+      ],
+      "official_root": "https://redditinc.com",
+      "registry_sources": [
+        "greenhouse-reddit"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "doordash",
+      "name": "DoorDash",
+      "fields": [
+        "technical_product_management"
+      ],
+      "official_root": "https://doordash.com",
+      "registry_sources": [
+        "greenhouse-doordashusa"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "roblox",
+      "name": "Roblox",
+      "fields": [
+        "technical_product_management"
+      ],
+      "official_root": "https://roblox.com",
+      "registry_sources": [
+        "greenhouse-roblox"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "instacart",
+      "name": "Instacart",
+      "fields": [
+        "technical_product_management"
+      ],
+      "official_root": "https://instacart.com",
+      "registry_sources": [
+        "greenhouse-instacart"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "ramp",
+      "name": "Ramp",
+      "fields": [
+        "technical_product_management"
+      ],
+      "official_root": "https://ramp.com",
+      "registry_sources": [
+        "ashby-ramp"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "brex",
+      "name": "Brex",
+      "fields": [
+        "technical_product_management"
+      ],
+      "official_root": "https://brex.com",
+      "registry_sources": [
+        "greenhouse-brex"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "coinbase",
+      "name": "Coinbase",
+      "fields": [
+        "technical_product_management"
+      ],
+      "official_root": "https://coinbase.com",
+      "registry_sources": [
+        "greenhouse-coinbase"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "robinhood",
+      "name": "Robinhood",
+      "fields": [
+        "technical_product_management"
+      ],
+      "official_root": "https://robinhood.com",
+      "registry_sources": [
+        "greenhouse-robinhood"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "zoom",
+      "name": "Zoom",
+      "fields": [
+        "technical_product_management"
+      ],
+      "official_root": "https://zoom.com",
+      "registry_sources": [
+        "workday-zoom"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "capitalone",
+      "name": "Capital One",
+      "fields": [
+        "business_analysis"
+      ],
+      "official_root": "https://capitalone.com",
+      "registry_sources": [
+        "workday-capital-one"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "jpmorganchase",
+      "name": "JPMorgan Chase",
+      "fields": [
+        "business_analysis"
+      ],
+      "official_root": "https://jpmorganchase.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "bankofamerica",
+      "name": "Bank of America",
+      "fields": [
+        "business_analysis"
+      ],
+      "official_root": "https://bankofamerica.com",
+      "registry_sources": [
+        "bankofamerica-campus"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "citi",
+      "name": "Citi",
+      "fields": [
+        "business_analysis"
+      ],
+      "official_root": "https://citigroup.com",
+      "registry_sources": [
+        "workday-citi-2"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "wellsfargo",
+      "name": "Wells Fargo",
+      "fields": [
+        "business_analysis"
+      ],
+      "official_root": "https://wellsfargo.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "goldmansachs",
+      "name": "Goldman Sachs",
+      "fields": [
+        "business_analysis"
+      ],
+      "official_root": "https://goldmansachs.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "morganstanley",
+      "name": "Morgan Stanley",
+      "fields": [
+        "business_analysis"
+      ],
+      "official_root": "https://morganstanley.com",
+      "registry_sources": [
+        "workday-morgan-stanley"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "americanexpress",
+      "name": "American Express",
+      "fields": [
+        "business_analysis"
+      ],
+      "official_root": "https://americanexpress.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "visa",
+      "name": "Visa",
+      "fields": [
+        "business_analysis"
+      ],
+      "official_root": "https://visa.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "mastercard",
+      "name": "Mastercard",
+      "fields": [
+        "business_analysis"
+      ],
+      "official_root": "https://mastercard.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "blackrock",
+      "name": "BlackRock",
+      "fields": [
+        "business_analysis"
+      ],
+      "official_root": "https://blackrock.com",
+      "registry_sources": [
+        "workday-blackrock-blackrock_early_careers_program",
+        "workday-blackrock-blackrock_professional"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "fidelityinvestments",
+      "name": "Fidelity Investments",
+      "fields": [
+        "business_analysis"
+      ],
+      "official_root": "https://fidelity.com",
+      "registry_sources": [
+        "workday-fidelity-investments-fidelitycareers"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "spglobal",
+      "name": "S&P Global",
+      "fields": [
+        "business_analysis"
+      ],
+      "official_root": "https://spglobal.com",
+      "registry_sources": [
+        "workday-s-p-global-spgi_careers"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "bloomberg",
+      "name": "Bloomberg",
+      "fields": [
+        "business_analysis"
+      ],
+      "official_root": "https://bloomberg.com",
+      "registry_sources": [
+        "bloomberg-direct"
+      ],
+      "coverage_status": "registry_route_needs_member_live_check",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "walmart",
+      "name": "Walmart",
+      "fields": [
+        "business_analysis"
+      ],
+      "official_root": "https://walmart.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "target",
+      "name": "Target",
+      "fields": [
+        "business_analysis"
+      ],
+      "official_root": "https://target.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    },
+    {
+      "id": "unitedhealthgroup",
+      "name": "UnitedHealth Group",
+      "fields": [
+        "business_analysis"
+      ],
+      "official_root": "https://unitedhealthgroup.com",
+      "registry_sources": [],
+      "coverage_status": "official_route_review_required",
+      "strategies": [
+        "official_careers_and_robots",
+        "employer_linked_structured_ats",
+        "public_newgrad_feed",
+        "public_internship_feed",
+        "native_employer_alerts_or_permission_request"
+      ]
+    }
+  ],
+  "ranking_references": [
+    "https://vault.com/best-companies-to-work-for/consulting",
+    "https://vault.com/blogs/consult-this-consulting-careers-news-and-views/the-best-consulting-firms-to-work-for-in-2026"
+  ]
+}

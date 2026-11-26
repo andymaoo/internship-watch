@@ -2,7 +2,7 @@
 import re
 
 from .classify import (CATEGORY_PATTERNS, COOP, HARDWARE, HARDWARE_DUTIES, INTERN,
-                       US_CITIES, US_STATES, countries_in, country_code, plain)
+                       US_CITIES, US_STATES, countries_in, country_code, plain, degree_evidence)
 from .member_routes import member_route
 
 GRAD = re.compile(
@@ -16,6 +16,9 @@ GRAD_ROLE = re.compile(
     r"(?:(?:specifically )?(?:designed|intended) for|for|open to) "
     r"(?:new|recent|upcoming) (?:college |university )?graduates?\b", re.I,
 )
+GRAD_COHORT = re.compile(
+    r'\b(?:you|candidates?|applicants?|students?|must|expected|graduation date)[^.!?]{0,160}'
+    r'\b(?:graduat\w*|complet\w* (?:your|their|an?) (?:undergraduate |bachelor.?s? )?degree)[^.!?]{0,100}\b20\d{2}\b',re.I)
 IB = re.compile(r"\binvestment[- ]banking\b", re.I)
 REMOTE = re.compile(r"\b(?:remote|work from anywhere)\b", re.I)
 HYBRID = re.compile(r"\b(?:hybrid|on[- ]site|in[- ]office)\b", re.I)
@@ -27,6 +30,13 @@ RESTRICTION = re.compile(
     re.I,
 )
 NO_US = re.compile(r"\b(?:excluding|except|not available in) (?:the )?(?:US|USA|United States)\b", re.I)
+SENIOR = re.compile(r'\b(?:senior|sr\.?|staff|principal|director|vice president|head of|lead consultant|manager,? consulting)\b', re.I)
+BUSINESS_CATEGORIES = (
+    ('product_strategy', re.compile(r'\b(?:product (?:development )?strateg(?:y|ist)|product operations|product development analyst)\b',re.I)),
+    ('technology_consulting', re.compile(r'\b(?:(?:technology|technical|digital|IT|implementation|solutions?) consult(?:ant|ing)|technology (?:development )?analyst)\b',re.I)),
+    ('strategy_consulting', re.compile(r'\b(?:(?:strategy|strategic|management) consult(?:ant|ing)|strategy analyst|associate consultant)\b',re.I)),
+    ('business_analysis', re.compile(r'\b(?:business (?:systems? )?analyst|business analysis|business operations analyst)\b',re.I)),
+)
 
 
 def geography(job: dict) -> tuple[bool | None, bool]:
@@ -69,7 +79,15 @@ def opportunity_type(job: dict) -> str:
     if IB.search(title) and re.search(r"\bsummer (?:analyst|associate)\b", title, re.I):
         intern = intern or bool(re.search(
             r"\b(?:our|this|the) (?:summer )?internship program\b", description, re.I))
-    grad = bool(GRAD.search(labels) or GRAD_ROLE.search(description))
+    evidence = job.get('evidence') or {}
+    intern = intern or evidence.get('feed_internship_context') is True
+    if SENIOR.search(title) and not intern:
+        return ''
+    grad = bool(GRAD.search(labels) or GRAD_ROLE.search(description) or (not intern and GRAD_COHORT.search(description))
+                or evidence.get('feed_new_grad_context') is True
+                or re.search(r'\b(?:entry[- ]level|campus hire|university hire)\b',title,re.I))
+    if grad and re.search(r'\b(?:at least|minimum(?: of)?|requires?)\s+(?:[3-9]|\d{2,})\+?\s+years?\b|\b(?:[3-9]|\d{2,})\+?\s+years?[^.!?]{0,100}\brequired\b',description,re.I):
+        return ''
     if intern and (grad or re.search(r"\bnot an? internship\b", description, re.I)):
         return ""
     if intern:
@@ -86,17 +104,31 @@ def category(job: dict) -> str:
         return ""
     if IB.search(title):
         return "investment_banking"
-    return next((name for name, pattern in CATEGORY_PATTERNS if pattern.search(title)), "")
+    business = next((name for name,pattern in BUSINESS_CATEGORIES if pattern.search(title)), '')
+    if business:
+        return business
+    ordinary=next((name for name, pattern in CATEGORY_PATTERNS if pattern.search(title)), '')
+    if ordinary:
+        return ordinary
+    if re.search(r'\b(?:research|energy|economic|market) analyst\b',title,re.I) and (
+        re.search(r'\b(?:economics|finance|business|strategy)\b',title,re.I)
+        or re.search(r'\b(?:economic|management|strategy) consulting\b',description,re.I)):
+        return 'business_analysis'
+    if re.search(r'\b(?:consultant|associate|consulting analyst)\b',title,re.I) and re.search(
+        r'\b(?:consulting firm|management consulting|strategy consulting|client service team)\b',description,re.I):
+        return 'strategy_consulting'
+    return ''
 
 
 def preview_member_listing(job: dict) -> dict:
     """Return explicit staging labels and a route only if delivery checks pass."""
-    us, remote = geography(job)
-    kind, topic = opportunity_type(job), category(job)
+    decision = classify_member(job)
+    us, remote = decision['us_eligible'], decision['remote']
+    kind, topic = decision['opportunity_type'], decision['category']
     return dict(us_eligible=us, remote=remote, opportunity_type=kind, category=topic,
                 route=member_route(us_eligible=us, remote=remote, opportunity_type=kind,
                                    category=topic, posting_status=job.get("posting_status", ""),
-                                   application_status=job.get("application_status", "")))
+                                   application_status=job.get("application_status", "")) if decision['decision']=='include' else None)
 
 
 def classify_member(job: dict, _filters=None) -> dict:
@@ -104,7 +136,21 @@ def classify_member(job: dict, _filters=None) -> dict:
     us, remote = geography(job)
     kind, topic = opportunity_type(job), category(job)
     allowed = us is not False and (us is True or remote)
-    return {"decision": "include" if allowed and kind and topic else "exclude",
+    degrees, preferred, details = degree_evidence(job,plain(job.get('title')),plain(job.get('description')),job.get('evidence') or {})
+    graduate_details=[d for d in details if d['degree'] in {'master','phd'} and d['kind']=='required_or_allowed']
+    required_context=any(d['field']!='description' or re.search(
+        r'\b(?:required|requires?|must|pursu\w*|enroll\w*|candidate|qualifications?|education|degree|graduate)\b|\bPh\.?D\.?\s+in\b',
+        d['value'],re.I) for d in graduate_details)
+    graduate_required = bool(required_context and 'bachelor' not in degrees)
+    title_degrees, _, _ = degree_evidence({'description':''},plain(job.get('title')),'',{})
+    graduate_required |= bool(set(title_degrees)&{'master','phd'} and 'bachelor' not in title_degrees)
+    for clause in re.split(r'(?<=[.!?])\s+|\n',str(job.get('description') or '')):
+        if re.search(r'\b(?:must|required|requires|minimum)\b',clause,re.I):
+            required, _, _ = degree_evidence({'description':clause},'',plain(clause),{})
+            graduate_required |= bool(set(required)&{'master','phd'} and 'bachelor' not in required)
+    return {"decision": "include" if allowed and kind and topic and not graduate_required else "exclude",
             "category": topic, "opportunity_type": kind,
             "us_eligible": us, "remote": remote,
-            "positive_opportunity_evidence": bool(kind)}
+            "positive_opportunity_evidence": bool(kind),
+            "degrees":degrees,"degree_preferences":preferred,"degree_evidence":details,
+            "graduate_degree_required":graduate_required}

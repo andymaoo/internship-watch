@@ -1,0 +1,402 @@
+[
+  {
+    "id": "workday-boozallenhamilton-member",
+    "type": "workday",
+    "url": "https://bah.wd1.myworkdayjobs.com/BAH_Jobs",
+    "employer": "Booz Allen Hamilton",
+    "queries": [
+      "intern",
+      "new grad",
+      "entry level",
+      "graduate program",
+      "business analyst",
+      "consultant",
+      "product"
+    ],
+    "country_scope": [
+      "US"
+    ],
+    "member_opportunities": true,
+    "max_pages": 25,
+    "enabled": false,
+    "disabled_reason": "SourceError: Workday pagination cap reached"
+  },
+  {
+    "id": "icims-jobs-galaxe",
+    "type": "icims_board",
+    "host": "jobs-galaxe.icims.com",
+    "employer": "Endava",
+    "enabled": false,
+    "disabled_reason": "SourceError: Unreviewed iCIMS board"
+  },
+  {
+    "employer": "Hitachi Solutions",
+    "type": "smartrecruiters",
+    "slug": "HitachiSolutions",
+    "id": "smartrecruiters-hitachisolutions",
+    "enabled": true
+  },
+  {
+    "id": "workday-protiviti-member",
+    "type": "workday",
+    "url": "https://roberthalf.wd1.myworkdayjobs.com/ProtivitiNA",
+    "employer": "Protiviti",
+    "queries": [
+      "intern",
+      "new grad",
+      "entry level",
+      "graduate program",
+      "business analyst",
+      "consultant",
+      "product"
+    ],
+    "country_scope": [
+      "US"
+    ],
+    "member_opportunities": true,
+    "max_pages": 25,
+    "enabled": false,
+    "disabled_reason": "Azure verification: HTTPError: 429 Client Error: Too Many Requests for url: https://roberthalf.wd1.myworkdayjobs.com/wday/cxs/roberthalf/ProtivitiNA/jobs"
+  },
+  {
+    "id": "icims-datasciencecareers-analysisgroup",
+    "type": "icims_board",
+    "host": "datasciencecareers-analysisgroup.icims.com",
+    "employer": "Analysis Group",
+    "enabled": true
+  },
+  {
+    "id": "icims-professionalcareers-analysisgroup",
+    "type": "icims_board",
+    "host": "professionalcareers-analysisgroup.icims.com",
+    "employer": "Analysis Group",
+    "enabled": true
+  },
+  {
+    "id": "workday-cornerstoneresearch-member",
+    "type": "workday",
+    "url": "https://cornerstone.wd501.myworkdayjobs.com/CornerstoneResearch_Careers",
+    "employer": "Cornerstone Research",
+    "queries": [
+      "intern",
+      "new grad",
+      "entry level",
+      "graduate program",
+      "business analyst",
+      "consultant",
+      "product"
+    ],
+    "country_scope": [
+      "US"
+    ],
+    "member_opportunities": true,
+    "max_pages": 25,
+    "enabled": true
+  },
+  {
+    "id": "icims-ug-chire",
+    "type": "icims_board",
+    "host": "ug-chire.icims.com",
+    "employer": "Cornerstone Research",
+    "enabled": false,
+    "disabled_reason": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "icims-grad-chire",
+    "type": "icims_board",
+    "host": "grad-chire.icims.com",
+    "employer": "Cornerstone Research",
+    "enabled": false,
+    "disabled_reason": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "icims-corpadmin-chire",
+    "type": "icims_board",
+    "host": "corpadmin-chire.icims.com",
+    "employer": "Cornerstone Research",
+    "enabled": false,
+    "disabled_reason": "SourceError: iCIMS public paging marker missing"
+  },
+  {
+    "id": "icims-exp-chire",
+    "type": "icims_board",
+    "host": "exp-chire.icims.com",
+    "employer": "Cornerstone Research",
+    "enabled": false,
+    "disabled_reason": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "icims-careers-zs",
+    "type": "icims_board",
+    "host": "careers-zs.icims.com",
+    "employer": "ZS",
+    "enabled": false,
+    "disabled_reason": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "workday-guidehouse-member",
+    "type": "workday",
+    "url": "https://guidehouse.wd1.myworkdayjobs.com/External",
+    "employer": "Guidehouse",
+    "queries": [
+      "intern",
+      "new grad",
+      "entry level",
+      "graduate program",
+      "business analyst",
+      "consultant",
+      "product"
+    ],
+    "country_scope": [
+      "US"
+    ],
+    "member_opportunities": true,
+    "max_pages": 25,
+    "enabled": false,
+    "disabled_reason": "ReadTimeout: HTTPSConnectionPool(host='guidehouse.wd1.myworkdayjobs.com', port=443): Read timed out. (read timeout=0.39850000001024455)"
+  },
+  {
+    "id": "workday-trinitylifesciences-member",
+    "type": "workday",
+    "url": "https://trinitylifesciences.wd108.myworkdayjobs.com/Trinity",
+    "employer": "Trinity Life Sciences",
+    "queries": [
+      "intern",
+      "new grad",
+      "entry level",
+      "graduate program",
+      "business analyst",
+      "consultant",
+      "product"
+    ],
+    "country_scope": [
+      "US"
+    ],
+    "member_opportunities": true,
+    "max_pages": 25,
+    "enabled": false,
+    "disabled_reason": "Azure verification: HTTPError: 429 Client Error: Too Many Requests for url: https://trinitylifesciences.wd108.myworkdayjobs.com/wday/cxs/trinitylifesciences/Trinity/jobs"
+  },
+  {
+    "id": "icims-careers-ecgmc",
+    "type": "icims_board",
+    "host": "careers-ecgmc.icims.com",
+    "employer": "ECG Management Consultants",
+    "enabled": false,
+    "disabled_reason": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "icims-studentcareers-ecgmc",
+    "type": "icims_board",
+    "host": "studentcareers-ecgmc.icims.com",
+    "employer": "ECG Management Consultants",
+    "enabled": false,
+    "disabled_reason": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "employer": "ghSMART",
+    "type": "lever",
+    "slug": "ghsmartjobs",
+    "id": "lever-ghsmartjobs",
+    "enabled": true
+  },
+  {
+    "id": "workday-huron-member",
+    "type": "workday",
+    "url": "https://huron.wd1.myworkdayjobs.com/huroncareers",
+    "employer": "Huron",
+    "queries": [
+      "intern",
+      "new grad",
+      "entry level",
+      "graduate program",
+      "business analyst",
+      "consultant",
+      "product"
+    ],
+    "country_scope": [
+      "US"
+    ],
+    "member_opportunities": true,
+    "max_pages": 25,
+    "enabled": false,
+    "disabled_reason": "Azure verification: AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "workday-berkeleyresearchgroup-member",
+    "type": "workday",
+    "url": "https://thinkbrg.wd5.myworkdayjobs.com/BRG_External_Career_Site",
+    "employer": "Berkeley Research Group",
+    "queries": [
+      "intern",
+      "new grad",
+      "entry level",
+      "graduate program",
+      "business analyst",
+      "consultant",
+      "product"
+    ],
+    "country_scope": [
+      "US"
+    ],
+    "member_opportunities": true,
+    "max_pages": 25,
+    "enabled": false,
+    "disabled_reason": "Azure verification: AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "simplify-public-new-grad",
+    "type": "simplify",
+    "opportunity_type": "new_grad",
+    "url": "https://raw.githubusercontent.com/SimplifyJobs/New-Grad-Positions/dev/.github/scripts/listings.json",
+    "enabled": true
+  },
+  {
+    "id": "workday-visa-member",
+    "type": "workday",
+    "url": "https://visa.wd5.myworkdayjobs.com/Visa",
+    "employer": "Visa",
+    "queries": [
+      "intern",
+      "new grad",
+      "entry level",
+      "graduate program",
+      "business analyst",
+      "consultant",
+      "product"
+    ],
+    "country_scope": [
+      "US"
+    ],
+    "member_opportunities": true,
+    "max_pages": 25,
+    "enabled": false,
+    "disabled_reason": "SourceError: Workday pagination cap reached"
+  },
+  {
+    "id": "workday-mastercard-member",
+    "type": "workday",
+    "url": "https://mastercard.wd1.myworkdayjobs.com/CorporateCareers",
+    "employer": "Mastercard",
+    "queries": [
+      "intern",
+      "new grad",
+      "entry level",
+      "graduate program",
+      "business analyst",
+      "consultant",
+      "product"
+    ],
+    "country_scope": [
+      "US"
+    ],
+    "member_opportunities": true,
+    "max_pages": 25,
+    "enabled": false,
+    "disabled_reason": "SourceError: Missing or repeated Workday posting identity"
+  },
+  {
+    "employer": "The Brattle Group",
+    "type": "greenhouse",
+    "slug": "thebrattlegroup",
+    "id": "greenhouse-thebrattlegroup",
+    "enabled": true
+  },
+  {
+    "employer": "Accenture Federal Services",
+    "type": "smartrecruiters",
+    "slug": "AccentureFederalServices",
+    "id": "smartrecruiters-accenturefederalservices",
+    "enabled": true
+  },
+  {
+    "employer": "Accenture Federal Services",
+    "type": "greenhouse",
+    "slug": "accenturefederalservices",
+    "id": "greenhouse-accenturefederalservices",
+    "enabled": true
+  },
+  {
+    "employer": "Cambridge Consultants",
+    "type": "greenhouse",
+    "slug": "cambridgeconsultantslimited",
+    "id": "greenhouse-cambridgeconsultantslimited",
+    "enabled": true
+  },
+  {
+    "id": "workday-accenture-feed-campus",
+    "type": "workday",
+    "url": "https://accenture.wd103.myworkdayjobs.com/AccentureCareers",
+    "employer": "Accenture",
+    "queries": [
+      "intern",
+      "new grad",
+      "entry level",
+      "graduate"
+    ],
+    "member_opportunities": true,
+    "country_scope": [
+      "US"
+    ],
+    "max_pages": 80,
+    "enabled": false,
+    "disabled_reason": "_SnapshotChanged: Job lacks required fields: title, externalPath"
+  },
+  {
+    "id": "workday-visa-feed-campus",
+    "type": "workday",
+    "url": "https://visa.wd5.myworkdayjobs.com/Visa",
+    "employer": "Visa",
+    "queries": [
+      "intern",
+      "new grad",
+      "entry level",
+      "graduate"
+    ],
+    "member_opportunities": true,
+    "country_scope": [
+      "US"
+    ],
+    "max_pages": 80,
+    "enabled": false,
+    "disabled_reason": "Azure verification: AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "workday-walmart-feed-campus",
+    "type": "workday",
+    "url": "https://walmart.wd504.myworkdayjobs.com/WalmartExternal",
+    "employer": "Walmart",
+    "queries": [
+      "intern",
+      "new grad",
+      "entry level",
+      "graduate"
+    ],
+    "member_opportunities": true,
+    "country_scope": [
+      "US"
+    ],
+    "max_pages": 80,
+    "enabled": false,
+    "disabled_reason": "SourceError: Missing or repeated Workday posting identity"
+  },
+  {
+    "id": "workday-target-feed-campus",
+    "type": "workday",
+    "url": "https://target.wd5.myworkdayjobs.com/targetcareers",
+    "employer": "Target",
+    "queries": [
+      "intern",
+      "new grad",
+      "entry level",
+      "graduate"
+    ],
+    "member_opportunities": true,
+    "country_scope": [
+      "US"
+    ],
+    "max_pages": 80,
+    "enabled": false,
+    "disabled_reason": "WorkBudgetExhausted: HTTP work deadline cannot accommodate pacing or retry delay"
+  }
+]

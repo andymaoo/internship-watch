@@ -245,6 +245,35 @@ def inspect_worker(db, repairs, config):
             'recent_run_seconds': times, 'qualifying_validation_due': due['count']}
 
 
+def inspect_member(repairs, config):
+    """Watch the separate feed even when the personal scraper still runs."""
+    settings=config.get('maintenance',{})
+    path=settings.get('member_database')
+    if not path:
+        return None
+    try:
+        with closing(sqlite3.connect(Path(path).resolve().as_uri()+'?mode=ro',uri=True,timeout=5)) as db:
+            db.row_factory=sqlite3.Row
+            last=db.execute("SELECT id,finished_at FROM runs WHERE finished_at IS NOT NULL AND status IN ('ok','degraded') ORDER BY id DESC LIMIT 1").fetchone()
+            latest=db.execute("SELECT MAX(first_seen) at,COUNT(*) count FROM jobs WHERE classification='include' AND json_extract(evidence,'$.opportunity_type')='new_grad'").fetchone()
+            pending=db.execute("SELECT COUNT(*) count,MAX(attempts) attempts FROM outbox WHERE status='pending'").fetchone()
+            result=dict(last_completed=last['finished_at'] if last else None,latest_run=last['id'] if last else None,
+                        latest_newgrad_candidate=latest['at'],newgrad_candidates=latest['count'],pending=dict(pending))
+        repairs.observe('member-storage',False,'critical',{},'Inspect the member database and its service permissions.')
+    except (OSError,sqlite3.Error):
+        repairs.observe('member-storage',True,'critical',{},'Member database cannot be inspected. Do not create an empty replacement.')
+        return {'storage_unverified':True}
+    repairs.observe('member-worker-stale',age(result['last_completed'])>settings.get('member_stale_seconds',1200),
+        'critical',result,'Inspect the member timer, shared collection lock and recent completed runs.')
+    # Quiet recruiting periods are not proof of a bug. Request one deduplicated
+    # review instead of silently treating a month without new-grad intake as OK.
+    repairs.observe('member-newgrad-quiet',age(result['latest_newgrad_candidate'])>settings.get('member_quiet_seconds',604800),
+        'warning',result,'No qualifying new-grad intake recently. Review feed freshness, coverage and classification; this is not proof of missing openings.')
+    repairs.observe('member-notifications',bool(pending['count']) and (pending['attempts'] or 0)>=3,
+        'warning',dict(pending),'Inspect member category webhooks and queued delivery failures; do not mark undelivered messages delivered.')
+    return result
+
+
 def inspect_backups(repairs, config):
     settings = config.get('maintenance', {})
     base = Path(config['database']).parent
@@ -417,6 +446,7 @@ def _run(config, repairs, output, sender):
         frame = traceback.extract_tb(exc.__traceback__)[-1]
         repairs.observe('storage', True, 'critical', {'error_type': type(exc).__name__, 'code_location': Path(frame.filename).name + ':' + str(frame.lineno)},
             'Read the host journal privately; inspect SQLite integrity, permissions, disk space and monitor compatibility. Existing records were not replaced.')
+    summary['checks']['member'] = inspect_member(repairs,config)
     usage = shutil.disk_usage(Path(config['database']).parent)
     minimum = settings.get('disk_min_free_bytes', 2 * 1024**3)
     repairs.observe('disk-space', usage.free < minimum or usage.free / usage.total < 0.1, 'critical',

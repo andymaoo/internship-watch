@@ -21,7 +21,9 @@ def export_coverage(store, output, config):
         record = dict(company, source_health=health, qualifying_records=sum(row['count'] for row in matches),
                       verified_records=sum(row['count'] for row in matches if row['posting_status'] == 'open'))
         records.append(record)
-        status = 'Direct + public feed' if company['direct_sources'] else 'Incomplete — public feed only'
+        responding=any(states.get(source,{}).get('last_success') and not states.get(source,{}).get('failures')
+                       for source in company['direct_sources'])
+        status = ('Direct collection responding + public feed' if responding else 'Direct configured — not currently verified') if company['direct_sources'] else 'Incomplete — public feed only'
         latest = '; '.join(h['source'] + ': ' + ('never checked' if not h['last_success'] else 'FAILED' if h['failures'] else h['last_success']) for h in health)
         body.append('<tr><td>'+esc(company['company'])+'</td><td>'+esc(status)+'</td><td>'+esc(latest)+
                     '</td><td>'+str(record['verified_records'])+' / '+str(record['qualifying_records'])+

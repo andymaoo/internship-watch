@@ -8,27 +8,30 @@ This scraper brings listings from multiple sources into one database, filters th
 
 The current setup is tailored to my search and shared with members of my club.
 
-Two workers currently share the source-access lock: the personal internship
-worker targets five-minute polling, while the member internship/new-grad worker
-runs every 30 minutes. The member worker now has 14 configured sources and sends
-verified discoveries to their opportunity-type and category channels. Its US
-and remote feed does not apply the personal degree, sponsorship or clearance
-filters described below. Remote roles remain eligible unless evidence excludes
-work from the US. See the [November 25 repair and live evidence](docs/NEW_GRAD_REPAIR_2026-11-25.md).
+Two workers share the source-access lock and target five-minute polling. The
+personal worker preserves the undergraduate internship profile; the member
+worker collects US internships and new-grad roles, including remote jobs unless
+explicitly restricted outside the US. Both exclude required graduate-only degree
+programs; bachelor-or-master alternatives and optional graduate degrees remain
+eligible. Member routing includes consulting, product strategy and business
+analysis alongside the existing categories. Eight new category webhook
+destinations still need configuration; those deliveries remain queued rather
+than falling back to a general channel. See the [business expansion and live
+evidence](docs/BUSINESS_FUNNEL.md) and [Discord setup](docs/DISCORD_BUSINESS_SETUP.md).
 
 ## At a glance
 
 | Area | Current setup |
 | --- | --- |
 | Hosting | Runs 24/7 on Azure |
-| Job collection | Personal worker: five-minute target; member worker: 30 minutes |
+| Job collection | Both workers: five-minute target; restricted Workday/iCIMS sources: 30 minutes |
 | Maintenance checks | Every 15 minutes, with operational alerts |
 | Notifications | Discord |
 | Storage | Persistent SQLite database |
 | Geography | United States, including remote roles that allow work from the US |
-| Education | Personal worker: undergraduate profile; member worker: no degree filter |
-| Opportunity type | Personal internships/programs; member internships and explicit new-grad roles |
-| Role families | SWE, Data, ML/AI, Quant, Product Management; member feed also includes IB |
+| Education | Undergraduate-compatible; required master’s/PhD/MBA roles excluded |
+| Opportunity type | Personal internships/programs; member internships and evidence-backed new-grad roles |
+| Role families | SWE, Data, ML/AI, Quant, Product Management; member feed also includes IB, technology/strategy consulting, product strategy and business analysis |
 | Exclusions | Hardware-focused roles and opportunities outside the configured eligibility requirements |
 
 **Five-minute polling is a collection schedule, not a guarantee that every job reaches Discord within five minutes of being posted.** A source must first make the job available, and collection, filtering, validation, and delivery each take time.
@@ -66,20 +69,33 @@ The system combines recruiting-platform integrations, public feeds, job-board so
 
 | Source | Role in discovery |
 | --- | --- |
-| Simplify | Collects from the public internship feed; this represents a subset of Simplify's broader coverage |
+| Simplify | Collects public internship and new-grad repository feeds; these represent a subset of Simplify’s broader coverage |
 | Greenhouse | Collects listings from supported company job boards through structured ATS integrations |
 | Ashby | Collects listings from supported company job boards through structured ATS integrations |
 | Lever | Collects listings from supported company job boards through structured ATS integrations |
-| LinkedIn (employer board) | Collects LinkedIn’s own openings through SmartRecruiters |
+| LinkedIn (employer board) | Collects LinkedInâ€™s own openings through SmartRecruiters |
 | Company-specific career pages | Dedicated collection logic for companies that need handling beyond the shared integrations |
 
 ### Company-specific coverage
 
-The personal worker has **213 configured sources** and **212 company watchlist entries**. Its active release is `category-personal-8664d236bdef`; the member worker runs `newgrad-2b72a03a46dd` with **14 configured sources**, some shared with the personal registry. The [November 25 acceptance notes](docs/NEW_GRAD_REPAIR_2026-11-25.md) record 11/14 successful member sources and three persistent Workday access failures. These are configuration and test counts, not guarantees of complete employer coverage. Several employers rely on public-feed discovery; see the [finance and quant coverage audit](docs/FINANCE_EXPANSION.md) for known gaps. Simplify discovery uses the public Summer 2027 internship repository feed, which can lag employer postings and does not provide the member worker's new-grad coverage.
+The personal worker retains **213 enabled sources** and its original filters.
+The expanded member worker has **152 configured sources**, reusing 139 exact
+full-board collections through private, freshness-checked snapshots. There are
+five curated lists of 50 employers each (**161 unique targets**), with configured
+direct routes for 39 targets; this is not a guarantee of complete coverage or a
+universal company ranking. Public-feed matches supplement direct routes.
+Staging collected 148/152 member sources successfully; restricted/rate-limited
+Workday routes remain explicit failures. See [target companies](docs/BUSINESS_EMPLOYER_TARGETS.md),
+[business rollout](docs/BUSINESS_FUNNEL.md) and the [finance coverage audit](docs/FINANCE_EXPANSION.md).
+
+Simplify feeds use Summer2027-Internships and New-Grad-Positions, branch `dev`,
+path `.github/scripts/listings.json`. Feed publication can lag employer postings;
+five-minute polling cannot remove upstream delays. Live status is in the private
+source-health report; configuration alone does not establish current health.
 
 ### Separate Handshake and LinkedIn alerts
 
-Handshake and LinkedIn marketplace discovery use [native daily account alerts](docs/ADDITIONAL_DISCOVERY_CHANNELS.md). They do not feed the Azure scraper, SQLite database, or Discord queue, and are separate from five-minute polling. LinkedIn’s own employer board is a distinct source.
+Handshake and LinkedIn marketplace discovery use [native daily account alerts](docs/ADDITIONAL_DISCOVERY_CHANNELS.md). They do not feed the Azure scraper, SQLite database, or Discord queue, and are separate from five-minute polling. LinkedInâ€™s own employer board is a distinct source.
 
 ## How the pipeline works
 

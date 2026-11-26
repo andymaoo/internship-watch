@@ -181,7 +181,15 @@ def icims_board(source,client):
     from .links import Page
     from .employer_sources import _bounds
     host=source['host']
-    if host not in {'careers-gtsx.icims.com','uscareers-msci.icims.com'}:
+    # Additional public boards were linked from the employers' official career
+    # pages during the business-funnel review. Internal portals are excluded.
+    if host not in {'careers-gtsx.icims.com','uscareers-msci.icims.com',
+                    'careers-endava.icims.com','careers-zs.icims.com',
+                    'datasciencecareers-analysisgroup.icims.com',
+                    'professionalcareers-analysisgroup.icims.com',
+                    'ug-chire.icims.com','grad-chire.icims.com',
+                    'corpadmin-chire.icims.com','exp-chire.icims.com',
+                    'careers-ecgmc.icims.com','studentcareers-ecgmc.icims.com'}:
         raise SourceError('Unreviewed iCIMS board')
     base='https://'+host
     jobs={};page_count=None

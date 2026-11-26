@@ -157,6 +157,9 @@ def ashby(source, client):
 
 
 def simplify(source, client):
+    opportunity = source.get('opportunity_type', 'internship')
+    if opportunity not in {'internship', 'new_grad'}:
+        raise SourceError('Unsupported Simplify opportunity context')
     items = _jobs_list(_json(client, source["url"]))
     companies = {name.casefold() for name in source.get("companies", [])}
     jobs = []
@@ -172,7 +175,9 @@ def simplify(source, client):
         jobs.append(_base(row_source, "simplify", item["id"], item["title"], item["url"],
             description=item.get("description", ""), application_url=item.get("application_url", item["url"]),
             locations=item.get("locations", []), employment_type=item.get("employment_type"), season=item.get("terms", []),
-            evidence={"provider": "simplify", "feed_url": source["url"], "feed_internship_context": True,
+            evidence={"provider": "simplify", "feed_url": source["url"],
+                      "feed_internship_context": opportunity == 'internship',
+                      **({'feed_new_grad_context':True} if opportunity == 'new_grad' else {}),
                       "source_added_at": item.get("date_posted"), "source_updated_at": item.get("date_updated"), "source_active": item["active"],
                       "category": item.get("category"), "sponsorship": item.get("sponsorship"), "degrees": item.get("degrees", []),
                       "upstream_source": item.get("source"), "terms": item.get("terms", [])}))

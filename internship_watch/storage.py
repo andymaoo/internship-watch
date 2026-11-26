@@ -251,6 +251,7 @@ CREATE INDEX IF NOT EXISTS source_samples_source ON source_samples(source,id);
 
 class Store:
     def __init__(self, path):
+        self.personal_classifier_revision = hashlib.sha256(Path(__file__).with_name('classify.py').read_bytes()).hexdigest()
         # Member decisions also depend on their evidence and routing rules.
         # A restart after updating those rules must revisit cached exclusions.
         self.classifier_revision = hashlib.sha256(b''.join(
@@ -372,7 +373,8 @@ class Store:
 
     def classify_cached(self, source, job, filters, classifier=classify):
         """Reuse an unchanged decision; invalidate on any job/filter/code change."""
-        fingerprint = hashlib.sha256(dump([self.classifier_revision, filters, job]).encode()).hexdigest()
+        revision = self.personal_classifier_revision if classifier is classify else self.classifier_revision
+        fingerprint = hashlib.sha256(dump([revision, filters, job]).encode()).hexdigest()
         sid = str(job['source_id'])
         row = self.db.execute('SELECT fingerprint,result FROM classification_cache WHERE source=? AND source_id=?',
                               (source,sid)).fetchone()
@@ -385,7 +387,7 @@ class Store:
                         (source,sid,fingerprint,dump(result),now()))
         return result
 
-    def record_source(self, source, count=None, error=None):
+    def record_source(self, source, count=None, error=None, observed_at=None):
         prior = self.source_state(source)
         stamp = now()
         self.db.execute("INSERT OR IGNORE INTO source_state(source) VALUES(?)", (source,))
@@ -395,7 +397,7 @@ class Store:
         else:
             self.db.execute("UPDATE source_state SET initialized=1,failures=0,empty_runs=?,last_attempt=?,"
                             "last_success=?,last_count=?,last_error=NULL WHERE source=?",
-                            (prior["empty_runs"] + 1 if count == 0 else 0, stamp, stamp, count, source))
+                            (prior["empty_runs"] + 1 if count == 0 else 0, stamp, observed_at or stamp, count, source))
         return self.source_state(source)
 
     def upsert_job(self, source, job, classification, run_id, baseline=False, filters=None, classification_is_current=False, classifier=classify):
@@ -515,6 +517,14 @@ class Store:
                 payload["description"] = old_payload["description"]
                 payload["evidence"] = dict(payload.get("evidence") or {})
                 payload["evidence"]["description_kind"] = "validated_destination"
+        if old and not identity_changed:
+            # A curated new-grad observation belongs to this exact job identity.
+            # Preserve it when preferring the richer employer description, rather
+            # than alternating include/exclude on every direct/feed refresh.
+            previous_context = (json.loads(old['payload']).get('evidence') or {}).get('feed_new_grad_context')
+            if previous_context or evidence.get('feed_new_grad_context'):
+                payload = dict(payload)
+                payload['evidence'] = dict(payload.get('evidence') or {},feed_new_grad_context=True)
         if filters is not None and (not classification_is_current or payload != job):
             # The supplied decision already describes the incoming job under
             # today's filters (runner.classify_cached invalidates on code,

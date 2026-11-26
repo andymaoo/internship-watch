@@ -269,6 +269,8 @@ def run_once(config, collector=None, client=None, validator=validate_job, sender
     from .http import HttpClient
     from .sources import collect
     collector = collector or collect
+    from .source_snapshots import snapshot_collector
+    collector = snapshot_collector(config, collector)
     owns_client = client is None
     client = client or HttpClient(**config.get("http", {}))
     sender = sender or configured_sender(config)
@@ -324,7 +326,18 @@ def _run(config, db_path, collector, client, validator, sender):
         if initial not in ("silent", "digest"):
             raise ValueError("initial_run must be silent or digest")
         collection_started = time.monotonic()
-        for source, jobs, collection_error, collection_seconds in collections(config, collector, client):
+        due_sources=[]
+        for source in config.get('sources', []):
+            interval=config.get('source_poll_seconds',{}).get(source['id'],0)
+            if not isinstance(interval,int) or isinstance(interval,bool) or interval<0:
+                raise ValueError('Source polling intervals must be nonnegative integer seconds')
+            state=store.source_state(source['id'])
+            last=state.get('last_attempt')
+            if interval and last and (datetime.now(timezone.utc)-datetime.fromisoformat(last)).total_seconds()<interval:
+                summary['sources'][source['id']]={'status':'deferred','reason':'configured_source_interval','count':state.get('last_count')}
+            else:
+                due_sources.append(source)
+        for source, jobs, collection_error, collection_seconds in collections(dict(config,sources=due_sources), collector, client):
             key = source["id"]
             source_started = time.monotonic()
             previous = store.source_state(key)
@@ -350,7 +363,9 @@ def _run(config, db_path, collector, client, validator, sender):
                                 continue  # Keep candidates, while still applying later exclusion evidence.
                         store.upsert_job(key, job, classification, run_id,
                                          baseline=not previous["initialized"], filters=config.get("filters", {}), classification_is_current=True, classifier=classifier)
-                    state = store.record_source(key, count=len(jobs))
+                    observations=getattr(collector,'observations',{})
+                    observation=observations.get(key,{}) if isinstance(observations,dict) else {}
+                    state = store.record_source(key, count=len(jobs),observed_at=observation.get('collected_at'))
                     record_sample(store, source, run_id, profile=profile)
                     store.incident("source:" + key, False, "Recovered")
                     suspicious_empty = len(jobs) == 0 and (previous.get("last_count", 0) or previous["empty_runs"]
@@ -358,7 +373,7 @@ def _run(config, db_path, collector, client, validator, sender):
                     store.incident("empty:" + key, bool(suspicious_empty and state["empty_runs"] >= threshold),
                                    f"{key}: {state['empty_runs']} consecutive empty collections; verify source access/schema")
                 summary["sources"][key] = {"count": len(jobs), "status": "ok", "seconds": collection_seconds,
-                                           "storage_seconds": round(time.monotonic()-source_started, 3)}
+                                           "storage_seconds": round(time.monotonic()-source_started, 3),**observation}
                 log.info("source=%s status=ok count=%s", key, len(jobs))
             except Exception as exc:
                 # HTTP source exceptions may carry public job URLs; secrets never enter adapters.
@@ -436,7 +451,7 @@ def _run(config, db_path, collector, client, validator, sender):
         with store.transaction():
             failures = store.db.execute("SELECT COUNT(*) FROM outbox WHERE status='pending' AND attempts>=?", (threshold,)).fetchone()[0]
             store.incident("notifications", failures > 0, f"{failures} notifications remain undelivered after at least {threshold} attempts. Check credentials and provider access.")
-            status = "degraded" if any(s["status"] != "ok" for s in summary["sources"].values()) or failures else "ok"
+            status = "degraded" if any(s["status"] == "failed" for s in summary["sources"].values()) or failures else "ok"
             store.db.execute("UPDATE runs SET finished_at=?,status=?,summary=? WHERE id=?", (now(), status, dump(summary), run_id))
         # Notify dead-man service only after database commit and completed pipeline.
         try:

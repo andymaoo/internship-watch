@@ -1,0 +1,2290 @@
+[
+  {
+    "id": "deloitte",
+    "root": "https://deloitte.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+  },
+  {
+    "id": "kpmg",
+    "root": "https://kpmg.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://kpmg.com/xx/en.html",
+    "career_links": [
+      "https://kpmg.com/xx/en/careers.html",
+      "https://kpmg.com/xx/en/careers/job-search.html",
+      "https://kpmg.com/xx/en/careers/working-at-kpmg.html"
+    ],
+    "career_final": "https://kpmg.com/xx/en/careers.html",
+    "deep_reviewed": [
+      "https://kpmg.com/xx/en/careers.html",
+      "https://kpmg.com/xx/en/careers.html#kpmg-accessibility-main"
+    ]
+  },
+  {
+    "id": "accenture",
+    "root": "https://accenture.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.accenture.com/en",
+    "career_links": [
+      "https://www.accenture.com/us-en/careers",
+      "https://www.accenture.com/us-en/careers/jobsearch",
+      "https://www.accenture.com/us-en/careers/explore-careers/career-areas",
+      "https://www.accenture.com/us-en/careers/life-at-accenture/working-here",
+      "https://www.accenture.com/us-en/careers/local/benefits",
+      "https://www.accenture.com/us-en/careers/life-at-accenture/work-environment",
+      "https://www.accenture.com/us-en/careers/explore-careers/area-of-interest/ai-usage-job-search",
+      "https://www.accenture.com/us-en/careers/explore-careers/area-of-interest/journey-to-accenture"
+    ],
+    "career_final": "https://www.accenture.com/us-en/careers",
+    "deep_reviewed": [
+      "https://www.accenture.com/us-en/careers",
+      "https://www.accenture.com/us-en/careers/jobsearch"
+    ]
+  },
+  {
+    "id": "pwc",
+    "root": "https://pwc.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.pwc.com/us/en.html",
+    "career_links": [
+      "https://www.pwc.com/us/en/careers.html",
+      "https://www.pwc.com/us/en/careers/why-pwc.html",
+      "https://jobs-us.pwc.com/us/en/entry-level",
+      "https://jobs-us.pwc.com/us/en/search-results",
+      "https://www.pwc.com/us/en/careers/university-relations.html",
+      "https://www.pwc.com/us/en/careers/why-pwc/employee-benefits.html",
+      "https://www.pwc.com/us/en/careers/why-pwc/pwc-professional.html",
+      "https://www.pwc.com/us/en/careers/careers-podcast-hub.html"
+    ],
+    "career_final": "https://www.pwc.com/us/en/careers.html",
+    "deep_reviewed": [
+      "https://www.pwc.com/us/en/careers.html",
+      "https://www.pwc.com/us/en/careers.html#pgFooter"
+    ]
+  },
+  {
+    "id": "ey",
+    "root": "https://ey.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.ey.com/en_us",
+    "career_links": [
+      "https://www.ey.com/en_us/careers",
+      "https://www.ey.com/en_us/careers/what-you-can-do-here",
+      "https://www.ey.com/en_us/careers/technology",
+      "https://www.ey.com/en_us/careers/assurance",
+      "https://www.ey.com/en_us/careers/consulting",
+      "https://www.ey.com/en_us/careers/parthenon",
+      "https://www.ey.com/en_us/careers/tax",
+      "https://www.ey.com/en_us/careers/climate-change-sustainability-services"
+    ],
+    "career_final": "https://www.ey.com/en_us/careers",
+    "deep_reviewed": [
+      "https://www.ey.com/en_us/careers",
+      "https://www.ey.com/en_us/careers/what-you-can-do-here"
+    ]
+  },
+  {
+    "id": "capgemini",
+    "root": "https://capgemini.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.capgemini.com/",
+    "career_links": [
+      "https://www.capgemini.com/careers/",
+      "https://www.capgemini.com/careers/why-join-capgemini/",
+      "https://www.capgemini.com/careers/life-at-capgemini/",
+      "https://www.capgemini.com/careers/meet-our-people/",
+      "https://www.capgemini.com/careers/career-paths/",
+      "https://www.capgemini.com/careers/career-paths/students-and-graduates/",
+      "https://www.capgemini.com/careers/career-paths/experienced-professionals/",
+      "https://www.capgemini.com/careers/career-paths/executives/"
+    ],
+    "career_final": "https://www.capgemini.com/careers/",
+    "deep_reviewed": [
+      "https://www.capgemini.com/careers/",
+      "https://www.capgemini.com/careers/#main-content"
+    ]
+  },
+  {
+    "id": "cognizant",
+    "root": "https://cognizant.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.cognizant.com/us/en",
+    "career_links": [
+      "https://careers.cognizant.com/global-en/"
+    ],
+    "career_final": "https://careers.cognizant.com/global-en/",
+    "deep_reviewed": [
+      "https://careers.cognizant.com/global-en/",
+      "https://careers.cognizant.com/global-en/#content"
+    ]
+  },
+  {
+    "id": "tataconsultancyservices",
+    "root": "https://tcs.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "HTTPError: 403 Client Error: Forbidden for url: https://www.tcs.com/"
+  },
+  {
+    "id": "infosys",
+    "root": "https://infosys.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.infosys.com:443/",
+    "career_links": [
+      "https://www.infosys.com:443/careers/",
+      "https://www.infosys.com:443/careers.html"
+    ],
+    "career_final": "https://www.infosys.com/careers/usa/",
+    "deep_reviewed": [
+      "https://www.infosys.com/careers/usa/",
+      "https://www.infosys.com/careers/apply/recruitment-fraud-alert.html"
+    ]
+  },
+  {
+    "id": "nttdata",
+    "root": "https://nttdata.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "HTTPError: 404 Client Error: Not Found for url: https://www.nttdata.com/"
+  },
+  {
+    "id": "epamsystems",
+    "root": "https://epam.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "ibm",
+    "root": "https://ibm.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.ibm.com/us-en",
+    "career_links": [],
+    "deep_reviewed": [
+      "https://www.ibm.com/us-en"
+    ],
+    "deep_error": "HTTPError: 404 Client Error: Not Found for url: https://community.ibm.com/community/user/my-community&#34;%7D%5D%7D,%7B&%2334;title&%2334;:&%2334;About&%2334;,&%2334;links"
+  },
+  {
+    "id": "globant",
+    "root": "https://globant.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "dxctechnology",
+    "root": "https://dxc.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://dxc.com/",
+    "career_links": [
+      "https://careers.dxc.com/",
+      "https://careers.dxc.com"
+    ],
+    "career_final": "https://careers.dxc.com/",
+    "deep_reviewed": [
+      "https://careers.dxc.com/",
+      "https://careers.dxc.com/#content"
+    ]
+  },
+  {
+    "id": "hcltech",
+    "root": "https://hcltech.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.hcltech.com/",
+    "career_links": [
+      "https://www.hcltech.com/career-shaper",
+      "https://careers.hcltech.com/",
+      "https://careers.hcltech.com/go/Brazil/9554855/",
+      "https://careers.hcltech.com/go/Canada/9554055/",
+      "https://careers.hcltech.com/go/Costa-Rica/9554155/",
+      "https://careers.hcltech.com/go/Guatemala/9554255/",
+      "https://careers.hcltech.com/go/Mexico/9554355/",
+      "https://careers.hcltech.com/go/United-States/9554455/"
+    ],
+    "career_final": "https://www.hcltech.com/career-shaper",
+    "deep_reviewed": [
+      "https://www.hcltech.com/career-shaper",
+      "https://careers.hcltech.com/"
+    ]
+  },
+  {
+    "id": "thoughtworks",
+    "root": "https://thoughtworks.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.thoughtworks.com/",
+    "career_links": [
+      "https://www.thoughtworks.com/careers",
+      "https://www.thoughtworks.com/careers/our-process",
+      "https://www.thoughtworks.com/careers/graduates",
+      "https://www.thoughtworks.com/careers/jobs",
+      "https://www.thoughtworks.com/careers/access",
+      "https://www.thoughtworks.com/careers/learning-and-development",
+      "https://www.thoughtworks.com/careers/benefits"
+    ],
+    "career_final": "https://www.thoughtworks.com/careers",
+    "deep_reviewed": [
+      "https://www.thoughtworks.com/careers",
+      "https://www.thoughtworks.com/careers/our-process"
+    ]
+  },
+  {
+    "id": "cgi",
+    "root": "https://cgi.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.cgi.com/en",
+    "career_links": [
+      "https://www.cgi.com/en/careers/career-articles",
+      "https://www.cgi.com/en/careers",
+      "https://www.cgi.com/en/our-career-opportunities",
+      "https://www.cgi.com/en/careers/top-roles",
+      "https://www.cgi.com/en/careers/faq",
+      "https://www.cgi.com/en/careers/be-an-owner",
+      "https://www.cgi.com/en/careers/be-creative",
+      "https://www.cgi.com/en/careers/be-supported"
+    ],
+    "career_final": "https://www.cgi.com/en/careers/career-articles",
+    "deep_reviewed": [
+      "https://www.cgi.com/en/careers/career-articles",
+      "https://www.cgi.com/en/careers/career-articles#start-content"
+    ]
+  },
+  {
+    "id": "publicissapient",
+    "root": "https://publicissapient.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.publicissapient.com/",
+    "career_links": [
+      "https://careers.publicissapient.com/",
+      "https://careers.publicissapient.com/job-search"
+    ],
+    "career_final": "https://careers.publicissapient.com/",
+    "deep_reviewed": [
+      "https://careers.publicissapient.com/",
+      "https://careers.publicissapient.com/#main"
+    ]
+  },
+  {
+    "id": "perficient",
+    "root": "https://perficient.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "wipro",
+    "root": "https://wipro.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.wipro.com/",
+    "career_links": [
+      "https://careers.wipro.com"
+    ],
+    "career_final": "https://careers.wipro.com/",
+    "deep_reviewed": [
+      "https://careers.wipro.com/",
+      "https://careers.wipro.com/#content"
+    ]
+  },
+  {
+    "id": "avanade",
+    "root": "https://avanade.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "guidehouse",
+    "root": "https://guidehouse.com",
+    "status": "observed_structured_route_needs_live_check",
+    "ats_sources": [
+      {
+        "id": "workday-guidehouse-member",
+        "type": "workday",
+        "url": "https://guidehouse.wd1.myworkdayjobs.com/External",
+        "employer": "Guidehouse",
+        "queries": [
+          "intern",
+          "new grad",
+          "entry level",
+          "graduate program",
+          "business analyst",
+          "consultant",
+          "product"
+        ],
+        "country_scope": [
+          "US"
+        ],
+        "member_opportunities": true,
+        "max_pages": 25
+      }
+    ],
+    "root_final": "https://guidehouse.com/",
+    "career_links": [
+      "https://guidehouse.com/careers",
+      "https://guidehouse.com/careers/early-career-and-internships",
+      "https://guidehouse.com/careers/contractors",
+      "https://guidehouse.com/careers/experienced-professionals",
+      "https://guidehouse.com/careers/veterans",
+      "https://guidehouse.wd1.myworkdayjobs.com/External"
+    ],
+    "career_final": "https://guidehouse.com/careers",
+    "deep_reviewed": [
+      "https://guidehouse.com/careers"
+    ]
+  },
+  {
+    "id": "boozallenhamilton",
+    "root": "https://boozallen.com",
+    "status": "observed_structured_route_needs_live_check",
+    "ats_sources": [
+      {
+        "id": "workday-boozallenhamilton-member",
+        "type": "workday",
+        "url": "https://bah.wd1.myworkdayjobs.com/BAH_Jobs",
+        "employer": "Booz Allen Hamilton",
+        "queries": [
+          "intern",
+          "new grad",
+          "entry level",
+          "graduate program",
+          "business analyst",
+          "consultant",
+          "product"
+        ],
+        "country_scope": [
+          "US"
+        ],
+        "member_opportunities": true,
+        "max_pages": 25
+      }
+    ],
+    "root_final": "https://www.boozallen.com/",
+    "career_links": [
+      "https://www.boozallen.com/careers.html",
+      "https://careers.boozallen.com/jobs/search",
+      "https://www.boozallen.com/careers/roles-and-missions.html",
+      "https://www.boozallen.com/careers/life-at-booz.html",
+      "https://careers.boozallen.com/events/",
+      "https://bah.wd1.myworkdayjobs.com/BAH_Jobs",
+      "https://www.boozallen.com/careers/internships-and-early-careers.html",
+      "https://www.boozallen.com/careers/candidate-resources.html"
+    ],
+    "career_final": "https://www.boozallen.com/careers.html",
+    "deep_reviewed": [
+      "https://www.boozallen.com/careers.html"
+    ]
+  },
+  {
+    "id": "credera",
+    "root": "https://credera.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://credera.com/",
+    "career_links": [],
+    "deep_reviewed": [
+      "https://credera.com/"
+    ]
+  },
+  {
+    "id": "slalom",
+    "root": "https://slalom.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.slalom.com/us/en",
+    "career_links": [
+      "https://www.slalom.com/us/en/careers",
+      "https://jobs.slalom.com"
+    ],
+    "career_final": "https://www.slalom.com/us/en/careers",
+    "deep_reviewed": [
+      "https://www.slalom.com/us/en/careers",
+      "https://jobs.slalom.com/en_US/careersmarketplace"
+    ]
+  },
+  {
+    "id": "westmonroe",
+    "root": "https://westmonroe.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.westmonroe.com/",
+    "career_links": [
+      "https://www.westmonroe.com/careers",
+      "https://www.westmonroe.com/careers/internships-and-students",
+      "https://www.westmonroe.com/careers/life-at-west-monroe",
+      "https://www.westmonroe.com/careers/total-rewards-benefits",
+      "https://www.westmonroe.com/careers/job-search"
+    ],
+    "career_final": "https://www.westmonroe.com/careers",
+    "deep_reviewed": [
+      "https://www.westmonroe.com/careers",
+      "https://www.westmonroe.com/careers/internships-and-students"
+    ]
+  },
+  {
+    "id": "protiviti",
+    "root": "https://protiviti.com",
+    "status": "observed_structured_route_needs_live_check",
+    "ats_sources": [
+      {
+        "id": "workday-protiviti-member",
+        "type": "workday",
+        "url": "https://roberthalf.wd1.myworkdayjobs.com/ProtivitiNA",
+        "employer": "Protiviti",
+        "queries": [
+          "intern",
+          "new grad",
+          "entry level",
+          "graduate program",
+          "business analyst",
+          "consultant",
+          "product"
+        ],
+        "country_scope": [
+          "US"
+        ],
+        "member_opportunities": true,
+        "max_pages": 25
+      }
+    ],
+    "root_final": "https://www.protiviti.com/us-en",
+    "career_links": [
+      "https://roberthalf.wd1.myworkdayjobs.com/ProtivitiNA",
+      "https://www.protiviti.com/us-en/careers",
+      "https://protiviticareer.com/"
+    ],
+    "career_final": "https://roberthalf.wd1.myworkdayjobs.com/ProtivitiNA",
+    "deep_reviewed": [
+      "https://roberthalf.wd1.myworkdayjobs.com/ProtivitiNA"
+    ]
+  },
+  {
+    "id": "pointb",
+    "root": "https://pointb.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.pointb.com/",
+    "career_links": [
+      "https://www.pointb.com/Careers",
+      "https://www.pointb.com/Careers/Hiring-Journey",
+      "https://careers.pointb.com/"
+    ],
+    "career_final": "https://www.pointb.com/Careers",
+    "deep_reviewed": [
+      "https://www.pointb.com/Careers",
+      "https://www.pointb.com/Careers/Hiring-Journey"
+    ]
+  },
+  {
+    "id": "icf",
+    "root": "https://icf.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.icf.com/",
+    "career_links": [
+      "https://careers.icf.com/",
+      "https://www.icf.com/careers"
+    ],
+    "career_final": "https://careers.icf.com/us/en",
+    "deep_reviewed": [
+      "https://careers.icf.com/us/en",
+      "https://careers.icf.com/us/en"
+    ]
+  },
+  {
+    "id": "mphasis",
+    "root": "https://mphasis.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "bearingpoint",
+    "root": "https://bearingpoint.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.bearingpoint.com/en/",
+    "career_links": [
+      "https://www.bearingpoint.com/en/careers/",
+      "https://www.bearingpoint.com/en/careers/open-roles/",
+      "https://www.bearingpoint.com/en/careers/yourcareeratbearingpoint/",
+      "https://www.bearingpoint.com/en/careers/graduates/",
+      "https://www.bearingpoint.com/en/careers/experienced-professionals/",
+      "https://www.bearingpoint.com/en/careers/recruiting-events/",
+      "https://www.bearingpoint.com/en/careers/learning-and-development/",
+      "https://www.bearingpoint.com/en/careers/findoutmore/"
+    ],
+    "career_final": "https://www.bearingpoint.com/en/careers/",
+    "deep_reviewed": [
+      "https://www.bearingpoint.com/en/careers/",
+      "https://www.bearingpoint.com/en/careers/open-roles/"
+    ]
+  },
+  {
+    "id": "persistentsystems",
+    "root": "https://persistent.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "ValueError: Malformed URL"
+  },
+  {
+    "id": "endava",
+    "root": "https://endava.com",
+    "status": "observed_structured_route_needs_live_check",
+    "ats_sources": [
+      {
+        "id": "icims-endava",
+        "type": "icims_board",
+        "host": "jobs-galaxe.icims.com",
+        "employer": "Endava"
+      }
+    ],
+    "root_final": "https://www.endava.com/",
+    "career_links": [
+      "https://www.endava.com/careers",
+      "https://www.endava.com/careers/jobs",
+      "https://www.endava.com/careers/early-careers",
+      "https://www.endava.com/careers/experienced-professionals",
+      "https://www.endava.com/careers/life-at-endava",
+      "https://www.endava.com/careers/people-culture-blog",
+      "https://www.endava.com/careers/talent-communities"
+    ],
+    "career_final": "https://www.endava.com/careers",
+    "deep_reviewed": [
+      "https://www.endava.com/careers",
+      "https://www.endava.com/careers/jobs"
+    ]
+  },
+  {
+    "id": "softserve",
+    "root": "https://softserveinc.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.softserveinc.com/en-us",
+    "career_links": [
+      "https://career.softserveinc.com/en-us/vacancies",
+      "https://career.softserveinc.com"
+    ],
+    "career_final": "https://career.softserveinc.com/en-us/vacancies",
+    "deep_reviewed": [
+      "https://career.softserveinc.com/en-us/vacancies"
+    ]
+  },
+  {
+    "id": "reply",
+    "root": "https://reply.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.reply.com/en",
+    "career_links": [
+      "https://www.reply.com/en/about/careers/"
+    ],
+    "career_final": "https://www.reply.com/en/about/careers",
+    "deep_reviewed": [
+      "https://www.reply.com/en/about/careers",
+      "https://www.reply.com/en/about/careers"
+    ]
+  },
+  {
+    "id": "hexaware",
+    "root": "https://hexaware.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://hexaware.com/",
+    "career_links": [
+      "https://jobs.hexaware.com/",
+      "https://jobs.hexaware.com"
+    ],
+    "career_final": "https://jobs.hexaware.com/",
+    "deep_reviewed": [
+      "https://jobs.hexaware.com/"
+    ]
+  },
+  {
+    "id": "coforge",
+    "root": "https://coforge.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.coforge.com/",
+    "career_links": [
+      "https://careers.coforge.com/coforge/"
+    ],
+    "career_final": "https://careers.coforge.com/coforge/",
+    "deep_reviewed": [
+      "https://careers.coforge.com/coforge/",
+      "https://careers.coforge.com/akam/13/6eb999e9"
+    ]
+  },
+  {
+    "id": "virtusa",
+    "root": "https://virtusa.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "HTTPError: 403 Client Error: Forbidden for url: https://www.virtusa.com/"
+  },
+  {
+    "id": "techmahindra",
+    "root": "https://techmahindra.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.techmahindra.com/",
+    "career_links": [
+      "https://www.techmahindra.com/careers/",
+      "https://www.techmahindra.com/careers/techm-way/",
+      "https://www.techmahindra.com/careers/diversity-inclusion/",
+      "https://careers.techmahindra.com/",
+      "https://www.techmahindra.com/search?search=Jobs"
+    ],
+    "career_final": "https://www.techmahindra.com/careers/",
+    "deep_reviewed": [
+      "https://www.techmahindra.com/careers/",
+      "https://www.techmahindra.com/careers/#main-content"
+    ]
+  },
+  {
+    "id": "ust",
+    "root": "https://ust.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.ust.com/",
+    "career_links": [],
+    "deep_reviewed": [
+      "https://www.ust.com/"
+    ]
+  },
+  {
+    "id": "capco",
+    "root": "https://capco.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "hitachisolutions",
+    "root": "https://global.hitachi-solutions.com",
+    "status": "observed_structured_route_needs_live_check",
+    "ats_sources": [
+      {
+        "employer": "Hitachi Solutions",
+        "type": "smartrecruiters",
+        "slug": "HitachiSolutions",
+        "id": "smartrecruiters-hitachisolutions"
+      }
+    ],
+    "root_final": "https://global.hitachi-solutions.com/",
+    "career_links": [
+      "https://global.hitachi-solutions.com/about/careers/"
+    ],
+    "career_final": "https://global.hitachi-solutions.com/about/careers/"
+  },
+  {
+    "id": "willowtree",
+    "root": "https://willowtreeapps.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "teradata",
+    "root": "https://teradata.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "griddynamics",
+    "root": "https://griddynamics.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.griddynamics.com:443/",
+    "career_links": [
+      "https://www.griddynamics.com/careers",
+      "https://www.griddynamics.com/careers/discover-openings",
+      "https://www.griddynamics.com/careers/why-join-our-team",
+      "https://www.griddynamics.com/careers/growth-opportunities",
+      "https://www.griddynamics.com/careers/work-perks",
+      "https://www.griddynamics.com/careers/locations",
+      "https://www.griddynamics.com/careers/global-mobility"
+    ],
+    "career_final": "https://www.griddynamics.com/careers",
+    "deep_reviewed": [
+      "https://www.griddynamics.com/careers",
+      "https://www.griddynamics.com/careers/discover-openings"
+    ]
+  },
+  {
+    "id": "kinandcarta",
+    "root": "https://kinandcarta.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "mckinseycompany",
+    "root": "https://mckinsey.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "HTTPError: 403 Client Error: Forbidden for url: https://www.mckinsey.com/"
+  },
+  {
+    "id": "hitachivantara",
+    "root": "https://hitachivantara.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.hitachivantara.com/en-us/home",
+    "career_links": [
+      "https://www.hitachivantara.com/en-us/company/careers"
+    ],
+    "career_final": "https://www.hitachivantara.com/en-us/company/careers",
+    "deep_reviewed": [
+      "https://www.hitachivantara.com/en-us/company/careers",
+      "https://www.hitachivantara.com/en-us/company/careers/job-search"
+    ]
+  },
+  {
+    "id": "ltimindtree",
+    "root": "https://ltimindtree.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.ltm.com/",
+    "career_links": [
+      "https://www.ltm.com/careers"
+    ],
+    "career_final": "https://www.ltm.com/careers",
+    "deep_reviewed": [
+      "https://www.ltm.com/careers",
+      "https://careers.ltm.com/search/"
+    ]
+  },
+  {
+    "id": "sogeti",
+    "root": "https://sogeti.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.sogeti.com/",
+    "career_links": [
+      "https://www.sogeti.com/careers/",
+      "https://www.sogeti.com/careers/career-paths/",
+      "https://www.sogeti.com/careers/job-search/",
+      "https://www.sogeti.com/careers/job-search"
+    ],
+    "career_final": "https://www.sogeti.com/careers/",
+    "deep_reviewed": [
+      "https://www.sogeti.com/careers/",
+      "https://www.sogeti.com/careers/#wp--skip-link--target"
+    ]
+  },
+  {
+    "id": "baincompany",
+    "root": "https://bain.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.bain.com/",
+    "career_links": [
+      "https://www.bain.com/careers/",
+      "https://www.bain.com/careers/work-with-us/",
+      "https://www.bain.com/careers/work-with-us/find-your-place/",
+      "https://www.bain.com/careers/work-with-us/our-work-areas/",
+      "https://www.bain.com/careers/work-with-us/integrated-teams/",
+      "https://www.bain.com/careers/work-with-us/students/",
+      "https://www.bain.com/careers/work-with-us/internships-programs/",
+      "https://www.bain.com/careers/work-with-us/recruiting-events/"
+    ],
+    "career_final": "https://www.bain.com/careers/",
+    "deep_reviewed": [
+      "https://www.bain.com/careers/",
+      "https://www.bain.com/careers/#maincontent"
+    ]
+  },
+  {
+    "id": "kearney",
+    "root": "https://kearney.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.kearney.com/",
+    "career_links": [
+      "https://www.kearney.com/careers",
+      "https://www.kearney.com/careers/opportunities",
+      "https://www.kearney.com/careers/life-at-kearney",
+      "https://www.kearney.com/careers/interviewing"
+    ],
+    "career_final": "https://www.kearney.com/careers",
+    "deep_reviewed": [
+      "https://www.kearney.com/careers",
+      "https://www.kearney.com/careers/opportunities"
+    ]
+  },
+  {
+    "id": "akkodis",
+    "root": "https://akkodis.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.akkodis.com/",
+    "career_links": [
+      "https://www.akkodis.com/en/careers"
+    ],
+    "career_final": "https://www.akkodis.com/en/careers",
+    "deep_reviewed": [
+      "https://www.akkodis.com/en/careers",
+      "https://www.akkodis.com/en/careers/areas-of-expertise/digital-it-strategy"
+    ]
+  },
+  {
+    "id": "alvarezmarsal",
+    "root": "https://alvarezandmarsal.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "arthurdlittle",
+    "root": "https://adlittle.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "bostonconsultinggroup",
+    "root": "https://bcg.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.bcg.com/",
+    "career_links": [
+      "https://careers.bcg.com",
+      "https://careers.bcg.com/search-results",
+      "https://careers.bcg.com/early-careers",
+      "https://careers.bcg.com/culture",
+      "https://careers.bcg.com/experienced-professionals",
+      "https://careers.bcg.com/location",
+      "https://careers.bcg.com/events",
+      "https://careers.bcg.com/global/en/search-results"
+    ],
+    "career_final": "https://careers.bcg.com/global/en/",
+    "deep_reviewed": [
+      "https://careers.bcg.com/global/en/",
+      "https://careers.bcg.com/global/en/search-results"
+    ]
+  },
+  {
+    "id": "oliverwyman",
+    "root": "https://oliverwyman.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.oliverwyman.com/index.html",
+    "career_links": [
+      "https://www.oliverwyman.com/careers/recruiting-events.html",
+      "https://www.oliverwyman.com/careers.html"
+    ],
+    "career_final": "https://www.oliverwyman.com/careers/recruiting-events.html",
+    "deep_reviewed": [
+      "https://www.oliverwyman.com/careers/recruiting-events.html",
+      "https://www.oliverwyman.com/careers/recruiting-events.html#main-content"
+    ]
+  },
+  {
+    "id": "occstrategyconsultants",
+    "root": "https://occstrategy.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "rolandberger",
+    "root": "https://rolandberger.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.rolandberger.com/en?country=US",
+    "career_links": [
+      "https://www.rolandberger.com/en/join/join-us/overview",
+      "https://www.rolandberger.com/en/join/join-us/why-roland-berger",
+      "https://www.rolandberger.com/en/join/join-us/benefits",
+      "https://www.rolandberger.com/en/join/join-us/career-starter",
+      "https://www.rolandberger.com/en/join/join-us/professionals",
+      "https://www.rolandberger.com/en/join/join-us/corporate-functions",
+      "https://www.rolandberger.com/en/join/your-development/career-stages",
+      "https://www.rolandberger.com/en/join/all-jobs"
+    ],
+    "career_final": "https://www.rolandberger.com/en/join/join-us/overview",
+    "deep_reviewed": [
+      "https://www.rolandberger.com/en/join/join-us/overview"
+    ]
+  },
+  {
+    "id": "lekconsulting",
+    "root": "https://lek.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.lek.com/",
+    "career_links": [
+      "https://www.lek.com/careers/life-at-lek/alumni-network",
+      "https://www.lek.com/careers",
+      "https://www.lek.com/careers/apply"
+    ],
+    "career_final": "https://www.lek.com/careers/life-at-lek/alumni-network",
+    "deep_reviewed": [
+      "https://www.lek.com/careers/life-at-lek/alumni-network",
+      "https://www.lek.com/careers/life-at-lek/alumni-network#main-content"
+    ]
+  },
+  {
+    "id": "alixpartners",
+    "root": "https://alixpartners.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.alixpartners.com/",
+    "career_links": [
+      "https://www.alixpartners.com/careers/",
+      "https://www.alixpartners.com/careers/job-search/"
+    ],
+    "career_final": "https://www.alixpartners.com/careers/",
+    "deep_reviewed": [
+      "https://www.alixpartners.com/careers/",
+      "https://www.alixpartners.com/careers/#content-wrapper"
+    ]
+  },
+  {
+    "id": "huron",
+    "root": "https://huronconsultinggroup.com",
+    "status": "observed_structured_route_needs_live_check",
+    "ats_sources": [
+      {
+        "id": "workday-huron-member",
+        "type": "workday",
+        "url": "https://huron.wd1.myworkdayjobs.com/huroncareers",
+        "employer": "Huron",
+        "queries": [
+          "intern",
+          "new grad",
+          "entry level",
+          "graduate program",
+          "business analyst",
+          "consultant",
+          "product"
+        ],
+        "country_scope": [
+          "US"
+        ],
+        "member_opportunities": true,
+        "max_pages": 25
+      }
+    ],
+    "root_final": "https://www.huronconsultinggroup.com/en",
+    "career_links": [
+      "https://www.huronconsultinggroup.com/en/careers"
+    ],
+    "career_final": "https://www.huronconsultinggroup.com/en/careers",
+    "deep_reviewed": [
+      "https://www.huronconsultinggroup.com/en/careers"
+    ]
+  },
+  {
+    "id": "simonkucher",
+    "root": "https://simon-kucher.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.simon-kucher.com/en",
+    "career_links": [
+      "https://www.simon-kucher.com/en/careers",
+      "https://www.simon-kucher.com/en/careers/people-stories",
+      "https://simon-kucher.csod.com/ux/ats/careersite/6/home?c=simon-kucher"
+    ],
+    "career_final": "https://www.simon-kucher.com/en/careers",
+    "deep_reviewed": [
+      "https://www.simon-kucher.com/en/careers",
+      "https://www.simon-kucher.com/en/careers/people-stories"
+    ]
+  },
+  {
+    "id": "analysisgroup",
+    "root": "https://analysisgroup.com",
+    "status": "observed_structured_route_needs_live_check",
+    "ats_sources": [
+      {
+        "id": "icims-analysisgroup",
+        "type": "icims_board",
+        "host": "datasciencecareers-analysisgroup.icims.com",
+        "employer": "Analysis Group"
+      },
+      {
+        "id": "icims-analysisgroup",
+        "type": "icims_board",
+        "host": "professionalcareers-analysisgroup.icims.com",
+        "employer": "Analysis Group"
+      }
+    ],
+    "root_final": "https://www.analysisgroup.com/",
+    "career_links": [
+      "https://www.analysisgroup.com/careers/",
+      "https://www.analysisgroup.com/careers/career-path/",
+      "https://www.analysisgroup.com/careers/what-is-economic-consulting/",
+      "https://www.analysisgroup.com/careers/why-analysis-group/",
+      "https://www.analysisgroup.com/careers/faqs/"
+    ],
+    "career_final": "https://www.analysisgroup.com/careers/",
+    "deep_reviewed": [
+      "https://www.analysisgroup.com/careers/"
+    ]
+  },
+  {
+    "id": "charlesriverassociates",
+    "root": "https://crai.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.crai.com/",
+    "career_links": [
+      "https://www.crai.com/cra-careers/"
+    ],
+    "career_final": "https://www.crai.com/cra-careers/",
+    "deep_reviewed": [
+      "https://www.crai.com/cra-careers/",
+      "https://www.crai.com/cra-careers/#main-content"
+    ]
+  },
+  {
+    "id": "fticonsulting",
+    "root": "https://fticonsulting.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.fticonsulting.com/",
+    "career_links": [
+      "https://www.fticonsulting.com/careers"
+    ],
+    "career_final": "https://www.fticonsulting.com/careers",
+    "deep_reviewed": [
+      "https://www.fticonsulting.com/careers",
+      "https://www.fticonsulting.com/-/media/images/careers/og/careers.jpg?rev=888e1500aa1243559caec24ee01cd364"
+    ]
+  },
+  {
+    "id": "cornerstoneresearch",
+    "root": "https://cornerstone.com",
+    "status": "observed_structured_route_needs_live_check",
+    "ats_sources": [
+      {
+        "id": "workday-cornerstoneresearch-member",
+        "type": "workday",
+        "url": "https://cornerstone.wd501.myworkdayjobs.com/CornerstoneResearch_Careers",
+        "employer": "Cornerstone Research",
+        "queries": [
+          "intern",
+          "new grad",
+          "entry level",
+          "graduate program",
+          "business analyst",
+          "consultant",
+          "product"
+        ],
+        "country_scope": [
+          "US"
+        ],
+        "member_opportunities": true,
+        "max_pages": 25
+      },
+      {
+        "id": "icims-cornerstoneresearch",
+        "type": "icims_board",
+        "host": "ug-chire.icims.com",
+        "employer": "Cornerstone Research"
+      },
+      {
+        "id": "icims-cornerstoneresearch",
+        "type": "icims_board",
+        "host": "uguk-chire.icims.com",
+        "employer": "Cornerstone Research"
+      },
+      {
+        "id": "icims-cornerstoneresearch",
+        "type": "icims_board",
+        "host": "ugbe-chire.icims.com",
+        "employer": "Cornerstone Research"
+      },
+      {
+        "id": "icims-cornerstoneresearch",
+        "type": "icims_board",
+        "host": "grad-chire.icims.com",
+        "employer": "Cornerstone Research"
+      },
+      {
+        "id": "icims-cornerstoneresearch",
+        "type": "icims_board",
+        "host": "graduk-chire.icims.com",
+        "employer": "Cornerstone Research"
+      },
+      {
+        "id": "icims-cornerstoneresearch",
+        "type": "icims_board",
+        "host": "gradbe-chire.icims.com",
+        "employer": "Cornerstone Research"
+      },
+      {
+        "id": "icims-cornerstoneresearch",
+        "type": "icims_board",
+        "host": "corpadmin-chire.icims.com",
+        "employer": "Cornerstone Research"
+      },
+      {
+        "id": "icims-cornerstoneresearch",
+        "type": "icims_board",
+        "host": "corpadminuk-chire.icims.com",
+        "employer": "Cornerstone Research"
+      },
+      {
+        "id": "icims-cornerstoneresearch",
+        "type": "icims_board",
+        "host": "exp-chire.icims.com",
+        "employer": "Cornerstone Research"
+      },
+      {
+        "id": "icims-cornerstoneresearch",
+        "type": "icims_board",
+        "host": "expuk-chire.icims.com",
+        "employer": "Cornerstone Research"
+      },
+      {
+        "id": "icims-cornerstoneresearch",
+        "type": "icims_board",
+        "host": "expbe-chire.icims.com",
+        "employer": "Cornerstone Research"
+      }
+    ],
+    "root_final": "https://www.cornerstone.com/",
+    "career_links": [
+      "https://www.cornerstone.com/careers/",
+      "https://www.cornerstone.com/careers/what-is-economic-consulting/",
+      "https://ug-chire.icims.com/jobs/search?ss=1",
+      "https://uguk-chire.icims.com/jobs/search?ss=1",
+      "https://ugbe-chire.icims.com/jobs/search?ss=1",
+      "https://grad-chire.icims.com/jobs/search?ss=1",
+      "https://graduk-chire.icims.com/jobs/search?ss=1",
+      "https://gradbe-chire.icims.com/jobs/search?ss=1"
+    ],
+    "career_final": "https://www.cornerstone.com/careers/",
+    "deep_reviewed": [
+      "https://www.cornerstone.com/careers/"
+    ]
+  },
+  {
+    "id": "zs",
+    "root": "https://zs.com",
+    "status": "observed_structured_route_needs_live_check",
+    "ats_sources": [
+      {
+        "id": "icims-zs",
+        "type": "icims_board",
+        "host": "careers-zs.icims.com",
+        "employer": "ZS"
+      },
+      {
+        "id": "icims-zs",
+        "type": "icims_board",
+        "host": "www.icims.com",
+        "employer": "ZS"
+      }
+    ],
+    "root_final": "https://www.zs.com/",
+    "career_links": [
+      "https://www.zs.com/careers",
+      "https://jobs.zs.com/all/jobs"
+    ],
+    "career_final": "https://www.zs.com/careers",
+    "deep_reviewed": [
+      "https://www.zs.com/careers",
+      "https://jobs.zs.com/jobs"
+    ]
+  },
+  {
+    "id": "trinitylifesciences",
+    "root": "https://trinitylifesciences.com",
+    "status": "observed_structured_route_needs_live_check",
+    "ats_sources": [
+      {
+        "id": "workday-trinitylifesciences-member",
+        "type": "workday",
+        "url": "https://trinitylifesciences.wd108.myworkdayjobs.com/Trinity",
+        "employer": "Trinity Life Sciences",
+        "queries": [
+          "intern",
+          "new grad",
+          "entry level",
+          "graduate program",
+          "business analyst",
+          "consultant",
+          "product"
+        ],
+        "country_scope": [
+          "US"
+        ],
+        "member_opportunities": true,
+        "max_pages": 25
+      }
+    ],
+    "root_final": "https://trinitylifesciences.com/",
+    "career_links": [
+      "https://trinitylifesciences.com/company/careers/",
+      "https://trinitylifesciences.com/company/careers/early-talent/",
+      "https://trinitylifesciences.com/company/careers/learning-and-development/"
+    ],
+    "career_final": "https://trinitylifesciences.com/company/careers/",
+    "deep_reviewed": [
+      "https://trinitylifesciences.com/company/careers/"
+    ]
+  },
+  {
+    "id": "healthadvances",
+    "root": "https://healthadvances.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "HTTPError: 403 Client Error: Forbidden for url: https://healthadvances.com/"
+  },
+  {
+    "id": "putnam",
+    "root": "https://putassoc.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "iqvia",
+    "root": "https://iqvia.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "root_final": "https://www.iqvia.com/",
+    "career_links": [
+      "https://jobs.iqvia.com/?utm_source=iqvia.com&utm_medium=referral&utm_campaign=careersnav ",
+      "https://jobs.iqvia.com/en/our-company?utm_source=iqvia.com&utm_medium=referral&utm_campaign=careersnav",
+      "https://jobs.iqvia.com/culture?utm_source=iqvia.com&utm_medium=referral&utm_campaign=careersnav ",
+      "https://jobs.iqvia.com/benefits?utm_source=iqvia.com&utm_medium=referral&utm_campaign=careersnav ",
+      "https://jobs.iqvia.com/en/blog?utm_source=iqvia.com&utm_medium=referral&utm_campaign=careersnav ",
+      "https://jobs.iqvia.com/clinical-research-careers?utm_source=iqvia.com&utm_medium=referral&utm_campaign=careersnav ",
+      "https://jobs.iqvia.com/technology-analytics-careers?utm_source=iqvia.com&utm_medium=referral&utm_campaign=careersnav ",
+      "https://jobs.iqvia.com/consulting-careers?utm_source=iqvia.com&utm_medium=referral&utm_campaign=careersnav "
+    ],
+    "error": "ValueError: Malformed URL"
+  },
+  {
+    "id": "keystonestrategy",
+    "root": "https://keystone.ai",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "neraeconomicconsulting",
+    "root": "https://nera.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.nera.com:443/",
+    "career_links": [],
+    "deep_reviewed": [
+      "https://www.nera.com:443/"
+    ]
+  },
+  {
+    "id": "berkeleyresearchgroup",
+    "root": "https://thinkbrg.com",
+    "status": "observed_structured_route_needs_live_check",
+    "ats_sources": [
+      {
+        "id": "workday-berkeleyresearchgroup-member",
+        "type": "workday",
+        "url": "https://thinkbrg.wd5.myworkdayjobs.com/BRG_External_Career_Site",
+        "employer": "Berkeley Research Group",
+        "queries": [
+          "intern",
+          "new grad",
+          "entry level",
+          "graduate program",
+          "business analyst",
+          "consultant",
+          "product"
+        ],
+        "country_scope": [
+          "US"
+        ],
+        "member_opportunities": true,
+        "max_pages": 25
+      }
+    ],
+    "root_final": "https://www.thinkbrg.com/",
+    "career_links": [
+      "https://www.thinkbrg.com/careers/",
+      "https://www.thinkbrg.com/careers/culture/",
+      "https://www.thinkbrg.com/careers/how-we-work/",
+      "https://www.thinkbrg.com/careers/early-careers/",
+      "https://www.thinkbrg.com/careers/experienced-professionals/",
+      "https://www.thinkbrg.com/careers/global-careers/"
+    ],
+    "career_final": "https://www.thinkbrg.com/careers/",
+    "deep_reviewed": [
+      "https://www.thinkbrg.com/careers/"
+    ]
+  },
+  {
+    "id": "sia",
+    "root": "https://sia-partners.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.sia-partners.com/en",
+    "career_links": [
+      "https://www.sia-partners.com/en/join-us",
+      "https://www.sia-partners.com/en/join-us/life",
+      "https://www.sia-partners.com/en/join-us/careers",
+      "https://www.sia-partners.com/en/join-us/recruitment"
+    ],
+    "career_final": "https://www.sia-partners.com/en/join-us",
+    "deep_reviewed": [
+      "https://www.sia-partners.com/en/join-us"
+    ]
+  },
+  {
+    "id": "dalberg",
+    "root": "https://dalberg.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "root_final": "https://dalberg.com/",
+    "career_links": [
+      "https://dalberg.hua.hrsmart.com/hr/ats/JobSearch/viewAll",
+      "https://dalberg.com/announcements/beyond-delhis-smog-indias-clean-air-push-could-unlock-220-billion-support-1-4-million-jobs-says-analysis/"
+    ],
+    "error": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "thebridgespangroup",
+    "root": "https://bridgespan.org",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.bridgespan.org/",
+    "career_links": [
+      "https://www.bridgespan.org/careers-at-bridgespan",
+      "https://www.bridgespan.org/careers-at-bridgespan#open-positions",
+      "https://www.bridgespan.org/careers-at-bridgespan/bridgespan-applicant-toolkit"
+    ],
+    "career_final": "https://www.bridgespan.org/careers-at-bridgespan",
+    "deep_reviewed": [
+      "https://www.bridgespan.org/careers-at-bridgespan",
+      "https://phh.tbe.taleo.net/phh01/ats/careers/v2/searchResults?org=THEBRIDG12&cws=40"
+    ]
+  },
+  {
+    "id": "hka",
+    "root": "https://hka.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.hka.com/",
+    "career_links": [
+      "https://www.hka.com/join-us/"
+    ],
+    "career_final": "https://www.hka.com/join-us/",
+    "deep_reviewed": [
+      "https://www.hka.com/join-us/",
+      "https://careers.hka.com/#jobs"
+    ]
+  },
+  {
+    "id": "ecgmanagementconsultants",
+    "root": "https://ecgmc.com",
+    "status": "observed_structured_route_needs_live_check",
+    "ats_sources": [
+      {
+        "id": "icims-ecgmanagementconsultants",
+        "type": "icims_board",
+        "host": "careers-ecgmc.icims.com",
+        "employer": "ECG Management Consultants"
+      },
+      {
+        "id": "icims-ecgmanagementconsultants",
+        "type": "icims_board",
+        "host": "www.icims.com",
+        "employer": "ECG Management Consultants"
+      },
+      {
+        "id": "icims-ecgmanagementconsultants",
+        "type": "icims_board",
+        "host": "studentcareers-ecgmc.icims.com",
+        "employer": "ECG Management Consultants"
+      },
+      {
+        "id": "icims-ecgmanagementconsultants",
+        "type": "icims_board",
+        "host": "internal-ecgmc.icims.com",
+        "employer": "ECG Management Consultants"
+      }
+    ],
+    "root_final": "https://www.ecgmc.com/",
+    "career_links": [
+      "https://careers.ecgmc.com/",
+      "https://careers.ecgmc.com/jobs"
+    ],
+    "career_final": "https://careers.ecgmc.com/",
+    "deep_reviewed": [
+      "https://careers.ecgmc.com/"
+    ]
+  },
+  {
+    "id": "ghsmart",
+    "root": "https://ghsmart.com",
+    "status": "observed_structured_route_needs_live_check",
+    "ats_sources": [
+      {
+        "employer": "ghSMART",
+        "type": "lever",
+        "slug": "ghsmartjobs",
+        "id": "lever-ghsmartjobs"
+      }
+    ],
+    "root_final": "https://ghsmart.com/",
+    "career_links": [
+      "https://careers.ghsmart.com/",
+      "https://careers.ghsmart.com/careers-blog",
+      "https://careers.ghsmart.com/leadership-advisory"
+    ],
+    "career_final": "https://careers.ghsmart.com/"
+  },
+  {
+    "id": "marakon",
+    "root": "https://marakon.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "redstonestrategygroup",
+    "root": "https://redstonestrategy.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.redstonestrategy.com/",
+    "career_links": [
+      "https://www.redstonestrategy.com/about/careers/equity-and-belonging/",
+      "https://www.redstonestrategy.com/about/careers/",
+      "https://www.redstonestrategy.com/about/careers/career-path/"
+    ],
+    "career_final": "https://www.redstonestrategy.com/about/careers/equity-and-belonging/",
+    "deep_reviewed": [
+      "https://www.redstonestrategy.com/about/careers/equity-and-belonging/",
+      "https://www.redstonestrategy.com/about/careers/"
+    ]
+  },
+  {
+    "id": "innosight",
+    "root": "https://innosight.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "thechartisgroup",
+    "root": "https://chartis.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.chartis.com/",
+    "career_links": [
+      "https://www.chartis.com/about/careers"
+    ],
+    "career_final": "https://www.chartis.com/about/careers",
+    "deep_reviewed": [
+      "https://www.chartis.com/about/careers"
+    ]
+  },
+  {
+    "id": "rhrinternational",
+    "root": "https://rhrinternational.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://rhrinternational.com/en/",
+    "career_links": [
+      "https://rhrinternational.com/careers"
+    ],
+    "career_final": "https://rhrinternational.com/careers",
+    "deep_reviewed": [
+      "https://rhrinternational.com/careers",
+      "https://rhrinternational.com/hubfs/assets/about-us/careers/about-us-careers-hero-3x1.jpg"
+    ]
+  },
+  {
+    "id": "scottmadden",
+    "root": "https://scottmadden.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.scottmadden.com/",
+    "career_links": [
+      "https://www.scottmadden.com/careers/"
+    ],
+    "career_final": "https://www.scottmadden.com/careers/",
+    "deep_reviewed": [
+      "https://www.scottmadden.com/careers/",
+      "https://www.scottmadden.com/careers/#culture"
+    ]
+  },
+  {
+    "id": "stax",
+    "root": "https://stax.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.stax.com/",
+    "career_links": [
+      "https://www.stax.com/careers",
+      "https://www.stax.com/careers/working-at-stax",
+      "https://www.stax.com/careers#1637609663"
+    ],
+    "career_final": "https://www.stax.com/careers",
+    "deep_reviewed": [
+      "https://www.stax.com/careers",
+      "https://www.stax.com/careers/working-at-stax"
+    ]
+  },
+  {
+    "id": "ssacompany",
+    "root": "https://ssaandco.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://ssaandco.com/",
+    "career_links": [
+      "https://ssaandco.com/careers/"
+    ],
+    "career_final": "https://ssaandco.com/careers/",
+    "deep_reviewed": [
+      "https://ssaandco.com/careers/",
+      "https://ssaandco.com/careers/#content"
+    ]
+  },
+  {
+    "id": "google",
+    "status": "existing_registry",
+    "sources": [
+      "google-google"
+    ]
+  },
+  {
+    "id": "microsoft",
+    "status": "existing_registry",
+    "sources": [
+      "eightfold-microsoft"
+    ]
+  },
+  {
+    "id": "amazon",
+    "status": "existing_registry",
+    "sources": [
+      "amazon-direct"
+    ]
+  },
+  {
+    "id": "meta",
+    "status": "existing_registry",
+    "sources": [
+      "meta-meta"
+    ]
+  },
+  {
+    "id": "apple",
+    "status": "existing_registry",
+    "sources": [
+      "apple-apple"
+    ]
+  },
+  {
+    "id": "nvidia",
+    "status": "existing_registry",
+    "sources": [
+      "eightfold-nvidia"
+    ]
+  },
+  {
+    "id": "salesforce",
+    "status": "existing_registry",
+    "sources": [
+      "workday-salesforce"
+    ]
+  },
+  {
+    "id": "adobe",
+    "status": "existing_registry",
+    "sources": [
+      "workday-adobe"
+    ]
+  },
+  {
+    "id": "oracle",
+    "status": "existing_registry",
+    "sources": [
+      "oracle-direct"
+    ]
+  },
+  {
+    "id": "servicenow",
+    "status": "existing_registry",
+    "sources": [
+      "smartrecruiters-servicenow"
+    ]
+  },
+  {
+    "id": "atlassian",
+    "status": "existing_registry",
+    "sources": [
+      "atlassian-direct"
+    ]
+  },
+  {
+    "id": "linkedin",
+    "status": "existing_registry",
+    "sources": [
+      "smartrecruiters-linkedin"
+    ]
+  },
+  {
+    "id": "uber",
+    "status": "existing_registry",
+    "sources": [
+      "uber-direct"
+    ]
+  },
+  {
+    "id": "airbnb",
+    "status": "existing_registry",
+    "sources": [
+      "greenhouse-airbnb"
+    ]
+  },
+  {
+    "id": "stripe",
+    "status": "existing_registry",
+    "sources": [
+      "greenhouse-stripe"
+    ]
+  },
+  {
+    "id": "block",
+    "status": "existing_registry",
+    "sources": [
+      "greenhouse-block"
+    ]
+  },
+  {
+    "id": "paypal",
+    "status": "existing_registry",
+    "sources": [
+      "eightfold-paypal"
+    ]
+  },
+  {
+    "id": "bateswhite",
+    "root": "https://bateswhite.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.bateswhite.com/",
+    "career_links": [
+      "https://www.bateswhite.com/careers/overview",
+      "https://www.bateswhite.com/careers/summer-consultants",
+      "https://www.bateswhite.com/careers/consultants-and-management",
+      "https://www.bateswhite.com/careers/consultants-and-management/interview-tips",
+      "https://www.bateswhite.com/careers/consultants-and-management/example-case-interview",
+      "https://www.bateswhite.com/careers/phd",
+      "https://www.bateswhite.com/careers/business-services",
+      "https://www.bateswhite.com/careers/current-openings"
+    ],
+    "career_final": "https://www.bateswhite.com/careers/overview",
+    "deep_reviewed": [
+      "https://www.bateswhite.com/careers/overview",
+      "https://www.bateswhite.com/careers/overview#mainContent"
+    ]
+  },
+  {
+    "id": "cisco",
+    "status": "existing_registry",
+    "sources": [
+      "workday-cisco"
+    ]
+  },
+  {
+    "id": "censeoconsultinggroup",
+    "root": "https://censeoconsulting.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.censeoconsulting.com/",
+    "career_links": [
+      "https://www.censeoconsulting.com/about/join-us/"
+    ],
+    "career_final": "https://www.censeoconsulting.com/about/join-us/",
+    "deep_reviewed": [
+      "https://www.censeoconsulting.com/about/join-us/",
+      "https://careers.censeoconsulting.com/"
+    ]
+  },
+  {
+    "id": "samsung",
+    "status": "existing_registry",
+    "sources": [
+      "workday-samsung"
+    ]
+  },
+  {
+    "id": "netflix",
+    "status": "existing_registry",
+    "sources": [
+      "eightfold-netflix"
+    ]
+  },
+  {
+    "id": "spotify",
+    "status": "existing_registry",
+    "sources": [
+      "lever-spotify"
+    ]
+  },
+  {
+    "id": "snap",
+    "status": "existing_registry",
+    "sources": [
+      "snap-direct"
+    ]
+  },
+  {
+    "id": "bytedance",
+    "status": "existing_registry",
+    "sources": [
+      "bytedance-direct"
+    ]
+  },
+  {
+    "id": "palantir",
+    "status": "existing_registry",
+    "sources": [
+      "lever-palantir"
+    ]
+  },
+  {
+    "id": "databricks",
+    "status": "existing_registry",
+    "sources": [
+      "greenhouse-databricks"
+    ]
+  },
+  {
+    "id": "snowflake",
+    "status": "existing_registry",
+    "sources": [
+      "ashby-snowflake"
+    ]
+  },
+  {
+    "id": "figma",
+    "status": "existing_registry",
+    "sources": [
+      "greenhouse-figma"
+    ]
+  },
+  {
+    "id": "notion",
+    "status": "existing_registry",
+    "sources": [
+      "ashby-notion"
+    ]
+  },
+  {
+    "id": "asana",
+    "status": "existing_registry",
+    "sources": [
+      "greenhouse-asana"
+    ]
+  },
+  {
+    "id": "dropbox",
+    "status": "existing_registry",
+    "sources": [
+      "greenhouse-dropbox"
+    ]
+  },
+  {
+    "id": "box",
+    "status": "existing_registry",
+    "sources": [
+      "greenhouse-boxinc"
+    ]
+  },
+  {
+    "id": "twilio",
+    "status": "existing_registry",
+    "sources": [
+      "greenhouse-twilio"
+    ]
+  },
+  {
+    "id": "datadog",
+    "status": "existing_registry",
+    "sources": [
+      "greenhouse-datadog"
+    ]
+  },
+  {
+    "id": "mongodb",
+    "status": "existing_registry",
+    "sources": [
+      "greenhouse-mongodb"
+    ]
+  },
+  {
+    "id": "cloudflare",
+    "status": "existing_registry",
+    "sources": [
+      "greenhouse-cloudflare"
+    ]
+  },
+  {
+    "id": "hubspot",
+    "status": "existing_registry",
+    "sources": [
+      "greenhouse-hubspotjobs"
+    ]
+  },
+  {
+    "id": "okta",
+    "status": "existing_registry",
+    "sources": [
+      "greenhouse-okta"
+    ]
+  },
+  {
+    "id": "pinterest",
+    "status": "existing_registry",
+    "sources": [
+      "greenhouse-pinterest"
+    ]
+  },
+  {
+    "id": "reddit",
+    "status": "existing_registry",
+    "sources": [
+      "greenhouse-reddit"
+    ]
+  },
+  {
+    "id": "doordash",
+    "status": "existing_registry",
+    "sources": [
+      "greenhouse-doordashusa"
+    ]
+  },
+  {
+    "id": "roblox",
+    "status": "existing_registry",
+    "sources": [
+      "greenhouse-roblox"
+    ]
+  },
+  {
+    "id": "instacart",
+    "status": "existing_registry",
+    "sources": [
+      "greenhouse-instacart"
+    ]
+  },
+  {
+    "id": "ramp",
+    "status": "existing_registry",
+    "sources": [
+      "ashby-ramp"
+    ]
+  },
+  {
+    "id": "brex",
+    "status": "existing_registry",
+    "sources": [
+      "greenhouse-brex"
+    ]
+  },
+  {
+    "id": "coinbase",
+    "status": "existing_registry",
+    "sources": [
+      "greenhouse-coinbase"
+    ]
+  },
+  {
+    "id": "robinhood",
+    "status": "existing_registry",
+    "sources": [
+      "greenhouse-robinhood"
+    ]
+  },
+  {
+    "id": "zoom",
+    "status": "existing_registry",
+    "sources": [
+      "workday-zoom"
+    ]
+  },
+  {
+    "id": "capitalone",
+    "status": "existing_registry",
+    "sources": [
+      "workday-capital-one"
+    ]
+  },
+  {
+    "id": "thebrattlegroup",
+    "root": "https://brattle.com",
+    "status": "observed_structured_route_needs_live_check",
+    "ats_sources": [
+      {
+        "employer": "The Brattle Group",
+        "type": "greenhouse",
+        "slug": "embed",
+        "id": "greenhouse-embed"
+      }
+    ],
+    "root_final": "https://www.brattle.com/",
+    "career_links": [
+      "https://www.brattle.com/careers/",
+      "https://www.brattle.com/careers/why-brattle/",
+      "https://www.brattle.com/careers/belonging-at-brattle/",
+      "https://www.brattle.com/careers/benefits/",
+      "https://www.brattle.com/careers/roles/",
+      "https://www.brattle.com/careers/current-openings/",
+      "https://www.brattle.com/careers/university-recruiting-events/",
+      "https://www.brattle.com/careers/learning-and-development/"
+    ],
+    "career_final": "https://www.brattle.com/careers/",
+    "deep_reviewed": [
+      "https://www.brattle.com/careers/"
+    ]
+  },
+  {
+    "id": "bankofamerica",
+    "status": "existing_registry",
+    "sources": [
+      "bankofamerica-campus"
+    ]
+  },
+  {
+    "id": "citi",
+    "status": "existing_registry",
+    "sources": [
+      "workday-citi-2"
+    ]
+  },
+  {
+    "id": "sap",
+    "root": "https://sap.com",
+    "status": "access_or_fetch_unverified",
+    "ats_sources": [],
+    "error": "AccessRestricted: Robots policy disallows access or could not be verified"
+  },
+  {
+    "id": "kepler",
+    "root": "https://kepler-consulting.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.kepler-consulting.com/en/",
+    "career_links": [
+      "https://www.kepler-consulting.com/en/join-us/"
+    ],
+    "career_final": "https://www.kepler-consulting.com/en/join-us/",
+    "deep_reviewed": [
+      "https://www.kepler-consulting.com/en/join-us/"
+    ]
+  },
+  {
+    "id": "morganstanley",
+    "status": "existing_registry",
+    "sources": [
+      "workday-morgan-stanley"
+    ]
+  },
+  {
+    "id": "cambridgeconsultants",
+    "root": "https://cambridgeconsultants.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.cambridgeconsultants.com/",
+    "career_links": [
+      "https://www.cambridgeconsultants.com/careers/",
+      "https://www.cambridgeconsultants.com/careers/early-careers/",
+      "https://www.cambridgeconsultants.com/careers/experienced-professionals/",
+      "https://www.cambridgeconsultants.com/careers/life-at-cc/",
+      "https://www.cambridgeconsultants.com/careers/use-of-ai-in-recruitment/",
+      "https://www.cambridgeconsultants.com/careers/our-stories/",
+      "https://www.cambridgeconsultants.com/careers/job-alerts/"
+    ],
+    "career_final": "https://www.cambridgeconsultants.com/careers/",
+    "deep_reviewed": [
+      "https://www.cambridgeconsultants.com/careers/",
+      "https://www.cambridgeconsultants.com/careers/early-careers/"
+    ]
+  },
+  {
+    "id": "clearviewhealthcarepartners",
+    "root": "https://clearviewhcp.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://clearviewhcp.com/",
+    "career_links": [
+      "https://clearviewhcp.com/careers/",
+      "https://clearviewhcp.com/careers/why-clearview/",
+      "https://clearviewhcp.com/careers/who-we-are/",
+      "https://clearviewhcp.com/careers/explore-opportunities/",
+      "https://clearviewhcp.com/careers/faq/",
+      "http://clearviewhcp.wpengine.com/careers/"
+    ],
+    "career_final": "https://clearviewhcp.com/careers/",
+    "deep_reviewed": [
+      "https://clearviewhcp.com/careers/",
+      "https://clearviewhcp.com/careers/#content"
+    ]
+  },
+  {
+    "id": "intuit",
+    "root": "https://intuit.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.intuit.com/",
+    "career_links": [
+      "https://www.intuit.com/careers/",
+      "https://jobs.intuit.com/",
+      "https://www.intuit.com/careers/working-at-intuit/",
+      "https://www.intuit.com/careers/teams/software-engineering/",
+      "https://www.intuit.com/expert-careers/bookkeeping-jobs/?cid=seo_intuit-nav_aud_US_TTL-FY24_en_QBL-Jobs_link_intuit-talentmktg&plr=2022-28455",
+      "https://www.intuit.com/expert-careers/tax-preparers/?cid=seo_intuit-nav_aud_US_TTL-FY24_en_TTL-Jobs_link_intuit-talentmktg&plr=2023-40062",
+      "https://www.intuit.com/blog/global-stories/intuit-for-education-student-career-readiness/",
+      "https://www.intuit.com/careers"
+    ],
+    "career_final": "https://www.intuit.com/careers/",
+    "deep_reviewed": [
+      "https://www.intuit.com/careers/",
+      "https://www.intuit.com/ca/careers/"
+    ]
+  },
+  {
+    "id": "blackrock",
+    "status": "existing_registry",
+    "sources": [
+      "workday-blackrock-blackrock_early_careers_program",
+      "workday-blackrock-blackrock_professional"
+    ]
+  },
+  {
+    "id": "fidelityinvestments",
+    "status": "existing_registry",
+    "sources": [
+      "workday-fidelity-investments-fidelitycareers"
+    ]
+  },
+  {
+    "id": "spglobal",
+    "status": "existing_registry",
+    "sources": [
+      "workday-s-p-global-spgi_careers"
+    ]
+  },
+  {
+    "id": "bloomberg",
+    "status": "existing_registry",
+    "sources": [
+      "bloomberg-direct"
+    ]
+  },
+  {
+    "id": "jpmorganchase",
+    "root": "https://jpmorganchase.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.jpmorganchase.com/",
+    "career_links": [
+      "https://www.jpmorganchase.com/careers",
+      "https://www.jpmorganchase.com/careers/work-with-us",
+      "https://www.jpmorganchase.com/careers/grow-with-us",
+      "https://www.jpmorganchase.com/careers/how-we-hire",
+      "https://www.jpmorganchase.com/careers/explore-opportunities",
+      "https://www.jpmorganchase.com/careers/explore-opportunities/students-and-graduates",
+      "https://www.jpmorganchase.com/impact/careers-and-skills",
+      "https://www.jpmorganchase.com/careers/how-we-hire/equal-opportunities"
+    ],
+    "career_final": "https://www.jpmorganchase.com/careers",
+    "deep_reviewed": [
+      "https://www.jpmorganchase.com/careers",
+      "https://www.jpmorganchase.com/careers/work-with-us"
+    ]
+  },
+  {
+    "id": "wellsfargo",
+    "root": "https://wellsfargo.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.wellsfargo.com/",
+    "career_links": [
+      "https://www.wellsfargojobs.com/"
+    ],
+    "career_final": "https://www.wellsfargojobs.com/",
+    "deep_reviewed": [
+      "https://www.wellsfargojobs.com/",
+      "https://www.wellsfargojobs.com/#content"
+    ]
+  },
+  {
+    "id": "visa",
+    "root": "https://visa.com",
+    "status": "observed_structured_route_needs_live_check",
+    "ats_sources": [
+      {
+        "id": "workday-visa-member",
+        "type": "workday",
+        "url": "https://visa.wd5.myworkdayjobs.com/Visa",
+        "employer": "Visa",
+        "queries": [
+          "intern",
+          "new grad",
+          "entry level",
+          "graduate program",
+          "business analyst",
+          "consultant",
+          "product"
+        ],
+        "country_scope": [
+          "US"
+        ],
+        "member_opportunities": true,
+        "max_pages": 25
+      }
+    ],
+    "root_final": "https://www.visa.com/en-us",
+    "career_links": [
+      "https://corporate.visa.com/en/careers.html"
+    ],
+    "career_final": "https://corporate.visa.com/en/careers.html",
+    "deep_reviewed": [
+      "https://corporate.visa.com/en/careers.html"
+    ]
+  },
+  {
+    "id": "goldmansachs",
+    "root": "https://goldmansachs.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.goldmansachs.com/",
+    "career_links": [
+      "https://www.goldmansachs.com/careers",
+      "https://www.goldmansachs.com/careers/students",
+      "https://www.goldmansachs.com/careers/life-at-goldman-sachs",
+      "https://www.goldmansachs.com/careers/benefits",
+      "https://www.goldmansachs.com/careers/featured-offices"
+    ],
+    "career_final": "https://www.goldmansachs.com/careers",
+    "deep_reviewed": [
+      "https://www.goldmansachs.com/careers",
+      "https://www.goldmansachs.com/careers/students"
+    ]
+  },
+  {
+    "id": "americanexpress",
+    "root": "https://americanexpress.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.americanexpress.com/",
+    "career_links": [
+      "https://www.americanexpress.com/en-us/careers/?inav=en_us_footer_About_Careers"
+    ],
+    "career_final": "https://www.americanexpress.com/en-us/careers/?inav=en_us_footer_About_Careers",
+    "deep_reviewed": [
+      "https://www.americanexpress.com/en-us/careers/?inav=en_us_footer_About_Careers",
+      "https://www.americanexpress.com/en-us/careers/?inav=en_us_footer_About_Careers#skipToContent"
+    ]
+  },
+  {
+    "id": "mastercard",
+    "root": "https://mastercard.com",
+    "status": "observed_structured_route_needs_live_check",
+    "ats_sources": [
+      {
+        "id": "workday-mastercard-member",
+        "type": "workday",
+        "url": "https://mastercard.wd1.myworkdayjobs.com/CorporateCareers",
+        "employer": "Mastercard",
+        "queries": [
+          "intern",
+          "new grad",
+          "entry level",
+          "graduate program",
+          "business analyst",
+          "consultant",
+          "product"
+        ],
+        "country_scope": [
+          "US"
+        ],
+        "member_opportunities": true,
+        "max_pages": 25
+      }
+    ],
+    "root_final": "https://www.mastercard.com/us/en.html",
+    "career_links": [
+      "https://careers.mastercard.com/us/en/",
+      "https://careers.mastercard.com/us/en"
+    ],
+    "career_final": "https://careers.mastercard.com/us/en/",
+    "deep_reviewed": [
+      "https://careers.mastercard.com/us/en/"
+    ]
+  },
+  {
+    "id": "walmart",
+    "root": "https://walmart.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.walmart.com/",
+    "career_links": [
+      "https://careers.walmart.com/"
+    ],
+    "career_final": "https://careers.walmart.com/us/en/home",
+    "deep_reviewed": [
+      "https://careers.walmart.com/us/en/home",
+      "https://careers.walmart.com/us/en/home#main-content"
+    ]
+  },
+  {
+    "id": "target",
+    "root": "https://target.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.target.com/",
+    "career_links": [],
+    "deep_reviewed": [
+      "https://www.target.com/"
+    ]
+  },
+  {
+    "id": "unitedhealthgroup",
+    "root": "https://unitedhealthgroup.com",
+    "status": "official_page_only_not_enumerated",
+    "ats_sources": [],
+    "root_final": "https://www.unitedhealthgroup.com/",
+    "career_links": [
+      "https://careers.unitedhealthgroup.com/search-jobs.html",
+      "https://www.unitedhealthgroup.com/careers/en/job-seeker-resources/join-our-talent-community.html",
+      "https://www.unitedhealthgroup.com/careers/en/work.html",
+      "https://www.unitedhealthgroup.com/careers/en/work/clinical.html",
+      "https://www.unitedhealthgroup.com/careers/en/work/corporate.html",
+      "https://www.unitedhealthgroup.com/careers/en/work/customer-service.html",
+      "https://www.unitedhealthgroup.com/careers/en/work/early-careers.html",
+      "https://www.unitedhealthgroup.com/careers/en/work/sales.html"
+    ],
+    "career_final": "https://careers.unitedhealthgroup.com/search-jobs",
+    "deep_reviewed": [
+      "https://careers.unitedhealthgroup.com/search-jobs",
+      "https://careers.unitedhealthgroup.com/search-jobs#content"
+    ]
+  }
+]
