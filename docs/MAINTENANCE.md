@@ -1,5 +1,10 @@
 # Maintenance, evidence and repairs
 
+The canonical published branch is `main` on the user's `personal` remote,
+andymaoo/internship-watch. Publish reviewed, tested updates there without force
+pushing; use `codex/` branches for isolated repair work when needed. The original
+`origin` remote is upstream reference material and must not receive user changes.
+
 The server detects common failures, retries transient errors, retains evidence,
 and alerts the owner. This is not a guarantee of complete job coverage or an
 autonomous permission to bypass an employer's access restrictions. Normal source

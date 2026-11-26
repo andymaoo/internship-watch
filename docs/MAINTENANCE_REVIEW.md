@@ -1243,3 +1243,25 @@ do not request them repeatedly or label manual deployment snapshots as recurring
 cloud backups. Preserve old repair tickets and distinguish source restrictions
 from code defects. Handshake/LinkedIn native alerts remain separate, not five-minute
 authenticated collection or a verified substitute for all employer vacancies.
+
+### November 26 Pacific: combined business Discord routes
+
+Owner requested two combined business topics for each opportunity type:
+consulting, and strategy-and-business-analysis. Technology/strategy consulting
+share the first; product strategy/business analysis share the second. Categories
+remain distinct in storage. Existing twelve destinations are unchanged; four
+additional webhook fields replace the proposed eight. Updated private template
+has four empty fields; real new-channel delivery awaits owner configuration.
+
+456 tests and 136 subtests passed locally and on Azure; main CI 45786467284 passed.
+Verified fresh off-VM member/maintenance recovery copies and retained the previous
+full personal recovery copy. Code-only reversible deployment activated combined
+releases 1ec851a28f9b; all 27 modules match code commit 436d1f0. Live configuration
+and credentials were unchanged. Scheduled member runs 775/776 completed OK.
+Exact snapshot comparison preserved 6536/3046 personal/member job identities,
+first-seen times and baseline flags, and 3774/60 delivered receipts. Independent
+supervisor inspected run 776 with zero pending notifications or delivery failures.
+Source collection/filter code was unchanged; existing coverage/access and recurring
+off-host-bucket gaps remain outstanding. Evidence: BUSINESS_FUNNEL.md and private
+work/maintenance/combined-business-routes. Canonical publication is personal/main;
+the local main branch now tracks that remote, not the original upstream repository.

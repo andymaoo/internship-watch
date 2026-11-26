@@ -29,6 +29,31 @@ existing twelve mappings are preserved. Local and staged Azure regression suites
 passed 456 tests and 136 subtests, including distinct-job delivery to shared
 channels and suppression of repeat notifications.
 
+The active combined-route releases are combined-personal-1ec851a28f9b and
+combined-member-1ec851a28f9b. All 27 runtime modules on each matched code commit
+436d1f0f2202ffce5eb4665b26704d7b613c1b06, published to the canonical main branch;
+[GitHub CI passed](https://github.com/andymaoo/internship-watch/actions/runs/45786467284).
+This was a reversible code-only deployment: live JSON configuration and secret
+files were unchanged. Fresh member/maintenance SQLite copies were verified off
+the VM using hashes, integrity and all-table counts; the prior verified full
+personal recovery copy was retained. Private rollback metadata is under
+/root/combined-business-routes-1ec851a28f9b. No data was restored or reset.
+The four new webhook fields remain unset, so real delivery to these destinations
+awaits private configuration and labeled routing tests. Existing twelve routes
+continue to use their current credentials.
+
+On November 26 Pacific time, scheduled member runs 775 (00:52:04–00:54:15) and
+776 (00:57:53–00:58:39) completed OK on this version. The initial run refreshed
+the classifier cache after the routing revision; the following run took about
+46 seconds. Snapshot-to-production comparison preserved all 6,536 personal and
+3,046 member job identities, first-seen timestamps and baseline flags, plus all
+3,774 personal and 60 member delivered receipts. The supervisor checked run 776
+at 01:01:36 Pacific with zero pending notifications and zero delivery failures.
+These checks do not claim delivery to the four new channels while URLs are unset.
+Private evidence: work/maintenance/combined-business-routes/{stage.txt,
+backup-verified.json,cutover.json,runtime-match.json,history-preserved.json,
+scheduled-check.json,maintenance-and-routes.json}.
+
 ## Funneling strategies investigated
 
 1. Reuse existing complete employer collections from Greenhouse, Ashby, Lever,
@@ -101,7 +126,7 @@ single review warning, not a claim that jobs must exist. A stale member worker
 is critical even if the personal scraper is still healthy. Existing independent
 Healthchecks email monitoring remains active.
 
-## Deployment and acceptance
+## Initial expansion deployment and acceptance
 
 Local and Azure staged tests: 451 passed and 136 subtests; seven deployment backup tests passed.
 Fresh consistent personal, maintenance and member snapshots were verified off
@@ -136,8 +161,9 @@ for that Notion test remained unverified. Production records were not reseeded.
 
 Code commit ddb86b70d63ecee3c3354d4cd8732f7bc00e8f5e passed
 [GitHub CI](https://github.com/andymaoo/internship-watch/actions/runs/45782593249).
-All 27 runtime Python modules on both active Azure releases matched that commit.
-Releases are business-personal-0d60489082db and business-member-0d60489082db;
+At initial expansion acceptance, all 27 runtime modules on both releases matched
+that commit. Those releases were business-personal-0d60489082db and
+business-member-0d60489082db, superseded by the combined-route releases above;
 the personal service, member timer and maintenance timer are enabled after reboot.
 Secrets remain root-owned mode 0600. Rollback configuration is privately saved in
 /root/business-20261126-072828-cutover-779b094a; previous release symlinks remain
