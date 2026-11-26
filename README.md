@@ -8,24 +8,32 @@ This scraper brings listings from multiple sources into one database, filters th
 
 The current setup is tailored to my search and shared with members of my club.
 
+Two workers currently share the source-access lock: the personal internship
+worker targets five-minute polling, while the member internship/new-grad worker
+runs every 30 minutes. The member worker now has 14 configured sources and sends
+verified discoveries to their opportunity-type and category channels. Its US
+and remote feed does not apply the personal degree, sponsorship or clearance
+filters described below. Remote roles remain eligible unless evidence excludes
+work from the US. See the [November 25 repair and live evidence](docs/NEW_GRAD_REPAIR_2026-11-25.md).
+
 ## At a glance
 
 | Area | Current setup |
 | --- | --- |
 | Hosting | Runs 24/7 on Azure |
-| Job collection | Target interval of five minutes |
+| Job collection | Personal worker: five-minute target; member worker: 30 minutes |
 | Maintenance checks | Every 15 minutes, with operational alerts |
 | Notifications | Discord |
 | Storage | Persistent SQLite database |
 | Geography | United States, including remote roles that allow work from the US |
-| Education | Bachelor's-level / undergraduate opportunities |
-| Opportunity type | Internships, with qualifying co-ops and undergraduate research programs |
-| Role families | SWE, Data, ML, AI, Cloud, Quant, and Product Management |
+| Education | Personal worker: undergraduate profile; member worker: no degree filter |
+| Opportunity type | Personal internships/programs; member internships and explicit new-grad roles |
+| Role families | SWE, Data, ML/AI, Quant, Product Management; member feed also includes IB |
 | Exclusions | Hardware-focused roles and opportunities outside the configured eligibility requirements |
 
 **Five-minute polling is a collection schedule, not a guarantee that every job reaches Discord within five minutes of being posted.** A source must first make the job available, and collection, filtering, validation, and delivery each take time.
 
-## What it looks for
+## What the personal worker looks for
 
 The filters are configured for a current undergraduate junior who is authorized to work in the United States without sponsorship. They are personal search preferences rather than universal eligibility rules.
 
@@ -67,7 +75,7 @@ The system combines recruiting-platform integrations, public feeds, job-board so
 
 ### Company-specific coverage
 
-The [last verified Azure release](docs/CURRENT_DEPLOYMENT.md) (`31d418e`) has **213 enabled sources** and **212 company watchlist entries**. These are configuration counts, not counts of open internships or guarantees of complete direct coverage. Several employers rely on public-feed discovery; see the [finance and quant coverage audit](docs/FINANCE_EXPANSION.md) for known gaps. Simplify discovery uses the public Summer 2027 repository feed, which can lag employer postings.
+The personal worker has **213 configured sources** and **212 company watchlist entries**. Its active release is `category-personal-8664d236bdef`; the member worker runs `newgrad-2b72a03a46dd` with **14 configured sources**, some shared with the personal registry. The [November 25 acceptance notes](docs/NEW_GRAD_REPAIR_2026-11-25.md) record 11/14 successful member sources and three persistent Workday access failures. These are configuration and test counts, not guarantees of complete employer coverage. Several employers rely on public-feed discovery; see the [finance and quant coverage audit](docs/FINANCE_EXPANSION.md) for known gaps. Simplify discovery uses the public Summer 2027 internship repository feed, which can lag employer postings and does not provide the member worker's new-grad coverage.
 
 ### Separate Handshake and LinkedIn alerts
 

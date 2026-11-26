@@ -76,3 +76,8 @@ The newer member tests require pytest, and unittest discovery also omits their
 function-based test cases. CI now installs pinned test-only requirements and
 runs pytest over the complete tests directory, retaining the separate deployment
 backup tests and compile check. Production runtime requirements are unchanged.
+
+The corrected GitHub CI run 45772688255 passed for daa9eb4. A fresh isolated
+local environment using only requirements-test.txt also passed all 416 tests,
+136 subtests, seven deployment backup tests, and compilation. README scope and
+polling details were corrected to distinguish the personal and member workers.
