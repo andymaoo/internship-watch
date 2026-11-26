@@ -1,10 +1,10 @@
 """Stage-one routing contract for the US member feed; no delivery side effects."""
 
 CATEGORIES = {
-    "technology_consulting": "tech-consulting",
-    "strategy_consulting": "strategy-consulting",
-    "product_strategy": "product-strategy",
-    "business_analysis": "business-analysis",
+    "technology_consulting": "consulting",
+    "strategy_consulting": "consulting",
+    "product_strategy": "strategy-and-business-analysis",
+    "business_analysis": "strategy-and-business-analysis",
     "product_management": "pm",
     "investment_banking": "ib",
     "quantitative": "quant",

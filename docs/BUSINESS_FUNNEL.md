@@ -10,6 +10,25 @@ methodology informed consulting selection; technical PM/product/analyst lists ar
 editorial targets, not a Vault ranking. See BUSINESS_EMPLOYER_TARGETS.md and
 config/business-employer-targets.json for every name and overlap.
 
+## Current combined Discord destinations
+
+The November 26 owner-requested grouping supersedes the original eight-destination
+business layout. There are four additional webhook destinations (sixteen total
+including the existing twelve):
+
+| Stored categories | Internship channel | New-grad channel |
+| --- | --- | --- |
+| Technology consulting; strategy consulting | intern-consulting | new-grad-consulting |
+| Product strategy; business analysis | intern-strategy-and-business-analysis | new-grad-strategy-and-business-analysis |
+
+Only destination grouping changes. Individual job categories, exact identities,
+filters, opportunity types and delivery history remain distinct. Technical PM
+continues to use the existing PM destinations. The updated private webhook
+template has these four keys. Actual delivery to them requires those URLs;
+existing twelve mappings are preserved. Local and staged Azure regression suites
+passed 456 tests and 136 subtests, including distinct-job delivery to shared
+channels and suppression of repeat notifications.
+
 ## Funneling strategies investigated
 
 1. Reuse existing complete employer collections from Greenhouse, Ashby, Lever,
@@ -174,7 +193,7 @@ complete pagination, add adapter regression fixtures, run local and actual-host
 checks, then observe consecutive scheduled collections and its Discord route.
 Record blocked/partial coverage explicitly. Keep new-source initial import silent.
 
-See [Discord setup](DISCORD_BUSINESS_SETUP.md) for the eight missing webhook keys.
+See [Discord setup](DISCORD_BUSINESS_SETUP.md) for the four missing webhook keys.
 The private updated member report is /var/lib/internship-watch-member/export/jobs.html,
 with jobs.csv, link-validation.json, sources.json and coverage.html beside it.
 Copy exports over SSH or bind a temporary report server to 127.0.0.1 and tunnel it

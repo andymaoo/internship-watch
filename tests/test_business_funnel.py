@@ -4,16 +4,48 @@ from internship_watch.sources import collect
 from tests.test_sources import Client
 
 @pytest.mark.parametrize('title,route',[
- ('Technology Consultant - New Grad','new-grad-tech-consulting'),
- ('Strategy Consulting Intern','intern-strategy-consulting'),
- ('Product Development Strategist - New Grad','new-grad-product-strategy'),
- ('Business Analyst - Entry Level','new-grad-business-analysis'),
+ ('Technology Consultant - New Grad','new-grad-consulting'),
+ ('Technology Consulting Intern','intern-consulting'),
+ ('Strategy Consulting Intern','intern-consulting'),
+ ('Strategy Consultant - New Grad','new-grad-consulting'),
+ ('Product Development Strategist - New Grad','new-grad-strategy-and-business-analysis'),
+ ('Product Strategy Intern','intern-strategy-and-business-analysis'),
+ ('Business Analyst - Entry Level','new-grad-strategy-and-business-analysis'),
+ ('Business Analyst Intern','intern-strategy-and-business-analysis'),
  ('Technical Product Manager - New Grad','new-grad-pm'),
  ('Senior Business Analyst - New Grad',None),
  ('Business Analyst',None),
 ])
 def test_business_role_routing(title,route):
     assert preview_member_listing(dict(title=title,location='New York, NY',posting_status='open'))['route']==route
+
+
+def test_shared_business_channels_keep_distinct_jobs_and_suppress_repeat_delivery(tmp_path,monkeypatch):
+    from unittest.mock import Mock
+    from internship_watch.delivery import configured_sender
+    from internship_watch.runner import run_once
+    from internship_watch.storage import Store
+    from tests.test_member_pipeline import job,check
+    import json
+    base='https://discord.com/api/webhooks/456/'
+    monkeypatch.setenv('MEMBER_DISCORD_WEBHOOKS_JSON',json.dumps({
+        'intern-consulting':base+'consulting',
+        'intern-strategy-and-business-analysis':base+'strategy-business'}))
+    response=Mock(status_code=200);response.json.return_value={'id':'receipt'}
+    post=Mock(return_value=response);monkeypatch.setattr('internship_watch.delivery.requests.post',post)
+    cfg=dict(database=str(tmp_path/'member.sqlite3'),member_feed=True,sources=[{'id':'test'}],validation_budget=10)
+    def run(rows):return run_once(cfg,collector=lambda *_:rows,client=Mock(),validator=check,sender=configured_sender(cfg))
+    run([])
+    rows=[job(i,title) for i,title in enumerate([
+        'Technology Consulting Intern','Strategy Consulting Intern','Product Strategy Intern','Business Analyst Intern'],1)]
+    assert run(rows)['delivery']['delivered']==4
+    assert [call.args[0] for call in post.call_args_list]==[base+'consulting']*2+[base+'strategy-business']*2
+    assert run(rows)['delivery']['delivered']==0 and post.call_count==4
+    store=Store(cfg['database'])
+    assert {r['category'] for r in store.rows('select category from jobs')}=={
+        'technology_consulting','strategy_consulting','product_strategy','business_analysis'}
+    assert len(store.rows("select id from outbox where status='delivered'"))==4
+    store.close()
 
 @pytest.mark.parametrize('description,title,include',[
  ("Master's degree required.",'Software Engineer - New Grad',False),
