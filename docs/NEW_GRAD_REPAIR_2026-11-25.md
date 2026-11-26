@@ -81,3 +81,18 @@ The corrected GitHub CI run 45772688255 passed for daa9eb4. A fresh isolated
 local environment using only requirements-test.txt also passed all 416 tests,
 136 subtests, seven deployment backup tests, and compilation. README scope and
 polling details were corrected to distinguish the personal and member workers.
+
+## Scheduled acceptance and repository match
+
+The timer fired at November 25 23:05 Pacific and waited for the shared lock.
+Personal run 18273 finished at 23:07:50; the scheduled member run 764 then ran
+from 23:07:51 to 23:08:24. It passed 11/14 sources (the same three known access
+failures), had zero pending notification messages and zero included candidates
+awaiting their first validation. Its collection/validation cycle took 32.629
+seconds; the lock wait was additional. This demonstrates the retained scheduler
+and non-overlap behavior without claiming a five-minute member interval.
+
+All 25 backend Python modules in the active member release matched normalized
+SHA-256 fingerprints of the pushed repository. GitHub CI 45772814720 passed for
+2e5d9ef. A focused agent review was recorded on Azure with the inspected evidence
+and the still-outstanding broader coverage review and off-host bucket gap.
