@@ -7,7 +7,10 @@ from .employer_sources import _bounds, _total
 
 ATLASSIAN_PORTALS = {'careers-americas.icims.com', 'globalcareers-atlassian.icims.com',
     'careers-apac-atlassian.icims.com', 'campus-globalcareers-atlassian.icims.com',
-    'campus-americas.icims.com', 'globalmobility-careers-atlassian.icims.com'}
+    'campus-americas.icims.com', 'globalmobility-careers-atlassian.icims.com',
+    # Linked by Atlassian's public feed and its own exact requisition pages.
+    # Recognizing the portal does not change downstream geography filters.
+    'careers-australia-atlassian.icims.com'}
 
 ORACLE_BASE = 'https://eeho.fa.us2.oraclecloud.com'
 ORACLE_SITE = 'CX_45001'

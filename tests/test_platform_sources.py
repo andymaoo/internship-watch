@@ -203,6 +203,21 @@ class PlatformSourceTests(unittest.TestCase):
         self.assertEqual(len(rows),1)
         self.assertEqual(rows[0]['evidence']['provider_job_id'],'27067')
 
+    def test_atlassian_australia_portal_preserves_us_collection_and_country_filter(self):
+        us=dict(id=123,title='Product Manager Intern',locations=['New York, NY'],category='Interns',
+            overview='Software product management internship',portalJobPost=dict(id=123,
+                portalUrl='https://careers-americas.icims.com/jobs/123/product-manager-intern/job'))
+        australia=dict(us,id=25481,locations=['Sydney, Australia'],portalJobPost=dict(id=25481,
+            portalUrl='https://careers-australia-atlassian.icims.com/jobs/25481/product-manager-intern/job'))
+        rows=collect(dict(id='atl',type='atlassian'),Client([australia,us]))
+        self.assertEqual(len(rows),2)
+        decisions={row['evidence']['provider_job_id']:classify(row,{'countries':['US']})['decision'] for row in rows}
+        self.assertEqual(decisions,{'123':'include','25481':'exclude'})
+        wrong_identity=copy.deepcopy(australia)
+        wrong_identity['portalJobPost']['portalUrl']='https://careers-australia-atlassian.icims.com/jobs/999/role/job'
+        with self.assertRaisesRegex(SourceError,'unreviewed application'):
+            collect(dict(id='atl',type='atlassian'),Client([us,wrong_identity]))
+
     def test_atlassian_merges_only_identical_approved_portal_mirrors(self):
         one=dict(id=25264,title='Principal Solutions Engineer',locations=['US'],category='Engineering',
             overview='Same role',portalId='17',applyUrl='https://globalcareers-atlassian.icims.com/jobs/25264/role/job?mode=apply',
