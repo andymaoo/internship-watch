@@ -5,7 +5,17 @@ from .classify import (CATEGORY_PATTERNS, COOP, HARDWARE, HARDWARE_DUTIES, INTER
                        US_CITIES, US_STATES, countries_in, country_code, plain)
 from .member_routes import member_route
 
-GRAD = re.compile(r"\b(?:new[- ]grad(?:uate)?s?|graduate (?:program(?:me)?|scheme)|university graduate|recent graduates?)\b", re.I)
+GRAD = re.compile(
+    r"\b(?:new[- ](?:college[- ])?grad(?:uate)?s?|"
+    r"(?:university|college|recent) grad(?:uate)?s?|graduate (?:program(?:me)?|scheme)|"
+    r"graduate (?:quant(?:itative)? (?:trader|researcher|developer)|"
+    r"(?:software|machine learning|data) engineer|data scientist))\b", re.I,
+)
+GRAD_ROLE = re.compile(
+    r"\bthis (?:role|position|program(?:me)?) is "
+    r"(?:(?:specifically )?(?:designed|intended) for|for|open to) "
+    r"(?:new|recent|upcoming) (?:college |university )?graduates?\b", re.I,
+)
 IB = re.compile(r"\binvestment[- ]banking\b", re.I)
 REMOTE = re.compile(r"\b(?:remote|work from anywhere)\b", re.I)
 HYBRID = re.compile(r"\b(?:hybrid|on[- ]site|in[- ]office)\b", re.I)
@@ -59,9 +69,7 @@ def opportunity_type(job: dict) -> str:
     if IB.search(title) and re.search(r"\bsummer (?:analyst|associate)\b", title, re.I):
         intern = intern or bool(re.search(
             r"\b(?:our|this|the) (?:summer )?internship program\b", description, re.I))
-    grad = bool(GRAD.search(labels) or re.search(
-        r"\bthis (?:role|position|program) is (?:designed )?for (?:new|recent) graduates\b",
-        description, re.I))
+    grad = bool(GRAD.search(labels) or GRAD_ROLE.search(description))
     if intern and (grad or re.search(r"\bnot an? internship\b", description, re.I)):
         return ""
     if intern:

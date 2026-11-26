@@ -251,7 +251,12 @@ CREATE INDEX IF NOT EXISTS source_samples_source ON source_samples(source,id);
 
 class Store:
     def __init__(self, path):
-        self.classifier_revision = hashlib.sha256(Path(__file__).with_name('classify.py').read_bytes()).hexdigest()
+        # Member decisions also depend on their evidence and routing rules.
+        # A restart after updating those rules must revisit cached exclusions.
+        self.classifier_revision = hashlib.sha256(b''.join(
+            Path(__file__).with_name(name).read_bytes()
+            for name in ('classify.py', 'member_evidence.py', 'member_routes.py')
+        )).hexdigest()
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self.db = sqlite3.connect(self.path, timeout=10)

@@ -318,3 +318,40 @@ dry run under systemd selected the three expected destinations for the pictured
 listings, using a disposable outbox and intercepted Discord transport. No live
 job message was replayed. The worker, timers and local backup remain enabled.
 Configuration comparison confirmed that only routing settings changed.
+
+## New-grad expansion candidate — November 10 Pacific
+
+The optional expanded pilot preset adds six direct structured employer boards:
+Stripe, Figma, Ramp, Datadog, IMC and Optiver US. The live pilot remains at
+eight until the expanded preset is staged and activated. The private worker's
+sources and eligibility filters are unchanged.
+
+All six additions returned a complete collection in a bounded live check:
+781 Stripe, 142 Figma, 176 Ramp, 394 Datadog, 157 IMC and 151 Optiver records.
+These are raw employer-board results, not counts of US or graduate jobs.
+The expanded role evidence found two Stripe, two IMC and two Optiver US
+matches. All six had verified open employer postings; Stripe and IMC
+applications were verified, and Optiver application access was unverified.
+The other three boards had no matching new-grad role during this sample.
+
+New evidence covers University Grad, New College Graduate, specific
+Graduate engineering/quant titles, and explicit role-specific recent graduate
+eligibility in descriptions. Generic junior and early-career wording alone
+still does not qualify. Tests: 415 passed, plus 136 subtests.
+
+Next direct-route review: Jane Street and Citi first (existing registry),
+then Evercore and Lazard US campus destinations. Bank analyst-program titles
+require job-level evidence that the opportunity is for graduates or interns;
+the program page by itself is not a live opening. Direct permitted discovery
+for Goldman Sachs and JPMorgan remains incomplete.
+
+## November 25 Pacific: member expansion activated
+
+The six-board candidate described above is now active in member release
+newgrad-2b72a03a46dd. The member config has 14 sources; the personal worker is
+unchanged. See NEW_GRAD_REPAIR_2026-11-25.md for the confirmed causes, cache
+invalidation regression, off-VM recovery proof, two production runs, seven
+verified new-grad postings, real category receipt and grouped catch-up digest.
+Three Workday sources remain restricted/failing and are reported honestly.
+The member timer still polls twice an hour; the personal worker targets five
+minutes. No guarantee of five-minute new-grad discovery is implied.

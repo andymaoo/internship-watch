@@ -994,3 +994,210 @@ Citadel/Citadel Securities. Dependency replay and actual-host backup verificatio
 also remain pending access. No repeated off-host credentials or repository
 visibility question was issued; no full coverage or current deployment-health
 claim follows from independent heartbeats.
+
+## Partial maintenance review — 2026-11-10, 23:58 UTC
+
+Strict-key SSH timed out after the earlier verified restoration; the open
+Azure tab reported Portal offline. This is a management access observation,
+not evidence of worker outage. No SSH rule, host review marker, source state,
+or runtime was changed. The November 10 notification split and member pilot
+acceptance records remain the last confirmed deployment evidence; no fresh
+runs, receipts or restore proof were obtained in this review.
+
+GitHub CI 42808429243 passed for the current remote documentation update.
+Dependency PRs #1, #2 and #5 remain open; no dependency changes were merged.
+The Simplify Summer 2027 dev listings path was active at
+6d9990bc84420ecc01e51c299a8a4dfd270baed4 (23:32:07 UTC); schema and
+source coverage were not revalidated.
+
+[Balyasny's official careers page](https://www.bamfunds.com/careers)
+still points to [its Salesforce jobs board](https://bambusdev.my.site.com/s/).
+The observed board returned a loading/CSS error shell with no enumerable
+jobs. The [internship page](https://www.bamfunds.com/careers/internships)
+describes programs but does not establish complete direct listing coverage.
+No collector was enabled. Resume with Macquarie count evidence and
+BNP Paribas, Campbell & Company, Citadel and Citadel Securities.
+
+## Partial maintenance review — November 13 UTC
+
+Strict-key SSH timed out and both open Azure portal tabs were expired. The
+independent scraper and maintenance checks were UP, showing recent successful
+pings (about four and twelve minutes old respectively). The off-host monitor
+still showed Never. These pings do not establish fresh source, delivery, pilot
+or backup integrity evidence. No VM state or agent-review marker was changed.
+The November 10 category cutover remains the latest verified host evidence.
+
+GitHub CI run 42808429243 passed for the remote README revision. This does not
+cover unpushed local changes. Dependency PRs #1, #2 and #5 remain open and were
+not merged. The configured Summer 2027 dev feed path returned commit
+0d8e1b16ab3b5335e0c49c1744eba87f451599ae (November 13 23:02:28 UTC, GitHub
+committer metadata); no full feed schema replay was done.
+
+The official [BNP Paribas US directory](https://group.bnpparibas/en/careers/all-job-offers/united-states)
+displayed 42 roles and included distinct 2027 and 2028 internship cohorts.
+The robots response could not be verified by the web review; the known
+automated-access restriction was not bypassed and no collector was enabled.
+[Campbell & Company](https://www.campbell.com/careers/) still links to its
+[ADP recruitment board](https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?ccId=19000101_000001&cid=27d05e4e-8c09-4ef6-b344-6d123d187916&lang=en_US),
+which returned a browser-support message rather than enumerable listings.
+Neither result establishes complete direct coverage or a verified defect.
+Next review: Macquarie count evidence, Citadel, and Citadel Securities.
+
+### November 13, 23:30 UTC follow-up
+
+Strict-key SSH still timed out and both Azure sessions were expired. The
+independent scraper and maintenance checks were UP, with pings about two
+minutes and 31 seconds old; the off-host check remained Never. CI, open
+dependency PRs, and the Simplify feed-path commit were unchanged from the
+prior review. No host review marker was renewed.
+
+The official [Citadel directory](https://www.citadel.com/careers/open-opportunities/?experience-filter=internships)
+displayed US internship and university graduate examples alongside unrelated
+experienced and non-US jobs despite the internship parameter. The official
+[Citadel Securities directory](https://www.citadelsecurities.com/careers/open-opportunities/?experience-filter=Internships)
+showed experience and geography controls, but the rendered sample mixed
+senior and intern rows and displayed only 10 of 79 results. These browser-index
+observations do not establish reliable query filtering, complete pagination
+or permission for automated collection. Previous direct-access restrictions
+remain in effect; neither collector was enabled. Next: compare Macquarie
+declared counts with scheduled evidence once host access returns. No new
+verified defect or deployment change.
+
+### November 15, 04:16 UTC follow-up
+
+Strict-key SSH still timed out and the open Azure sessions remained expired.
+The scraper had last pinged approximately nine minutes earlier and was within
+its configured grace period; the maintenance check was UP with a ping about
+two minutes old. The off-host backup check remained Never. Live runs, tickets,
+receipts, and restore evidence were unavailable; no host marker was renewed.
+GitHub CI 42808429243 still passed for the remote README revision, not the
+local expansion. The Summer 2027 dev listings path returned commit
+2282e32ae621ebe6a1a9fd03b8175363c66ee2e2 (03:02:09 UTC); schema not replayed.
+
+A bounded local Macquarie campus collection used the existing adapter and
+HTTP access policy. It returned nine records with nine distinct source IDs
+without a pagination or count error. This is a current local sample, not a
+reconstruction of the older count of 31 or proof of sustained VM recovery.
+The approved baseline was not changed. Next step remains comparison against
+the supervisor's persisted baseline and actual scheduled history when access
+returns. No new repair, deployment, or dependency change.
+
+### November 18, 20:47 UTC follow-up
+
+Management access remains the same unresolved incident: strict-key SSH timed
+out and Azure tabs still reported expired sessions. Independent checks showed
+scraper and maintenance UP, with pings approximately one and fourteen minutes
+old. Off-host remained Never. This is evidence of recent heartbeat activity,
+not fresh pilot, outbox, source-health or backup-restore inspection. No service
+review marker was renewed and no network permissions were changed.
+
+Scheduled GitHub CI 43979156337 passed on November 16 for remote code, which
+does not prove unpushed local expansion code is deployed or CI-tested.
+Dependency PRs #1, #2 and #5 remained open. The configured Simplify Summer 2027
+dev listings path returned f064dfe3413000877fbe95dcc7cf384ccdd4c553, dated
+November 18 20:01:58 UTC. No schema or season switch was performed.
+
+No new reproducible defect was established. The local expansion edits remain
+untouched and undeployed. Next coverage cursor remains actual-host Macquarie
+count/baseline comparison; no repeated off-host credential request was issued.
+
+### November 19, 21:57 UTC follow-up
+
+The same management-access incident persists: strict-key SSH timed out, and
+both Azure tabs remained expired. Independent scraper and maintenance checks
+were UP, with pings about 54 seconds and fourteen minutes old respectively.
+Off-host monitoring remained Never. Live maintenance tickets, source runs,
+delivery receipts and restore proof could not be read; no completed-host
+review marker was recorded or firewall rule changed.
+
+GitHub scheduled CI 43979156337 remained successful; dependency PRs #1, #2
+and #5 were still open and unmerged. Simplify Summer 2027 dev listings
+metadata advanced to 89b0752a18d5221ebbf83e68eddaaecb14efa5fa at 21:31:55
+UTC. This metadata check is not a schema or season-coverage replay.
+No new failure was established from the available observations. Local
+expansion work was preserved without deployment, and the weekly cursor
+remains actual-host Macquarie baseline comparison.
+
+### November 23, 20:17 UTC follow-up
+
+Strict-key SSH again timed out; this remains the existing management-access
+incident. The Codex in-app browser was unavailable in this session; the connected
+Chrome browser could read the independent Healthchecks dashboard. Both scraper
+and maintenance showed UP, with last pings approximately one and four minutes
+old and durations of 3 minutes 26 seconds and four seconds. The off-host backup
+check still showed Never. Heartbeats establish recent activity, not current
+source completeness, notification receipts, member-pilot health or restored
+backup integrity. Those host records remain unread; no host agent-review marker
+was renewed, access rule changed or runtime deployment attempted.
+
+GitHub CI runs 45061322646 and 45061321061 completed successfully on November 22
+for remote commit 6b7992af5307dd2e41de0e6c44031e69dd642c3e. They do not validate
+unpushed local expansion changes or prove the Azure release matches GitHub.
+Dependency PRs #1, #2 and #5 remain open and were not merged. The configured
+Simplify Summer 2027 dev listings-path metadata advanced to
+247c18f58547a3c34db0cabf5e44d407c3895d90, dated November 23 19:32:00 UTC;
+no feed schema replay, full company audit or season change was performed.
+
+No new reproducible code defect was established. Existing expansion edits and
+production identities remain untouched. The review cursor remains actual-host
+Macquarie baseline comparison and inspection of persisted repair/source,
+delivery and recovery evidence when management access is restored. The known
+off-host bucket setup was not requested again.
+
+### November 24, 21:24 UTC follow-up
+
+The existing strict-key SSH management connection again timed out. Independent
+Healthchecks showed both scraper and maintenance UP, with pings approximately
+two and six minutes old and durations of 3 minutes 35 seconds and two seconds.
+The off-host check remained Never. This is recent heartbeat activity only;
+source health, completed collection details, notification receipts, pilot status
+and backup restore proof remain inaccessible. No host review marker, firewall,
+production configuration, database or release was changed.
+
+Remote CI run 45307118652 completed successfully for commit
+6b7992af5307dd2e41de0e6c44031e69dd642c3e. Dependency PRs #1, #2 and #5 remain
+open and unmerged. Simplify dev listings-path metadata returned
+e884c573d973ce1946f4f2a7426c9495a536d4c0 with committer timestamp November 24
+22:02:22 UTC. That upstream timestamp is later than this heartbeat's supplied
+trigger time; it is recorded as upstream metadata, not a measured discovery
+latency. No full feed schema replay or source coverage audit was performed.
+
+No new reproducible defect was established. Existing local expansion work is
+preserved and undeployed. Continue with the same management-access ticket and
+actual-host Macquarie baseline/source/delivery/restore evidence cursor; do not
+repeat the unchanged off-host credential request.
+
+### November 25, 20:22 UTC follow-up
+
+Strict-key SSH again timed out under the existing management-access incident.
+Healthchecks showed scraper and maintenance UP, with last pings approximately
+two and seven minutes old and durations of 3 minutes 49 seconds and three
+seconds. Off-host backup monitoring still showed Never. Current source health,
+completed polls, delivery receipts, member-pilot status and restored backup
+proof could not be read; recent heartbeats alone do not establish those facts.
+No host review marker, configuration, network rule, data or release was changed.
+
+Remote CI 45307118652 remained successful for commit
+6b7992af5307dd2e41de0e6c44031e69dd642c3e; dependency PRs #1, #2 and #5 remain
+open and unmerged. Simplify Summer 2027 dev listings-path metadata returned
+be6d4257485e692fe51979f13e672b77ff6bd7b5, dated November 25 19:31:43 UTC.
+This is feed-path freshness evidence only, not a full schema or coverage audit.
+Existing local expansion edits were preserved without deployment. No new
+reproducible defect was established. Continue the existing actual-host
+Macquarie baseline and source/delivery/restore evidence cursor once management
+access returns; do not repeat unchanged off-host credential requests.
+
+### November 25 Pacific: SSH restored and focused new-grad repair
+
+Owner-approved /32 replacement restored actual strict-key SSH. Read live
+maintenance/source/run/receipt and local restore evidence; the general off-host
+bucket remains unconfigured. Reproduced a member-classifier cache invalidation
+defect, added a failing regression, fixed it, and passed 416 tests plus 136
+subtests both locally and staged on Azure. Activated the previously prepared
+six-source member expansion after a verified off-VM member SQLite snapshot.
+Runs 762/763 passed all six additions (11/14 total; three existing Workday
+restrictions remain). Seven new-grad postings verified; baseline imports remain
+silent, with one grouped catch-up digest acknowledged separately. Real category
+canary retry and duplicate suppression were checked. Personal code/config/data
+were not modified. Full evidence: NEW_GRAD_REPAIR_2026-11-25.md. Broader source
+baseline/coverage review remains outstanding; this is a focused repair.

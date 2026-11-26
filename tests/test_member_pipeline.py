@@ -107,3 +107,36 @@ def test_workday_member_scope_enriches_exact_early_career_posting():
     assert result['category'] == 'investment_banking'
     assert result['opportunity_type'] == 'internship'
     assert all(call[1]['respect_robots'] for call in client.calls)
+
+
+def test_expand_member_pilot_only_when_requested():
+    from internship_watch.member_pilot import PILOT, NEW_GRAD_EXPANSION, pilot_config
+    sources = [dict(id=key,type=key.split('-',1)[0]) for key in PILOT+NEW_GRAD_EXPANSION]
+    base = pilot_config({"sources":sources},"pilot.sqlite3")
+    expanded = pilot_config({"sources":sources},"pilot.sqlite3",expand_new_grad=True)
+    assert len(base["sources"]) == 8
+    assert len(expanded["sources"]) == 14
+    assert set(s["id"] for s in expanded["sources"]) - set(s["id"] for s in base["sources"]) == set(NEW_GRAD_EXPANSION)
+    assert all(set(s)=={"id","type"} for s in sources)
+
+
+def test_member_rule_update_invalidates_cached_exclusion_after_restart(tmp_path, monkeypatch):
+    from pathlib import Path
+    from internship_watch.member_evidence import classify_member
+    original = Path.read_bytes
+    revision = [b'old']
+    def read_rules(path):
+        data = original(path)
+        return data + revision[0] if path.name == 'member_evidence.py' else data
+    monkeypatch.setattr(Path, 'read_bytes', read_rules)
+    path = tmp_path / 'member.sqlite3'
+    job = dict(source_id='1',title='Software Engineer - University Grad',location='New York, NY')
+    store = Store(path)
+    with store.transaction():
+        store.classify_cached('board',job,{},lambda *_:dict(decision='exclude'))
+    store.close()
+    revision[0] = b'new'
+    store = Store(path)
+    with store.transaction():
+        assert store.classify_cached('board',job,{},classify_member)['decision'] == 'include'
+    store.close()

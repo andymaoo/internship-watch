@@ -6,6 +6,14 @@ PILOT = (
     "greenhouse-point72", "bankofamerica-campus",
     "workday-capital-one", "workday-morgan-stanley",
 )
+# Broad structured boards already reviewed in the private registry. They do
+# not require a title keyword to fetch the listing. This expansion is opt-in
+# so it can be measured without changing the eight-board live pilot.
+NEW_GRAD_EXPANSION = (
+    "greenhouse-stripe", "greenhouse-figma", "ashby-ramp",
+    "greenhouse-datadog", "greenhouse-imc", "greenhouse-optiverus",
+)
+
 WORKDAY_QUERIES = (
     "intern", "new grad", "graduate program",
     "investment banking summer analyst", "investment banking summer associate",
@@ -18,10 +26,11 @@ TRUIST = {
 }
 
 
-def pilot_config(registry: dict, database: str) -> dict:
+def pilot_config(registry: dict, database: str, *, expand_new_grad: bool = False) -> dict:
     """Create explicit candidate queries, leaving the private config untouched."""
     by_id = {source["id"]: source for source in registry["sources"]}
-    sources = [deepcopy(by_id[key]) for key in PILOT]
+    board_ids = PILOT + (NEW_GRAD_EXPANSION if expand_new_grad else ())
+    sources = [deepcopy(by_id[key]) for key in board_ids]
     for source in sources:
         if source["type"] == "workday":
             source["queries"] = list(WORKDAY_QUERIES)

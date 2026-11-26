@@ -31,3 +31,19 @@ def test_preview_from_normalized_listing(fields, route):
     job = dict(title="Software Engineer Intern", location="New York, NY",
                posting_status="open", application_status="unverified")
     assert preview_member_listing(job | fields)["route"] == route
+
+
+@pytest.mark.parametrize(("title", "description", "route"), [
+    ("Software Engineer — University Grad", "", "new-grad-swe"),
+    ("Software Engineer - New College Graduate", "", "new-grad-swe"),
+    ("Graduate Quantitative Researcher, PhD (2027 Start)", "", "new-grad-quant"),
+    ("Data Engineer — Early Career", "This role is open to recent college graduates.", "new-grad-data"),
+    ("Investment Banking Full-Time Analyst", "This program is designed for recent graduates.", "new-grad-ib"),
+    ("Software Engineer, Early Career", "You will mentor recent graduates.", None),
+    ("Graduate Student Research Intern — Machine Learning", "", "intern-ml-ai"),
+    ("Software Engineer — New Grad Internship", "", None),
+])
+def test_additional_early_career_evidence(title, description, route):
+    row = dict(title=title,description=description,location="New York, NY",
+               posting_status="open",application_status="unverified")
+    assert preview_member_listing(row)["route"] == route
