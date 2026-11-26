@@ -1265,3 +1265,24 @@ Source collection/filter code was unchanged; existing coverage/access and recurr
 off-host-bucket gaps remain outstanding. Evidence: BUSINESS_FUNNEL.md and private
 work/maintenance/combined-business-routes. Canonical publication is personal/main;
 the local main branch now tracks that remote, not the original upstream repository.
+
+### November 26 Pacific: Discord activation completed
+
+Owner signed in and approved four persistent posting webhooks and four labeled
+routing tests. Created all four combined-feed channels; verified every channel's
+category sync, member View/History allowances and Send/Thread denials. Staff
+operations/digest channels stayed private. Verified webhook guild/channel metadata
+before atomically adding four mappings to the root-only member environment file;
+the previous twelve mappings were preserved. Both actual worker process
+environments loaded sixteen mappings after an idle-boundary personal restart.
+
+Discord accepted exactly one labeled test per new channel. Verified each receipt
+against the expected channel ID and observed all four messages in the UI. A
+controlled pre-transport failure retried successfully; repeated drains and a
+fresh-process ledger reopen delivered no duplicate. Production outbox history
+was not reset. Member run 783 completed OK after installation, with zero pending
+notifications or failed deliveries. The formerly missing four destinations are
+now configured and tested; this does not resolve unrelated source/coverage or
+off-host-backup tickets. Private transfer values and browser clipboard were cleared.
+Full evidence: DISCORD_BUSINESS_SETUP.md, BUSINESS_FUNNEL.md, and private
+work/maintenance/discord-combined-setup. Runtime code and filters were unchanged.

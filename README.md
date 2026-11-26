@@ -14,9 +14,9 @@ worker collects US internships and new-grad roles, including remote jobs unless
 explicitly restricted outside the US. Both exclude required graduate-only degree
 programs; bachelor-or-master alternatives and optional graduate degrees remain
 eligible. Member routing includes consulting, product strategy and business
-analysis alongside the existing categories. Four combined-category webhook
-destinations still need configuration; those deliveries remain queued rather
-than falling back to a general channel. See the [business expansion and live
+analysis alongside the existing categories. The four combined-category webhook
+destinations are configured alongside the existing twelve. Failed deliveries
+remain queued for retry. See the [business expansion and live
 evidence](docs/BUSINESS_FUNNEL.md) and [Discord setup](docs/DISCORD_BUSINESS_SETUP.md).
 
 ## At a glance

@@ -38,9 +38,9 @@ files were unchanged. Fresh member/maintenance SQLite copies were verified off
 the VM using hashes, integrity and all-table counts; the prior verified full
 personal recovery copy was retained. Private rollback metadata is under
 /root/combined-business-routes-1ec851a28f9b. No data was restored or reset.
-The four new webhook fields remain unset, so real delivery to these destinations
-awaits private configuration and labeled routing tests. Existing twelve routes
-continue to use their current credentials.
+At the code-only cutover, the four new webhook fields were unset. The subsequent
+live activation below completed private configuration and delivery tests.
+Existing twelve routes continue to use their current credentials.
 
 On November 26 Pacific time, scheduled member runs 775 (00:52:04–00:54:15) and
 776 (00:57:53–00:58:39) completed OK on this version. The initial run refreshed
@@ -53,6 +53,33 @@ These checks do not claim delivery to the four new channels while URLs are unset
 Private evidence: work/maintenance/combined-business-routes/{stage.txt,
 backup-verified.json,cutover.json,runtime-match.json,history-preserved.json,
 scheduled-check.json,maintenance-and-routes.json}.
+
+### Live Discord activation
+
+On November 26 Pacific, the owner approved creating four persistent webhooks and
+one labeled routing test in each new channel. All four channels were created and
+verified synced to the existing member-readable, read-only categories. Discord
+webhook metadata confirmed the expected server and exact channel IDs before
+installation. Only MEMBER_DISCORD_WEBHOOKS_JSON was updated atomically in root's
+mode-0600 /etc/internship-watch-member.env; all twelve existing mappings were
+preserved and a root-only rollback copy was retained. Both actual worker process
+environments were checked and loaded sixteen mappings. The personal worker was
+restarted at an idle collection-lock boundary; the member timer remains active.
+
+Four distinct test messages were acknowledged, retrieved from Discord to verify
+their channel IDs, and visibly checked in the signed-in server. One controlled
+pre-transport failure retried successfully, a second drain sent nothing, and a
+fresh-process outbox reopen sent no additional messages. Test receipts are in
+DISCORD_BUSINESS_SETUP.md. Tests use a separate persistent SQLite ledger, preserving
+production new-job notification keys and baseline imports. Member run 783 completed
+OK after configuration; neither worker had pending delivery failures at the check.
+The four new feeds are operational, rather than awaiting owner configuration.
+
+Private evidence: work/maintenance/discord-combined-setup/{webhooks-installed.json,
+routing-tests.json,routing-restart-check.json,environment-reloaded.json,
+live-worker-environments.json,production-check.json}; screenshots are under
+outputs/discord-combined-setup. Temporary local transfer URL values and browser clipboard
+contents were cleared after transfer. No webhook token was printed or committed.
 
 ## Funneling strategies investigated
 
