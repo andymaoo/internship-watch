@@ -304,6 +304,16 @@ def _run(config, db_path, collector, client, validator, sender):
             )).hexdigest()
             with store.transaction():
                 store.db.execute("INSERT OR IGNORE INTO meta VALUES('member_feed_mode','1')")
+                policy_revision = hashlib.sha256(dump([store.classifier_revision,config.get('filters',{})]).encode()).hexdigest()
+                prior_policy = store.db.execute("SELECT value FROM meta WHERE key='member_policy_revision'").fetchone()
+                if not prior_policy or prior_policy['value'] != policy_revision:
+                    # Policy changes apply to stored jobs even if their source
+                    # is unavailable or has stopped returning that position.
+                    for row in store.db.execute('SELECT id,payload FROM jobs'):
+                        decision = classifier(json.loads(row['payload']),config.get('filters',{}))
+                        store.db.execute('UPDATE jobs SET classification=?,category=?,evidence=? WHERE id=?',
+                                         (decision['decision'],decision.get('category'),dump(decision),row['id']))
+                    store.db.execute("INSERT OR REPLACE INTO meta VALUES('member_policy_revision',?)",(policy_revision,))
         elif mode:
             raise ValueError("Dedicated member database cannot run in personal mode")
         else:

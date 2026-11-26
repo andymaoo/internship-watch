@@ -130,3 +130,21 @@ def test_cohort_and_economic_business_research_evidence(title,description,kind,c
 def test_internship_cohort_does_not_turn_intern_into_mixed_newgrad_listing():
     d=classify_member(dict(title='Business Analyst Intern',description='Candidates must be graduating in 2027.',location='Boston, MA'))
     assert d['decision']=='include' and d['opportunity_type']=='internship'
+def test_degree_policy_revisits_stored_jobs_even_when_source_is_unavailable(tmp_path):
+    from unittest.mock import Mock
+    from internship_watch.storage import Store
+    from internship_watch.runner import run_once
+    path=tmp_path/'member.sqlite3';s=Store(path)
+    job=dict(source_id='old',employer='Example',title='PhD Software Engineer Intern',location='Boston, MA',
+             description_url='https://example.com/jobs/old')
+    with s.transaction():
+        s.db.execute("INSERT INTO meta VALUES('member_feed_mode','1')")
+        s.upsert_job('unavailable',job,dict(decision='include',category='software_engineering',opportunity_type='internship'),0,baseline=True)
+    before=s.rows('select id,baseline,first_seen,posting_status from jobs')[0];s.close()
+    run_once(dict(database=str(path),member_feed=True,sources=[],validation_budget=0),client=Mock(),sender=Mock())
+    s=Store(path)
+    assert s.rows('select id,baseline,first_seen,posting_status from jobs')[0]==before
+    assert s.rows('select classification from jobs')==[{'classification':'exclude'}]
+    assert s.rows("select value from meta where key='member_policy_revision'")
+    s.close()
+
