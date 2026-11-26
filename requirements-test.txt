@@ -1,0 +1,3 @@
+-r requirements.txt
+# Test tooling only; the Azure runtime dependency set stays unchanged.
+pytest==9.0.2

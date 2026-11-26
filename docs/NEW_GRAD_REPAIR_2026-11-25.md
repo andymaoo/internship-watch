@@ -67,3 +67,12 @@ worker. Public source release delays and blocked access remain independent limit
 The updated member HTML/CSV export was downloaded to
 `C:/Users/o3ti3/Documents/Codex/2026-09-18/c/outputs/newgrad-repair/report/`.
 These downloaded files are snapshots, not a live connection to Azure.
+
+## CI correction
+
+The first GitHub run after publishing the previously unpushed member work failed
+because CI installed only runtime requirements and used unittest discovery.
+The newer member tests require pytest, and unittest discovery also omits their
+function-based test cases. CI now installs pinned test-only requirements and
+runs pytest over the complete tests directory, retaining the separate deployment
+backup tests and compile check. Production runtime requirements are unchanged.
