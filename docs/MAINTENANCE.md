@@ -19,7 +19,7 @@ public-feed-only gaps stay explicitly incomplete.
 | Every 15 minutes | Compare 3 real consecutive successful polls with an accepted baseline | Open one incident for count below 50% of a baseline of at least 20, strong missing-field regression, or new employer destination host. Public feeds can legitimately add hosts. A baseline is established after 3 successes, follows sustained growth, and never learns a sustained decline. |
 | Every 15 minutes | Worker completion older than 20 minutes; source attempts/report older than 30 minutes; 3 cycles above 150% of polling target; qualifying checks overdue 2 hours; net validation backlog growth of at least 50 over six polls with at least three increases; notification retry problems | Retain one repair ticket and alert; recovery is announced only if the original alert was delivered. Queue warnings use sustained recovery thresholds described below. |
 | Daily, during a supervisor run | Simplify public repository redirects/canonical name, archived status, configured branch/path commit; feed unchanged for 14 days | Record evidence and request review. A transient metadata failure gets hourly retries and alerts after 3 failures. No automatic season switch. |
-| Daily | SQLite quick check; separate local online backup, restored copy and all-table hashes | Monitor proof freshness. Local copies are explicitly distinct from off-host recovery. Repair DB and alert receipts are backed up too. |
+| Daily | SQLite quick check; separate local online backup, restored copy and all-table hashes | Monitor proof freshness. Local copies are explicitly distinct from off-host recovery. Include the personal ledger, configured member ledger and repair DB with their alert receipts. |
 | Every 15 minutes | Disk below 2 GiB or 10% free; missing/stale backup restore evidence beyond 36 hours | Alert through independent supervisor outbox. |
 | Weekly | A labeled test message through the actual worker outbox; grouped unresolved-issue reminder | Require saved Discord acknowledgement within 30 minutes. Does not submit applications or consume job notification keys. |
 | Weekly | CI regressions; dependency update proposals | Test pinned runtime; review dependency PRs before deployment. No automatic merging. |
@@ -96,6 +96,12 @@ password-file and backup heartbeat settings. Do not paste these values in chat
 or commit them. Missing off-host restore proof deliberately stays an open issue.
 The local snapshot keeps the latest verified copy; restic retains 7 daily,
 4 weekly and 6 monthly snapshots after successful remote restore verification.
+When `maintenance.member_database` is configured, both backup modes must restore
+and verify `member.sqlite3` as well as `maintenance.sqlite3`. Missing member data
+or main-only restore evidence cannot satisfy the backup check. Native systemd
+backup units allow access to the member state directory; the local unit has a
+45-minute bound because the measured primary-only verification already took
+almost 26 minutes. This is a timeout bound, not a reason to skip verification.
 
 ## Agent-assisted repair policy
 
@@ -118,7 +124,7 @@ authorization, using these steps:
 5. Deploy a tested reversible code-only repair to the existing host. Require
    consecutive completed polls, preserved record/notification identity, and a
    healthy supervisor; roll back code/config on a verified regression without
-   overwriting newly collected SQLite state. Push only the user's private remote.
+   overwriting newly collected SQLite state. Push only the user's personal remote.
 6. Report fixes with evidence. Request owner input only for credentials,
    permission restrictions, paid resources, destructive changes, ambiguous
    intended behavior, or defects which could not be safely reproduced/repaired.
@@ -175,10 +181,11 @@ empty error stream before treating execution as successful.
 
 ## Commands and stopping
 
-For updates, stage and test a release from the user's private
+For updates, stage and test a release from the user's personal
 `andymaoo/internship-watch` repository before switching the
 `/opt/internship-watch` symlink. Preserve `/etc/internship-watch.json`, private
-environment files, and both databases under `/var/lib/internship-watch`.
+environment files, both databases under `/var/lib/internship-watch`, and the
+member ledger under `/var/lib/internship-watch-member`.
 Take and verify a consistent off-host snapshot first, wait for the current poll
 to finish, then stop the worker, switch the release, restart, and verify
 consecutive polls and the supervisor. Keep the previous release for code-only

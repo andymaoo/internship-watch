@@ -1286,3 +1286,35 @@ now configured and tested; this does not resolve unrelated source/coverage or
 off-host-backup tickets. Private transfer values and browser clipboard were cleared.
 Full evidence: DISCORD_BUSINESS_SETUP.md, BUSINESS_FUNNEL.md, and private
 work/maintenance/discord-combined-setup. Runtime code and filters were unchanged.
+
+### November 26 Pacific: source, classification and member backup repairs
+
+Read current Azure maintenance/source health, both workers' completed runs,
+delivery receipts, real restore evidence and GitHub CI using existing SSH access.
+Reproduced Atlassian's entire-feed rejection caused by ten entries on its new
+official Australia application portal; verified the exact employer Apply link
+before adding one exact hostname. Repaired the missing member ledger in both
+backup modes and required its restored evidence in the supervisor. Actual daily
+backup completed in 27m54s with all three databases verified. Also reproduced
+an AI marketing listing incorrectly routed as ML/AI and added a shared technical
+evidence check for personal and member classifiers, retaining genuine model
+engineering and existing delivery history.
+
+Local and Azure staging: 461 tests plus 138 subtests, and 10 backup tests passed;
+CI for final code 55404e2 passed. Verified three-database off-VM predeployment
+snapshots, reversible idle-boundary switches, final personal runs 18471–18472,
+member runs 966–968, runtime hashes, 16 preserved Discord routes and supervisor
+completion with no critical tickets or pending deliveries. Existing restricted
+sources, the Atlassian destination-baseline review and the automatic off-host
+bucket gap remain. The personal validation-due queue grew during observation;
+its existing throughput ticket remains open rather than being hidden.
+
+Weekly scope: checked both Simplify dev feed paths, canonical repository/branch
+metadata and fresh commits, and Atlassian's official employer/ATS destination.
+Dependency PRs #1/#2/#5 were inventoried with their checks; they were not fully
+reviewed or merged. Remaining cursor: dependency review, Trexquant 404, MSCI
+schema evidence, Atlassian baseline, validation throughput and incomplete direct
+business/consulting coverage. This was not a new audit of every employer.
+Evidence and rollback instructions: MAINTENANCE_REPAIR_2026-11-26.md and private
+work/maintenance/nov26-followup. No accounts, firewall rules, filters or Discord
+permissions were changed in this follow-up.
