@@ -1326,3 +1326,26 @@ verified personal, maintenance and member data. Atlassian remained successful
 with 223 records. Runtime hashes match the code published on personal/main;
 9145c0a passed CI 45950605681. Existing coverage/throughput and off-host setup
 items remain; no additional permissions or resources were used.
+
+### November 27 Pacific: daily review, no deployment needed
+
+At 23:28 UTC, read private maintenance/source health, completed personal runs
+18734–18735 and member runs 1237–1238, notification receipts, backup proof and
+GitHub CI. No open critical tickets, new open non-informational tickets since
+the prior acceptance, pending deliveries or fresh reproducible code defects.
+Both runtimes' application/backup hashes still match published code; main
+3044363 passed CI 45950813378. Atlassian remained successful with 218 records.
+The 05:25 UTC daily restore proof includes both maintenance and member databases.
+
+Existing failures remain: 47 personal sources; member robots restrictions and
+Truist's HTTP 429 on its slower collection cadence. Successful intervening polls
+do not establish restored coverage. No extra probes or restriction bypasses were
+performed. Validation-due totals were 2,564 personal and 790 member, below the
+previous acceptance totals; legacy lag remains. The off-host bucket gap is
+unchanged and no credentials were requested. Recorded the actual review as the
+service account. Private evidence: work/maintenance/nov27-followup.
+
+The November 26 weekly review is still current; dependency proposals, Trexquant,
+MSCI, Atlassian baseline, throughput and incomplete business-source coverage
+remain its review cursor. No new whole-market or employer-by-employer audit is
+claimed. No runtime/configuration/data changes or redeployment were required.
