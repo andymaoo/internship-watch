@@ -253,6 +253,16 @@ def classify(job: dict, filters: dict | None = None) -> dict:
             record("description", role_description[:350], "role_category")
     elif category:
         record("title", title, "role_category")
+    if (category == 'ml_ai' and re.search(r'\bmarketing\b', title, re.I)
+            and not re.search(r'\b(?:AI|ML|machine learning|deep learning|applied)\s+(?:research\s+)?(?:engineer|research|scientist|developer)\w*\b', title, re.I)
+            and not SOFTWARE_DUTIES.search(role_description)):
+        # Using AI tools for campaigns is not evidence of ML/AI engineering.
+        # Preserve a separately named data/software/product role and actual
+        # model-development duties at marketing teams.
+        category = next((name for name, pattern in CATEGORY_PATTERNS
+                         if name != 'ml_ai' and pattern.search(title)), None)
+        if category is None:
+            excludes.append('Marketing role using AI tools without engineering/research responsibilities')
     if unrelated_research and category is None:
         excludes.append("Research discipline outside requested software/data/AI/quant families")
     hardware_title = bool(HARDWARE.search(title))

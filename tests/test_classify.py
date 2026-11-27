@@ -35,6 +35,19 @@ class ClassificationTests(unittest.TestCase):
     def classify(self, title, description="", filters=None, **kwargs):
         return classify(dict(title=title, description=description, employer="Example", **kwargs), filters or {})
 
+    def test_ai_marketing_tools_do_not_establish_ml_engineering(self):
+        result = self.classify("AI Buyer Journey Marketing Intern (GDC AI Lab), 2027 Summer U.S.",
+            "Responsibilities: Inventory and categorize marketing assets. Use AI tools to classify assets by persona relevance. "
+            "Build a buyer-journey coverage matrix and share campaign recommendations. Qualifications: knowledge of marketing frameworks.")
+        self.assertEqual(result["decision"], "exclude")
+        self.assertTrue(any("Marketing" in reason for reason in result["reasons"]))
+
+    def test_marketing_domain_does_not_exclude_actual_ml_engineering(self):
+        for title in ["Machine Learning Engineer Intern - Marketing Models", "AI Research Intern - Marketing Science"]:
+            with self.subTest(title=title):
+                self.assertEqual(self.classify(title, "Develop machine learning models for campaign optimization.")["decision"], "include")
+        self.assertEqual(self.classify("AI Marketing Intern", "Responsibilities: Train machine learning models for demand forecasting.")["decision"], "include")
+
     def test_no_internship_evidence(self):
         self.assertEqual(self.classify("Software Engineer", employment_type="FullTime")["decision"], "exclude")
 
