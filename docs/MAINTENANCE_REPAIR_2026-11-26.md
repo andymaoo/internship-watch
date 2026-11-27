@@ -117,6 +117,15 @@ predeployment copies on the owner's computer are separate from that outstanding
 scheduled-bucket setup. Private detailed evidence is in
 `work/maintenance/nov26-followup`; no secret or SQLite contents are published.
 
+A later check at 06:15 UTC confirmed continuing personal runs 18531–18532 and
+member runs 1030–1031, no pending deliveries or critical tickets, and an actual
+subsequent scheduled backup at 05:25 UTC that again verified both additional
+databases. Atlassian now returns 223 records with zero adapter failures. Personal
+and member validation-due counts were 2,659 and 1,071 respectively; the existing
+access/throughput limitations remain. Published `personal/main` commit 9145c0a
+passed CI run 45950605681; both Azure runtimes' module/backup hashes match its
+application code. This later check does not require restarting either worker.
+
 ## Review scope and remaining cursor
 
 Read live source health, completed personal/member runs, maintenance tickets,

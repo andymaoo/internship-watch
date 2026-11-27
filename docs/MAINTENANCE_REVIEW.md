@@ -1318,3 +1318,11 @@ business/consulting coverage. This was not a new audit of every employer.
 Evidence and rollback instructions: MAINTENANCE_REPAIR_2026-11-26.md and private
 work/maintenance/nov26-followup. No accounts, firewall rules, filters or Discord
 permissions were changed in this follow-up.
+
+Later same-evening acceptance (06:15 UTC November 27): personal runs
+18531–18532 and member runs 1030–1031 completed with no pending delivery or
+critical maintenance ticket. The subsequent scheduled backup at 05:25 UTC also
+verified personal, maintenance and member data. Atlassian remained successful
+with 223 records. Runtime hashes match the code published on personal/main;
+9145c0a passed CI 45950605681. Existing coverage/throughput and off-host setup
+items remain; no additional permissions or resources were used.
