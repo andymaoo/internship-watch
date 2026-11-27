@@ -8,9 +8,12 @@ Group=internship-watch
 WorkingDirectory=/opt/internship-watch
 Environment=PYTHONDONTWRITEBYTECODE=1
 ExecStart=/opt/internship-watch/.venv/bin/python /opt/internship-watch/deploy/backup.py --config /etc/internship-watch.json --state-dir /var/lib/internship-watch/local-backups --local-only
-TimeoutStartSec=30min
+# The measured primary-only restore check already takes about 26 minutes;
+# retain a bounded allowance for the separately configured member database.
+TimeoutStartSec=45min
 UMask=0077
 ReadWritePaths=/var/lib/internship-watch
+ReadWritePaths=-/var/lib/internship-watch-member
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict

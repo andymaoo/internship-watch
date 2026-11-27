@@ -225,6 +225,18 @@ class MaintenanceTests(unittest.TestCase):
         inspect_backups(self.repairs,self.config)
         self.assertEqual(self.ticket('backup:offhost')['state'], 'open')
 
+    def test_configured_member_requires_its_own_restored_backup_evidence(self):
+        self.config['maintenance']['member_database']=str(self.root/'member.sqlite3')
+        destination=self.root/'local-backups';destination.mkdir();proof=destination/'last-success.json'
+        result=dict(at=now(),local_only=True,restored_database_verified=True,
+                    additional_databases_verified=['maintenance.sqlite3'])
+        proof.write_text(json.dumps(result))
+        inspect_backups(self.repairs,self.config)
+        self.assertEqual(self.ticket('backup:local')['state'],'open')
+        result['additional_databases_verified'].append('member.sqlite3');proof.write_text(json.dumps(result))
+        inspect_backups(self.repairs,self.config)
+        self.assertEqual(self.ticket('backup:local')['state'],'resolved')
+
     def test_existing_canary_remains_readable_while_worker_holds_write_lock(self):
         schedule_canary(self.main.db, self.monitor, {})
         self.main.db.execute("UPDATE outbox SET status='delivered',receipt_id='saved-discord-receipt' WHERE dedupe_key LIKE 'maintenance-canary:%'")

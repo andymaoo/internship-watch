@@ -144,6 +144,13 @@ def perform(args, state):
     try:
         config_path = Path(args.config).resolve()
         config = json.loads(config_path.read_text(encoding="utf-8-sig"))
+        member_value = config.get('maintenance', {}).get('member_database')
+        member_path = (config_path.parent / member_value).resolve() if member_value else None
+        if member_path is not None:
+            if args.compose_dir:
+                raise RuntimeError('Configured member backup requires host-managed database access')
+            if not member_path.is_file():
+                raise FileNotFoundError('Configured member database is unavailable; backup is incomplete')
         snapshot = state / "latest.sqlite3"
         if args.compose_dir:
             compose_dir = Path(args.compose_dir).resolve()
@@ -169,6 +176,8 @@ def perform(args, state):
             str((config_path.parent / config.get('database', 'data/jobs.sqlite3')).resolve().parent / 'maintenance.sqlite3')))
         if not args.compose_dir and maintenance_path.exists():
             additional['maintenance.sqlite3'] = sqlite_snapshot(maintenance_path, state / 'maintenance.sqlite3')
+        if member_path is not None:
+            additional['member.sqlite3'] = sqlite_snapshot(member_path, state / 'member.sqlite3')
         record['additional_databases'] = additional
         (state / "latest.manifest.json").write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
         # This project keeps credentials in environment files, not JSON config.
@@ -199,7 +208,7 @@ def perform(args, state):
                 for name, expected in additional.items():
                     extra_files = list(restored_root.rglob(name))
                     if len(extra_files) != 1:
-                        raise RuntimeError('Restored snapshot lacks the expected maintenance database')
+                        raise RuntimeError('Restored snapshot lacks the expected additional database: '+name)
                     inspect_database(extra_files[0], expected)
             inspect_database(restored, database_manifest)
         if not args.local_only:

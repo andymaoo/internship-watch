@@ -111,6 +111,46 @@ class BackupTests(unittest.TestCase):
         expected = json.loads((self.state/'latest.manifest.json').read_text())['additional_databases']['maintenance.sqlite3']
         backup.inspect_database(self.state/'maintenance.sqlite3', expected)
 
+    def test_configured_member_jobs_and_pending_delivery_are_restore_verified(self):
+        member=self.root/'member.sqlite3'
+        shutil.copyfile(self.source,member)
+        self.config.write_text(json.dumps({'database':'jobs.sqlite3','maintenance':{'member_database':'member.sqlite3'}}))
+        args=argparse.Namespace(config=str(self.config),local_only=True,compose_dir=None)
+        with contextlib.redirect_stdout(io.StringIO()):backup.perform(args,self.state)
+        evidence=json.loads((self.state/'last-success.json').read_text())
+        self.assertEqual(evidence['additional_databases_verified'],['member.sqlite3'])
+        expected=json.loads((self.state/'latest.manifest.json').read_text())['additional_databases']['member.sqlite3']
+        backup.inspect_database(self.state/'member.sqlite3',expected)
+        with contextlib.closing(sqlite3.connect(self.state/'member.sqlite3')) as db:
+            self.assertEqual(db.execute('select status from outbox').fetchall(),[('pending',)])
+
+    def test_missing_configured_member_database_cannot_produce_success_proof(self):
+        self.config.write_text(json.dumps({'database':'jobs.sqlite3','maintenance':{'member_database':'missing.sqlite3'}}))
+        args=argparse.Namespace(config=str(self.config),local_only=True,compose_dir=None)
+        with self.assertRaises((FileNotFoundError,sqlite3.Error)),contextlib.redirect_stdout(io.StringIO()):
+            backup.perform(args,self.state)
+        self.assertFalse((self.root/'missing.sqlite3').exists())
+        self.assertFalse((self.state/'last-success.json').exists())
+
+    def test_remote_restore_missing_member_is_not_successful(self):
+        shutil.copyfile(self.source,self.root/'member.sqlite3')
+        self.config.write_text(json.dumps({'database':'jobs.sqlite3','maintenance':{'member_database':'member.sqlite3'}}))
+        args=argparse.Namespace(config=str(self.config),local_only=False,compose_dir=None)
+        calls=[]
+        def run(command,cwd=None):
+            calls.append(command)
+            if command[1]=='backup':return json.dumps({'message_type':'summary','snapshot_id':'a'*64})
+            if command[1]=='restore':
+                target=Path(command[command.index('--target')+1]);shutil.copyfile(self.state/'latest.sqlite3',target/'latest.sqlite3')
+            return ''
+        values={'RESTIC_REPOSITORY':'test','RESTIC_PASSWORD_FILE':'private-file','BACKUP_HEALTHCHECKS_PING_URL':'https://example.invalid/check'}
+        with patch.dict(os.environ,values),patch.object(backup,'command',side_effect=run),patch.object(backup,'ping') as ping:
+            with self.assertRaisesRegex(RuntimeError,'additional database'),contextlib.redirect_stdout(io.StringIO()):
+                backup.perform(args,self.state)
+        self.assertIn('member.sqlite3',calls[0])
+        self.assertEqual([call.args for call in ping.call_args_list],[('/start',),('/fail',)])
+        self.assertFalse((self.state/'last-success.json').exists())
+
 
 if __name__ == "__main__":
     unittest.main()

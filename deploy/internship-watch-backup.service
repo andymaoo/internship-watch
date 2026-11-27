@@ -16,6 +16,7 @@ TimeoutStartSec=45min
 UMask=0077
 StateDirectory=internship-watch
 ReadWritePaths=/var/lib/internship-watch
+ReadWritePaths=-/var/lib/internship-watch-member
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict

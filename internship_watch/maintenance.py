@@ -284,6 +284,9 @@ def inspect_backups(repairs, config):
             result = json.loads(path.read_text(encoding='utf-8'))
             valid = result.get('restored_database_verified') is True and (kind != 'offhost' or
                       (result.get('local_only') is False and bool(result.get('snapshot_id'))))
+            if settings.get('member_database'):
+                proven = result.get('additional_databases_verified', [])
+                valid = valid and isinstance(proven, list) and 'member.sqlite3' in proven
             recent = age(result.get('at')) <= settings.get('backup_max_age_seconds', 129600)
         except (OSError, ValueError, TypeError):
             result, valid, recent = {}, False, False
