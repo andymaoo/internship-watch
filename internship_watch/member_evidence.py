@@ -2,7 +2,8 @@
 import re
 
 from .classify import (CATEGORY_PATTERNS, COOP, HARDWARE, HARDWARE_DUTIES, INTERN,
-                       US_CITIES, US_STATES, countries_in, country_code, plain, degree_evidence)
+                       US_CITIES, US_STATES, countries_in, country_code, plain, degree_evidence,
+                       marketing_role_category)
 from .member_routes import member_route
 
 GRAD = re.compile(
@@ -109,7 +110,7 @@ def category(job: dict) -> str:
         return business
     ordinary=next((name for name, pattern in CATEGORY_PATTERNS if pattern.search(title)), '')
     if ordinary:
-        return ordinary
+        return marketing_role_category(ordinary, title, description) or ''
     if re.search(r'\b(?:research|energy|economic|market) analyst\b',title,re.I) and (
         re.search(r'\b(?:economics|finance|business|strategy)\b',title,re.I)
         or re.search(r'\b(?:economic|management|strategy) consulting\b',description,re.I)):

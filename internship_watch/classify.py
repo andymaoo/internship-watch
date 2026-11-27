@@ -54,6 +54,28 @@ US_CITIES = r"San Francisco|New York City|NYC|Seattle|Boston|San Jose|Mountain V
 STUDENT_YEARS = {"freshman":r"freshm[ae]n|first[- ]year", "sophomore":r"sophomores?|second[- ]year", "junior":r"juniors?|third[- ]year", "senior":r"seniors?|fourth[- ]year"}
 
 
+def role_responsibilities(description):
+    """Separate duties from employer introductions and qualifications."""
+    role_description = re.split(r"\b(?:about (?:the|this) (?:job|role)|what you['â€™]ll do|your responsibilities|key (?:job )?responsibilities|responsibilities(?=\s*:))\b",
+                                description, maxsplit=1, flags=re.I)[-1]
+    role_description = re.split(r"\b(?:required qualifications|preferred qualifications|our benefits|protecting yourself from recruitment scams)\b",
+                                role_description, maxsplit=1, flags=re.I)[0]
+    # Prefer actual duties over an earlier "About the role" introduction.
+    role_description = re.split(r"\b(?:what you['’]ll do|key (?:job )?responsibilities|your responsibilities)\b",
+                                role_description, maxsplit=1, flags=re.I)[-1]
+    return role_description
+
+
+def marketing_role_category(category, title, description):
+    """AI tool use alone does not turn marketing into ML engineering."""
+    if (category == 'ml_ai' and re.search(r'\bmarketing\b', title, re.I)
+            and not re.search(r'\b(?:AI|ML|machine learning|deep learning|applied)\s+(?:research\s+)?(?:engineer|research|scientist|developer)\w*\b', title, re.I)
+            and not SOFTWARE_DUTIES.search(role_responsibilities(description))):
+        return next((name for name, pattern in CATEGORY_PATTERNS
+                     if name != 'ml_ai' and pattern.search(title)), None)
+    return category
+
+
 def country_code(value):
     value = plain(value).lower().strip()
     for code, aliases in COUNTRIES.items():
@@ -202,13 +224,7 @@ def classify(job: dict, filters: dict | None = None) -> dict:
 
     # Role headings separate duties from employer boilerplate. In particular,
     # a defense company's AI platform does not make a physical test co-op AI.
-    role_description = re.split(r"\b(?:about (?:the|this) (?:job|role)|what you['â€™]ll do|your responsibilities|key (?:job )?responsibilities|responsibilities(?=\s*:))\b",
-                                description, maxsplit=1, flags=re.I)[-1]
-    role_description = re.split(r"\b(?:required qualifications|preferred qualifications|our benefits|protecting yourself from recruitment scams)\b",
-                                role_description, maxsplit=1, flags=re.I)[0]
-    # Prefer actual duties over an earlier "About the role" introduction.
-    role_description = re.split(r"\b(?:what you['’]ll do|key (?:job )?responsibilities|your responsibilities)\b",
-                                role_description, maxsplit=1, flags=re.I)[-1]
+    role_description = role_responsibilities(description)
     category = next((name for name, pattern in CATEGORY_PATTERNS if pattern.search(title)), None)
     if category is None and internship and re.search(r'\btechnology\b', title, re.I):
         placement = re.search(r'\b(?:could|may) be placed as\b[^.!?]{0,500}', role_description, re.I)
@@ -253,16 +269,10 @@ def classify(job: dict, filters: dict | None = None) -> dict:
             record("description", role_description[:350], "role_category")
     elif category:
         record("title", title, "role_category")
-    if (category == 'ml_ai' and re.search(r'\bmarketing\b', title, re.I)
-            and not re.search(r'\b(?:AI|ML|machine learning|deep learning|applied)\s+(?:research\s+)?(?:engineer|research|scientist|developer)\w*\b', title, re.I)
-            and not SOFTWARE_DUTIES.search(role_description)):
-        # Using AI tools for campaigns is not evidence of ML/AI engineering.
-        # Preserve a separately named data/software/product role and actual
-        # model-development duties at marketing teams.
-        category = next((name for name, pattern in CATEGORY_PATTERNS
-                         if name != 'ml_ai' and pattern.search(title)), None)
-        if category is None:
-            excludes.append('Marketing role using AI tools without engineering/research responsibilities')
+    reviewed_category = marketing_role_category(category, title, description)
+    if category == 'ml_ai' and reviewed_category is None:
+        excludes.append('Marketing role using AI tools without engineering/research responsibilities')
+    category = reviewed_category
     if unrelated_research and category is None:
         excludes.append("Research discipline outside requested software/data/AI/quant families")
     hardware_title = bool(HARDWARE.search(title))

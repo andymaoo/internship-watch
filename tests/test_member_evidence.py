@@ -3,6 +3,16 @@ import pytest
 from internship_watch.member_evidence import preview_member_listing
 
 
+def test_ai_marketing_tools_do_not_route_to_member_ml_feed():
+    job = dict(title="AI Buyer Journey Marketing Intern (GDC AI Lab)", location="Remote - US",
+               description="Responsibilities: Use AI tools to classify marketing assets and recommend campaigns.",
+               posting_status="open", application_status="unverified")
+    assert preview_member_listing(job)['route'] is None
+    job['title'] = "Machine Learning Engineer Intern - Marketing Models"
+    job['description'] = "Develop machine learning models for campaign optimization."
+    assert preview_member_listing(job)['route'] == 'intern-ml-ai'
+
+
 @pytest.mark.parametrize(("fields", "route"), [
     ({"location": "Remote"}, "intern-swe"),
     ({"location": "", "is_remote": True}, "intern-swe"),
